@@ -1,0 +1,15 @@
+dependencies:
+- name: common-credential-provider
+  repository: https://harbor.3key.company/chartrepo/czertainly
+  version: 0.1.0
+- name: ejbca-ng-connector
+  repository: https://harbor.3key.company/chartrepo/czertainly
+  version: 0.1.0
+- name: api-gateway-haproxy
+  repository: https://harbor.3key.company/chartrepo/czertainly
+  version: 0.1.0
+- name: fe-administrator
+  repository: https://harbor.3key.company/chartrepo/czertainly
+  version: 0.1.0
+digest: sha256:ee7a13362e53faeacd981a1f429185adccbee5729c88ee7e98680c5e2d679725
+generated: "2022-07-14T12:16:40.317143+02:00"
