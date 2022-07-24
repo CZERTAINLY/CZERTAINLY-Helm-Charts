@@ -44,7 +44,7 @@ Copy the default `values.yaml` from the CZERTAINLY Helm chart and modify the val
 ```bash
 helm show values harbor3key/czertainly > czertainly-values.yaml
 ```
-Now edit the `czertainly-values.yaml` according to your desired stated, see [Configuration parameters](#configuration-parameters) for more information.
+Now edit the `czertainly-values.yaml` according to your desired stated, see [Configurable parameters](#configurable-parameters) for more information.
 
 **Prepare list of trusted CA certificates**
 
@@ -54,7 +54,7 @@ The list of trusted certificates is need for the installation of the CZERTAINLY 
 
 **Install CZERTAINLY**
 
-There are couple of options to install CZERTAINLY based on you TLS configuration and administrator certificate handling. See the [Configuration parameters](#configuration-parameters) for more information.
+There are couple of options to install CZERTAINLY based on you TLS configuration and administrator certificate handling. See the [Configurable parameters](#configurable-parameters) for more information.
 
 For the basic installation, run:
 ```bash
@@ -84,7 +84,7 @@ helm uninstall --namespace czertainly czertainly-tlm
 
 ## Configurable parameters
 
-You can find current values in the [values.yaml](czertainly/values.yaml).
+You can find current values in the [values.yaml](charts/czertainly/values.yaml).
 You can also Specify each parameter using the `--set` or `--set-file` argument to `helm install`.
 
 > **Note**
