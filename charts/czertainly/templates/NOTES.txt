@@ -22,5 +22,10 @@
   pkcs12: kubectl get secrets --namespace {{ .Release.Namespace }} admin-secret -o jsonpath='{.data.pkcs12}' | base64 --decode > admin-certificate.p12
   password: kubectl get secrets --namespace {{ .Release.Namespace }} admin-secret -o jsonpath='{.data.password}' | base64 --decode
 
+  internal CA certificate: kubectl get secrets --namespace {{ .Release.Namespace }} admin-ca-keypair -o jsonpath='{.data.tls\.crt}' | base64 --decode > admin-ca-certificate.pem
+  When you want to keep access for the generated administrator, do not forget to include this CA certificate into the list of trusted certificates!
+
   Import the certificate to your browser!
 {{- end }}
+
+DO NOT FORGET TO SAVE YOUR CONFIGURATION, YOU WILL NEED IT!
