@@ -5,12 +5,36 @@
 nameOverride: ""
 fullnameOverride: ""
 
+# Global parameters that will overwrite local parameters
 global:
   imagePullSecrets: []
   database:
-    jdbcUrl: "jdbc:postgresql://host.docker.internal:5432/czertainlylocal?characterEncoding=UTF-8"
-    username: "czertainlyuser"
-    password: "your-strong-password"
+    type: ""
+    host: ""
+    port: ""
+    name: ""
+    username: ""
+    password: ""
+  trusted:
+    certificates: ""
+  httpProxy: ""
+  httpsProxy: ""
+  noProxy: ""
+
+imagePullSecrets: []
+database:
+  # currently only postgresql is supported
+  type: "postgresql"
+  host: "host.docker.internal"
+  port: "5432"
+  name: "czertainlydb"
+  username: "czertainlyuser"
+  password: "your-strong-password"
+trusted:
+  certificates: ""
+httpProxy: ""
+httpsProxy: ""
+noProxy: ""
 
 autoscaling:
   enabled: false

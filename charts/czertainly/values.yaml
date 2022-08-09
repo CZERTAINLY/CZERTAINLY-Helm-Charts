@@ -2,22 +2,107 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Global parameters that will overwrite local parameters
 global:
   imagePullSecrets: []
   database:
-    jdbcUrl: "jdbc:postgresql://host.docker.internal:5432/czertainlylocal?characterEncoding=UTF-8"
+    # currently only postgresql is supported
+    type: "postgresql"
+    host: "host.docker.internal"
+    port: "5432"
+    name: "czertainlydb"
     username: "czertainlyuser"
     password: "your-strong-password"
+  trusted:
+    # CZERTAINLY Dummy Root CA
+    certificates: |
+      -----BEGIN CERTIFICATE-----
+      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
+      -----END CERTIFICATE-----
+  httpProxy: ""
+  httpsProxy: ""
+  noProxy: ""
+
+imagePullSecrets: []
+database:
+  type: ""
+  host: ""
+  port: ""
+  name: ""
+  username: ""
+  password: "d"
+trusted:
+  certificates: ""
+httpProxy: ""
+httpsProxy: ""
+noProxy: ""
 
 nameOverride: ""
 fullnameOverride: ""
 
 registerAdmin:
-  enabled: false
+  enabled: true
   admin:
     # PEM encoded certificate without chain
-    certificate: ""
-    username: "adminadmin"
+    certificate: |
+      -----BEGIN CERTIFICATE-----
+      MIIEtDCCApygAwIBAgIVAP15kVt62m8a4p52xmbCcNCiSx8qMA0GCSqGSIb3DQEB
+      DQUAMCMxITAfBgNVBAMMGENaRVJUQUlOTFkgRHVtbXkgUm9vdCBDQTAeFw0yMjA4
+      MDQwODEzMzFaFw00MjA3MzAwODEzMzFaMCMxITAfBgNVBAMMGENaRVJUQUlOTFkg
+      QWRtaW5pc3RyYXRvcjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL/P
+      WoJN2ieDZkp1JggrXjhDm/xrqX6acAmyqzBQujCUrbjFF8l1qdtI0fZyFrZBLeVH
+      CwqQUz0Afjzj7FBMNP2ljVLrQbMfyjJG10NvuPOa9dP/VolgF4CRRg0Ebg5CCd0s
+      3yZR/gIc6cl9x0Ruk8uRCpM4jZ7Y+/7jhf4+c8mBlp2aRlAJtV3JOYQlux17IpJd
+      JrngX/lKoZcp4zU9kQwunVxz5GBWhXGqMEcV6b7lGF5ocSlnrR3cUKZbdGbXcfK7
+      5+W4/LB6v6y9bR40R+IUd/mOuByQvqWyTCk5d2YWBmg/ddPVFynb5a2+xjhJxBI+
+      28iGXq6iroQrPouacv8CAwEAAaOB3jCB2zAMBgNVHRMBAf8EAjAAMA4GA1UdDwEB
+      /wQEAwIF4DATBgNVHSUEDDAKBggrBgEFBQcDAjAdBgNVHQ4EFgQUrUOz2v0EvBSH
+      yemGXPnt7HaghBgwHwYDVR0jBBgwFoAU0/BNVjrmoD8XW/NVXeoxTIkD59YwZgYD
+      VR0gBF8wXTBbBgRVHSAAMFMwUQYIKwYBBQUHAgIwRRpDVVRGODpUaGlzIGlzIGEg
+      ZHVtbXkgYWRtaW5pc3RyYXRvciBjZXJ0aWZpY2F0ZSBmb3IgdGVzdGluZyBwdXJw
+      b3NlczANBgkqhkiG9w0BAQ0FAAOCAgEAWYlpEI8SCOnhKYpcp3n+BtaAoUrcwIck
+      pzPPxNf+9LSKhPp4NEs+EGsfflz33IeEojck+x/wBqggJdp7WrUsHz/0sAwCkrVj
+      bh3Lx75msAqVqFUaX0gYbqstmbnHxqgcmseVkWmEHEOmdz0+/B0XrGagzQNW8EGW
+      3PEv4yOCeqdgRt9Nyh+GUtVkavy+CkYRaIEHDGjtxJTMakXOaEU0tNmDoMBDQzLs
+      qc75AYEeqlKvQs6vZICf+RltDaDgriSelE04PtjnIr6aKmWipFN2Wu8Zgi3qt7SS
+      iMwk0OIvG4NGkOKckf5kRWlA6aLtkY2ABHObknIlJhfpU/sNN/5ma0c+rSXK2+Py
+      DStxALMzM54GVfGpXmdR3fkEQ8mS35BU2l8Gp0mA/Xi55eqWVXgxEDXph487O20H
+      jGh+xHcI40ZObBIKvfD0kCi1sQcINpK6CGm0Jb1ojU+xFwgq2IhdJPrC7quEW3wE
+      HCRQKGaTbSm6CfMdf3YOKgpIUrX5Da2wJN04RTOLxUvpQss/rup49Uq2pMGBPtAv
+      tTzXyTJrw22bgBjJV+jt60ZB0PVqRbaPa52hUMl7ewCGpVO2ByAcxoQ1+Enb28/S
+      wDnW3rgsaCHOB0AzqzaQAwEbgAeUKDBxKwm0GqLIgMtGs7CaG58/KqZsMj8ADqqI
+      tY3XXAlhjb4=
+      -----END CERTIFICATE-----
+    username: "czertainly-admin"
     name: "admin"
     surname: "admin"
     email: "admin@czertainly.local"
@@ -33,9 +118,6 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 replicaCount: 1
 
-trusted:
-  certificates: ""
-
 service:
   type: "ClusterIP"
   port: 8080
@@ -48,13 +130,6 @@ image:
 
 logging:
   level: "INFO"
-
-proxy:
-  httpProxyHost:
-  httpProxyPort: "80"
-  httpsProxyHost:
-  httpsProxyPort: "443"
-  httpNonProxyHosts: "localhost|127.*|[::1]"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -87,7 +162,6 @@ letsEncrypt:
   # email: notifications@sample.com
   environment: production
   ingress:
-
 
 ingress:
   enabled: false
@@ -168,10 +242,10 @@ feAdministrator:
   baseUrl: /administrator
   podAnnotations: { }
 
-registerConnectors: false
+registerConnectors: true
 
 commonCredentialProvider:
-  enabled: false
+  enabled: true
 
 ejbcaNgConnector:
-  enabled: false
+  enabled: true

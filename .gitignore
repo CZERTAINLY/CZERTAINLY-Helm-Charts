@@ -36,3 +36,4 @@ build/
 
 # Downloaded chart dependencies
 **/charts/*.tgz
+*.tgz

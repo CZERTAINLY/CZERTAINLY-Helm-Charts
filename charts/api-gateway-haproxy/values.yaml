@@ -16,6 +16,8 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 replicaCount: 1
 
+imagePullSecrets: []
+
 service:
   type: "ClusterIP"
   port: 8080
