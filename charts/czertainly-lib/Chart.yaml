@@ -1,30 +1,23 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 1.1.0
-name: ejbca-ng-connector
-description: A Helm chart for EJBCA NG Connector for CZERTAINLY platform.
-home: https://github.com/3KeyCompany/CZERTAINLY-EJBCA-NG-Connector
+appVersion: 1.0.0
+name: czertainly-lib
+description: CZERTAINLY library chart
+home: https://github.com/3KeyCompany/CZERTAINLY
 icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
-dependencies:
-  - name: czertainly-lib
-    version: 0.1.0
-    repository: https://harbor.3key.company/chartrepo/czertainly
 keywords:
   - czertainly
-  - trust
+  - certificate
+  - cryptography
   - management
   - lifecycle
   - platform
-  - ejbca
-  - authority
-  - discovery
-  - provider
 maintainers:
   - name: CZERTAINLY
     email: info@czertainly.com
     url: https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts
-type: application
+type: library
 sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com

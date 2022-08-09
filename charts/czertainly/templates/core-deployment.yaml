@@ -33,8 +33,20 @@ spec:
           env:
             - name: HEADER_ENABLED
               value: "true"
+            {{- if .Values.global.httpProxy }}
+            - name: HTTP_PROXY
+              value: {{ .Values.global.httpProxy }}
+            {{- end }}
+            {{- if .Values.global.httpsProxy }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.global.httpsProxy }}
+            {{- end }}
+            {{- if .Values.global.noProxy }}
+            - name: NO_PROXY
+              value: {{ .Values.global.noProxy }}
+            {{- end }}
             - name: JDBC_URL
-              value: {{ .Values.global.database.jdbcUrl | quote }}
+              value: {{ include "czertainly-lib.util.format.jdbcUrl" (list . "?characterEncoding=UTF-8") | quote }}
             - name: JDBC_USERNAME
               valueFrom:
                 secretKeyRef:

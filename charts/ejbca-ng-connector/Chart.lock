@@ -1,0 +1,6 @@
+dependencies:
+- name: czertainly-lib
+  repository: https://harbor.3key.company/chartrepo/czertainly
+  version: 0.1.0
+digest: sha256:44db4a08dd91c07e7bc973a0f7f59bee5e3016e14612aad2032d6e8c363bd2af
+generated: "2022-08-02T20:47:03.975245+02:00"
