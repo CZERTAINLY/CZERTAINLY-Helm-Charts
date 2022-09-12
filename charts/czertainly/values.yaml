@@ -9,7 +9,7 @@ global:
     # currently only postgresql is supported
     type: "postgresql"
     host: "host.docker.internal"
-    port: "5432"
+    port: 5432
     name: "czertainlydb"
     username: "czertainlyuser"
     password: "your-strong-password"
