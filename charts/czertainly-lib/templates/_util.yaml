@@ -24,8 +24,8 @@ this will take the databse values and convert to the jdbcUrl format
 {{- if eq $type "postgresql" -}}
 {{- $append := index . 1 -}}
 {{- $host := pluck "host" $.Values.global.database $.Values.database | compact | first -}}
-{{- $port := pluck "port" $.Values.global.database $.Values.database | compact | first -}}
+{{- $port := pluck "port" $.Values.global.database $.Values.database | compact | first | int -}}
 {{- $name := pluck "name" $.Values.global.database $.Values.database | compact | first -}}
-{{- printf "jdbc:postgresql://%s:%s/%s%s" $host $port $name $append }}
+{{- printf "jdbc:postgresql://%s:%d/%s%s" $host $port $name $append }}
 {{- end -}}
 {{- end -}}
