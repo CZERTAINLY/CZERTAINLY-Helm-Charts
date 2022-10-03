@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-gateway-configmap
+data:
+  haproxy.cfg: |
+    global
+        log stdout format raw daemon debug
+
+    defaults
+        log global
+        timeout connect 5s
+        timeout client 1m
+        timeout server 1m
+
+    frontend api_gateway
+        mode http
+        bind :{{ .Values.service.port }}
+
+        # Forward client certificate from the SSL_CLIENT_CERT to X-APP-CERTIFICATE header
+        http-request add-header X-APP-CERTIFICATE %[req.hdr(ssl-client-cert)]
+
+        acl PATH_api path_beg -i /api
+        acl PATH_administrator path_beg -i /administrator
+
+        use_backend core if PATH_api
+        use_backend fe_administrator if PATH_administrator
+
+        default_backend no-match
+
+    backend no-match
+        mode http
+        http-request deny deny_status 404
+
+    backend core
+        mode http
+        server core {{ .Values.backend.core.service.name }}:{{ .Values.backend.core.service.port }}
+
+    backend fe_administrator
+        mode http
+        server fe-administrator {{ .Values.backend.fe.service.name }}:{{ .Values.backend.fe.service.port }}

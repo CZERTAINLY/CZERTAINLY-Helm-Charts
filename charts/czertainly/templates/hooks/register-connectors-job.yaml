@@ -1,0 +1,44 @@
+{{- if .Values.registerConnectors }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}"
+  labels:
+    {{- include "czertainly.labels" . | nindent 4 }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: register-connectors-job
+          image: "alpine/curl"
+          command:
+          - /bin/sh
+          - -c
+          - |
+            while ! nc -z core-service {{ .Values.service.port }}; do sleep 1; done &&
+            {{- if .Values.commonCredentialProvider.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "Common-Credential-Connector","url": "http://common-credential-provider-service:{{ .Values.commonCredentialProvider.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
+            {{- if .Values.ejbcaNgConnector.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "EJBCA-NG-Connector","url": "http://ejbca-ng-connector-service:{{ .Values.ejbcaNgConnector.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
+            echo "all done"
+{{- end }}

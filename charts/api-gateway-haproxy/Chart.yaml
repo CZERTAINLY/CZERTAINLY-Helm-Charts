@@ -1,0 +1,26 @@
+annotations:
+  category: trustLifecycleManagement
+apiVersion: v2
+appVersion: 2.6.1
+name: api-gateway-haproxy
+description: A Helm chart for API Gateway based on the HA Proxy for CZERTAINLY platform.
+home: https://github.com/3KeyCompany/CZERTAINLY
+icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
+keywords:
+  - czertainly
+  - trust
+  - management
+  - lifecycle
+  - platform
+  - api
+  - gateway
+maintainers:
+  - name: CZERTAINLY
+    email: info@czertainly.com
+    url: https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts
+type: application
+sources:
+  - https://github.com/3KeyCompany/CZERTAINLY
+  - https://www.czertainly.com
+  - https://docs.czertainly.com
+version: 0.1.0

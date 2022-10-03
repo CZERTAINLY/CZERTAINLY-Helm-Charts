@@ -1,0 +1,57 @@
+annotations:
+  category: trustLifecycleManagement
+apiVersion: v2
+appVersion: 2.3.0
+name: czertainly
+description: A Helm chart for CZERTAINLY platform.
+home: https://github.com/3KeyCompany/CZERTAINLY
+icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
+dependencies:
+  - name: czertainly-lib
+    version: 0.1.0
+    repository: oci://harbor.3key.company/czertainly-helm
+  - condition: commonCredentialProvider.enabled
+    name: common-credential-provider
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+      - credential-provider
+    version: 0.1.0
+    alias: commonCredentialProvider
+  - condition: ejbcaNgConnector.enabled
+    name: ejbca-ng-connector
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+      - authority-provider
+      - discovery-provider
+    version: 0.1.0
+    alias: ejbcaNgConnector
+  # the following are mandatory dependencies
+  - name: api-gateway-haproxy
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+      - api-gateway
+    version: 0.1.0
+    alias: apiGateway
+  - name: fe-administrator
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+      - fe
+    version: 0.1.0
+    alias: feAdministrator
+keywords:
+  - czertainly
+  - certificate
+  - cryptography
+  - management
+  - lifecycle
+  - platform
+maintainers:
+  - name: CZERTAINLY
+    email: info@czertainly.com
+    url: https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts
+type: application
+sources:
+  - https://github.com/3KeyCompany/CZERTAINLY
+  - https://www.czertainly.com
+  - https://docs.czertainly.com
+version: 0.1.0
