@@ -49,7 +49,7 @@ service:
   port: 8080
 
 image:
-  repository: harbor.3key.company/czertainly/czertainly-ejbca-ng-connector
+  repository: 3keycompany/czertainly-ejbca-ng-connector
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""

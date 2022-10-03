@@ -23,7 +23,7 @@ service:
   port: 8080
 
 image:
-  repository: harbor.3key.company/czertainly/czertainly-frontend-administrator
+  repository: 3keycompany/czertainly-frontend-administrator
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
