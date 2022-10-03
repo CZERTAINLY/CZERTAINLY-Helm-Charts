@@ -16,7 +16,7 @@ This repository contains [Helm](https://helm.sh/) charts as part of the CZERTAIN
 
 Use `helm repo add` command to add the Helm chart repository that contains charts:
 ```bash
-helm repo add --username=username harbor3key https://harbor.3key.company/chartrepo/czertainly
+helm repo add czertainly https://harbor.3key.company/chartrepo/czertainly-helm
 ```
 
 **Create namespace**
@@ -33,7 +33,7 @@ kubectl create namespace czertainly
 
 Copy the default `values.yaml` from the Helm chart and modify the values accordingly:
 ```bash
-helm show values harbor3key/api-gateway-haproxy > values.yaml
+helm show values czertainly/api-gateway-haproxy > values.yaml
 ```
 Now edit the `values.yaml` according to your desired stated, see [Configurable parameters](#configurable-parameters) for more information.
 
@@ -41,7 +41,7 @@ Now edit the `values.yaml` according to your desired stated, see [Configurable p
 
 For the basic installation, run:
 ```bash
-helm install --namespace czertainly -f values.yaml czertainly-api-gateway-haproxy harbor3key/api-gateway-haproxy
+helm install --namespace czertainly -f values.yaml czertainly-api-gateway-haproxy czertainly/api-gateway-haproxy
 ```
 
 **Save your configuration**
@@ -55,7 +55,7 @@ Always make sure you save the `values.yaml` and all `--set` and `--set-file` opt
 
 For upgrading the installation, update your configuration and run:
 ```bash
-helm upgrade --namespace czertainly -f values.yaml czertainly-api-gateway-haproxy harbor3key/api-gateway-haproxy
+helm upgrade --namespace czertainly -f values.yaml czertainly-api-gateway-haproxy czertainly/api-gateway-haproxy
 ```
 
 ### Uninstall

@@ -23,7 +23,7 @@ service:
   port: 8080
 
 image:
-  repository: harbor.3key.company/czertainly/czertainly-common-credential-provider
+  repository: 3keycompany/czertainly-common-credential-provider
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""

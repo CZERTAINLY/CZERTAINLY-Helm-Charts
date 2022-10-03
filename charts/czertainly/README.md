@@ -29,7 +29,7 @@ If you are using internal CA for Ingress and Administrator certificate, you also
 
 Use `helm repo add` command to add the Helm chart repository that contains charts to install CZERTAINLY:
 ```bash
-helm repo add --username=username harbor3key https://harbor.3key.company/chartrepo/czertainly
+helm repo add czertainly https://harbor.3key.company/chartrepo/czertainly-helm
 ```
 
 **Create namespace**
@@ -43,7 +43,7 @@ kubectl create namespace czertainly
 
 Copy the default `values.yaml` from the CZERTAINLY Helm chart and modify the values accordingly:
 ```bash
-helm show values harbor3key/czertainly > czertainly-values.yaml
+helm show values czertainly/czertainly > czertainly-values.yaml
 ```
 Now edit the `czertainly-values.yaml` according to your desired stated, see [Configurable parameters](#configurable-parameters) for more information.
 
@@ -59,7 +59,7 @@ There are couple of options to install CZERTAINLY based on you TLS configuration
 
 For the basic installation, run:
 ```bash
-helm install --namespace czertainly -f czertainly-values.yaml --set-file trusted.certificates=trusted-certificates.pem czertainly-tlm harbor3key/czertainly
+helm install --namespace czertainly -f czertainly-values.yaml --set-file trusted.certificates=trusted-certificates.pem czertainly-tlm czertainly/czertainly
 ```
 
 **Save your configuration**
@@ -73,7 +73,7 @@ Always make sure you save the `czertainly-values.yaml` and all `--set` and `--se
 
 For upgrading the CZERTAINLY installation, update your configuration and run:
 ```bash
-helm upgrade --namespace czertainly -f czertainly-values.yaml --set-file trusted.certificates=trusted-certificates.pem czertainly-tlm harbor3key/czertainly
+helm upgrade --namespace czertainly -f czertainly-values.yaml --set-file trusted.certificates=trusted-certificates.pem czertainly-tlm czertainly/czertainly
 ```
 
 ### Uninstall
