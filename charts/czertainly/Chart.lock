@@ -1,18 +1,18 @@
 dependencies:
 - name: czertainly-lib
-  repository: https://harbor.3key.company/chartrepo/czertainly-helm
+  repository: oci://harbor.3key.company/czertainly-helm
   version: 0.1.0
 - name: common-credential-provider
-  repository: https://harbor.3key.company/chartrepo/czertainly-helm
+  repository: oci://harbor.3key.company/czertainly-helm
   version: 0.1.0
 - name: ejbca-ng-connector
-  repository: https://harbor.3key.company/chartrepo/czertainly-helm
+  repository: oci://harbor.3key.company/czertainly-helm
   version: 0.1.0
 - name: api-gateway-haproxy
-  repository: https://harbor.3key.company/chartrepo/czertainly-helm
+  repository: oci://harbor.3key.company/czertainly-helm
   version: 0.1.0
 - name: fe-administrator
-  repository: https://harbor.3key.company/chartrepo/czertainly-helm
+  repository: oci://harbor.3key.company/czertainly-helm
   version: 0.1.0
-digest: sha256:ff9fd5e3d94692ea313b24580b836073f85427c765470932a20b14b56be588f4
-generated: "2022-10-03T14:56:54.237435+02:00"
+digest: sha256:4a052cb3bff04952d1bcc712dae593a75063f2c74078becd8118bf8a99608297
+generated: "2022-10-03T16:01:18.866765+02:00"

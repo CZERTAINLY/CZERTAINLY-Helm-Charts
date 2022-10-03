@@ -6,7 +6,7 @@ This repository contains [Helm](https://helm.sh/) charts as part of the CZERTAIN
 
 ## Prerequisites
 - Kubernetes 1.19+
-- Helm 3.2.0+
+- Helm 3.8.0+
 - PostgreSQL 11+
 
 In case you want to enable Ingress you need to have installed Ingress Controller, for example:
@@ -25,13 +25,6 @@ If you are using internal CA for Ingress and Administrator certificate, you also
 
 ### Installation
 
-**Add Helm chart repository**
-
-Use `helm repo add` command to add the Helm chart repository that contains charts to install CZERTAINLY:
-```bash
-helm repo add czertainly https://harbor.3key.company/chartrepo/czertainly-helm
-```
-
 **Create namespace**
 
 We’ll need to define a Kubernetes namespace where the resources created by the Chart should be installed:
@@ -43,7 +36,7 @@ kubectl create namespace czertainly
 
 Copy the default `values.yaml` from the CZERTAINLY Helm chart and modify the values accordingly:
 ```bash
-helm show values czertainly/czertainly > czertainly-values.yaml
+helm show values oci://harbor.3key.company/czertainly-helm/czertainly > czertainly-values.yaml
 ```
 Now edit the `czertainly-values.yaml` according to your desired stated, see [Configurable parameters](#configurable-parameters) for more information.
 
@@ -59,7 +52,7 @@ There are couple of options to install CZERTAINLY based on you TLS configuration
 
 For the basic installation, run:
 ```bash
-helm install --namespace czertainly -f czertainly-values.yaml --set-file trusted.certificates=trusted-certificates.pem czertainly-tlm czertainly/czertainly
+helm install --namespace czertainly -f czertainly-values.yaml --set-file trusted.certificates=trusted-certificates.pem czertainly-tlm oci://harbor.3key.company/czertainly-helm/czertainly
 ```
 
 **Save your configuration**
@@ -73,7 +66,7 @@ Always make sure you save the `czertainly-values.yaml` and all `--set` and `--se
 
 For upgrading the CZERTAINLY installation, update your configuration and run:
 ```bash
-helm upgrade --namespace czertainly -f czertainly-values.yaml --set-file trusted.certificates=trusted-certificates.pem czertainly-tlm czertainly/czertainly
+helm upgrade --namespace czertainly -f czertainly-values.yaml --set-file trusted.certificates=trusted-certificates.pem czertainly-tlm oci://harbor.3key.company/czertainly-helm/czertainly
 ```
 
 ### Uninstall
@@ -100,7 +93,7 @@ Global values are used to define common parameters for the chart and all its sub
 | global.imagePullSecrets     | `[]`                         | Name of the registered credential as a secret to access private CZERTAINLY images |
 | global.database.type        | `"postgresql"`               | Type of the database, currently only `postgresql` is supported                    |
 | global.database.host        | `"host.docker.internal"`     | Host where is the database located                                                |
-| global.database.port        | `"5432"`                     | Port on which is the database listening                                           |
+| global.database.port        | `5432`                       | Port on which is the database listening                                           |
 | global.database.name        | `"czertainlydb"`             | Database name                                                                     |
 | global.database.username    | `"czertainlyuser"`           | Username to access the database                                                   |
 | global.database.password    | `"your-strong-password"`     | Password to access the database                                                   |

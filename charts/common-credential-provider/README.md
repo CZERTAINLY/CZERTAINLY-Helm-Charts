@@ -6,18 +6,13 @@ This repository contains [Helm](https://helm.sh/) charts as part of the CZERTAIN
 
 ## Prerequisites
 - Kubernetes 1.19+
-- Helm 3.2.0+
+- Helm 3.8.0+
 
 ## Using this Chart
 
 ### Installation
 
 **Add Helm chart repository**
-
-Use `helm repo add` command to add the Helm chart repository that contains charts:
-```bash
-helm repo add czertainly https://harbor.3key.company/chartrepo/czertainly-helm
-```
 
 **Create namespace**
 
@@ -33,7 +28,7 @@ kubectl create namespace czertainly
 
 Copy the default `values.yaml` from the Helm chart and modify the values accordingly:
 ```bash
-helm show values czertainly/common-credential-provider > values.yaml
+helm show values oci://harbor.3key.company/czertainly-helm/common-credential-provider > values.yaml
 ```
 Now edit the `values.yaml` according to your desired stated, see [Configurable parameters](#configurable-parameters) for more information.
 
@@ -41,7 +36,7 @@ Now edit the `values.yaml` according to your desired stated, see [Configurable p
 
 For the basic installation, run:
 ```bash
-helm install --namespace czertainly -f values.yaml czertainly-common-credential-provider czertainly/common-credential-provider
+helm install --namespace czertainly -f values.yaml czertainly-common-credential-provider oci://harbor.3key.company/czertainly-helm/common-credential-provider
 ```
 
 **Save your configuration**
@@ -55,7 +50,7 @@ Always make sure you save the `values.yaml` and all `--set` and `--set-file` opt
 
 For upgrading the installation, update your configuration and run:
 ```bash
-helm upgrade --namespace czertainly -f values.yaml czertainly-common-credential-provider czertainly/common-credential-provider
+helm upgrade --namespace czertainly -f values.yaml czertainly-common-credential-provider oci://harbor.3key.company/czertainly-helm/common-credential-provider
 ```
 
 ### Uninstall

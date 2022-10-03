@@ -6,19 +6,12 @@ This repository contains [Helm](https://helm.sh/) charts as part of the CZERTAIN
 
 ## Prerequisites
 - Kubernetes 1.19+
-- Helm 3.2.0+
+- Helm 3.8.0+
 - PostgreSQL 11+
 
 ## Using this Chart
 
 ### Installation
-
-**Add Helm chart repository**
-
-Use `helm repo add` command to add the Helm chart repository that contains charts:
-```bash
-helm repo add czertainly https://harbor.3key.company/chartrepo/czertainly-helm
-```
 
 **Create namespace**
 
@@ -34,7 +27,7 @@ kubectl create namespace czertainly
 
 Copy the default `values.yaml` from the Helm chart and modify the values accordingly:
 ```bash
-helm show values czertainly/ejbca-ng-connector > values.yaml
+helm show values oci://harbor.3key.company/czertainly-helm/ejbca-ng-connector > values.yaml
 ```
 Now edit the `values.yaml` according to your desired stated, see [Configurable parameters](#configurable-parameters) for more information.
 
@@ -42,7 +35,7 @@ Now edit the `values.yaml` according to your desired stated, see [Configurable p
 
 For the basic installation, run:
 ```bash
-helm install --namespace czertainly -f values.yaml czertainly-ejbca-ng-connector czertainly/ejbca-ng-connector
+helm install --namespace czertainly -f values.yaml czertainly-ejbca-ng-connector oci://harbor.3key.company/czertainly-helm/ejbca-ng-connector
 ```
 
 **Save your configuration**
@@ -56,7 +49,7 @@ Always make sure you save the `values.yaml` and all `--set` and `--set-file` opt
 
 For upgrading the installation, update your configuration and run:
 ```bash
-helm upgrade --namespace czertainly -f values.yaml czertainly-ejbca-ng-connector czertainly/ejbca-ng-connector
+helm upgrade --namespace czertainly -f values.yaml czertainly-ejbca-ng-connector oci://harbor.3key.company/czertainly-helm/ejbca-ng-connector
 ```
 
 ### Uninstall
@@ -98,7 +91,7 @@ The following values may be configured:
 | imagePullSecrets     | `[]`                     | Name of the registered credential as a secret to access private CZERTAINLY images |
 | database.type        | `"postgresql"`           | Type of the database, currently only `postgresql` is supported                    |
 | database.host        | `"host.docker.internal"` | Host where is the database located                                                |
-| database.port        | `"5432"`                 | Port on which is the database listening                                           |
+| database.port        | `5432`                   | Port on which is the database listening                                           |
 | database.name        | `"czertainlydb"`         | Database name                                                                     |
 | database.username    | `"czertainlyuser"`       | Username to access the database                                                   |
 | database.password    | `"your-strong-password"` | Password to access the database                                                   |
