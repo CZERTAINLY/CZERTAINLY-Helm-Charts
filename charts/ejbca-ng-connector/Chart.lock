@@ -1,6 +1,6 @@
 dependencies:
 - name: czertainly-lib
-  repository: https://harbor.3key.company/chartrepo/czertainly-helm
+  repository: oci://harbor.3key.company/czertainly-helm
   version: 0.1.0
-digest: sha256:bd80f45851990715b08735030b39b90075421f8257d2cb3dd0802c6a4ae890d6
-generated: "2022-10-03T14:52:47.726702+02:00"
+digest: sha256:9e6fb4a9e8ae1d1d32af0f35d72f062256b5f14f1694bee37ced58138b9961f2
+generated: "2022-10-03T15:58:08.213486+02:00"

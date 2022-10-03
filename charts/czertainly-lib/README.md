@@ -7,16 +7,9 @@ The library groups the common logic that can be applied across all Helm charts.
 
 ## Prerequisites
 - Kubernetes 1.19+
-- Helm 3.2.0+
+- Helm 3.8.0+
 
 ## Using this Chart
-
-**Add Helm chart repository**
-
-Use `helm repo add` command to add the Helm chart repository that contains charts:
-```bash
-helm repo add czertainly https://harbor.3key.company/chartrepo/czertainly-helm
-```
 
 **Include the library in `chart.yaml`**
 
@@ -25,7 +18,7 @@ Include the dependency into your target `chart.yaml`:
 dependencies:
   - name: czertainly-lib
     version: 0.1.0
-    repository: https://harbor.3key.company/chartrepo/czertainly-helm
+    repository: oci://harbor.3key.company/czertainly-helm/czertainly-helm
 ```
 
 **Update dependencies**
