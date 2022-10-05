@@ -110,14 +110,12 @@ spec:
           {{- end }}
           volumeMounts:
             - name: trusted-certificates-volume
-              mountPath: /opt/czertainly/
+              mountPath: /opt/czertainly/trusted-certificates.pem
+              subPath: ca.crt
       volumes:
         - name: trusted-certificates-volume
           secret:
             secretName: trusted-certificates
-            items:
-            - key: ca.crt
-              path: trusted-certificates.pem
         - name: core-secret
           secret:
             secretName: core-secret

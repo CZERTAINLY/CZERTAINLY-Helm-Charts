@@ -71,7 +71,8 @@ spec:
         {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
         volumeMounts:
           - name: trusted-certificates-volume
-            mountPath: /opt/czertainly/
+            mountPath: /opt/czertainly/trusted-certificates.pem
+            subPath: ca.crt
         {{- end }}
       volumes:
         - name: ejbca-ng-connector-secret
@@ -81,14 +82,8 @@ spec:
         - name: trusted-certificates-volume
           secret:
             secretName: trusted-certificates
-            items:
-              - key: ca.crt
-                path: trusted-certificates.pem
         {{- else if .Values.trusted.certificates }}
         - name: trusted-certificates-volume
           secret:
             secretName: trusted-certificates-{{ .Chart.Name | lower }}
-            items:
-              - key: ca.crt
-                path: trusted-certificates.pem
         {{- end }}
