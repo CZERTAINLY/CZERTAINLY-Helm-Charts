@@ -32,7 +32,7 @@ We’ll need to define a Kubernetes namespace where the resources created by the
 kubectl create namespace czertainly
 ```
 
-**Create `czertainly-values.yaml**
+**Create `czertainly-values.yaml`**
 
 Copy the default `values.yaml` from the CZERTAINLY Helm chart and modify the values accordingly:
 ```bash
