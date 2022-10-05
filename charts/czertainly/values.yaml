@@ -249,3 +249,6 @@ commonCredentialProvider:
 
 ejbcaNgConnector:
   enabled: true
+
+msAdcsConnector:
+  enabled: false

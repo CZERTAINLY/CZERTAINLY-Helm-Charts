@@ -21,6 +21,19 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 - [FE Administrator](charts/fe-administrator)
 - [Common Credential Provider](charts/common-credential-provider)
 - [EJBCA NG Connector](charts/ejbca-ng-connector)
+- [MS ADCS Connector](charts/ms-adcs-connector)
+
+## Private containers
+
+Some charts may use container images that are part of the private repositories.
+In this case it is necessary to provide reference to secret as part of the `imagePullSecrets`.
+
+You can use the following command to create such secret in your namespace:
+```bash
+kubectl create secret docker-registry regcred --docker-server=<your-registry-server> --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
+```
+
+For more information, see [Create a Secret by providing credentials on the command line](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-by-providing-credentials-on-the-command-line).
 
 ## CZERTAINLY Dummy Root CA and certificates
 

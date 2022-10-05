@@ -1,4 +1,4 @@
-# EJBCA NG Connector - CZERTAINLY
+# MS ADCS Connector - CZERTAINLY
 
 > This repository is part of the commercial open-source project CZERTAINLY. You can find more information about the project at [CZERTAINLY](https://github.com/3KeyCompany/CZERTAINLY) repository, including the contribution guide.
 
@@ -27,7 +27,7 @@ kubectl create namespace czertainly
 
 Copy the default `values.yaml` from the Helm chart and modify the values accordingly:
 ```bash
-helm show values oci://harbor.3key.company/czertainly-helm/ejbca-ng-connector > values.yaml
+helm show values oci://harbor.3key.company/czertainly-helm/ms-adcs-connector > values.yaml
 ```
 Now edit the `values.yaml` according to your desired stated, see [Configurable parameters](#configurable-parameters) for more information.
 
@@ -35,7 +35,7 @@ Now edit the `values.yaml` according to your desired stated, see [Configurable p
 
 For the basic installation, run:
 ```bash
-helm install --namespace czertainly -f values.yaml czertainly-ejbca-ng-connector oci://harbor.3key.company/czertainly-helm/ejbca-ng-connector
+helm install --namespace czertainly -f values.yaml czertainly-ms-adcs-connector oci://harbor.3key.company/czertainly-helm/ms-adcs-connector
 ```
 
 **Save your configuration**
@@ -49,14 +49,14 @@ Always make sure you save the `values.yaml` and all `--set` and `--set-file` opt
 
 For upgrading the installation, update your configuration and run:
 ```bash
-helm upgrade --namespace czertainly -f values.yaml czertainly-ejbca-ng-connector oci://harbor.3key.company/czertainly-helm/ejbca-ng-connector
+helm upgrade --namespace czertainly -f values.yaml czertainly-ms-adcs-connector oci://harbor.3key.company/czertainly-helm/ms-adcs-connector
 ```
 
 ### Uninstall
 
 You can use the `helm uninstall` command to uninstall the application:
 ```bash
-helm uninstall --namespace czertainly czertainly-ejbca-ng-connector
+helm uninstall --namespace czertainly czertainly-ms-adcs-connector
 ```
 
 ## Configurable parameters
@@ -80,9 +80,9 @@ Global values are used to define common parameters for the chart and all its sub
 | global.trusted.certificates | `""`          | List of additional CA certificates that should be trusted                         |
 | global.httpProxy            | `""`          | Proxy to be used to access external resources through http                        |
 | global.httpsProxy           | `""`          | Proxy to be used to access external resources through https                       |
-| global.noProxy              | `""`          | Defines list of external resources that should not use proxy settings             |
+| global.noProxy               | `""`          | Defines list of external resources that should not use proxy settings             |
 
-### EJBCA NG Connector parameters
+### MS ADCS Connector parameters
 
 The following values may be configured:
 
