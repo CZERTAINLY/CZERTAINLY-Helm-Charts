@@ -31,6 +31,12 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: BASE_URL
-              value: {{ .Values.baseUrl }}
+              value: {{ .Values.url.base | quote }}
+            - name: API_URL
+              value: {{ .Values.url.api | quote }}
+            - name: LOGIN_URL
+              value: {{ .Values.url.login | quote }}
+            - name: LOGOUT_URL
+              value: {{ .Values.url.logout | quote }}
           ports:
             - containerPort: {{ .Values.service.port }}

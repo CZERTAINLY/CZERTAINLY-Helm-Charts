@@ -29,11 +29,12 @@ spec:
       initContainers:
         - name: wait-for-auth-service
           image: "alpine/curl"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - /bin/sh
             - -c
             - |
-              while ! nc -z czertainly-auth-service 80; do sleep 1; done &&
+              while ! nc -z auth-service 80; do sleep 1; done &&
               echo "auth service seems to be started"
       containers:
         - name: czertainly-core
@@ -41,13 +42,13 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: AUDITLOG_ENABLED
-              value: {{ .Values.logging.audit.enabled }}
+              value: {{ .Values.logging.audit.enabled | quote }}
             - name: HEADER_ENABLED
               value: "true"
             - name: HEADER_NAME
-              value: {{ .Values.auth.header.certificate }}
+              value: {{ .Values.auth.header.certificate | quote }}
             - name: AUTH_TOKEN_HEADER_NAME
-              value: {{ .Values.auth.header.token }}
+              value: {{ .Values.auth.header.token | quote }}
             {{- if .Values.global.httpProxy }}
             - name: HTTP_PROXY
               value: {{ .Values.global.httpProxy }}
@@ -86,6 +87,10 @@ spec:
                   name: admin-certificate-secret
                   key: tls.crt
             {{- end }}
+            - name: OPA_BASE_URL
+              value: "http://localhost:8181"
+            - name: AUTH_SERVICE_BASE_URL
+              value: "http://auth-service"
           ports:
             - containerPort: {{ .Values.service.port }}
           readinessProbe:
@@ -111,15 +116,14 @@ spec:
                     -H 'content-type: application/json' \
                     -d '
                      {
-                        "adminCertificate": "'$ADMIN_CERT'",
-                        "certificateUuid": "",
                         "username": "{{ .Values.registerAdmin.admin.username }}",
-                        "name": "{{ .Values.registerAdmin.admin.name }}",
-                        "surname": "{{ .Values.registerAdmin.admin.surname }}",
+                        "description": "{{ .Values.registerAdmin.admin.description }}",
+                        "firstName": "{{ .Values.registerAdmin.admin.name }}",
+                        "lastName": "{{ .Values.registerAdmin.admin.surname }}",
                         "email": "{{ .Values.registerAdmin.admin.email }}",
-                        "role": "superAdministrator",
                         "enabled": "true",
-                        "description": "{{ .Values.registerAdmin.admin.description }}"
+                        "certificateData": "'$ADMIN_CERT'",
+                        "certificateUuid": ""
                      }' \
                      http://localhost:{{ .Values.service.port }}/api/v1/local/admins
           {{- end }}
@@ -127,6 +131,19 @@ spec:
             - name: trusted-certificates-volume
               mountPath: /opt/czertainly/trusted-certificates.pem
               subPath: ca.crt
+        - name: czertainly-auth-opa
+          image: openpolicyagent/opa:0.45.0
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8181
+          args:
+            - "run"
+            - "--server"
+            - "--log-format=json-pretty"
+            - "--set=decision_logs.console=true"
+            - "--set=services.nginx.url=http://auth-opa-policies-service"
+            - "--set=bundles.nginx.service=nginx"
+            - "--set=bundles.nginx.resource=bundles/bundle.tar.gz"
       volumes:
         - name: trusted-certificates-volume
           secret:

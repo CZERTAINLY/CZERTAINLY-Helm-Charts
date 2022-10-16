@@ -28,7 +28,11 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-baseUrl: "/administrator"
+url:
+  base: "/administrator"
+  api: "/api"
+  login: "/login"
+  logout: "/logout"
 
 logging:
   level: "INFO"
