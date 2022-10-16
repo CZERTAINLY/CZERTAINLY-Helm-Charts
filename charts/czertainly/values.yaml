@@ -130,6 +130,13 @@ image:
 
 logging:
   level: "INFO"
+  audit:
+    enabled: "false"
+
+auth:
+  header:
+    token: "X-USERINFO"
+    certificate: "X-APP-CERTIFICATE"
 
 serviceAccount:
   # Specifies whether a service account should be created

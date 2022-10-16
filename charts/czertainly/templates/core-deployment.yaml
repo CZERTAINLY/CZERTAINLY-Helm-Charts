@@ -26,13 +26,28 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: wait-for-auth-service
+          image: "alpine/curl"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              while ! nc -z czertainly-auth-service 80; do sleep 1; done &&
+              echo "auth service seems to be started"
       containers:
         - name: czertainly-core
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: AUDITLOG_ENABLED
+              value: {{ .Values.logging.audit.enabled }}
             - name: HEADER_ENABLED
               value: "true"
+            - name: HEADER_NAME
+              value: {{ .Values.auth.header.certificate }}
+            - name: AUTH_TOKEN_HEADER_NAME
+              value: {{ .Values.auth.header.token }}
             {{- if .Values.global.httpProxy }}
             - name: HTTP_PROXY
               value: {{ .Values.global.httpProxy }}

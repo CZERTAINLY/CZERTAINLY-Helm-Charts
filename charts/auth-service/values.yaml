@@ -1,0 +1,83 @@
+# Default values for auth-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+# Global parameters that will overwrite local parameters
+global:
+  imagePullSecrets: []
+  database:
+    type: ""
+    host: ""
+    port: ""
+    name: ""
+    username: ""
+    password: ""
+  trusted:
+    certificates: ""
+  httpProxy: ""
+  httpsProxy: ""
+  noProxy: ""
+
+imagePullSecrets: []
+database:
+  # currently only postgresql is supported
+  type: "postgresql"
+  host: "host.docker.internal"
+  port: 5432
+  name: "czertainlydb"
+  username: "czertainlyuser"
+  password: "your-strong-password"
+trusted:
+  certificates: ""
+httpProxy: ""
+httpsProxy: ""
+noProxy: ""
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+replicaCount: 1
+
+service:
+  type: "ClusterIP"
+  port: 80
+
+image:
+  repository: 3keycompany/czertainly-auth
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+logging:
+  level: "INFO"
+
+createUnknownUsers: "false"
+createUnknownRoles: "false"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+# fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+# runAsUser: 1000
