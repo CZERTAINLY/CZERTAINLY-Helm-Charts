@@ -7,12 +7,15 @@ dependencies:
   version: 0.1.0
 - name: ejbca-ng-connector
   repository: oci://harbor.3key.company/czertainly-helm
-  version: 0.1.0
+  version: 0.2.0
+- name: ms-adcs-connector
+  repository: oci://harbor.3key.company/czertainly-helm
+  version: 0.2.0
 - name: api-gateway-haproxy
   repository: oci://harbor.3key.company/czertainly-helm
   version: 0.1.0
 - name: fe-administrator
   repository: oci://harbor.3key.company/czertainly-helm
-  version: 0.1.0
-digest: sha256:4a052cb3bff04952d1bcc712dae593a75063f2c74078becd8118bf8a99608297
-generated: "2022-10-03T16:01:18.866765+02:00"
+  version: 0.2.0
+digest: sha256:5b93e684f3e5ba36a46810c7e550ff801447c11b3f0e4c152357ae9c85380f97
+generated: "2022-10-05T16:40:51.275189+02:00"

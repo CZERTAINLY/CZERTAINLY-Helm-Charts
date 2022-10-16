@@ -5,20 +5,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ejbca-ng-connector-deployment
+  name: ms-adcs-connector-deployment
   labels:
-    {{- include "ejbca-ng-connector.labels" . | nindent 4 }}
+    {{- include "ms-adcs-connector.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "ejbca-ng-connector.selectorLabels" . | nindent 6 }}
+      {{- include "ms-adcs-connector.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "ejbca-ng-connector.selectorLabels" . | nindent 8 }}
+        {{- include "ms-adcs-connector.selectorLabels" . | nindent 8 }}
       annotations:
         # when the list of the trusted certificates is changed, restart deployment
         checksum/config: {{ include (print $.Template.BasePath "/trusted-certificates-secret.yaml") . | sha256sum }}
@@ -34,7 +34,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: ejbca-ng-connector
+      - name: ms-adcs-connector
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
@@ -75,9 +75,9 @@ spec:
             subPath: ca.crt
         {{- end }}
       volumes:
-        - name: ejbca-ng-connector-secret
+        - name: ms-adcs-connector-secret
           secret:
-            secretName: ejbca-ng-connector-secret
+            secretName: ms-adcs-connector-secret
         {{- if .Values.global.trusted.certificates }}
         - name: trusted-certificates-volume
           secret:

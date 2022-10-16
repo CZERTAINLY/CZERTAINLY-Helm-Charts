@@ -32,7 +32,7 @@ We’ll need to define a Kubernetes namespace where the resources created by the
 kubectl create namespace czertainly
 ```
 
-**Create `czertainly-values.yaml**
+**Create `czertainly-values.yaml`**
 
 Copy the default `values.yaml` from the CZERTAINLY Helm chart and modify the values accordingly:
 ```bash
@@ -100,7 +100,7 @@ Global values are used to define common parameters for the chart and all its sub
 | global.trusted.certificates | `"CZERTAINLY Dummy Root CA"` | List of additional CA certificates that should be trusted                         |
 | global.httpProxy            | `""`                         | Proxy to be used to access external resources through http                        |
 | global.httpsProxy           | `""`                         | Proxy to be used to access external resources through https                       |
-| global.httpProxy            | `""`                         | Defines list of external resources that should not use proxy settings             |
+| global.noProxy              | `""`                         | Defines list of external resources that should not use proxy settings             |
 
 ### Core parameters
 
@@ -126,6 +126,7 @@ The following values may be configured for the CZERTAINLY core service:
 | registerConnectors               | `true`                                                                                                                                                                                                                                                                                                                                       | Whether the connector should be auto-registered in the platform                                                                                                                                                                          |
 | commonCredentialProvider.enabled | `true`                                                                                                                                                                                                                                                                                                                                       | Whether the Common Credential Provider should be enabled                                                                                                                                                                                 |
 | ejbcaNgConnector.enabled         | `true`                                                                                                                                                                                                                                                                                                                                       | Whether the EJBCA NG Connector should be enabled                                                                                                                                                                                         |
+| msAdcsConnector.enabled          | `true`                                                                                                                                                                                                                                                                                                                                       | Whether the MS ADCS Connector should be enabled                                                                                                                                                                                          |
 
 > **Note**
 > TBD - additional description of the values, should be improved

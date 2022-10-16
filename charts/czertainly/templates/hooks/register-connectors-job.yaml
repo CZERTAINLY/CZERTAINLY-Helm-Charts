@@ -40,5 +40,10 @@ spec:
             -d '{"name": "EJBCA-NG-Connector","url": "http://ejbca-ng-connector-service:{{ .Values.ejbcaNgConnector.service.port }}","authType": "none"}' \
             http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
             {{- end }}
+            {{- if .Values.msAdcsConnector.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "MS-ADCS-Connector","url": "http://ms-adcs-connector-service:{{ .Values.msAdcsConnector.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
             echo "all done"
 {{- end }}

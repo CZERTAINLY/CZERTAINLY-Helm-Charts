@@ -1,10 +1,10 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 1.2.0
-name: ejbca-ng-connector
-description: A Helm chart for EJBCA NG Connector for CZERTAINLY platform.
-home: https://github.com/3KeyCompany/CZERTAINLY-EJBCA-NG-Connector
+appVersion: 1.1.0
+name: ms-adcs-connector
+description: A Helm chart for MS ADCS Connector for CZERTAINLY platform.
+home: https://github.com/3KeyCompany/CZERTAINLY-MS-ADCS-Connector
 icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 dependencies:
   - name: czertainly-lib
@@ -16,7 +16,8 @@ keywords:
   - management
   - lifecycle
   - platform
-  - ejbca
+  - ms
+  - adcs
   - authority
   - discovery
   - provider
