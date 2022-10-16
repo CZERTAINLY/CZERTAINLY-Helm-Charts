@@ -1,0 +1,27 @@
+annotations:
+  category: trustLifecycleManagement
+apiVersion: v2
+appVersion: 1.0.0
+name: auth-opa-policies
+description: A Helm chart for CZERTAINLY Auth OPA Policies.
+home: https://github.com/3KeyCompany/CZERTAINLY-Auth-OPA-Policies
+icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
+keywords:
+  - czertainly
+  - trust
+  - management
+  - lifecycle
+  - platform
+  - auth
+  - opa
+  - policies
+maintainers:
+  - name: CZERTAINLY
+    email: info@czertainly.com
+    url: https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts
+type: application
+sources:
+  - https://github.com/3KeyCompany/CZERTAINLY
+  - https://www.czertainly.com
+  - https://docs.czertainly.com
+version: 1.0.0
