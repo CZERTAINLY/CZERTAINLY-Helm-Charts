@@ -81,7 +81,10 @@ The following values may be configured:
 | logging.level    | `"INFO"`           | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`                       |
 | service.type     | `"ClusterIP"`      | Type of the service that is exposed                                               |
 | service.port     | `8080`             | Port number of the exposed service                                                |
-| baseUrl          | `"/administrator"` | Base URL for the web                                                              |
+| url.base         | `"/administrator"` | Base URL for the web                                                              |
+| url.api          | `"/api"`           | URL for the api requests                                                          |
+| url.login        | `"/login"`         | Login URL for authentication of the user                                          |
+| url.logou        | `"/logout"`        | Logout URL for logout of the user                                                 |
 
 ### Additional parameters
 

@@ -80,7 +80,7 @@ Global values are used to define common parameters for the chart and all its sub
 | global.trusted.certificates | `""`          | List of additional CA certificates that should be trusted                         |
 | global.httpProxy            | `""`          | Proxy to be used to access external resources through http                        |
 | global.httpsProxy           | `""`          | Proxy to be used to access external resources through https                       |
-| global.noProxy               | `""`          | Defines list of external resources that should not use proxy settings             |
+| global.noProxy              | `""`          | Defines list of external resources that should not use proxy settings             |
 
 ### MS ADCS Connector parameters
 
