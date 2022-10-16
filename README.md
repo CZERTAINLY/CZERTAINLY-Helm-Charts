@@ -15,8 +15,10 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 
 ### List of charts
 
-- [CZERTAINLY](charts/czertainly)
 - [CZERTAINLY Library](charts/czertainly-lib)
+- [CZERTAINLY](charts/czertainly)
+- [Auth Service](charts/auth-service)
+- [Auth OPA Policies](charts/auth-opa-policies)
 - [API Gateway HAProxy](charts/api-gateway-haproxy)
 - [FE Administrator](charts/fe-administrator)
 - [Common Credential Provider](charts/common-credential-provider)
