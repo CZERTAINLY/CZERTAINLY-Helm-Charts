@@ -35,8 +35,22 @@ spec:
             - -c
             - |
               while ! nc -z auth-service 80; do sleep 1; done &&
+              while ! nc -z auth-opa-policies-service 80; do sleep 1; done &&
               echo "auth service seems to be started"
       containers:
+        - name: czertainly-auth-opa
+          image: openpolicyagent/opa:0.45.0
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8181
+          args:
+            - "run"
+            - "--server"
+            - "--log-format=json-pretty"
+            - "--set=decision_logs.console=true"
+            - "--set=services.nginx.url=http://auth-opa-policies-service"
+            - "--set=bundles.nginx.service=nginx"
+            - "--set=bundles.nginx.resource=bundles/bundle.tar.gz"
         - name: czertainly-core
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -99,6 +113,12 @@ spec:
             initialDelaySeconds: 3
             periodSeconds: 3
             failureThreshold: 10
+          readinessProbe:
+            tcpSocket:
+              port: 8181
+            initialDelaySeconds: 3
+            periodSeconds: 3
+            failureThreshold: 10
           {{- if .Values.registerAdmin.enabled }}
           lifecycle:
             postStart:
@@ -109,6 +129,7 @@ spec:
                   - |
                     apk add curl &&
                     while ! nc -z localhost {{ .Values.service.port }}; do sleep 1; done &&
+                    while ! nc -z localhost 8181; do sleep 1; done &&
                     ADMIN_CERT=$( echo $ADMIN_CERT | awk '{gsub(/[[:blank:]]/,""); print}' ) &&
                     ADMIN_CERT=$( echo $ADMIN_CERT | awk '{gsub(/-----BEGINCERTIFICATE-----/,""); print}' ) &&
                     ADMIN_CERT=$( echo $ADMIN_CERT | awk '{gsub(/-----ENDCERTIFICATE-----/,""); print}' ) &&
@@ -131,19 +152,6 @@ spec:
             - name: trusted-certificates-volume
               mountPath: /opt/czertainly/trusted-certificates.pem
               subPath: ca.crt
-        - name: czertainly-auth-opa
-          image: openpolicyagent/opa:0.45.0
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - containerPort: 8181
-          args:
-            - "run"
-            - "--server"
-            - "--log-format=json-pretty"
-            - "--set=decision_logs.console=true"
-            - "--set=services.nginx.url=http://auth-opa-policies-service"
-            - "--set=bundles.nginx.service=nginx"
-            - "--set=bundles.nginx.resource=bundles/bundle.tar.gz"
       volumes:
         - name: trusted-certificates-volume
           secret:
