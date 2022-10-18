@@ -1,5 +1,4 @@
-{{- if or (.Values.registerAdmin.enabled) (.Values.ingress.enabled) -}}
-{{- if or (eq .Values.registerAdmin.source "generated") (eq .Values.ingress.certificate.source "internal") -}}
+{{- if or ( and (.Values.registerAdmin.enabled) (eq .Values.registerAdmin.source "generated") ) ( and (.Values.ingress.enabled) (eq .Values.ingress.certificate.source "internal") ) -}}
   {{- $certmanagerVer :=  split "." .Values.certManager.version -}}
   {{- if or (.Capabilities.APIVersions.Has "cert-manager.io/v1beta1") (and (gt (len $certmanagerVer._0) 0) (eq (int $certmanagerVer._0) 0) (ge (int $certmanagerVer._1) 16)) }}
 apiVersion: cert-manager.io/v1beta1
@@ -18,5 +17,4 @@ metadata:
     {{- include "czertainly.labels" . | nindent 4 }}
 spec:
   selfSigned: {}
-{{- end -}}
 {{- end -}}
