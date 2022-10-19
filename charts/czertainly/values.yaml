@@ -233,6 +233,8 @@ apiGateway:
   replicaCount: 1
   service:
     type: "ClusterIP"
+    consumer:
+      port: 8000
 
 feAdministrator:
   autoscaling:

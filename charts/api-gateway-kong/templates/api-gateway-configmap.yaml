@@ -47,7 +47,7 @@ data:
           {{- end }}
       - name: fe-administrator
         host: {{ .Values.backend.fe.service.name}}
-        port: {{ .Values.backend.core.service.port }}
+        port: {{ .Values.backend.fe.service.port }}
         protocol: http
         path: {{ .Values.backend.fe.service.baseUrl}}/
         routes:
