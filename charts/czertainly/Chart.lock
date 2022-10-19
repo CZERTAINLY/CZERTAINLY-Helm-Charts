@@ -11,7 +11,7 @@ dependencies:
 - name: czertainly-lib
   repository: oci://harbor.3key.company/czertainly-helm
   version: 0.2.0
-- name: api-gateway-haproxy
+- name: api-gateway-kong
   repository: oci://harbor.3key.company/czertainly-helm
   version: 0.1.0
 - name: fe-administrator
@@ -23,5 +23,5 @@ dependencies:
 - name: auth-opa-policies
   repository: oci://harbor.3key.company/czertainly-helm
   version: 1.0.0
-digest: sha256:9379d5c9590b7f84328d360322fe6f4287b0096a10a5a3b58788f3b4ccb0767c
-generated: "2022-10-16T14:55:50.659421+02:00"
+digest: sha256:c3fa88b293169fd6c9d5a2f45d67c3f50f596574fd5282d9af71fc70d1d75cba
+generated: "2022-10-19T16:00:44.71138+02:00"
