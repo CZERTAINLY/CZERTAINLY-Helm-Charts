@@ -34,7 +34,7 @@ dependencies:
   - name: czertainly-lib
     repository: oci://harbor.3key.company/czertainly-helm
     version: 0.2.0
-  - name: api-gateway-haproxy
+  - name: api-gateway-kong
     repository: oci://harbor.3key.company/czertainly-helm
     tags:
       - api-gateway
