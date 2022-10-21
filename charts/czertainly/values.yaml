@@ -260,3 +260,6 @@ ejbcaNgConnector:
 
 msAdcsConnector:
   enabled: false
+
+x509ComplianceProvider:
+  enabled: false

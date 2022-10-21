@@ -30,6 +30,13 @@ dependencies:
       - discovery-provider
     version: 0.3.0
     alias: msAdcsConnector
+  - condition: x509ComplianceProvider.enabled
+    name: x509-compliance-provider
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+     - compliance-provider
+    version: 0.1.0
+    alias: x509ComplianceProvider
   # the following are mandatory dependencies
   - name: czertainly-lib
     repository: oci://harbor.3key.company/czertainly-helm

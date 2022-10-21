@@ -8,6 +8,9 @@ dependencies:
 - name: ms-adcs-connector
   repository: oci://harbor.3key.company/czertainly-helm
   version: 0.3.0
+- name: x509-compliance-provider
+  repository: oci://harbor.3key.company/czertainly-helm
+  version: 0.1.0
 - name: czertainly-lib
   repository: oci://harbor.3key.company/czertainly-helm
   version: 0.2.0
@@ -23,5 +26,5 @@ dependencies:
 - name: auth-opa-policies
   repository: oci://harbor.3key.company/czertainly-helm
   version: 1.0.0
-digest: sha256:c3fa88b293169fd6c9d5a2f45d67c3f50f596574fd5282d9af71fc70d1d75cba
-generated: "2022-10-19T16:00:44.71138+02:00"
+digest: sha256:23ec7a3d163531f1af91eb0da5711f5acf60b1b161e4df28ce874ffbd53ef6a6
+generated: "2022-10-21T16:26:36.957633+02:00"
