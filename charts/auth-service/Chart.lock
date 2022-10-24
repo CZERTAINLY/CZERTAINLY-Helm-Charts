@@ -3,4 +3,4 @@ dependencies:
   repository: oci://harbor.3key.company/czertainly-helm
   version: 0.2.0
 digest: sha256:edb1a7ff5c170ed1d7dee11a83ec22e8e0db5856238f88a043c036aaa3e475f7
-generated: "2022-10-16T14:54:45.235158+02:00"
+generated: "2022-10-16T13:24:24.325558+02:00"

@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fe-administrator-deployment
+  name: x509-compliance-provider-deployment
   labels:
-    {{- include "fe-administrator.labels" . | nindent 4 }}
+    {{- include "x509-compliance-provider.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "fe-administrator.selectorLabels" . | nindent 6 }}
+      {{- include "x509-compliance-provider.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "fe-administrator.selectorLabels" . | nindent 8 }}
+        {{- include "x509-compliance-provider.selectorLabels" . | nindent 8 }}
       {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
@@ -26,17 +26,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: fe-administrator
+        - name: common-credential-provider
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: BASE_URL
-              value: {{ .Values.url.base | quote }}
-            - name: API_URL
-              value: {{ .Values.url.api | quote }}
-            - name: LOGIN_URL
-              value: {{ .Values.url.login | quote }}
-            - name: LOGOUT_URL
-              value: {{ .Values.url.logout | quote }}
+            - name: SERVER_PORT
+              value: {{ .Values.service.port | quote }}
+            - name: LOG_LEVEL
+              value: {{ .Values.logging.level | quote }}
           ports:
             - containerPort: {{ .Values.service.port }}

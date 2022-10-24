@@ -1,4 +1,4 @@
-# MS ADCS Connector - CZERTAINLY
+# Auth Service - CZERTAINLY
 
 > This repository is part of the commercial open-source project CZERTAINLY. You can find more information about the project at [CZERTAINLY](https://github.com/3KeyCompany/CZERTAINLY) repository, including the contribution guide.
 
@@ -27,7 +27,7 @@ kubectl create namespace czertainly
 
 Copy the default `values.yaml` from the Helm chart and modify the values accordingly:
 ```bash
-helm show values oci://harbor.3key.company/czertainly-helm/ms-adcs-connector > values.yaml
+helm show values oci://harbor.3key.company/czertainly-helm/auth-service > values.yaml
 ```
 Now edit the `values.yaml` according to your desired stated, see [Configurable parameters](#configurable-parameters) for more information.
 
@@ -35,7 +35,7 @@ Now edit the `values.yaml` according to your desired stated, see [Configurable p
 
 For the basic installation, run:
 ```bash
-helm install --namespace czertainly -f values.yaml czertainly-ms-adcs-connector oci://harbor.3key.company/czertainly-helm/ms-adcs-connector
+helm install --namespace czertainly -f values.yaml czertainly-auth-service oci://harbor.3key.company/czertainly-helm/auth-service
 ```
 
 **Save your configuration**
@@ -49,14 +49,14 @@ Always make sure you save the `values.yaml` and all `--set` and `--set-file` opt
 
 For upgrading the installation, update your configuration and run:
 ```bash
-helm upgrade --namespace czertainly -f values.yaml czertainly-ms-adcs-connector oci://harbor.3key.company/czertainly-helm/ms-adcs-connector
+helm upgrade --namespace czertainly -f values.yaml czertainly-auth-service oci://harbor.3key.company/czertainly-helm/auth-service
 ```
 
 ### Uninstall
 
 You can use the `helm uninstall` command to uninstall the application:
 ```bash
-helm uninstall --namespace czertainly czertainly-ms-adcs-connector
+helm uninstall --namespace czertainly czertainly-auth-service
 ```
 
 ## Configurable parameters
@@ -82,7 +82,7 @@ Global values are used to define common parameters for the chart and all its sub
 | global.httpsProxy           | `""`          | Proxy to be used to access external resources through https                       |
 | global.noProxy              | `""`          | Defines list of external resources that should not use proxy settings             |
 
-### MS ADCS Connector parameters
+### Auth service parameters
 
 The following values may be configured:
 
@@ -101,7 +101,9 @@ The following values may be configured:
 | httpProxy            | `""`                     | Defines list of external resources that should not use proxy settings             |
 | logging.level        | `"INFO"`                 | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`                       |
 | service.type         | `"ClusterIP"`            | Type of the service that is exposed                                               |
-| service.port         | `8080`                   | Port number of the exposed service                                                |
+| service.port         | `80`                     | Port number of the exposed service                                                |
+| createUnknownUsers   | `false`                  | Whether user should be automatically created when not exists                      |
+| createUnknownRoles   | `false`                  | Whether roles should be automatically create when not exist                       |
 
 ### Additional parameters
 

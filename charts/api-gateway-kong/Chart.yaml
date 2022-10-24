@@ -1,10 +1,10 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 2.4.0
-name: fe-administrator
-description: A Helm chart for Administrator Web for CZERTAINLY platform.
-home: https://github.com/3KeyCompany/CZERTAINLY-FE-Administrator
+appVersion: 3.0.0-6
+name: api-gateway-kong
+description: A Helm chart for API Gateway based on the revomatico/kong-oidc for CZERTAINLY platform.
+home: https://github.com/3KeyCompany/CZERTAINLY
 icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 keywords:
   - czertainly
@@ -12,8 +12,8 @@ keywords:
   - management
   - lifecycle
   - platform
-  - fe
-  - administrator
+  - api
+  - gateway
 maintainers:
   - name: CZERTAINLY
     email: info@czertainly.com
@@ -23,4 +23,6 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 0.3.0
+  - https://github.com/revomatico/docker-kong-oidc
+  - https://github.com/revomatico/kong-oidc
+version: 0.1.0

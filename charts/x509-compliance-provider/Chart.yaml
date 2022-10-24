@@ -1,10 +1,10 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 2.4.0
-name: fe-administrator
-description: A Helm chart for Administrator Web for CZERTAINLY platform.
-home: https://github.com/3KeyCompany/CZERTAINLY-FE-Administrator
+appVersion: 1.0.0
+name: x509-compliance-provider
+description: A Helm chart for X509 Compliance Provider for CZERTAINLY platform.
+home: https://github.com/3KeyCompany/CZERTAINLY-Common-Credential-Provider
 icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 keywords:
   - czertainly
@@ -12,8 +12,8 @@ keywords:
   - management
   - lifecycle
   - platform
-  - fe
-  - administrator
+  - compliance
+  - provider
 maintainers:
   - name: CZERTAINLY
     email: info@czertainly.com
@@ -23,4 +23,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 0.3.0
+version: 0.1.0

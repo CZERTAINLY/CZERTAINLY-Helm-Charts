@@ -1,0 +1,67 @@
+{{- $httpProxy := pluck "httpProxy" .Values.global .Values | compact | first }}
+{{- $httpsProxy := pluck "httpsProxy" .Values.global .Values | compact | first }}
+{{- $noProxy := pluck "noProxy" .Values.global .Values | compact | first }}
+{{- $imagePullSecrets := pluck "imagePullSecrets" .Values.global .Values | compact | first }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+  labels:
+    {{- include "auth-service.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "auth-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "auth-service.selectorLabels" . | nindent 8 }}
+      annotations:
+        # when the list of the trusted certificates is changed, restart deployment
+        checksum/config: {{ include (print $.Template.BasePath "/trusted-certificates-secret.yaml") . | sha256sum }}
+        {{- if .Values.global.trusted.certificates }}
+        checksum/config: {{ include ("czertainly-lib.trusted.certificates.secret.global") . | sha256sum }}
+        {{- end }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with $imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: auth
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+          - name: AUTH_CREATE_UNKNOWN_USERS
+            value: {{ .Values.createUnknownUsers | quote }}
+          - name: AUTH_CREATE_UNKNOWN_ROLES
+            value: {{ .Values.createUnknownRoles | quote }}
+          - name: AUTH_DB_CONNECTION_STRING
+            valueFrom:
+              secretKeyRef:
+                name: auth-secret
+                key: connection-string
+        ports:
+          - containerPort: {{ .Values.service.port }}
+        {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
+        volumeMounts:
+          - name: trusted-certificates-volume
+            mountPath: /opt/czertainly/trusted-certificates.pem
+            subPath: ca.crt
+        {{- end }}
+      volumes:
+        {{- if .Values.global.trusted.certificates }}
+        - name: trusted-certificates-volume
+          secret:
+            secretName: trusted-certificates
+        {{- else if .Values.trusted.certificates }}
+        - name: trusted-certificates-volume
+          secret:
+            secretName: trusted-certificates-{{ .Chart.Name | lower }}
+        {{- end }}

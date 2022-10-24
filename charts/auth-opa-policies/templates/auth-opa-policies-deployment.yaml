@@ -2,41 +2,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fe-administrator-deployment
+  name: auth-opa-policies-deployment
   labels:
-    {{- include "fe-administrator.labels" . | nindent 4 }}
+    {{- include "auth-opa-policies.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "fe-administrator.selectorLabels" . | nindent 6 }}
+      {{- include "auth-opa-policies.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      labels:
-        {{- include "fe-administrator.selectorLabels" . | nindent 8 }}
       {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      labels:
+        {{- include "auth-opa-policies.selectorLabels" . | nindent 8 }}
     spec:
       {{- with $imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: fe-administrator
+        - name: auth-opa-policies
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: BASE_URL
-              value: {{ .Values.url.base | quote }}
-            - name: API_URL
-              value: {{ .Values.url.api | quote }}
-            - name: LOGIN_URL
-              value: {{ .Values.url.login | quote }}
-            - name: LOGOUT_URL
-              value: {{ .Values.url.logout | quote }}
           ports:
-            - containerPort: {{ .Values.service.port }}
+            - containerPort: 80

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway-service
+  labels:
+    {{- include "api-gateway-kong.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.admin.port }}
+      protocol: "TCP"
+      name: admin
+    - port: {{ .Values.service.consumer.port }}
+      protocol: "TCP"
+      name: consumer
+  selector:
+    {{- include "api-gateway-kong.selectorLabels" . | nindent 4 }}

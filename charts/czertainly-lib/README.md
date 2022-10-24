@@ -17,7 +17,7 @@ Include the dependency into your target `chart.yaml`:
 ```yaml
 dependencies:
   - name: czertainly-lib
-    version: 0.1.0
+    version: 0.2.0
     repository: oci://harbor.3key.company/czertainly-helm/czertainly-helm
 ```
 
@@ -47,4 +47,5 @@ The following functions are defined:
 | `czertainly-lib.trusted.certificates.secret`       | Prepares the `trusted-certificates` secret                                       |
 | `czertainly-lib.trusted.certificates.secret.local` | Prepares local secret with additionally trusted certificates                     |
 | `czertainly-lib.util.merge`                        | Merge two templates to one yaml                                                  |
-| `czertainly-lib.util.format.jdbcUrl`               | Format the JDBC URL connection string based in the database configuration values |                                                                                                                                                           |`
+| `czertainly-lib.util.format.jdbcUrl`               | Format the JDBC URL connection string based in the database configuration values |
+| `czertainly-lib.util.format.netUrl`                | Format the .NET URL connection string based in the database configuration values |

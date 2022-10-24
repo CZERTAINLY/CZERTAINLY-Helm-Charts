@@ -1,4 +1,4 @@
-# FE Administrator - CZERTAINLY
+# X509 Compliance Provider - CZERTAINLY
 
 > This repository is part of the commercial open-source project CZERTAINLY. You can find more information about the project at [CZERTAINLY](https://github.com/3KeyCompany/CZERTAINLY) repository, including the contribution guide.
 
@@ -11,6 +11,8 @@ This repository contains [Helm](https://helm.sh/) charts as part of the CZERTAIN
 ## Using this Chart
 
 ### Installation
+
+**Add Helm chart repository**
 
 **Create namespace**
 
@@ -26,7 +28,7 @@ kubectl create namespace czertainly
 
 Copy the default `values.yaml` from the Helm chart and modify the values accordingly:
 ```bash
-helm show values oci://harbor.3key.company/czertainly-helm/fe-administrator > values.yaml
+helm show values oci://harbor.3key.company/czertainly-helm/x509-compliance-provider > values.yaml
 ```
 Now edit the `values.yaml` according to your desired stated, see [Configurable parameters](#configurable-parameters) for more information.
 
@@ -34,7 +36,7 @@ Now edit the `values.yaml` according to your desired stated, see [Configurable p
 
 For the basic installation, run:
 ```bash
-helm install --namespace czertainly -f values.yaml czertainly-fe-administrator oci://harbor.3key.company/czertainly-helm/fe-administrator
+helm install --namespace czertainly -f values.yaml czertainly-x509-compliance-provider oci://harbor.3key.company/czertainly-helm/x509-compliance-provider
 ```
 
 **Save your configuration**
@@ -48,14 +50,14 @@ Always make sure you save the `values.yaml` and all `--set` and `--set-file` opt
 
 For upgrading the installation, update your configuration and run:
 ```bash
-helm upgrade --namespace czertainly -f values.yaml czertainly-fe-administrator oci://harbor.3key.company/czertainly-helm/fe-administrator
+helm upgrade --namespace czertainly -f values.yaml czertainly-x509-compliance-provider oci://harbor.3key.company/czertainly-helm/x509-compliance-provider
 ```
 
 ### Uninstall
 
 You can use the `helm uninstall` command to uninstall the application:
 ```bash
-helm uninstall --namespace czertainly czertainly-fe-administrator
+helm uninstall --namespace czertainly czertainly-x509-compliance-provider
 ```
 
 ## Configurable parameters
@@ -71,20 +73,16 @@ Global values are used to define common parameters for the chart and all its sub
 |-----------------------------|------------------------------|-----------------------------------------------------------------------------------|
 | global.imagePullSecrets     | `[]`                         | Name of the registered credential as a secret to access private CZERTAINLY images |
 
-### FE Administrator parameters
+### Common Credential Provider parameters
 
 The following values may be configured:
 
-| Parameter        | Default value      | Description                                                                       |
-|------------------|--------------------|-----------------------------------------------------------------------------------|
-| imagePullSecrets | `[]`               | Name of the registered credential as a secret to access private CZERTAINLY images |
-| logging.level    | `"INFO"`           | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`                       |
-| service.type     | `"ClusterIP"`      | Type of the service that is exposed                                               |
-| service.port     | `8080`             | Port number of the exposed service                                                |
-| url.base         | `"/administrator"` | Base URL for the web                                                              |
-| url.api          | `"/api"`           | URL for the api requests                                                          |
-| url.login        | `"/login"`         | Login URL for authentication of the user                                          |
-| url.logou        | `"/logout"`        | Logout URL for logout of the user                                                 |
+| Parameter        | Default value | Description                                                                           |
+|------------------|---------------|---------------------------------------------------------------------------------------|
+| imagePullSecrets | `[]`          | Name of the registered credential as a secret to access private CZERTAINLY containers |
+| logging.level    | `"INFO"`      | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`                           |
+| service.type     | `"ClusterIP"` | Type of the service that is exposed                                                   |
+| service.port     | `8080`        | Port number of the exposed service                                                    |
 
 ### Additional parameters
 

@@ -130,6 +130,13 @@ image:
 
 logging:
   level: "INFO"
+  audit:
+    enabled: "false"
+
+auth:
+  header:
+    token: "X-USERINFO"
+    certificate: "X-APP-CERTIFICATE"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -226,7 +233,8 @@ apiGateway:
   replicaCount: 1
   service:
     type: "ClusterIP"
-    port: 8080
+    consumer:
+      port: 8000
 
 feAdministrator:
   autoscaling:
@@ -251,4 +259,7 @@ ejbcaNgConnector:
   enabled: true
 
 msAdcsConnector:
+  enabled: false
+
+x509ComplianceProvider:
   enabled: false

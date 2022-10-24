@@ -1,7 +1,4 @@
 dependencies:
-- name: czertainly-lib
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 0.1.0
 - name: common-credential-provider
   repository: oci://harbor.3key.company/czertainly-helm
   version: 0.1.0
@@ -10,12 +7,24 @@ dependencies:
   version: 0.2.0
 - name: ms-adcs-connector
   repository: oci://harbor.3key.company/czertainly-helm
+  version: 0.3.0
+- name: x509-compliance-provider
+  repository: oci://harbor.3key.company/czertainly-helm
+  version: 0.1.0
+- name: czertainly-lib
+  repository: oci://harbor.3key.company/czertainly-helm
   version: 0.2.0
-- name: api-gateway-haproxy
+- name: api-gateway-kong
   repository: oci://harbor.3key.company/czertainly-helm
   version: 0.1.0
 - name: fe-administrator
   repository: oci://harbor.3key.company/czertainly-helm
-  version: 0.2.0
-digest: sha256:5b93e684f3e5ba36a46810c7e550ff801447c11b3f0e4c152357ae9c85380f97
-generated: "2022-10-05T16:40:51.275189+02:00"
+  version: 0.3.0
+- name: auth-service
+  repository: oci://harbor.3key.company/czertainly-helm
+  version: 1.0.0
+- name: auth-opa-policies
+  repository: oci://harbor.3key.company/czertainly-helm
+  version: 1.0.0
+digest: sha256:23ec7a3d163531f1af91eb0da5711f5acf60b1b161e4df28ce874ffbd53ef6a6
+generated: "2022-10-21T16:26:36.957633+02:00"

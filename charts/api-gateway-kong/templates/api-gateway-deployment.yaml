@@ -1,0 +1,73 @@
+{{- $imagePullSecrets := pluck "imagePullSecrets" .Values.global .Values | compact | first }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway-deployment
+  labels:
+    {{- include "api-gateway-kong.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "api-gateway-kong.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "api-gateway-kong.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with $imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: api-gateway
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: KONG_DATABASE
+              value: "off"
+            - name: KONG_PROXY_ACCESS_LOG
+              value: "/dev/stdout"
+            - name: KONG_ADMIN_ACCESS_LOG
+              value: "/dev/stdout"
+            - name: KONG_PROXY_ERROR_LOG
+              value: "/dev/stderr"
+            - name: KONG_ADMIN_ERROR_LOG
+              value: "/dev/stderr"
+            - name: KONG_ADMIN_LISTEN
+              value: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
+            - name: KONG_DECLARATIVE_CONFIG
+              value: "/kong/declarative/kong.yml"
+            - name: KONG_PLUGINS
+              value: "oidc,request-transformer,cors,file-log,response-transformer,post-function"
+            - name: KONG_LOG_LEVEL
+              value: {{ .Values.logging.level | quote }}
+            - name: JWT_KEYCLOAK_PRIORITY
+              value: "950"
+            - name: KONG_X_SESSION_COMPRESSOR
+              value: "zlib"
+          ports:
+            - containerPort: 8000
+              name: consumer-http
+            - containerPort: 8443
+              name: consumer-https
+            - containerPort: 8001
+              name: admin-http
+            - containerPort: 8444
+              name: admin-https
+          volumeMounts:
+            - name: api-gateway-config-volume
+              mountPath: /kong/declarative
+      volumes:
+        - name: api-gateway-config-volume
+          configMap:
+            name: api-gateway-configmap
+            items:
+              - key: kong.yml
+                path: kong.yml
