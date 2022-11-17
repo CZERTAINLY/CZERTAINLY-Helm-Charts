@@ -59,12 +59,12 @@ spec:
         - name: JDBC_USERNAME
           valueFrom:
             secretKeyRef:
-              name: ejbca-ng-connector-secret
+              name: ms-adcs-connector-secret
               key: username
         - name: JDBC_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: ejbca-ng-connector-secret
+              name: ms-adcs-connector-secret
               key: password
         ports:
           - containerPort: {{ .Values.service.port }}
