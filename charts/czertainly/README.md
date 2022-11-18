@@ -46,13 +46,16 @@ Create new file called `trusted-certificates.pem` and add to the file PEM certif
 
 The list of trusted certificates is need for the installation of the CZERTAINLY using Helm chart.
 
+> **Note**
+> Trusted certificates can be defined globally for the CZERTAINLY chart and all of its sub-charts, or it can be applied only for specific sub-chart, see [global parameters](#global-parameters). For global, set `global.trusted.certificates`, otherwise set `trusted.certificates`.
+
 **Install CZERTAINLY**
 
 There are couple of options to install CZERTAINLY based on you TLS configuration and administrator certificate handling. See the [Configurable parameters](#configurable-parameters) for more information.
 
 For the basic installation, run:
 ```bash
-helm install --namespace czertainly -f czertainly-values.yaml --set-file trusted.certificates=trusted-certificates.pem czertainly-tlm oci://harbor.3key.company/czertainly-helm/czertainly
+helm install --namespace czertainly -f czertainly-values.yaml --set-file global.trusted.certificates=trusted-certificates.pem czertainly-tlm oci://harbor.3key.company/czertainly-helm/czertainly
 ```
 
 **Save your configuration**
@@ -66,7 +69,7 @@ Always make sure you save the `czertainly-values.yaml` and all `--set` and `--se
 
 For upgrading the CZERTAINLY installation, update your configuration and run:
 ```bash
-helm upgrade --namespace czertainly -f czertainly-values.yaml --set-file trusted.certificates=trusted-certificates.pem czertainly-tlm oci://harbor.3key.company/czertainly-helm/czertainly
+helm upgrade --namespace czertainly -f czertainly-values.yaml --set-file global.trusted.certificates=trusted-certificates.pem czertainly-tlm oci://harbor.3key.company/czertainly-helm/czertainly
 ```
 
 ### Uninstall
