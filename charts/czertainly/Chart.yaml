@@ -37,6 +37,14 @@ dependencies:
      - compliance-provider
     version: 0.1.0
     alias: x509ComplianceProvider
+  - condition: iPdiscoveryProvider.enabled
+    name: ip-discovery-provider
+    repository: file://../ip-discovery-provider
+    tags:
+     - ip-discovery-provider
+    version: 0.1.0
+    alias: iPdiscoveryProvider
+
   # the following are mandatory dependencies
   - name: czertainly-lib
     repository: oci://harbor.3key.company/czertainly-helm

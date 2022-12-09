@@ -11,6 +11,9 @@ dependencies:
 - name: x509-compliance-provider
   repository: oci://harbor.3key.company/czertainly-helm
   version: 0.1.0
+- name: ip-discovery-provider
+  repository: file://../ip-discovery-provider
+  version: 0.1.0
 - name: czertainly-lib
   repository: oci://harbor.3key.company/czertainly-helm
   version: 0.2.0
@@ -26,5 +29,5 @@ dependencies:
 - name: auth-opa-policies
   repository: oci://harbor.3key.company/czertainly-helm
   version: 1.0.0
-digest: sha256:23ec7a3d163531f1af91eb0da5711f5acf60b1b161e4df28ce874ffbd53ef6a6
-generated: "2022-10-21T16:26:36.957633+02:00"
+digest: sha256:f9172ab75f794297daa64498635ea5f55b05e49b9934413464fd381a335c0953
+generated: "2022-12-09T12:37:55.5007318+01:00"

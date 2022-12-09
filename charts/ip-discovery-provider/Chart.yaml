@@ -1,0 +1,58 @@
+annotation:
+  category: trustLifecycleManagement
+apiVersion: v2
+
+
+appVersion: 1.1.0 
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+# It is recommended to use it with quotes.
+
+name: ip-discovery-provider
+description: A Helm chart for IP discovery connector for CZERTAINLY platform.
+icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
+
+dependencies:
+  - name: czertainly-lib
+    version: 0.1.0 
+    repository: oci://harbor.3key.company/czertainly-helm
+
+keywords:
+  - czertainly
+  - trust
+  - management
+  - lifecycle
+  - platform
+  - network
+  - discovery
+  - provider
+
+maintainers:
+  - name: CZERTAINLY
+    email: info@czertainly.com
+    url: https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts
+
+sources:
+  - https://github.com/3KeyCompany/CZERTAINLY
+  - https://www.czertainly.com
+  - https://docs.czertainly.com
+
+type: application
+# A chart can be either an 'application' or a 'library' chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.!!!!!
+#
+# Library charts provide useful utilities or functions for the chart developer. They're included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. 
+#Library charts do not define any templates and therefore cannot be deployed.!!!!!
+
+version: 0.1.0
+#This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+
+
+

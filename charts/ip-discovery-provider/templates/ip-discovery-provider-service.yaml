@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # name: {{ include "ip-discovery-provider.fullname" . }} ##puvodne 
+  name: ip-discovery-provider-service
+  labels:
+    {{- include "ip-discovery-provider.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      #targetPort: http ##
+      protocol: "TCP"
+      #name: http ##
+  selector:
+    {{- include "ip-discovery-provider.selectorLabels" . | nindent 4 }}
