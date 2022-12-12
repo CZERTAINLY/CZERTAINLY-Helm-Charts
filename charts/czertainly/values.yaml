@@ -267,6 +267,3 @@ x509ComplianceProvider:
 
 iPdiscoveryProvider:
   enabled: true 
-
-cryptosenseDiscoveryProvider:
-  enabled: true
