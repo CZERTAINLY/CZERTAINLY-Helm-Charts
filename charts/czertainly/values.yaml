@@ -263,3 +263,6 @@ msAdcsConnector:
 
 x509ComplianceProvider:
   enabled: false
+  
+cryptosenseDiscoveryProvider:
+  enabled: true 

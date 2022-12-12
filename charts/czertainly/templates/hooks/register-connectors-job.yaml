@@ -45,5 +45,10 @@ spec:
             -d '{"name": "MS-ADCS-Connector","url": "http://ms-adcs-connector-service:{{ .Values.msAdcsConnector.service.port }}","authType": "none"}' \
             http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
             {{- end }}
+            {{- if .Values.cryptosenseDiscoveryProvider.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "Cryptosense-Discovery-Provider","url": "http://cryptosense-discovery-provider-service:{{ .Values.cryptosenseDiscoveryProvider.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
             echo "all done"
 {{- end }}

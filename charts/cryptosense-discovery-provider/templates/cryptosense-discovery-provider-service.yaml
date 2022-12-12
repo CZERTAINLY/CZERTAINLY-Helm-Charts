@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cryptosense-discovery-provider-service
+  labels:
+    {{- include "cryptosense-discovery-provider.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: "TCP"
+  selector:
+    {{- include "cryptosense-discovery-provider.selectorLabels" . | nindent 4 }}

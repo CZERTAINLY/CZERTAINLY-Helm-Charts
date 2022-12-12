@@ -37,6 +37,13 @@ dependencies:
      - compliance-provider
     version: 0.1.0
     alias: x509ComplianceProvider
+  - condition: cryptosenseDiscoveryProvider.enabled
+    name: cryptosense-discovery-provider
+    repository: file://../cryptosense-discovery-provider
+    tags:
+     - cryptosense-discovery-provider
+    version: 0.1.0
+    alias: cryptosenseDiscoveryProvider  
   # the following are mandatory dependencies
   - name: czertainly-lib
     repository: oci://harbor.3key.company/czertainly-helm
