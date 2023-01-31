@@ -265,5 +265,5 @@ msAdcsConnector:
 x509ComplianceProvider:
   enabled: false
 
-iPdiscoveryProvider:
-  enabled: true 
+networkDiscoveryProvider:
+  enabled: false

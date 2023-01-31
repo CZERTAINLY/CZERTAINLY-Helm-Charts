@@ -45,9 +45,14 @@ spec:
             -d '{"name": "MS-ADCS-Connector","url": "http://ms-adcs-connector-service:{{ .Values.msAdcsConnector.service.port }}","authType": "none"}' \
             http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
             {{- end }}
-            {{- if .Values.iPdiscoveryProvider.enabled }}
+            {{- if .Values.x509ComplianceProvider.enabled }}
             curl -X POST -k -H 'content-type: application/json' \
-            -d '{"name": "Network-Discovery-Provider","url": "http://ip-discovery-provider-service:{{ .Values.iPdiscoveryProvider.service.port }}","authType": "none"}' \
+            -d '{"name": "X509-Compliance-Provider","url": "http://x509-compliance-provider-service:{{ .Values.x509ComplianceProvider.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
+            {{- if .Values.networkDiscoveryProvider.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "Network-Discovery-Provider","url": "http://network-discovery-provider-service:{{ .Values.networkDiscoveryProvider.service.port }}","authType": "none"}' \
             http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
             {{- end }}
             echo "all done"
