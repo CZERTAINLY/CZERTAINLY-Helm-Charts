@@ -13,6 +13,7 @@ global:
     name: "czertainlydb"
     username: "czertainlyuser"
     password: "your-strong-password"
+
   trusted:
     # CZERTAINLY Dummy Root CA
     certificates: |
@@ -266,3 +267,7 @@ x509ComplianceProvider:
   
 cryptosenseDiscoveryProvider:
   enabled: true 
+
+networkDiscoveryProvider:
+  enabled: false
+  

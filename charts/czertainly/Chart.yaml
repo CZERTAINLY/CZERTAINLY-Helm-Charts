@@ -44,6 +44,13 @@ dependencies:
      - cryptosense-discovery-provider
     version: 0.1.0
     alias: cryptosenseDiscoveryProvider  
+  - condition: networkDiscoveryProvider.enabled
+    name: network-discovery-provider
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+     - discovery-provider
+    version: 0.1.0
+    alias: networkDiscoveryProvider
   # the following are mandatory dependencies
   - name: czertainly-lib
     repository: oci://harbor.3key.company/czertainly-helm
