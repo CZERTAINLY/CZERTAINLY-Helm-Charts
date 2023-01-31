@@ -6,7 +6,9 @@ nameOverride: ""
 fullnameOverride: ""
 
 global:
-  imagePullSecrets: []
+  image:
+    registry: ""
+    pullSecrets: []
 
 autoscaling:
   enabled: false
@@ -16,17 +18,19 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 replicaCount: 1
 
-imagePullSecrets: []
-
 service:
   type: "ClusterIP"
   port: 8080
 
 image:
+  # default registry name
+  registry: docker.io
   repository: 3keycompany/czertainly-common-credential-provider
+  tag: 1.1.0
+  # the digest to be used instead of the tag
+  digest: ""
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  pullSecrets: []
 
 logging:
   level: "INFO"

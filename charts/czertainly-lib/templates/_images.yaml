@@ -30,7 +30,7 @@ Return the image name based on the global values and image configuration
 Return the secret names from the values
 {{ include "czertainly-lib.images.pullSecrets" ( dict "images" (list .Values.image1, .Values.image2) "global" .Values.global) }}
 */}}
-{{- define "common.images.pullSecrets" -}}
+{{- define "czertainly-lib.images.pullSecrets" -}}
 {{- $pullSecrets := list }}
 
 {{- if .global }}
