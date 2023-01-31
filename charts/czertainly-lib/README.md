@@ -49,3 +49,10 @@ The following functions are defined:
 | `czertainly-lib.util.merge`                        | Merge two templates to one yaml                                                  |
 | `czertainly-lib.util.format.jdbcUrl`               | Format the JDBC URL connection string based in the database configuration values |
 | `czertainly-lib.util.format.netUrl`                | Format the .NET URL connection string based in the database configuration values |
+
+### Images
+
+| Identifier                           | Description                                       |
+|--------------------------------------|---------------------------------------------------|
+| `czertainly-lib.images.image`        | Prepares the image name from the image properties |
+| `czertainly-lib.images.pullSecrets`  | Prepares the image pull secret names              |
