@@ -1,6 +1,11 @@
+# Default values for cryptosense-discovery-provider.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
 nameOverride: ""
 fullnameOverride: ""
 
+# Global parameters that will overwrite local parameters
 global:
   imagePullSecrets: []
   database:
@@ -10,8 +15,6 @@ global:
     name: ""
     username: ""
     password: ""
-  trusted:
-    certificates: ""
   httpProxy: ""
   httpsProxy: ""
   noProxy: ""
@@ -25,8 +28,6 @@ database:
   name: "czertainlydb"
   username: "czertainlyuser"
   password: "your-strong-password"
-trusted:
-  certificates: ""
 httpProxy: ""
 httpsProxy: ""
 noProxy: ""
@@ -41,7 +42,7 @@ autoscaling:
 replicaCount: 1
 
 service:
-  type: ClusterIP
+  type: "ClusterIP"
   port: 8080  
 
 image:
@@ -52,8 +53,6 @@ image:
 
 logging:
   level: "INFO" 
-
-
 
 serviceAccount:
   # Specifies whether a service account should be created

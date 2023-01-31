@@ -9,11 +9,13 @@ helm dependency update charts/api-gateway-kong
 helm dependency update charts/auth-opa-policies
 helm dependency update charts/auth-service
 helm dependency update charts/common-credential-provider
+helm dependency update charts/cryptosense-discovery-provider
 helm dependency update charts/ejbca-ng-connector
 helm dependency update charts/fe-administrator
 helm dependency update charts/ms-adcs-connector
 helm dependency update charts/network-discovery-provider
 helm dependency update charts/x509-compliance-provider
+
 
 # finally, update czertainly umbrella chart
 helm dependency update charts/czertainly

@@ -39,7 +39,7 @@ dependencies:
     alias: x509ComplianceProvider
   - condition: cryptosenseDiscoveryProvider.enabled
     name: cryptosense-discovery-provider
-    repository: file://../cryptosense-discovery-provider
+    repository: oci://harbor.3key.company/czertainly-helm
     tags:
      - cryptosense-discovery-provider
     version: 0.1.0

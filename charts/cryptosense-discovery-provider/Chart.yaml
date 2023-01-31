@@ -1,25 +1,15 @@
 annotation: 
   category: trustLifecycleManagement
 apiVersion: v2
+appVersion: 1.1.0
 name: cryptosense-discovery-provider
-description: A Helm chart for cryptosense discovery connector for CZERTAINLY platform.
-
-type: application
-
+description: A Helm chart for Cryptosense Discovery Provider for CZERTAINLY platform.
+home: https://github.com/3KeyCompany/CZERTAINLY-Cryptosense-Discovery-Provider
+icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 dependencies:
   - name: czertainly-lib
     version: 0.1.0
     repository: oci://harbor.3key.company/czertainly-helm
-
-version: 0.1.0
-appVersion: 1.1.0
-
-
-maintainers:
-  - name: CZERTAINLY
-    email: info@czertainly.com
-    url: https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts
-
 keywords:
   - czertainly
   - trust
@@ -27,5 +17,15 @@ keywords:
   - lifecycle
   - platform
   - cryptosense
+  - discovery
   - provider
-
+maintainers:
+  - name: CZERTAINLY
+    email: info@czertainly.com
+    url: https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts
+type: application
+sources:
+  - https://github.com/3KeyCompany/CZERTAINLY
+  - https://www.czertainly.com
+  - https://docs.czertainly.com
+version: 0.1.0
