@@ -26,7 +26,7 @@ spec:
       initContainers:
         - name: wait-for-auth-service
           image: {{ include "czertainly.curl.image" . }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.curl.image.pullPolicy }}
           command:
             - /bin/sh
             - -c
@@ -36,8 +36,8 @@ spec:
               echo "auth service seems to be started"
       containers:
         - name: czertainly-auth-opa
-          image: {{ include "czertainly.authOpaPolicies.image" . }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: {{ include "czertainly.opa.image" . }}
+          imagePullPolicy: {{ .Values.opa.image.pullPolicy }}
           ports:
             - containerPort: 8181
           args:

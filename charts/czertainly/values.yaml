@@ -159,6 +159,18 @@ kubectl:
     # array of secret names
     pullSecrets: []
 
+opa:
+  image:
+    # default registry name
+    registry: docker.io
+    repository: openpolicyagent/opa
+    tag: 0.45.0
+    # the digest to be used instead of the tag
+    digest: ""
+    pullPolicy: IfNotPresent
+    # array of secret names
+    pullSecrets: []
+
 logging:
   level: "INFO"
   audit:
