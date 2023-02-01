@@ -24,7 +24,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: register-connectors-job
-          image: "alpine/curl"
+          image: {{ include "czertainly.curl.image" . }}
           command:
           - /bin/sh
           - -c

@@ -145,7 +145,19 @@ curl:
     digest: ""
     pullPolicy: IfNotPresent
     # array of secret names
-    pullSecrets: [ ]
+    pullSecrets: []
+
+kubectl:
+  image:
+    # default registry name
+    registry: docker.io
+    repository: bitnami/kubectl
+    tag: 1.26.1
+    # the digest to be used instead of the tag
+    digest: ""
+    pullPolicy: IfNotPresent
+    # array of secret names
+    pullSecrets: []
 
 logging:
   level: "INFO"

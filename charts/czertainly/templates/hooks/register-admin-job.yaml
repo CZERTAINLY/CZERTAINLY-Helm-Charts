@@ -25,7 +25,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: register-admin-job
-          image: "bitnami/kubectl"
+          image: {{ include "czertainly.kubectl.image" . }}
           command:
           - /bin/sh
           - -c

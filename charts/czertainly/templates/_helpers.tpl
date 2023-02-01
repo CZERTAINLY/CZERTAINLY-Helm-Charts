@@ -89,8 +89,15 @@ Return the image name of the auth-service
 {{- end -}}
 
 {{/*
+Return the image name of the auth-service
+*/}}
+{{- define "czertainly.kubectl.image" -}}
+{{ include "czertainly-lib.images.image" (dict "image" .Values.kubectl.image "global" .Values.global) }}
+{{- end -}}
+
+{{/*
 Return the image pull secret names
 */}}
 {{- define "czertainly.imagePullSecrets" -}}
-{{ include "czertainly-lib.images.pullSecrets" (dict "images" (list .Values.image .Values.authOpaPolicies.image .Values.curl.image) "global" .Values.global) }}
+{{ include "czertainly-lib.images.pullSecrets" (dict "images" (list .Values.image .Values.authOpaPolicies.image .Values.curl.image .Values.kubectl.image) "global" .Values.global) }}
 {{- end -}}
