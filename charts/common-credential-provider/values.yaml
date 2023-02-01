@@ -8,6 +8,7 @@ fullnameOverride: ""
 global:
   image:
     registry: ""
+    # array of secret names
     pullSecrets: []
 
 autoscaling:
@@ -30,6 +31,7 @@ image:
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
+  # array of secret names
   pullSecrets: []
 
 logging:
