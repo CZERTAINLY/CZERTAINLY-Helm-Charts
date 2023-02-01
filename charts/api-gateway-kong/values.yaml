@@ -3,17 +3,24 @@
 # Declare variables to be passed into your templates.
 
 global:
-  imagePullSecrets: []
+  image:
+    registry: ""
+    # array of secret names
+    pullSecrets: []
 
 replicaCount: 1
 
 image:
+  # default registry name
+  registry: docker.io
   repository: revomatico/docker-kong-oidc
+  tag: 3.0.0-6
+  # the digest to be used instead of the tag
+  digest: ""
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  # array of secret names
+  pullSecrets: []
 
-imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 

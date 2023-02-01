@@ -4,7 +4,10 @@
 
 # Global parameters that will overwrite local parameters
 global:
-  imagePullSecrets: []
+  image:
+    registry: ""
+    # array of secret names
+    pullSecrets: []
   database:
     # currently only postgresql is supported
     type: "postgresql"
@@ -13,7 +16,6 @@ global:
     name: "czertainlydb"
     username: "czertainlyuser"
     password: "your-strong-password"
-
   trusted:
     # CZERTAINLY Dummy Root CA
     certificates: |
@@ -53,7 +55,6 @@ global:
   httpsProxy: ""
   noProxy: ""
 
-imagePullSecrets: []
 database:
   type: ""
   host: ""
@@ -124,10 +125,27 @@ service:
   port: 8080
 
 image:
+  # default registry name
+  registry: docker.io
   repository: 3keycompany/czertainly-core
+  tag: 2.5.2
+  # the digest to be used instead of the tag
+  digest: ""
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  # array of secret names
+  pullSecrets: []
+
+curl:
+  image:
+    # default registry name
+    registry: docker.io
+    repository: alpine/curl
+    tag: 3.14
+    # the digest to be used instead of the tag
+    digest: ""
+    pullPolicy: IfNotPresent
+    # array of secret names
+    pullSecrets: [ ]
 
 logging:
   level: "INFO"

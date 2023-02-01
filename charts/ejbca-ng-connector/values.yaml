@@ -7,7 +7,10 @@ fullnameOverride: ""
 
 # Global parameters that will overwrite local parameters
 global:
-  imagePullSecrets: []
+  image:
+    registry: ""
+    # array of secret names
+    pullSecrets: []
   database:
     type: ""
     host: ""
@@ -21,7 +24,6 @@ global:
   httpsProxy: ""
   noProxy: ""
 
-imagePullSecrets: []
 database:
   # currently only postgresql is supported
   type: "postgresql"
@@ -49,10 +51,15 @@ service:
   port: 8080
 
 image:
+  # default registry name
+  registry: docker.io
   repository: 3keycompany/czertainly-ejbca-ng-connector
+  tag: 1.2.0
+  # the digest to be used instead of the tag
+  digest: ""
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  # array of secret names
+  pullSecrets: []
 
 logging:
   level: "INFO"

@@ -3,21 +3,28 @@
 # Declare variables to be passed into your templates.
 
 global:
-  imagePullSecrets: []
+  image:
+    registry: ""
+    # array of secret names
+    pullSecrets: []
 
 replicaCount: 1
 
 image:
-  repository: harbor.3key.company/czertainly/czertainly-x509-compliance-provider
+  # default registry name
+  registry: harbor.3key.company
+  repository: czertainly/czertainly-x509-compliance-provider
+  tag: 1.0.0
+  # the digest to be used instead of the tag
+  digest: ""
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  # array of secret names
+  pullSecrets: []
 
 logging:
   # possible values are: INFO, DEBUG, WARN, ERROR, PANIC, FATAL
   level: "INFO"
 
-imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 

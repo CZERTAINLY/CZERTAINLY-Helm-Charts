@@ -22,13 +22,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- with .Values.global.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- include "czertainly.imagePullSecrets" . | indent 6 }}
       initContainers:
         - name: wait-for-auth-service
-          image: "alpine/curl"
+          image: {{ include "czertainly.curl.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - /bin/sh
@@ -39,7 +36,7 @@ spec:
               echo "auth service seems to be started"
       containers:
         - name: czertainly-auth-opa
-          image: openpolicyagent/opa:0.45.0
+          image: {{ include "czertainly.authOpaPolicies.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 8181
@@ -52,7 +49,7 @@ spec:
             - "--set=bundles.nginx.service=nginx"
             - "--set=bundles.nginx.resource=bundles/bundle.tar.gz"
         - name: czertainly-core
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ include "czertainly.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: AUDITLOG_ENABLED

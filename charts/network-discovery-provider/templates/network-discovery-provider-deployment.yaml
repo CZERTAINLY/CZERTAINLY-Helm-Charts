@@ -24,13 +24,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- with $imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- include "network-discovery-provider.imagePullSecrets" . | indent 6 }}
       containers:
       - name: network-discovery-provider
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        image: {{ include "network-discovery-provider.image" . }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: PORT

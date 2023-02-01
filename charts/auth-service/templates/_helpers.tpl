@@ -60,3 +60,17 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Return the image name
+*/}}
+{{- define "auth-service.image" -}}
+{{ include "czertainly-lib.images.image" (dict "image" .Values.image "global" .Values.global) }}
+{{- end -}}
+
+{{/*
+Return the image pull secret names
+*/}}
+{{- define "auth-service.imagePullSecrets" -}}
+{{ include "czertainly-lib.images.pullSecrets" (dict "images" (list .Values.image) "global" .Values.global) }}
+{{- end -}}

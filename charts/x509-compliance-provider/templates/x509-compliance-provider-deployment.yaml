@@ -21,13 +21,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- with $imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- include "x509-compliance-provider.imagePullSecrets" . | indent 6 }}
       containers:
-        - name: common-credential-provider
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: x509-compliance-provider
+          image: {{ include "x509-compliance-provider.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: SERVER_PORT

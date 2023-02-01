@@ -67,19 +67,25 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                   | Default value | Description                                                                       |
-|-----------------------------|---------------|-----------------------------------------------------------------------------------|
-| global.imagePullSecrets     | `[]`          | Name of the registered credential as a secret to access private CZERTAINLY images |
+| Parameter                | Default value | Description                                 |
+|--------------------------|---------------|---------------------------------------------|
+| global.image.registry    | `""`          | Global docker registry name                 |
+| global.image.pullSecrets | `[]`          | Global array of secret names for image pull |
 
-### Auth OPA Policies parameters
+### Local parameters
 
 The following values may be configured:
 
-| Parameter            | Default value            | Description                                                                       |
-|----------------------|--------------------------|-----------------------------------------------------------------------------------|
-| imagePullSecrets     | `[]`                     | Name of the registered credential as a secret to access private CZERTAINLY images |
-| service.type         | `"ClusterIP"`            | Type of the service that is exposed                                               |
-| service.port         | `80`                     | Port number of the exposed service                                                |
+| Parameter         | Default value                              | Description                                         |
+|-------------------|--------------------------------------------|-----------------------------------------------------|
+| image.registry    | `docker.io`                                | Docker registry name for the image                  |
+| image.repository  | `3keycompany/czertainly-auth-opa-policies` | Docker image repository name                        |
+| image.tag         | `1.0.0`                                    | Docker image tag                                    |
+| image.digest      | `""`                                       | Docker image digest, will override tag if specified |
+| image.pullPolicy  | `IfNotPresent`                             | Image pull policy                                   |
+| image.pullSecrets | `[]`                                       | Array of secret names for image pull                |
+| service.type      | `"ClusterIP"`                              | Type of the service that is exposed                 |
+| service.port      | `80`                                       | Port number of the exposed service                  |
 
 ### Additional parameters
 

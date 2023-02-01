@@ -66,3 +66,31 @@ Create the name of the service account to use
 registerConnectors: true
 {{- end}}
 {{- end}}
+
+{{/*
+Return the image name
+*/}}
+{{- define "czertainly.image" -}}
+{{ include "czertainly-lib.images.image" (dict "image" .Values.image "global" .Values.global) }}
+{{- end -}}
+
+{{/*
+Return the image name of the auth-service
+*/}}
+{{- define "czertainly.authOpaPolicies.image" -}}
+{{ include "czertainly-lib.images.image" (dict "image" .Values.authOpaPolicies.image "global" .Values.global) }}
+{{- end -}}
+
+{{/*
+Return the image name of the auth-service
+*/}}
+{{- define "czertainly.curl.image" -}}
+{{ include "czertainly-lib.images.image" (dict "image" .Values.curl.image "global" .Values.global) }}
+{{- end -}}
+
+{{/*
+Return the image pull secret names
+*/}}
+{{- define "czertainly.imagePullSecrets" -}}
+{{ include "czertainly-lib.images.pullSecrets" (dict "images" (list .Values.image .Values.authOpaPolicies.image .Values.curl.image) "global" .Values.global) }}
+{{- end -}}
