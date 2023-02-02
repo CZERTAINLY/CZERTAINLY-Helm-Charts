@@ -7,7 +7,10 @@ fullnameOverride: ""
 
 # Global parameters that will overwrite local parameters
 global:
-  imagePullSecrets: []
+  image:
+    registry: ""
+    # array of secret names
+    pullSecrets: []
   database:
     type: ""
     host: ""
@@ -19,7 +22,6 @@ global:
   httpsProxy: ""
   noProxy: ""
 
-imagePullSecrets: []
 database:
   # currently only postgresql is supported
   type: "postgresql"
@@ -31,7 +33,6 @@ database:
 httpProxy: ""
 httpsProxy: ""
 noProxy: ""
-
 
 autoscaling:
   enabled: false
@@ -46,10 +47,15 @@ service:
   port: 8080  
 
 image:
-  repository: harbor.3key.company/czertainly/czertainly-cryptosense-discovery-provider
+  # default registry name
+  registry: harbor.3key.company
+  repository: czertainly/czertainly-cryptosense-discovery-provider
+  tag: 1.1.0
+  # the digest to be used instead of the tag
+  digest: ""
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  # array of secret names
+  pullSecrets: []
 
 logging:
   level: "INFO" 

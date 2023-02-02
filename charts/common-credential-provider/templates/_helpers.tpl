@@ -49,3 +49,17 @@ Selector labels
 app.kubernetes.io/name: common-credential-provider
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{/*
+Return the image name
+*/}}
+{{- define "common-credential-provider.image" -}}
+{{ include "czertainly-lib.images.image" (dict "image" .Values.image "global" .Values.global) }}
+{{- end -}}
+
+{{/*
+Return the image pull secret names
+*/}}
+{{- define "common-credential-provider.imagePullSecrets" -}}
+{{ include "czertainly-lib.images.pullSecrets" (dict "images" (list .Values.image) "global" .Values.global) }}
+{{- end -}}

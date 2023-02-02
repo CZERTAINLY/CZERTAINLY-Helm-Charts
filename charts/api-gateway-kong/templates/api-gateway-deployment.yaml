@@ -21,13 +21,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- with $imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- include "api-gateway-kong.imagePullSecrets" . | indent 6 }}
       containers:
         - name: api-gateway
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ include "api-gateway-kong.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: KONG_DATABASE

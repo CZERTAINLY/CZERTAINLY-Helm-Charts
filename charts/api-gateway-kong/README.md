@@ -67,17 +67,23 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                   | Default value                | Description                                                                       |
-|-----------------------------|------------------------------|-----------------------------------------------------------------------------------|
-| global.imagePullSecrets     | `[]`                         | Name of the registered credential as a secret to access private CZERTAINLY images |
+| Parameter                | Default value                | Description                                 |
+|--------------------------|------------------------------|---------------------------------------------|
+| global.image.registry    | `""`                         | Global docker registry name                 |
+| global.image.pullSecrets | `[]`                         | Global array of secret names for image pull |
 
-### API Gateway parameters
+### Local parameters
 
 The following values may be configured:
 
 | Parameter                    | Default value                                         | Description                                                                                |
 |------------------------------|-------------------------------------------------------|--------------------------------------------------------------------------------------------|
-| imagePullSecrets             | `[]`                                                  | Name of the registered credential as a secret to access private CZERTAINLY images          |
+| image.registry               | `docker.io`                                           | Docker registry name for the image                                                         |
+| image.repository             | `revomatico/docker-kong-oidc`                         | Docker image repository name                                                               |
+| image.tag                    | `3.0.0-6`                                             | Docker image tag                                                                           |
+| image.digest                 | `""`                                                  | Docker image digest, will override tag if specified                                        |
+| image.pullPolicy             | `IfNotPresent`                                        | Image pull policy                                                                          |
+| image.pullSecrets            | `[]`                                                  | Array of secret names for image pull                                                       |
 | logging.level                | `"info"`                                              | Allowed values are `debug`, `info`, `notice`, `warn`, `error`, `crit`, `alert`, or `emerg` |
 | service.type                 | `"ClusterIP"`                                         | Type of the service that is exposed                                                        |
 | service.admin.port           | `8001`                                                | Port number of the exposed admin service                                                   |

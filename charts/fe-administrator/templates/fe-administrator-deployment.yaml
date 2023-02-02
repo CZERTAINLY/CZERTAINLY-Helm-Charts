@@ -21,13 +21,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- with $imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- include "fe-administrator.imagePullSecrets" . | indent 6 }}
       containers:
         - name: fe-administrator
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ include "fe-administrator.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: BASE_URL

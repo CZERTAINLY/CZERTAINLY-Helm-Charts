@@ -49,3 +49,17 @@ Selector labels
 app.kubernetes.io/name: ejbca-ng-connector
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{/*
+Return the image name
+*/}}
+{{- define "ejbca-ng-connector.image" -}}
+{{ include "czertainly-lib.images.image" (dict "image" .Values.image "global" .Values.global) }}
+{{- end -}}
+
+{{/*
+Return the image pull secret names
+*/}}
+{{- define "ejbca-ng-connector.imagePullSecrets" -}}
+{{ include "czertainly-lib.images.pullSecrets" (dict "images" (list .Values.image) "global" .Values.global) }}
+{{- end -}}
