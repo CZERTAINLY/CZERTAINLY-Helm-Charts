@@ -17,6 +17,9 @@ dependencies:
 - name: network-discovery-provider
   repository: oci://harbor.3key.company/czertainly-helm
   version: 1.1.0
+- name: keystore-entity-provider
+  repository: oci://harbor.3key.company/czertainly-helm
+  version: 1.1.0
 - name: czertainly-lib
   repository: oci://harbor.3key.company/czertainly-helm
   version: 1.1.0
@@ -32,5 +35,5 @@ dependencies:
 - name: auth-opa-policies
   repository: oci://harbor.3key.company/czertainly-helm
   version: 1.0.0
-digest: sha256:73d6e5d66317306e66d23bb805539c25772916365a5b79078207b4e3fe737eef
-generated: "2023-02-01T13:38:54.894777+01:00"
+digest: sha256:cc01b2bde8882a276100a9ccd75db9f6e0e32fe88a239d823d99aa782fdcc5fe
+generated: "2023-02-04T11:36:50.075898+01:00"
