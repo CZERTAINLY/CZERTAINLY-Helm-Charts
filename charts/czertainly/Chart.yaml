@@ -51,6 +51,13 @@ dependencies:
      - discovery-provider
     version: 1.1.0
     alias: networkDiscoveryProvider
+  - condition: keystoreEntityProvider.enabled
+    name: keystore-entity-provider
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+      - entity-provider
+    version: 1.1.0
+    alias: keystoreEntityProvider
   # the following are mandatory dependencies
   - name: czertainly-lib
     repository: oci://harbor.3key.company/czertainly-helm

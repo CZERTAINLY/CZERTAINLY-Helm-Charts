@@ -60,5 +60,10 @@ spec:
             -d '{"name": "Network-Discovery-Provider","url": "http://network-discovery-provider-service:{{ .Values.networkDiscoveryProvider.service.port }}","authType": "none"}' \
             http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
             {{- end }}
+            {{- if .Values.keystoreEntityProvider.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "Keystore-Entity-Provider","url": "http://keystore-entity-provider-service:{{ .Values.keystoreEntityProvider.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
             echo "all done"
 {{- end }}

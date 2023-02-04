@@ -299,7 +299,7 @@ commonCredentialProvider:
   enabled: true
 
 ejbcaNgConnector:
-  enabled: true
+  enabled: false
 
 msAdcsConnector:
   enabled: false
@@ -308,8 +308,11 @@ x509ComplianceProvider:
   enabled: false
   
 cryptosenseDiscoveryProvider:
-  enabled: true 
+  enabled: false
 
 networkDiscoveryProvider:
+  enabled: false
+
+keystoreEntityProvider:
   enabled: false
   
