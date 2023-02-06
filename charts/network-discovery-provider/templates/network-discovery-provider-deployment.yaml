@@ -51,16 +51,16 @@ spec:
         - name: JDBC_USERNAME
           valueFrom:
             secretKeyRef:
-              name: ip-discovery-provider-secret
+              name: network-discovery-provider-secret
               key: username
         - name: JDBC_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: ip-discovery-provider-secret
+              name: network-discovery-provider-secret
               key: password
         ports:
           - containerPort: {{ .Values.service.port }}
       volumes:
-        - name: ip-discovery-provider-secret
+        - name: network-discovery-provider-secret
           secret:
-            secretName: ip-discovery-provider-secret
+            secretName: network-discovery-provider-secret
