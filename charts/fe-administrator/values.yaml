@@ -6,7 +6,10 @@ nameOverride: ""
 fullnameOverride: ""
 
 global:
-  imagePullSecrets: []
+  image:
+    registry: ""
+    # array of secret names
+    pullSecrets: []
 
 autoscaling:
   enabled: false
@@ -16,19 +19,26 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 replicaCount: 1
 
-imagePullSecrets: []
-
 service:
   type: "ClusterIP"
   port: 8080
 
 image:
+  # default registry name
+  registry: docker.io
   repository: 3keycompany/czertainly-frontend-administrator
+  tag: 2.4.0
+  # the digest to be used instead of the tag
+  digest: ""
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  # array of secret names
+  pullSecrets: []
 
-baseUrl: "/administrator"
+url:
+  base: "/administrator"
+  api: "/api"
+  login: "/login"
+  logout: "/logout"
 
 logging:
   level: "INFO"

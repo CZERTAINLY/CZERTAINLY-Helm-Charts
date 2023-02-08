@@ -1,0 +1,85 @@
+# Default values for network-discovery-provider.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+# Global parameters that will overwrite local parameters
+global:
+  image:
+    registry: ""
+    # array of secret names
+    pullSecrets: []
+  database:
+    type: ""
+    host: ""
+    port: ""
+    name: ""
+    username: ""
+    password: ""
+  httpProxy: ""
+  httpsProxy: ""
+  noProxy: ""
+
+database:
+  # currently only postgresql is supported
+  type: "postgresql"
+  host: "host.docker.internal"
+  port: 5432
+  name: "czertainlydb"
+  username: "czertainlyuser"
+  password: "your-strong-password"
+httpProxy: ""
+httpsProxy: ""
+noProxy: ""
+
+autoscaling: 
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+replicaCount: 1
+
+service:
+  type: "ClusterIP"
+  port: 8080  
+
+image:
+  # default registry name
+  registry: harbor.3key.company
+  repository: czertainly/czertainly-ip-discovery-provider
+  tag: 1.1.0
+  # the digest to be used instead of the tag
+  digest: ""
+  pullPolicy: IfNotPresent
+  # array of secret names
+  pullSecrets: []
+
+logging:
+  level: "INFO" 
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+

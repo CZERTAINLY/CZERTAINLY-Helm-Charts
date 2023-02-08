@@ -15,13 +15,29 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 
 ### List of charts
 
-- [CZERTAINLY](charts/czertainly)
+**Library**
 - [CZERTAINLY Library](charts/czertainly-lib)
-- [API Gateway HAProxy](charts/api-gateway-haproxy)
+
+**Core**
+- [CZERTAINLY](charts/czertainly) (**umbrella chart**)
+- [Auth Service](charts/auth-service)
+- [Auth OPA Policies](charts/auth-opa-policies)
+
+**API Gateways**
+- [API Gateway HAProxy](charts/api-gateway-haproxy) (**deprecated**)
+- [API Gateway Kong](charts/api-gateway-kong)
+
+**Front ends**
 - [FE Administrator](charts/fe-administrator)
+
+**Connectors**
 - [Common Credential Provider](charts/common-credential-provider)
 - [EJBCA NG Connector](charts/ejbca-ng-connector)
 - [MS ADCS Connector](charts/ms-adcs-connector)
+- [X.509 Compliance Provider](charts/x509-compliance-provider)
+- [Network Discovery Provider](charts/network-discovery-provider)
+- [Cryptosense Discovery Provider](charts/cryptosense-discovery-provider)
+- [Keystore Entity Provider](charts/keystore-entity-provider)
 
 ## Private containers
 

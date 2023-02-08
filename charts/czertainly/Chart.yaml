@@ -1,21 +1,18 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 2.4.0
+appVersion: 2.5.2
 name: czertainly
 description: A Helm chart for CZERTAINLY platform.
 home: https://github.com/3KeyCompany/CZERTAINLY
 icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 dependencies:
-  - name: czertainly-lib
-    version: 0.1.0
-    repository: oci://harbor.3key.company/czertainly-helm
   - condition: commonCredentialProvider.enabled
     name: common-credential-provider
     repository: oci://harbor.3key.company/czertainly-helm
     tags:
       - credential-provider
-    version: 0.1.0
+    version: 1.1.0
     alias: commonCredentialProvider
   - condition: ejbcaNgConnector.enabled
     name: ejbca-ng-connector
@@ -23,7 +20,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 0.2.0
+    version: 1.2.0
     alias: ejbcaNgConnector
   - condition: msAdcsConnector.enabled
     name: ms-adcs-connector
@@ -31,21 +28,65 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 0.2.0
+    version: 1.2.0
     alias: msAdcsConnector
+  - condition: x509ComplianceProvider.enabled
+    name: x509-compliance-provider
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+     - compliance-provider
+    version: 1.0.0
+    alias: x509ComplianceProvider
+  - condition: cryptosenseDiscoveryProvider.enabled
+    name: cryptosense-discovery-provider
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+     - cryptosense-discovery-provider
+    version: 1.1.0
+    alias: cryptosenseDiscoveryProvider  
+  - condition: networkDiscoveryProvider.enabled
+    name: network-discovery-provider
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+     - discovery-provider
+    version: 1.1.0
+    alias: networkDiscoveryProvider
+  - condition: keystoreEntityProvider.enabled
+    name: keystore-entity-provider
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+      - entity-provider
+    version: 1.1.0
+    alias: keystoreEntityProvider
   # the following are mandatory dependencies
-  - name: api-gateway-haproxy
+  - name: czertainly-lib
+    repository: oci://harbor.3key.company/czertainly-helm
+    version: 1.1.0
+  - name: api-gateway-kong
     repository: oci://harbor.3key.company/czertainly-helm
     tags:
       - api-gateway
-    version: 0.1.0
+    version: 3.0.0-6
     alias: apiGateway
   - name: fe-administrator
     repository: oci://harbor.3key.company/czertainly-helm
     tags:
       - fe
-    version: 0.2.0
+    version: 2.4.0
     alias: feAdministrator
+  - name: auth-service
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+      - auth
+    version: 1.0.0
+    alias: authService
+  - name: auth-opa-policies
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+      - auth
+      - opa
+    version: 1.0.0
+    alias: authOpaPolicies
 keywords:
   - czertainly
   - certificate
@@ -62,4 +103,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 0.2.0
+version: 2.5.2

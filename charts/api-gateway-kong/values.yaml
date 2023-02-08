@@ -1,0 +1,120 @@
+# Default values for api-gateway-kong.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  image:
+    registry: ""
+    # array of secret names
+    pullSecrets: []
+
+replicaCount: 1
+
+image:
+  # default registry name
+  registry: docker.io
+  repository: revomatico/docker-kong-oidc
+  tag: 3.0.0-6
+  # the digest to be used instead of the tag
+  digest: ""
+  pullPolicy: IfNotPresent
+  # array of secret names
+  pullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# kong admin and consumer ports
+service:
+  type: ClusterIP
+  admin:
+    port: 8001
+  consumer:
+    port: 8000
+
+backend:
+  core:
+    service:
+      name: "core-service"
+      port: 8080
+      apiUrl: "/api"
+  fe:
+    service:
+      name: "fe-administrator-service"
+      port: 80
+      baseUrl: "/administrator"
+      apiUrl: "/api"
+      loginUrl: "/login"
+      logoutUrl: "/logout"
+
+auth:
+  header:
+    cert:
+      upstream: "X-APP-CERTIFICATE"
+      downstream: "ssl-client-cert"
+
+logging:
+  level: "info"
+
+# kong-oidc plugin: https://github.com/revomatico/kong-oidc
+# this plugin inserts user data into X-USERINFO header
+oidc:
+  # if oidc is enabled, all client values must be present
+  enabled: false
+  client:
+    # oidc client id
+    id: czertainly
+    # oidc client secret
+    secret: s0qKH5qItTWoxpBt7Zrj348ZhZ7woAbk
+    # realm used in www-authenticate response header
+    realm: czertainly
+    # oidc discovery endpoint
+    discovery: https://server.com/.well-known/openid-configuration
+
+# kong cors plugin: https://docs.konghq.com/hub/kong-inc/cors
+cors:
+  enabled: false
+  # list of allowed domains for the Access-Control-Allow-Origin header
+  origins:
+    - '*'
+  # list of values for the Access-Control-Expose-Headers header
+  exposedHeaders:
+    - X-Auth-Token
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -29,13 +29,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- with $imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- include "ms-adcs-connector.imagePullSecrets" . | indent 6 }}
       containers:
       - name: ms-adcs-connector
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        image: {{ include "ms-adcs-connector.image" . }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: PORT
@@ -59,12 +56,12 @@ spec:
         - name: JDBC_USERNAME
           valueFrom:
             secretKeyRef:
-              name: ejbca-ng-connector-secret
+              name: ms-adcs-connector-secret
               key: username
         - name: JDBC_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: ejbca-ng-connector-secret
+              name: ms-adcs-connector-secret
               key: password
         ports:
           - containerPort: {{ .Values.service.port }}

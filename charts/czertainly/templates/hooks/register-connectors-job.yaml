@@ -24,7 +24,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: register-connectors-job
-          image: "alpine/curl"
+          image: {{ include "czertainly.curl.image" . }}
           command:
           - /bin/sh
           - -c
@@ -43,6 +43,26 @@ spec:
             {{- if .Values.msAdcsConnector.enabled }}
             curl -X POST -k -H 'content-type: application/json' \
             -d '{"name": "MS-ADCS-Connector","url": "http://ms-adcs-connector-service:{{ .Values.msAdcsConnector.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
+            {{- if .Values.cryptosenseDiscoveryProvider.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "Cryptosense-Discovery-Provider","url": "http://cryptosense-discovery-provider-service:{{ .Values.cryptosenseDiscoveryProvider.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
+            {{- if .Values.x509ComplianceProvider.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "X509-Compliance-Provider","url": "http://x509-compliance-provider-service:{{ .Values.x509ComplianceProvider.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
+            {{- if .Values.networkDiscoveryProvider.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "Network-Discovery-Provider","url": "http://network-discovery-provider-service:{{ .Values.networkDiscoveryProvider.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
+            {{- if .Values.keystoreEntityProvider.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "Keystore-Entity-Provider","url": "http://keystore-entity-provider-service:{{ .Values.keystoreEntityProvider.service.port }}","authType": "none"}' \
             http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
             {{- end }}
             echo "all done"

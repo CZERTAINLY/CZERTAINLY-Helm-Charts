@@ -67,21 +67,30 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                   | Default value                | Description                                                                       |
-|-----------------------------|------------------------------|-----------------------------------------------------------------------------------|
-| global.imagePullSecrets     | `[]`                         | Name of the registered credential as a secret to access private CZERTAINLY images |
+| Parameter                | Default value | Description                                 |
+|--------------------------|---------------|---------------------------------------------|
+| global.image.registry    | `""`          | Global docker registry name                 |
+| global.image.pullSecrets | `[]`          | Global array of secret names for image pull |
 
-### FE Administrator parameters
+### Local parameters
 
 The following values may be configured:
 
-| Parameter        | Default value      | Description                                                                       |
-|------------------|--------------------|-----------------------------------------------------------------------------------|
-| imagePullSecrets | `[]`               | Name of the registered credential as a secret to access private CZERTAINLY images |
-| logging.level    | `"INFO"`           | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`                       |
-| service.type     | `"ClusterIP"`      | Type of the service that is exposed                                               |
-| service.port     | `8080`             | Port number of the exposed service                                                |
-| baseUrl          | `"/administrator"` | Base URL for the web                                                              |
+| Parameter         | Default value                                   | Description                                                 |
+|-------------------|-------------------------------------------------|-------------------------------------------------------------|
+| image.registry    | `docker.io`                                     | Docker registry name for the image                          |
+| image.repository  | `3keycompany/czertainly-frontend-administrator` | Docker image repository name                                |
+| image.tag         | `2.4.0`                                         | Docker image tag                                            |
+| image.digest      | `""`                                            | Docker image digest, will override tag if specified         |
+| image.pullPolicy  | `IfNotPresent`                                  | Image pull policy                                           |
+| image.pullSecrets | `[]`                                            | Array of secret names for image pull                        |
+| logging.level     | `"INFO"`                                        | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"` |
+| service.type      | `"ClusterIP"`                                   | Type of the service that is exposed                         |
+| service.port      | `8080`                                          | Port number of the exposed service                          |
+| url.base          | `"/administrator"`                              | Base URL for the web                                        |
+| url.api           | `"/api"`                                        | URL for the api requests                                    |
+| url.login         | `"/login"`                                      | Login URL for authentication of the user                    |
+| url.logou         | `"/logout"`                                     | Logout URL for logout of the user                           |
 
 ### Additional parameters
 

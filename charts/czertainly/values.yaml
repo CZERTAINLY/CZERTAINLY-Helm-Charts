@@ -4,7 +4,10 @@
 
 # Global parameters that will overwrite local parameters
 global:
-  imagePullSecrets: []
+  image:
+    registry: ""
+    # array of secret names
+    pullSecrets: []
   database:
     # currently only postgresql is supported
     type: "postgresql"
@@ -52,7 +55,6 @@ global:
   httpsProxy: ""
   noProxy: ""
 
-imagePullSecrets: []
 database:
   type: ""
   host: ""
@@ -123,13 +125,61 @@ service:
   port: 8080
 
 image:
+  # default registry name
+  registry: docker.io
   repository: 3keycompany/czertainly-core
+  tag: 2.5.2
+  # the digest to be used instead of the tag
+  digest: ""
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  # array of secret names
+  pullSecrets: []
+
+curl:
+  image:
+    # default registry name
+    registry: docker.io
+    repository: alpine/curl
+    tag: 3.14
+    # the digest to be used instead of the tag
+    digest: ""
+    pullPolicy: IfNotPresent
+    # array of secret names
+    pullSecrets: []
+
+kubectl:
+  image:
+    # default registry name
+    registry: docker.io
+    repository: bitnami/kubectl
+    tag: 1.26.1
+    # the digest to be used instead of the tag
+    digest: ""
+    pullPolicy: IfNotPresent
+    # array of secret names
+    pullSecrets: []
+
+opa:
+  image:
+    # default registry name
+    registry: docker.io
+    repository: openpolicyagent/opa
+    tag: 0.45.0
+    # the digest to be used instead of the tag
+    digest: ""
+    pullPolicy: IfNotPresent
+    # array of secret names
+    pullSecrets: []
 
 logging:
   level: "INFO"
+  audit:
+    enabled: "false"
+
+auth:
+  header:
+    token: "X-USERINFO"
+    certificate: "X-APP-CERTIFICATE"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -226,7 +276,8 @@ apiGateway:
   replicaCount: 1
   service:
     type: "ClusterIP"
-    port: 8080
+    consumer:
+      port: 8000
 
 feAdministrator:
   autoscaling:
@@ -248,7 +299,20 @@ commonCredentialProvider:
   enabled: true
 
 ejbcaNgConnector:
-  enabled: true
+  enabled: false
 
 msAdcsConnector:
   enabled: false
+
+x509ComplianceProvider:
+  enabled: false
+  
+cryptosenseDiscoveryProvider:
+  enabled: false
+
+networkDiscoveryProvider:
+  enabled: false
+
+keystoreEntityProvider:
+  enabled: false
+  
