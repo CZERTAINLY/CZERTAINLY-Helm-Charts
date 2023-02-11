@@ -63,24 +63,16 @@ spec:
             secretKeyRef:
               name: ejbca-ng-connector-secret
               key: password
+        {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
+        - name: TRUSTED_CERTIFICATES
+          valueFrom:
+            secretKeyRef:
+              {{- if .Values.global.trusted.certificates }}
+              name: trusted-certificates
+              {{- else if .Values.trusted.certificates }}
+              name: trusted-certificates-{{ .Chart.Name | lower }}
+              {{- end }}
+              key: ca.crt
+        {{- end }}
         ports:
           - containerPort: {{ .Values.service.port }}
-        {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
-        volumeMounts:
-          - name: trusted-certificates-volume
-            mountPath: /opt/czertainly/trusted-certificates.pem
-            subPath: ca.crt
-        {{- end }}
-      volumes:
-        - name: ejbca-ng-connector-secret
-          secret:
-            secretName: ejbca-ng-connector-secret
-        {{- if .Values.global.trusted.certificates }}
-        - name: trusted-certificates-volume
-          secret:
-            secretName: trusted-certificates
-        {{- else if .Values.trusted.certificates }}
-        - name: trusted-certificates-volume
-          secret:
-            secretName: trusted-certificates-{{ .Chart.Name | lower }}
-        {{- end }}

@@ -106,6 +106,7 @@ The following values may be configured:
 | logging.level     | `"INFO"`                                         | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
 | service.type      | `"ClusterIP"`                                    | Type of the service that is exposed                                   |
 | service.port      | `8080`                                           | Port number of the exposed service                                    |
+| javaOpts          | `""`                                             | Customize Java system properties                                      |
 
 ### Additional parameters
 

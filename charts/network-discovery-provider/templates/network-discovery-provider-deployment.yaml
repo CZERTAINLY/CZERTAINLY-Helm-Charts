@@ -58,9 +58,7 @@ spec:
             secretKeyRef:
               name: network-discovery-provider-secret
               key: password
+        - name: JAVA_OPTS
+          value: {{ .Values.javaOpts | quote }}
         ports:
           - containerPort: {{ .Values.service.port }}
-      volumes:
-        - name: network-discovery-provider-secret
-          secret:
-            secretName: network-discovery-provider-secret
