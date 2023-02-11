@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 1.0.0
+appVersion: 1.1.0
 name: x509-compliance-provider
 description: A Helm chart for X509 Compliance Provider for CZERTAINLY platform.
 home: https://github.com/3KeyCompany/CZERTAINLY-Common-Credential-Provider
@@ -27,4 +27,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 1.0.0
+version: 1.1.0

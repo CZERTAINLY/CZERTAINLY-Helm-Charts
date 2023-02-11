@@ -60,7 +60,3 @@ spec:
               key: password
         ports:
           - containerPort: {{ .Values.service.port }}
-      volumes:
-        - name: cryptosense-discovery-provider-secret
-          secret:
-            secretName: cryptosense-discovery-provider-secret

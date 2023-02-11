@@ -27,7 +27,7 @@ image:
   # default registry name
   registry: docker.io
   repository: 3keycompany/czertainly-common-credential-provider
-  tag: 1.1.0
+  tag: 1.2.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -36,6 +36,9 @@ image:
 
 logging:
   level: "INFO"
+
+includeError: "always"
+javaOpts: ""
 
 serviceAccount:
   # Specifies whether a service account should be created

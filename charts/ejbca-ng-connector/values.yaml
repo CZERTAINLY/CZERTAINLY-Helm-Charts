@@ -54,7 +54,7 @@ image:
   # default registry name
   registry: docker.io
   repository: 3keycompany/czertainly-ejbca-ng-connector
-  tag: 1.2.0
+  tag: 1.3.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent

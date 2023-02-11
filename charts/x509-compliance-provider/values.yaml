@@ -12,9 +12,9 @@ replicaCount: 1
 
 image:
   # default registry name
-  registry: harbor.3key.company
-  repository: czertainly/czertainly-x509-compliance-provider
-  tag: 1.0.0
+  registry: docker.io
+  repository: 3keycompany/czertainly-x509-compliance-provider
+  tag: 1.1.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent

@@ -48,9 +48,9 @@ service:
 
 image:
   # default registry name
-  registry: harbor.3key.company
-  repository: czertainly/czertainly-keystore-entity-provider
-  tag: 1.1.0
+  registry: docker.io
+  repository: 3keycompany/czertainly-keystore-entity-provider
+  tag: 1.2.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -59,6 +59,8 @@ image:
 
 logging:
   level: "INFO"
+
+javaOpts: ""
 
 podAnnotations: {}
 
