@@ -86,27 +86,27 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter         | Default value                                 | Description                                                           |
-|-------------------|-----------------------------------------------|-----------------------------------------------------------------------|
-| image.registry    | `harbor.3key.company`                         | Docker registry name for the image                                    |
-| image.repository  | `czertainly/czertainly-ip-discovery-provider` | Docker image repository name                                          |
-| image.tag         | `1.1.0`                                       | Docker image tag                                                      |
-| image.digest      | `""`                                          | Docker image digest, will override tag if specified                   |
-| image.pullPolicy  | `IfNotPresent`                                | Image pull policy                                                     |
-| image.pullSecrets | `[]`                                          | Array of secret names for image pull                                  |
-| database.type     | `"postgresql"`                                | Type of the database, currently only `postgresql` is supported        |
-| database.host     | `"host.docker.internal"`                      | Host where is the database located                                    |
-| database.port     | `5432`                                        | Port on which is the database listening                               |
-| database.name     | `"czertainlydb"`                              | Database name                                                         |
-| database.username | `"czertainlyuser"`                            | Username to access the database                                       |
-| database.password | `"your-strong-password"`                      | Password to access the database                                       |
-| httpProxy         | `""`                                          | Proxy to be used to access external resources through http            |
-| httpsProxy        | `""`                                          | Proxy to be used to access external resources through https           |
-| httpProxy         | `""`                                          | Defines list of external resources that should not use proxy settings |
-| logging.level     | `"INFO"`                                      | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
-| service.type      | `"ClusterIP"`                                 | Type of the service that is exposed                                   |
-| service.port      | `8080`                                        | Port number of the exposed service                                    |
-| javaOpts          | `""`                                          | Customize Java system properties                                      |
+| Parameter         | Default value                                  | Description                                                           |
+|-------------------|------------------------------------------------|-----------------------------------------------------------------------|
+| image.registry    | `docker.io`                                    | Docker registry name for the image                                    |
+| image.repository  | `3keycompany/czertainly-ip-discovery-provider` | Docker image repository name                                          |
+| image.tag         | `1.2.0`                                        | Docker image tag                                                      |
+| image.digest      | `""`                                           | Docker image digest, will override tag if specified                   |
+| image.pullPolicy  | `IfNotPresent`                                 | Image pull policy                                                     |
+| image.pullSecrets | `[]`                                           | Array of secret names for image pull                                  |
+| database.type     | `"postgresql"`                                 | Type of the database, currently only `postgresql` is supported        |
+| database.host     | `"host.docker.internal"`                       | Host where is the database located                                    |
+| database.port     | `5432`                                         | Port on which is the database listening                               |
+| database.name     | `"czertainlydb"`                               | Database name                                                         |
+| database.username | `"czertainlyuser"`                             | Username to access the database                                       |
+| database.password | `"your-strong-password"`                       | Password to access the database                                       |
+| httpProxy         | `""`                                           | Proxy to be used to access external resources through http            |
+| httpsProxy        | `""`                                           | Proxy to be used to access external resources through https           |
+| httpProxy         | `""`                                           | Defines list of external resources that should not use proxy settings |
+| logging.level     | `"INFO"`                                       | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
+| service.type      | `"ClusterIP"`                                  | Type of the service that is exposed                                   |
+| service.port      | `8080`                                         | Port number of the exposed service                                    |
+| javaOpts          | `""`                                           | Customize Java system properties                                      |
 
 ### Additional parameters
 
