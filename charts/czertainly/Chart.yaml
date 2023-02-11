@@ -58,6 +58,13 @@ dependencies:
       - entity-provider
     version: 1.2.0
     alias: keystoreEntityProvider
+  - condition: softwareCryptographyProvider.enabled
+    name: software-cryptography-provider
+    repository: oci://harbor.3key.company/czertainly-helm
+    tags:
+      - cryptography-provider
+    version: 1.0.0
+    alias: softwareCryptographyProvider
   # the following are mandatory dependencies
   - name: czertainly-lib
     repository: oci://harbor.3key.company/czertainly-helm
