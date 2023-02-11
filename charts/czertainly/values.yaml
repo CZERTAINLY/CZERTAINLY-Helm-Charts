@@ -317,4 +317,7 @@ networkDiscoveryProvider:
 
 keystoreEntityProvider:
   enabled: false
+
+softwareCryptographyProvider:
+  enabled: false
   
