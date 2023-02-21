@@ -7,6 +7,16 @@ data:
     _format_version: '2.1'
     _transform: true
     services:
+      - name: acme
+        host: {{ .Values.backend.core.service.name }}
+        port: {{ .Values.backend.core.service.port }}
+        protocol: http
+        routes:
+          - name: acme_route
+            strip_path: false
+            preserve_host: true
+            paths:
+              - {{ .Values.backend.core.service.apiUrl}}/acme      
       - name: core
         host: {{ .Values.backend.core.service.name }}
         port: {{ .Values.backend.core.service.port }}
@@ -14,8 +24,9 @@ data:
         routes:
           - name: core_route-cert
             strip_path: false
+            preserve_host: true
             paths:
-              - {{ .Values.backend.core.service.apiUrl}}*
+              - {{ .Values.backend.core.service.apiUrl}}
             headers:
               ssl-client-cert:
                 - ~*(.*?)
@@ -28,8 +39,9 @@ data:
           {{- if .Values.oidc.enabled }}
           - name: core_route-oidc
             strip_path: false
+            preserve_host: true
             paths:
-              - {{ .Values.backend.core.service.apiUrl}}*
+              - {{ .Values.backend.core.service.apiUrl}}
             plugins:
               - name: oidc
                 config:
@@ -55,7 +67,7 @@ data:
             preserve_host: true
             strip_path: true
             paths:
-              - {{ .Values.backend.fe.service.baseUrl}}*
+              - {{ .Values.backend.fe.service.baseUrl}}
             headers:
               ssl-client-cert:
                 - ~*(.*?)
@@ -121,7 +133,7 @@ data:
             strip_path: true
             preserve_host: true
             paths:
-              - {{ .Values.backend.fe.service.baseUrl}}*
+              - {{ .Values.backend.fe.service.baseUrl}}
           {{- end }}
     {{- if .Values.cors.enabled }}
     plugins:

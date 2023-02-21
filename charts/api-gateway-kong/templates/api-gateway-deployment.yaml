@@ -49,6 +49,10 @@ spec:
               value: "950"
             - name: KONG_X_SESSION_COMPRESSOR
               value: "zlib"
+            {{- if .Values.trustedIps }}
+            - name: KONG_TRUSTED_IPS
+              value: {{ .Values.trustedIps | quote }}
+            {{- end }}
           ports:
             - containerPort: 8000
               name: consumer-http

@@ -107,6 +107,7 @@ The following values may be configured:
 | cors.enabled                 | `false`                                               | Whether CORS plugin should be enabled                                                      |
 | cors.origins                 | `['*']`                                               | List of allowed domains for the Access-Control-Allow-Origin header                         |
 | cors.exposedHeaders          | `[X-Auth-Token]`                                      | List of values for the Access-Control-Expose-Headers header                                |
+| trustedIps                   | `""`                                                  | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
 
 ### Additional parameters
 
