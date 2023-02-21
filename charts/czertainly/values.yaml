@@ -280,6 +280,7 @@ apiGateway:
     type: "ClusterIP"
     consumer:
       port: 8000
+  trustedIps: ""
 
 feAdministrator:
   autoscaling:

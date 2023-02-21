@@ -73,7 +73,7 @@ dependencies:
     repository: oci://harbor.3key.company/czertainly-helm
     tags:
       - api-gateway
-    version: 3.0.0-6
+    version: 3.0.0-6-1
     alias: apiGateway
   - name: fe-administrator
     repository: oci://harbor.3key.company/czertainly-helm
