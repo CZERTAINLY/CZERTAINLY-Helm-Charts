@@ -38,6 +38,7 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 - [Network Discovery Provider](charts/network-discovery-provider)
 - [Cryptosense Discovery Provider](charts/cryptosense-discovery-provider)
 - [Keystore Entity Provider](charts/keystore-entity-provider)
+- [Software Cryptography Provider](charts/software-cryptography-provider)
 
 ## Private containers
 

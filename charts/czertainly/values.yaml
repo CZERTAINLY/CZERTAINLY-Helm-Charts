@@ -61,7 +61,7 @@ database:
   port: ""
   name: ""
   username: ""
-  password: "d"
+  password: ""
 trusted:
   certificates: ""
 httpProxy: ""
@@ -128,7 +128,7 @@ image:
   # default registry name
   registry: docker.io
   repository: 3keycompany/czertainly-core
-  tag: 2.5.2
+  tag: 2.6.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -175,6 +175,8 @@ logging:
   level: "INFO"
   audit:
     enabled: "false"
+
+javaOpts: ""
 
 auth:
   header:
@@ -278,6 +280,7 @@ apiGateway:
     type: "ClusterIP"
     consumer:
       port: 8000
+  trustedIps: ""
 
 feAdministrator:
   autoscaling:
@@ -314,5 +317,8 @@ networkDiscoveryProvider:
   enabled: false
 
 keystoreEntityProvider:
+  enabled: false
+
+softwareCryptographyProvider:
   enabled: false
   

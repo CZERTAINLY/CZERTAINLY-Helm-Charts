@@ -102,6 +102,15 @@ spec:
               value: "http://localhost:8181"
             - name: AUTH_SERVICE_BASE_URL
               value: "http://auth-service"
+            {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
+            - name: TRUSTED_CERTIFICATES
+              valueFrom:
+                secretKeyRef:
+                  name: trusted-certificates
+                  key: ca.crt
+            {{- end }}
+            - name: JAVA_OPTS
+              value: {{ .Values.javaOpts | quote }}
           ports:
             - containerPort: {{ .Values.service.port }}
           readinessProbe:
@@ -124,7 +133,6 @@ spec:
                   - "sh"
                   - "-c"
                   - |
-                    apk add curl &&
                     while ! nc -z localhost {{ .Values.service.port }}; do sleep 1; done &&
                     while ! nc -z localhost 8181; do sleep 1; done &&
                     ADMIN_CERT=$( echo $ADMIN_CERT | awk '{gsub(/[[:blank:]]/,""); print}' ) &&
@@ -145,14 +153,3 @@ spec:
                      }' \
                      http://localhost:{{ .Values.service.port }}/api/v1/local/admins
           {{- end }}
-          volumeMounts:
-            - name: trusted-certificates-volume
-              mountPath: /opt/czertainly/trusted-certificates.pem
-              subPath: ca.crt
-      volumes:
-        - name: trusted-certificates-volume
-          secret:
-            secretName: trusted-certificates
-        - name: core-secret
-          secret:
-            secretName: core-secret

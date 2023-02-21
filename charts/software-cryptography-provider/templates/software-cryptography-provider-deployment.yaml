@@ -5,29 +5,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: network-discovery-provider-deployment
+  name: software-cryptography-provider-deployment
   labels:
-    {{- include "network-discovery-provider.labels" . | nindent 4 }}
+    {{- include "software-cryptography-provider.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "network-discovery-provider.selectorLabels" . | nindent 6 }}
+      {{- include "software-cryptography-provider.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "network-discovery-provider.selectorLabels" . | nindent 8 }}
+        {{- include "software-cryptography-provider.selectorLabels" . | nindent 8 }}
       {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- include "network-discovery-provider.imagePullSecrets" . | indent 6 }}
+      {{- include "software-cryptography-provider.imagePullSecrets" . | indent 6 }}
       containers:
-      - name: network-discovery-provider
-        image: {{ include "network-discovery-provider.image" . }}
+      - name: software-cryptography-provider
+        image: {{ include "software-cryptography-provider.image" . }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: PORT
@@ -51,13 +51,15 @@ spec:
         - name: JDBC_USERNAME
           valueFrom:
             secretKeyRef:
-              name: network-discovery-provider-secret
+              name: software-cryptography-provider-secret
               key: username
         - name: JDBC_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: network-discovery-provider-secret
+              name: software-cryptography-provider-secret
               key: password
+        - name: TOKEN_DELETE_ON_REMOVE
+          value: {{ .Values.tokenDelete | quote }}
         - name: JAVA_OPTS
           value: {{ .Values.javaOpts | quote }}
         ports:

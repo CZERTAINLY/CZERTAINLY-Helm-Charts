@@ -15,7 +15,7 @@ helm dependency update charts/fe-administrator
 helm dependency update charts/ms-adcs-connector
 helm dependency update charts/network-discovery-provider
 helm dependency update charts/x509-compliance-provider
-
+helm dependency update charts/software-cryptography-provider
 
 # finally, update czertainly umbrella chart
 helm dependency update charts/czertainly

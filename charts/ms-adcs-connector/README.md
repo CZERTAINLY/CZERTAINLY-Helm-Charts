@@ -91,7 +91,7 @@ The following values may be configured:
 |----------------------|-------------------------------------------|-----------------------------------------------------------------------|
 | image.registry       | `harbor.3key.company`                     | Docker registry name for the image                                    |
 | image.repository     | `czertainly/czertainly-ms-adcs-connector` | Docker image repository name                                          |
-| image.tag            | `1.2.0`                                   | Docker image tag                                                      |
+| image.tag            | `1.3.0`                                   | Docker image tag                                                      |
 | image.digest         | `""`                                      | Docker image digest, will override tag if specified                   |
 | image.pullPolicy     | `IfNotPresent`                            | Image pull policy                                                     |
 | image.pullSecrets    | `[]`                                      | Array of secret names for image pull                                  |
@@ -108,6 +108,7 @@ The following values may be configured:
 | logging.level        | `"INFO"`                                  | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
 | service.type         | `"ClusterIP"`                             | Type of the service that is exposed                                   |
 | service.port         | `8080`                                    | Port number of the exposed service                                    |
+| javaOpts             | `""`                                      | Customize Java system properties                                      |
 
 ### Additional parameters
 

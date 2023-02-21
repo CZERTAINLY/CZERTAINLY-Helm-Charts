@@ -1,4 +1,4 @@
-# Keystore Entity Provider - CZERTAINLY
+# Software Cryptography Provider - CZERTAINLY
 
 > This repository is part of the commercial open-source project CZERTAINLY. You can find more information about the project at [CZERTAINLY](https://github.com/3KeyCompany/CZERTAINLY) repository, including the contribution guide.
 
@@ -27,7 +27,7 @@ kubectl create namespace czertainly
 
 Copy the default `values.yaml` from the Helm chart and modify the values accordingly:
 ```bash
-helm show values oci://harbor.3key.company/czertainly-helm/keystore-entity-provider > values.yaml
+helm show values oci://harbor.3key.company/czertainly-helm/software-cryptography-provider > values.yaml
 ```
 Now edit the `values.yaml` according to your desired stated, see [Configurable parameters](#configurable-parameters) for more information.
 
@@ -35,7 +35,7 @@ Now edit the `values.yaml` according to your desired stated, see [Configurable p
 
 For the basic installation, run:
 ```bash
-helm install --namespace czertainly -f values.yaml czertainly-keystore-entity-provider oci://harbor.3key.company/czertainly-helm/keystore-entity-provider
+helm install --namespace czertainly -f values.yaml czertainly-software-cryptography-provider oci://harbor.3key.company/czertainly-helm/software-cryptography-provider
 ```
 
 **Save your configuration**
@@ -49,14 +49,14 @@ Always make sure you save the `values.yaml` and all `--set` and `--set-file` opt
 
 For upgrading the installation, update your configuration and run:
 ```bash
-helm upgrade --namespace czertainly -f values.yaml czertainly-keystore-entity-provider oci://harbor.3key.company/czertainly-helm/keystore-entity-provider
+helm upgrade --namespace czertainly -f values.yaml czertainly-software-cryptography-provider oci://harbor.3key.company/czertainly-helm/software-cryptography-provider
 ```
 
 ### Uninstall
 
 You can use the `helm uninstall` command to uninstall the application:
 ```bash
-helm uninstall --namespace czertainly czertainly-keystore-entity-provider
+helm uninstall --namespace czertainly czertainly-software-cryptography-provider
 ```
 
 ## Configurable parameters
@@ -86,27 +86,28 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter         | Default value                                     | Description                                                           |
-|-------------------|---------------------------------------------------|-----------------------------------------------------------------------|
-| image.registry    | `docker.io`                                       | Docker registry name for the image                                    |
-| image.repository  | `3keycompany/czertainly-keystore-entity-provider` | Docker image repository name                                          |
-| image.tag         | `1.2.0`                                           | Docker image tag                                                      |
-| image.digest      | `""`                                              | Docker image digest, will override tag if specified                   |
-| image.pullPolicy  | `IfNotPresent`                                    | Image pull policy                                                     |
-| image.pullSecrets | `[]`                                              | Array of secret names for image pull                                  |
-| database.type     | `"postgresql"`                                    | Type of the database, currently only `postgresql` is supported        |
-| database.host     | `"host.docker.internal"`                          | Host where is the database located                                    |
-| database.port     | `5432`                                            | Port on which is the database listening                               |
-| database.name     | `"czertainlydb"`                                  | Database name                                                         |
-| database.username | `"czertainlyuser"`                                | Username to access the database                                       |
-| database.password | `"your-strong-password"`                          | Password to access the database                                       |
-| httpProxy         | `""`                                              | Proxy to be used to access external resources through http            |
-| httpsProxy        | `""`                                              | Proxy to be used to access external resources through https           |
-| httpProxy         | `""`                                              | Defines list of external resources that should not use proxy settings |
-| logging.level     | `"INFO"`                                          | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
-| service.type      | `"ClusterIP"`                                     | Type of the service that is exposed                                   |
-| service.port      | `8080`                                            | Port number of the exposed service                                    |
-| javaOpts          | `""`                                              | Customize Java system properties                                      |
+| Parameter         | Default value                               | Description                                                           |
+|-------------------|---------------------------------------------|-----------------------------------------------------------------------|
+| image.registry    | `docker.io`                                 | Docker registry name for the image                                    |
+| image.repository  | `czertainly-software-cryptography-provider` | Docker image repository name                                          |
+| image.tag         | `1.0.0`                                     | Docker image tag                                                      |
+| image.digest      | `""`                                        | Docker image digest, will override tag if specified                   |
+| image.pullPolicy  | `IfNotPresent`                              | Image pull policy                                                     |
+| image.pullSecrets | `[]`                                        | Array of secret names for image pull                                  |
+| database.type     | `"postgresql"`                              | Type of the database, currently only `postgresql` is supported        |
+| database.host     | `"host.docker.internal"`                    | Host where is the database located                                    |
+| database.port     | `5432`                                      | Port on which is the database listening                               |
+| database.name     | `"czertainlydb"`                            | Database name                                                         |
+| database.username | `"czertainlyuser"`                          | Username to access the database                                       |
+| database.password | `"your-strong-password"`                    | Password to access the database                                       |
+| httpProxy         | `""`                                        | Proxy to be used to access external resources through http            |
+| httpsProxy        | `""`                                        | Proxy to be used to access external resources through https           |
+| httpProxy         | `""`                                        | Defines list of external resources that should not use proxy settings |
+| logging.level     | `"INFO"`                                    | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
+| service.type      | `"ClusterIP"`                               | Type of the service that is exposed                                   |
+| service.port      | `8080`                                      | Port number of the exposed service                                    |
+| javaOpts          | `""`                                        | Customize Java system properties                                      |
+| tokenDelete       | `"false"`                                   | If the token should be deleted or kept in the database when removed   |
 
 ### Additional parameters
 

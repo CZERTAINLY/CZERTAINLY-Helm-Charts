@@ -1,4 +1,4 @@
-# Default values for cryptosense-discovery-provider.
+# Default values for keystore-entity-provider.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -44,13 +44,13 @@ replicaCount: 1
 
 service:
   type: "ClusterIP"
-  port: 8080  
+  port: 8080
 
 image:
   # default registry name
-  registry: harbor.3key.company
-  repository: czertainly/czertainly-cryptosense-discovery-provider
-  tag: 1.2.0
+  registry: docker.io
+  repository: 3keycompany/czertainly-software-cryptography-provider
+  tag: 1.0.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -58,16 +58,10 @@ image:
   pullSecrets: []
 
 logging:
-  level: "INFO" 
+  level: "INFO"
 
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
+tokenDelete: "false"
+javaOpts: ""
 
 podAnnotations: {}
 

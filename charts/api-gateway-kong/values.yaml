@@ -94,6 +94,10 @@ cors:
   exposedHeaders:
     - X-Auth-Token
 
+# https://docs.konghq.com/gateway/latest/reference/configuration/#trusted_ips
+# To trust all IPs, set this value to "0.0.0.0/0,::/0"
+trustedIps: ""
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little

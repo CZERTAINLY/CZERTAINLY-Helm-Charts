@@ -29,4 +29,4 @@ sources:
   - https://docs.czertainly.com
   - https://github.com/revomatico/docker-kong-oidc
   - https://github.com/revomatico/kong-oidc
-version: 3.0.0-6
+version: 3.0.0-6-1
