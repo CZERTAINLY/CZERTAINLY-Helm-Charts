@@ -32,14 +32,16 @@ jobs:
         run: |
           changed=$(ct list-changed --target-branch develop)
           if [[ -n "$changed" ]]; then
-            echo "::set-output name=changed::true"
+            echo "changed=true" >> $GITHUB_ENV
+            echo "changed_charts=$changed" >> $GITHUB_ENV
           fi
 
       - name: Check if chart version is develop
-        if: steps.list-changed.outputs.changed == 'true'
+        if: env.changed == 'true'
         run: |
-          for CHART in $changed
+          for CHART in env.changed_charts
           do
+            echo "Checking chart $CHART for develop version"
             version=$(yq ".version" < ${CHART}/Chart.yaml)
             if [[ $version != *-develop ]]; then
               echo "Chart $CHART changed, but not intended for develop" 
