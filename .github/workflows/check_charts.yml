@@ -38,8 +38,10 @@ jobs:
 
       - name: Check if chart version is develop
         if: env.changed == 'true'
+        env:
+          changed_charts: env.changed_charts
         run: |
-          for CHART in env.changed_charts
+          for CHART in $changed_charts
           do
             echo "Checking chart $CHART for develop version"
             version=$(yq ".version" < ${CHART}/Chart.yaml)
