@@ -40,7 +40,7 @@ jobs:
       - name: Check if chart version is develop
         if: env.changed == 'true'
         env:
-          changed_charts: env.changed_charts
+          changed_charts: ${{ env.changed_charts }}
         run: |
           echo "${changed}"
           echo "${changed_charts}"
