@@ -236,7 +236,7 @@ ingress:
     # nginx.ingress.kubernetes.io/auth-tls-secret: "czertainly/ingress-ca-secret",
     # nginx.ingress.kubernetes.io/auth-tls-verify-depth: "3",
     # nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
-  #hosts:
+  # hosts:
   #  - host: czertainly.local
   #    paths:
   #      - path: /
@@ -294,7 +294,7 @@ feAdministrator:
     type: "ClusterIP"
     port: 80
   baseUrl: /administrator
-  podAnnotations: { }
+  podAnnotations: {}
 
 registerConnectors: true
 
@@ -309,7 +309,7 @@ msAdcsConnector:
 
 x509ComplianceProvider:
   enabled: false
-  
+
 cryptosenseDiscoveryProvider:
   enabled: false
 
@@ -321,4 +321,3 @@ keystoreEntityProvider:
 
 softwareCryptographyProvider:
   enabled: false
-  
