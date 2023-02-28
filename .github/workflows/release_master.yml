@@ -77,13 +77,28 @@ jobs:
           echo "Logging in to $HELM_OCI_REGISTRY"
           helm registry login $HELM_OCI_REGISTRY --username $HELM_USERNAME --password $HELM_PASSWORD
           
+          release_chart(){
+            CHART=$1
+          
+            name=$(yq ".name" < ${CHART}/Chart.yaml)
+            version=$(yq ".version" < ${CHART}/Chart.yaml)
+          
+            echo "Releasing chart $CHART with version $version"
+          
+            helm dependency update $CHART
+            helm package $CHART
+            helm push $name-$version.tgz oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY
+          
+            echo "Chart $name-$version pushed"
+          }
+          
           # we need to release the charts in the correct order because of dependencies
           # first is the library chart
           
           # check if the library chart has changed
           if [[ $changed_charts == *"charts/czertainly-lib"* ]]; then
             echo "charts/czertainly-lib has changed, releasing it first"
-            ./release_chart.sh charts/czertainly-lib
+            release_chart charts/czertainly-lib
             # remove the library chart from the list of changed charts
             changed_charts=$(echo $changed_charts | sed s:charts/czertainly-lib::)
           fi
@@ -101,13 +116,13 @@ jobs:
           for CHART in $changed_charts
           do
             echo "Releasing $CHART"
-            ./release_chart.sh $CHART
+            release_chart $CHART
           done
           
           # when the umbrella chart has changed, release it as last one
           if [[ $umbrella_changed == "true" ]]; then
             echo "Releasing charts/czertainly"
-            ./release_chart.sh charts/czertainly
+            release_chart charts/czertainly
           fi
           
           echo "Logging out from $HELM_OCI_REGISTRY"
