@@ -1,7 +1,7 @@
-name: Check Charts for develop
+name: Check Charts for master
 on:
   pull_request:
-    branches: [develop]
+    branches: [master]
   workflow_dispatch:
 
 jobs:
@@ -30,14 +30,14 @@ jobs:
       - name: Run chart-testing (list-changed)
         id: list-changed
         run: |
-          changed=$(ct list-changed --target-branch develop)
+          changed=$(ct list-changed --target-branch master)
           echo "${changed}"
           if [[ -n "$changed" ]]; then
             echo "changed=true" >> $GITHUB_ENV
             echo "changed_charts=$changed" >> $GITHUB_ENV
           fi
 
-      - name: Check if chart version is develop
+      - name: Check that chart version does not contain develop
         if: env.changed == 'true'
         env:
           changed_charts: ${{ env.changed_charts }}
@@ -48,14 +48,14 @@ jobs:
           do
             echo "Checking chart $CHART for develop version"
             version=$(yq ".version" < ${CHART}/Chart.yaml)
-            if [[ $version != *-develop ]]; then
-              echo "Chart $CHART changed, but not intended for develop" 
+            if [[ $version == *-develop ]]; then
+              echo "Chart $CHART contains develop, but not intended for develop" 
               exit 1
             fi
           done
 
       - name: Run chart-testing (lint)
-        run: ct lint --target-branch develop --check-version-increment=false
+        run: ct lint --target-branch master
 
       # we cannot test the installation of the chart because it requires dependencies that may not be available
       #- name: Create kind cluster

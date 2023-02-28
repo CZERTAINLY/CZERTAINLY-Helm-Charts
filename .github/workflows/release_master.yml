@@ -1,0 +1,122 @@
+name: Release Charts from master
+on:
+  push:
+    tags:
+      - '*'  # we want to trigger this workflow on any tag
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.10.0
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          check-latest: true
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.3.1
+
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          # get the previous tag
+          last_tag=$(git for-each-ref --sort=-creatordate --count 2 --format="%(refname:short)" "refs/tags/*" | sed -n '2 p')
+          echo "Last tag: $last_tag"
+          echo "last_tag=$last_tag" >> $GITHUB_ENV
+          
+          changed=$(ct list-changed --target-branch master --since $last_tag)
+          echo "${changed}"
+          if [[ -n "$changed" ]]; then
+            echo "changed=true" >> $GITHUB_ENV
+            echo "changed_charts=$changed" >> $GITHUB_ENV
+          fi
+
+      - name: Check that chart version does not contain develop
+        if: env.changed == 'true'
+        env:
+          changed_charts: ${{ env.changed_charts }}
+        run: |
+          #echo "${changed}"
+          #echo "${changed_charts}"
+          for CHART in $changed_charts
+          do
+            echo "Checking chart $CHART for develop version"
+            version=$(yq ".version" < ${CHART}/Chart.yaml)
+            if [[ $version == *-develop ]]; then
+              echo "Chart $CHART contains develop, but not intended for develop" 
+              exit 1
+            fi
+          done
+
+      - name: Run chart-testing (lint)
+        env:
+          last_tag: ${{ env.last_tag }}
+        run: ct lint --target-branch master --since $last_tag)
+
+      - name: Push release charts
+        if: env.changed == 'true'
+        env:
+          changed_charts: ${{ env.changed_charts }}
+          HELM_OCI_REGISTRY: ${{ secrets.HELM_OCI_REGISTRY }}
+          HELM_OCI_REPOSITORY: ${{ secrets.HELM_OCI_REPOSITORY }}
+          HELM_USERNAME: ${{ secrets.HELM_USERNAME }}
+          HELM_PASSWORD: ${{ secrets.HELM_PASSWORD }}
+        run: |
+          echo "Logging in to $HELM_OCI_REGISTRY"
+          helm registry login $HELM_OCI_REGISTRY --username $HELM_USERNAME --password $HELM_PASSWORD
+          
+          # we need to release the charts in the correct order because of dependencies
+          # first is the library chart
+          
+          # check if the library chart has changed
+          if [[ $changed_charts == *"charts/czertainly-lib"* ]]; then
+            echo "charts/czertainly-lib has changed, releasing it first"
+            ./release_chart.sh charts/czertainly-lib
+            # remove the library chart from the list of changed charts
+            changed_charts=$(echo $changed_charts | sed s:charts/czertainly-lib::)
+          fi
+          
+          umbrella_changed=false
+          # czertainly umbrella chart must be released as last one
+          if [[ $changed_charts == *"charts/czertainly"* ]]; then
+            echo "charts/czertainly has changed, mark to released it as last"
+            umbrella_changed=true
+            # remove the umbrella chart from the list of changed charts
+            changed_charts=$(echo $changed_charts | sed s:charts/czertainly::)
+          fi
+          
+          # release all other charts, there should not be any dependency conflict
+          for CHART in $changed_charts
+          do
+            echo "Releasing $CHART"
+            ./release_chart.sh $CHART
+          done
+          
+          # when the umbrella chart has changed, release it as last one
+          if [[ $umbrella_changed == "true" ]]; then
+            echo "Releasing charts/czertainly"
+            ./release_chart.sh charts/czertainly
+          fi
+          
+          echo "Logging out from $HELM_OCI_REGISTRY"
+          helm registry logout $HELM_OCI_REGISTRY
+
+      # we cannot test the installation of the chart because it requires dependencies that may not be available
+      #- name: Create kind cluster
+      #  uses: helm/kind-action@v1.4.0
+      #  if: steps.list-changed.outputs.changed == 'true'
+
+      #- name: Run chart-testing (install)
+      #  run: ct install
