@@ -37,3 +37,7 @@ build/
 # Downloaded chart dependencies
 **/charts/*.tgz
 *.tgz
+
+# Local development support files
+**/dummy/*
+*-develop.sh
