@@ -69,16 +69,38 @@ jobs:
           echo "Logging in to $HELM_OCI_REGISTRY"
           helm registry login $HELM_OCI_REGISTRY --username $HELM_USERNAME --password $HELM_PASSWORD
           
+          # we need to release the charts in the correct order because of dependencies
+          # first is the library chart
+          
+          # check if the library chart has changed
+          if [[ $changed_charts == *"charts/czertainly-lib"* ]]; then
+            echo "charts/czertainly-lib has changed, releasing it first"
+            ./release_chart.sh charts/czertainly-lib
+            # remove the library chart from the list of changed charts
+            changed_charts=$(echo $changed_charts | sed s:charts/czertainly-lib::)
+          fi
+          
+          umbrella_changed=false
+          # czertainly umbrella chart must be released as last one
+          if [[ $changed_charts == *"charts/czertainly"* ]]; then
+            echo "charts/czertainly has changed, mark to released it as last"
+            umbrella_changed=true
+            # remove the umbrella chart from the list of changed charts
+            changed_charts=$(echo $changed_charts | sed s:charts/czertainly::)
+          fi
+          
+          # release all other charts, there should not be any dependency conflict
           for CHART in $changed_charts
           do
-            name=$(yq ".name" < ${CHART}/Chart.yaml)
-            version=$(yq ".version" < ${CHART}/Chart.yaml)
-            echo "Releasing chart $CHART with version $version"
-            helm dependency update $CHART
-            helm package $CHART
-            helm push $name-$version.tgz oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY
-            echo "Chart $name-$version develop-released"
+            echo "Releasing $CHART"
+            ./release_chart.sh $CHART
           done
+          
+          # when the umbrella chart has changed, release it as last one
+          if [[ $umbrella_changed == "true" ]]; then
+            echo "Releasing charts/czertainly"
+            ./release_chart.sh charts/czertainly
+          fi
           
           echo "Logging out from $HELM_OCI_REGISTRY"
           helm registry logout $HELM_OCI_REGISTRY
