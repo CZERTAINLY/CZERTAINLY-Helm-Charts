@@ -260,9 +260,7 @@ resources: {}
   #   memory: 128Mi
 
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
 
 #

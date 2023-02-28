@@ -99,7 +99,21 @@ jobs:
           # when the umbrella chart has changed, release it as last one
           if [[ $umbrella_changed == "true" ]]; then
             echo "Releasing charts/czertainly"
-            ${GITHUB_WORKSPACE}/release_chart.sh charts/czertainly
+            
+            CHART=charts/czertainly
+          
+            name=$(yq ".name" < ${CHART}/Chart.yaml)
+            version=$(yq ".version" < ${CHART}/Chart.yaml)
+  
+            echo "Releasing chart $CHART with version $version"
+  
+            helm dependency update $CHART
+            helm package $CHART
+            helm push $name-$version.tgz oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY
+  
+            echo "Chart $name-$version pushed"
+          
+            #${GITHUB_WORKSPACE}/release_chart.sh charts/czertainly
           fi
           
           echo "Logging out from $HELM_OCI_REGISTRY"
