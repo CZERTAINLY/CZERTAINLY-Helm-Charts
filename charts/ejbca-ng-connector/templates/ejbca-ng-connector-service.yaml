@@ -9,6 +9,5 @@ spec:
   ports:
     - port: {{ .Values.service.port }}
       protocol: "TCP"
-      targetPort: {{ .Values.service.port }}
   selector:
     {{- include "ejbca-ng-connector.selectorLabels" . | nindent 4 }}
