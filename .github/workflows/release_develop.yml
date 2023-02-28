@@ -30,7 +30,7 @@ jobs:
       - name: Run chart-testing (list-changed)
         id: list-changed
         run: |
-          changed=$(ct list-changed --target-branch develop)
+          changed=$(ct list-changed --target-branch develop --since HEAD^1)
           echo "${changed}"
           if [[ -n "$changed" ]]; then
             echo "changed=true" >> $GITHUB_ENV
@@ -55,7 +55,7 @@ jobs:
           done
 
       - name: Run chart-testing (lint)
-        run: ct lint --target-branch develop --check-version-increment=false
+        run: ct lint --target-branch develop --since HEAD^1 --check-version-increment=false
 
       - name: Push develop charts
         if: env.changed == 'true'
