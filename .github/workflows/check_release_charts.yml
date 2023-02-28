@@ -1,7 +1,7 @@
-name: Release Charts from develop
+name: Check Charts for master
 on:
-  push:
-    branches: [develop]
+  pull_request:
+    branches: [master]
   workflow_dispatch:
 
 jobs:
@@ -30,14 +30,14 @@ jobs:
       - name: Run chart-testing (list-changed)
         id: list-changed
         run: |
-          changed=$(ct list-changed --target-branch develop)
+          changed=$(ct list-changed --target-branch master)
           echo "${changed}"
           if [[ -n "$changed" ]]; then
             echo "changed=true" >> $GITHUB_ENV
             echo "changed_charts=$changed" >> $GITHUB_ENV
           fi
 
-      - name: Check if chart version is develop
+      - name: Check that chart version does not contain develop
         if: env.changed == 'true'
         env:
           changed_charts: ${{ env.changed_charts }}
@@ -48,40 +48,14 @@ jobs:
           do
             echo "Checking chart $CHART for develop version"
             version=$(yq ".version" < ${CHART}/Chart.yaml)
-            if [[ $version != *-develop ]]; then
-              echo "Chart $CHART changed, but not intended for develop" 
+            if [[ $version == *-develop ]]; then
+              echo "Chart $CHART contains develop, but not intended for develop" 
               exit 1
             fi
           done
 
       - name: Run chart-testing (lint)
-        run: ct lint --target-branch develop --check-version-increment=false
-
-      - name: Push develop charts
-        if: env.changed == 'true'
-        env:
-          changed_charts: ${{ env.changed_charts }}
-          HELM_OCI_REGISTRY: ${{ secrets.HELM_OCI_REGISTRY }}
-          HELM_OCI_REPOSITORY: ${{ secrets.HELM_OCI_REPOSITORY }}
-          HELM_USERNAME: ${{ secrets.HELM_USERNAME }}
-          HELM_PASSWORD: ${{ secrets.HELM_PASSWORD }}
-        run: |
-          echo "Logging in to $HELM_OCI_REGISTRY"
-          helm registry login $HELM_OCI_REGISTRY --username $HELM_USERNAME --password $HELM_PASSWORD
-          
-          for CHART in $changed_charts
-          do
-            name=$(yq ".name" < ${CHART}/Chart.yaml)
-            version=$(yq ".version" < ${CHART}/Chart.yaml)
-            echo "Releasing chart $CHART with version $version"
-            helm dependency update $CHART
-            helm package $CHART
-            helm push $name-$version.tgz oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY
-            echo "Chart $name-$version develop-released"
-          done
-          
-          echo "Logging out from $HELM_OCI_REGISTRY"
-          helm registry logout $HELM_OCI_REGISTRY
+        run: ct lint --target-branch master
 
       # we cannot test the installation of the chart because it requires dependencies that may not be available
       #- name: Create kind cluster
