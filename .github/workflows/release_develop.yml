@@ -90,7 +90,7 @@ jobs:
           # check if the library chart has changed
           if [[ $changed_charts == *"charts/czertainly-lib"* ]]; then
             echo "charts/czertainly-lib has changed, releasing it first"
-            ${GITHUB_WORKSPACE}/release_chart.sh charts/czertainly-lib
+            release_chart charts/czertainly-lib
             # remove the library chart from the list of changed charts
             changed_charts=$(echo $changed_charts | sed s:charts/czertainly-lib::)
           fi
@@ -108,7 +108,7 @@ jobs:
           for CHART in $changed_charts
           do
             echo "Releasing $CHART"
-            ${GITHUB_WORKSPACE}/release_chart.sh $CHART
+            release_chart $CHART
           done
           
           # when the umbrella chart has changed, release it as last one
