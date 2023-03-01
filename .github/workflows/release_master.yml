@@ -69,6 +69,9 @@ jobs:
           last_tag: ${{ env.last_tag }}
         run: ct lint --target-branch master --since $last_tag)
 
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@main
+
       - name: Push release charts
         if: env.changed == 'true'
         env:
@@ -81,6 +84,8 @@ jobs:
           echo "Logging in to $HELM_OCI_REGISTRY"
           helm registry login $HELM_OCI_REGISTRY --username $HELM_USERNAME --password $HELM_PASSWORD
           
+          cosign login $HELM_OCI_REGISTRY --username $HELM_USERNAME --password $HELM_PASSWORD
+          
           release_chart(){
             CHART=$1
           
@@ -91,7 +96,11 @@ jobs:
           
             helm dependency update $CHART
             helm package $CHART
-            helm push $name-$version.tgz oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY
+            pushed=$(helm push $name-$version.tgz oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY)
+          
+            digest=$(echo "$pushed" | awk 'FNR == 2 {print $2}')
+          
+            cosign sign --key env://COSIGN_PRIVATE_KEY $HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY/$name@$digest
           
             echo "Chart $name-$version pushed"
           }
