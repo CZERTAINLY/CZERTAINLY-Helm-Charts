@@ -8,6 +8,12 @@ global:
     registry: ""
     # array of secret names
     pullSecrets: []
+  volumes:
+    ephemeral:
+      type: ""
+      sizeLimit: ""
+      storageClassName: ""
+      custom: {}
 
 replicaCount: 1
 
@@ -21,6 +27,22 @@ image:
   pullPolicy: IfNotPresent
   # array of secret names
   pullSecrets: []
+  # default security context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 101
+    readOnlyRootFilesystem: true
+
+volumes:
+  ephemeral:
+    # available types are: memory, storage, custom
+    type: memory
+    sizeLimit: "1Mi"
+    storageClassName: ""
+    custom: {}
+    #  emptyDir:
+    #    sizeLimit: "10Mi"
+    #    medium: "Memory"
 
 nameOverride: ""
 fullnameOverride: ""
@@ -49,7 +71,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
