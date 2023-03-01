@@ -34,7 +34,11 @@ jobs:
           echo "${changed}"
           if [[ -n "$changed" ]]; then
             echo "changed=true" >> $GITHUB_ENV
-            echo "changed_charts=$changed" >> $GITHUB_ENV
+
+            # multiline string
+            echo "changed_charts<<EOF" >> $GITHUB_ENV
+            echo "$changed" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
           fi
 
       - name: Check if chart version is develop
