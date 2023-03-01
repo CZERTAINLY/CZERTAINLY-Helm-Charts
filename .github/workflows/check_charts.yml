@@ -61,7 +61,6 @@ jobs:
       - name: Run chart-testing (lint)
         run: ct lint --target-branch develop --check-version-increment=false
 
-      # we cannot test the installation of the chart because it requires dependencies that may not be available
       - name: Create kind cluster
         uses: helm/kind-action@v1.4.0
         if: env.changed == 'true'

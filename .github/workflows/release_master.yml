@@ -132,7 +132,6 @@ jobs:
           echo "Logging out from $HELM_OCI_REGISTRY"
           helm registry logout $HELM_OCI_REGISTRY
 
-      # we cannot test the installation of the chart because it requires dependencies that may not be available
       #- name: Create kind cluster
       #  uses: helm/kind-action@v1.4.0
       #  if: steps.list-changed.outputs.changed == 'true'
