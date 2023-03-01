@@ -61,7 +61,6 @@ data:
         host: {{ .Values.backend.fe.service.name}}
         port: {{ .Values.backend.fe.service.port }}
         protocol: http
-        path: {{ .Values.backend.fe.service.baseUrl}}/
         routes:
           - name: fe-administrator_route-cert
             preserve_host: true

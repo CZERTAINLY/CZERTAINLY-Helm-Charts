@@ -8,8 +8,9 @@ home: https://github.com/3KeyCompany/CZERTAINLY
 icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 dependencies:
   - name: czertainly-lib
-    repository: oci://harbor.3key.company/czertainly-helm
-    version: 1.1.0
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../czertainly-lib
+    version: 1.2.0-develop
 keywords:
   - czertainly
   - trust
@@ -29,4 +30,4 @@ sources:
   - https://docs.czertainly.com
   - https://github.com/revomatico/docker-kong-oidc
   - https://github.com/revomatico/kong-oidc
-version: 3.0.0-6-1
+version: 3.0.0-6-2-develop

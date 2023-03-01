@@ -22,6 +22,9 @@ spec:
       {{- end }}
     spec:
       {{- include "api-gateway-kong.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- end }}
       containers:
         - name: api-gateway
           image: {{ include "api-gateway-kong.image" . }}
@@ -29,6 +32,8 @@ spec:
           env:
             - name: KONG_DATABASE
               value: "off"
+            - name: KONG_PREFIX
+              value: "/tmp/"
             - name: KONG_PROXY_ACCESS_LOG
               value: "/dev/stdout"
             - name: KONG_ADMIN_ACCESS_LOG
@@ -54,17 +59,18 @@ spec:
               value: {{ .Values.trustedIps | quote }}
             {{- end }}
           ports:
-            - containerPort: 8000
+            - containerPort: {{ .Values.service.consumer.port }}
               name: consumer-http
-            - containerPort: 8443
-              name: consumer-https
-            - containerPort: 8001
+            - containerPort: {{ .Values.service.admin.port }}
               name: admin-http
-            - containerPort: 8444
-              name: admin-https
+          {{- if .Values.image.securityContext }}
+          securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - name: api-gateway-config-volume
               mountPath: /kong/declarative
+            - mountPath: /tmp
+              name: ephemeral
       volumes:
         - name: api-gateway-config-volume
           configMap:
@@ -72,3 +78,5 @@ spec:
             items:
               - key: kong.yml
                 path: kong.yml
+        - name: ephemeral
+          {{- include "api-gateway-kong.ephemeralVolume" . | indent 10 }}
