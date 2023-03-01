@@ -8,7 +8,8 @@ home: https://github.com/3KeyCompany/CZERTAINLY
 icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 dependencies:
   - name: czertainly-lib
-    repository: oci://harbor.3key.company/czertainly-helm
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../czertainly-lib
     version: 1.2.0-develop
 keywords:
   - czertainly
