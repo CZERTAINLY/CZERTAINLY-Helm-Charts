@@ -77,6 +77,6 @@ spec:
             name: api-gateway-configmap
             items:
               - key: kong.yml
-                path: kong.ym
+                path: kong.yml
         - name: ephemeral
           {{- include "api-gateway-kong.ephemeralVolume" . | indent 10 }}

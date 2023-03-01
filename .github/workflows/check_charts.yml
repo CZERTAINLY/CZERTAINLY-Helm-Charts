@@ -67,4 +67,4 @@ jobs:
         if: env.changed == 'true'
 
       - name: Run chart-testing (install)
-        run: ct install --target-branch develop
+        run: ct install --target-branch develop --excluded-charts czertainly-lib

@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "api-gateway-kong.fullname" . }}:{{ .Values.service.port }}']
+      args: ['api-gateway-service:{{ .Values.service.admin.port }}']
   restartPolicy: Never
