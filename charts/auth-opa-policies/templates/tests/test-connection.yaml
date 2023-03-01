@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "auth-opa-policies.fullname" . }}:{{ .Values.service.port }}']
+      args: ['auth-opa-policies-service:{{ .Values.service.port }}']
   restartPolicy: Never

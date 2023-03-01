@@ -22,9 +22,23 @@ spec:
         {{- include "auth-opa-policies.selectorLabels" . | nindent 8 }}
     spec:
       {{- include "auth-opa-policies.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- end }}
       containers:
         - name: auth-opa-policies
           image: {{ include "auth-opa-policies.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.service.port }}
+          {{- if .Values.image.securityContext }}
+          securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - mountPath: /var/cache/nginx
+              name: ephemeral
+            - mountPath: /tmp
+              name: ephemeral
+      volumes:
+        - name: ephemeral
+          {{- include "auth-opa-policies.ephemeralVolume" . | indent 10 }}
