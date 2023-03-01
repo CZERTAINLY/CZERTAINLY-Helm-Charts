@@ -61,6 +61,9 @@ jobs:
       - name: Run chart-testing (lint)
         run: ct lint --target-branch develop --since HEAD^1 --check-version-increment=false
 
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@main
+
       - name: Push develop charts
         if: env.changed == 'true'
         env:
@@ -69,6 +72,8 @@ jobs:
           HELM_OCI_REPOSITORY: ${{ secrets.HELM_OCI_REPOSITORY }}
           HELM_USERNAME: ${{ secrets.HELM_USERNAME }}
           HELM_PASSWORD: ${{ secrets.HELM_PASSWORD }}
+          COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
+          COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
         run: |
           echo "Logging in to $HELM_OCI_REGISTRY"
           helm registry login $HELM_OCI_REGISTRY --username $HELM_USERNAME --password $HELM_PASSWORD
@@ -83,7 +88,11 @@ jobs:
           
             helm dependency update $CHART
             helm package $CHART
-            helm push $name-$version.tgz oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY
+            pushed=$(helm push $name-$version.tgz oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY)
+          
+            digest=$(echo "$pushed" | awk 'FNR == 2 {print $2}')
+          
+            cosign sign --key env://COSIGN_PRIVATE_KEY $HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY/$name@$digest
           
             echo "Chart $name-$version pushed"
           }
