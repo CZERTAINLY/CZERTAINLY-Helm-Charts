@@ -48,8 +48,7 @@ fullnameOverride: ""
 
 podAnnotations: {}
 
-podSecurityContext:
-  enabled: false
+podSecurityContext: {}
   # fsGroup: 2000
 
 # kong admin and consumer ports

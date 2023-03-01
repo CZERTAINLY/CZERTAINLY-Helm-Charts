@@ -22,8 +22,8 @@ spec:
       {{- end }}
     spec:
       {{- include "api-gateway-kong.imagePullSecrets" . | indent 6 }}
-      {{- if .Values.podSecurityContext.enabled }}
-      securityContext: {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 8 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
       containers:
         - name: api-gateway
@@ -63,7 +63,9 @@ spec:
               name: consumer-http
             - containerPort: {{ .Values.service.admin.port }}
               name: admin-http
+          {{- if .Values.image.securityContext }}
           securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - name: api-gateway-config-volume
               mountPath: /kong/declarative

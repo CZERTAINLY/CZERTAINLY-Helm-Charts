@@ -91,6 +91,11 @@ The following values may be configured:
 | image.securityContext.runAsNonRoot           | `true`                                                | Run the container as non-root user                                                         |
 | image.securityContext.runAsUser              | `100`                                                 | User ID for the container                                                                  |
 | image.securityContext.readOnlyRootFilesystem | `true`                                                | Run the container with read-only root filesystem                                           |
+| podSecurityContext                           | `{}`                                                  | Pod security context                                                                       |
+| volumes.ephemeral.type                       | `memory`                                              | Ephemeral volume type to be used                                                           |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`                                               | Ephemeral volume size limit                                                                |
+| volumes.ephemeral.storageClassName           | `""`                                                  | Ephemeral volume storage class name for `storage` type                                     |
+| volumes.ephemeral.custom                     | `{}`                                                  | Custom definition of the ephemeral volume for `custom` type                                |
 | logging.level                                | `"info"`                                              | Allowed values are `debug`, `info`, `notice`, `warn`, `error`, `crit`, `alert`, or `emerg` |
 | service.type                                 | `"ClusterIP"`                                         | Type of the service that is exposed                                                        |
 | service.admin.port                           | `8001`                                                | Port number of the exposed admin service                                                   |
@@ -115,10 +120,6 @@ The following values may be configured:
 | cors.origins                                 | `['*']`                                               | List of allowed domains for the Access-Control-Allow-Origin header                         |
 | cors.exposedHeaders                          | `[X-Auth-Token]`                                      | List of values for the Access-Control-Expose-Headers header                                |
 | trustedIps                                   | `""`                                                  | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
-| volumes.ephemeral.type                       | `memory`                                              | Ephemeral volume type to be used                                                           |
-| volumes.ephemeral.sizeLimit                  | `"1Mi"`                                               | Ephemeral volume size limit                                                                |
-| volumes.ephemeral.storageClassName           | `""`                                                  | Ephemeral volume storage class name for `storage` type                                     |
-| volumes.ephemeral.custom                     | `{}`                                                  | Custom definition of the ephemeral volume for `custom` type                                |
 
 ### Additional parameters
 
