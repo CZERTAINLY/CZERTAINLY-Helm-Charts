@@ -9,8 +9,6 @@ jobs:
     name: Check
     runs-on: ubuntu-latest
 
-    container: ubuntu
-
     services:
       # Label used to access the service container
       postgres:
@@ -33,11 +31,6 @@ jobs:
           - ${{ github.workspace }}/initdb:/docker-entrypoint-initdb.d
 
     steps:
-      - name: Install unzip for ubuntu
-        run: |
-          apt-get update
-          apt-get install -y unzip curl
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
