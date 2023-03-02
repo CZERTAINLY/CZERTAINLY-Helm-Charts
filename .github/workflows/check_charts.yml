@@ -9,6 +9,8 @@ jobs:
     name: Check
     runs-on: ubuntu-latest
 
+    container: ubuntu
+
     services:
       # Label used to access the service container
       postgres:
