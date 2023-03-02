@@ -1,5 +1,5 @@
 database:
-  host: "postgres"
+  host: "host.docker.internal"
 
 image:
   tag: develop-latest
