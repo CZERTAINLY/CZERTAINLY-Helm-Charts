@@ -36,7 +36,7 @@ jobs:
       - name: Install unzip for ubuntu
         run: |
           apt-get update
-          apt-get install -y unzip
+          apt-get install -y unzip curl
 
       - name: Checkout
         uses: actions/checkout@v3
