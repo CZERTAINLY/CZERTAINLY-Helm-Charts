@@ -8,8 +8,8 @@ metadata:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: wget
+    - name: curl
       image: busybox
-      command: ['wget']
+      command: ['curl']
       args: ['common-credential-provider-service:{{ .Values.service.port }}/v1']
   restartPolicy: Never
