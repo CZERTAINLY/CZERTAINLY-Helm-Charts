@@ -9,7 +9,7 @@ metadata:
 spec:
   containers:
     - name: curl
-      image: busybox
+      image: alpine/curl
       command: ['curl']
       args: ['common-credential-provider-service:{{ .Values.service.port }}/v1']
   restartPolicy: Never
