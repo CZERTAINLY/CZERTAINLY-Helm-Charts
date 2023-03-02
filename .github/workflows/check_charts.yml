@@ -26,7 +26,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         volumes:
-          - ${{ github.workspace }}/initdb/init-czertainlydb.sql:/docker-entrypoint-initdb.d/init-czertainlydb.sql
+          - ${{ github.workspace }}/initdb:/docker-entrypoint-initdb.d
 
     steps:
       - name: Checkout
