@@ -29,9 +29,9 @@ jobs:
     steps:
       - name: Init database
         run: |
-          psql -c "CREATE USER czertainlyuser WITH PASSWORD 'your-strong-password'"
-          psql -c "CREATE DATABASE czertainlydb ENCODING 'UTF8' LC_COLLATE='en_US.UTF-8' LC_CTYPE='en_US.UTF-8' TEMPLATE=template0"
-          psql -c "GRANT ALL PRIVILEGES ON DATABASE czertainlydb to czertainlyuser"
+          psql -h localhost -c "CREATE USER czertainlyuser WITH PASSWORD 'your-strong-password'"
+          psql -h localhost -c "CREATE DATABASE czertainlydb ENCODING 'UTF8' LC_COLLATE='en_US.UTF-8' LC_CTYPE='en_US.UTF-8' TEMPLATE=template0"
+          psql -h localhost -c "GRANT ALL PRIVILEGES ON DATABASE czertainlydb to czertainlyuser"
 
       - name: Checkout
         uses: actions/checkout@v3
