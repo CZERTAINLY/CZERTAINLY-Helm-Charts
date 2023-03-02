@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "common-credential-provider.fullname" . }}:{{ .Values.service.port }}']
+      args: ['common-credential-provider-service:{{ .Values.service.port }}/health/readiness']
   restartPolicy: Never
