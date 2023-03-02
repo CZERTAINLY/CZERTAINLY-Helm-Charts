@@ -14,5 +14,5 @@ spec:
         - /bin/sh
         - -c
         - |
-          curl --silent --retry 5 --retry-delay 5 common-credential-provider-service:{{ .Values.service.port }}/v1
+          curl --retry 5 --retry-delay 5 common-credential-provider-service:{{ .Values.service.port }}/v1
   restartPolicy: Never
