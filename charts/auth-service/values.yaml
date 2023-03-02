@@ -70,7 +70,6 @@ logging:
   level: "INFO"
 
 createUnknownUsers: "false"
-
 createUnknownRoles: "false"
 
 serviceAccount:

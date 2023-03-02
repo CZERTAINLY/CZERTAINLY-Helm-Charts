@@ -64,7 +64,7 @@ jobs:
       - name: Install Cosign
         uses: sigstore/cosign-installer@main
         with:
-          cosign-release: 'v1.13.1'
+          cosign-release: 'v2.0.0'
 
       - name: Push develop charts
         if: env.changed == 'true'
@@ -96,7 +96,7 @@ jobs:
           
             digest=$(echo "$pushed" | awk 'FNR == 2 {print $2}')
           
-            cosign sign --key env://COSIGN_PRIVATE_KEY $HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY/$name@$digest
+            cosign sign --yes --key env://COSIGN_PRIVATE_KEY $HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY/$name@$digest
           
             echo "Chart $name-$version pushed"
           }
