@@ -1,2 +1,5 @@
+database:
+  host: "postgres"
+
 image:
   tag: develop-latest
