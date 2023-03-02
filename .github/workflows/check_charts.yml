@@ -33,6 +33,11 @@ jobs:
           - ${{ github.workspace }}/initdb:/docker-entrypoint-initdb.d
 
     steps:
+      - name: Install unzip for ubuntu
+        run: |
+          apt-get update
+          apt-get install -y unzip
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
