@@ -15,10 +15,8 @@ jobs:
         # Docker Hub image
         image: postgres:15
         # Provide the password for postgres
-        # env:
-        #   POSTGRES_DB: czertainlydb
-        #   POSTGRES_USER: czertainlyuser
-        #   POSTGRES_PASSWORD: your-strong-password
+        env:
+          POSTGRES_PASSWORD: your-strong-password
         ports:
           - 5432:5432
         # Set health checks to wait until postgres has started
