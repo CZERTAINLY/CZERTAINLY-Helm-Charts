@@ -17,6 +17,7 @@ jobs:
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: your-strong-password
+          POSTGRES_HOST_AUTH_METHOD: trust
         ports:
           - 5432:5432
         # Set health checks to wait until postgres has started
