@@ -10,6 +10,10 @@ spec:
   containers:
     - name: curl
       image: alpine/curl
-      command: ['curl']
-      args: ['common-credential-provider-service:{{ .Values.service.port }}/v1']
+      command:
+        - /bin/sh
+        - -c
+        - |
+          sleep 10 &&
+          curl url common-credential-provider-service:{{ .Values.service.port }}/v1
   restartPolicy: Never
