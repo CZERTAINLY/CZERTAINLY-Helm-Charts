@@ -8,7 +8,6 @@ jobs:
   check:
     name: Check
     runs-on: ubuntu-latest
-    container: ubuntu:latest
 
     services:
       # Label used to access the service container
@@ -18,8 +17,8 @@ jobs:
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: your-strong-password
-        # ports:
-        #   - 5432:5432
+        ports:
+          - 5432/tcp
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
