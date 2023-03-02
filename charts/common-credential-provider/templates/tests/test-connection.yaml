@@ -14,6 +14,5 @@ spec:
         - /bin/sh
         - -c
         - |
-          sleep 10 &&
-          curl url common-credential-provider-service:{{ .Values.service.port }}/v1
+          curl --silent common-credential-provider-service:{{ .Values.service.port }}/v1
   restartPolicy: Never
