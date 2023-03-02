@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['auth-service:{{ .Values.service.port }}']
+      args: ['auth-service:{{ .Values.service.port }}/health']
   restartPolicy: Never
