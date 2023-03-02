@@ -48,7 +48,7 @@ replicaCount: 1
 
 service:
   type: "ClusterIP"
-  port: 80
+  port: 8080
 
 image:
   # default registry name
@@ -60,6 +60,11 @@ image:
   pullPolicy: IfNotPresent
   # array of secret names
   pullSecrets: []
+  # default security context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 10001
+    readOnlyRootFilesystem: true
 
 logging:
   level: "INFO"
@@ -80,11 +85,3 @@ podAnnotations: {}
 
 podSecurityContext: {}
 # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-# runAsUser: 1000

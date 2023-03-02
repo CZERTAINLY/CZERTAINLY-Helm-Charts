@@ -30,6 +30,9 @@ spec:
       {{- end }}
     spec:
       {{- include "auth-service.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- end }}
       containers:
       - name: auth
         image: {{ include "auth-service.image" . }}
@@ -44,21 +47,30 @@ spec:
               secretKeyRef:
                 name: auth-secret
                 key: connection-string
+          - name: ASPNETCORE_URLS
+            value: "http://+:{{ .Values.service.port }}"
         ports:
           - containerPort: {{ .Values.service.port }}
+        {{- if .Values.image.securityContext }}
+        securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+        {{- end }}
         {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
         volumeMounts:
           - name: trusted-certificates-volume
-            mountPath: /opt/czertainly/trusted-certificates.pem
-            subPath: ca.crt
+            mountPath: /etc/ssl/certs
+            readOnly: true
         {{- end }}
+      {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
       volumes:
         {{- if .Values.global.trusted.certificates }}
         - name: trusted-certificates-volume
           secret:
+            defaultMode: 420
             secretName: trusted-certificates
         {{- else if .Values.trusted.certificates }}
         - name: trusted-certificates-volume
           secret:
+            defaultMode: 420
             secretName: trusted-certificates-{{ .Chart.Name | lower }}
         {{- end }}
+      {{- end }}
