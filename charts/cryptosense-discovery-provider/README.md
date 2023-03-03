@@ -68,44 +68,56 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                | Default value | Description                                                           |
-|--------------------------|---------------|-----------------------------------------------------------------------|
-| global.image.registry    | `""`          | Global docker registry name                                           |
-| global.image.pullSecrets | `[]`          | Global array of secret names for image pull                           |
-| global.database.type     | `""`          | Type of the database, currently only `postgresql` is supported        |
-| global.database.host     | `""`          | Host where is the database located                                    |
-| global.database.port     | `""`          | Port on which is the database listening                               |
-| global.database.name     | `""`          | Database name                                                         |
-| global.database.username | `""`          | Username to access the database                                       |
-| global.database.password | `""`          | Password to access the database                                       |
-| global.httpProxy         | `""`          | Proxy to be used to access external resources through http            |
-| global.httpsProxy        | `""`          | Proxy to be used to access external resources through https           |
-| global.noProxy           | `""`          | Defines list of external resources that should not use proxy settings |
+| Parameter                                 | Default value | Description                                                           |
+|-------------------------------------------|---------------|-----------------------------------------------------------------------|
+| global.image.registry                     | `""`          | Global docker registry name                                           |
+| global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                           |
+| global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                               |
+| global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                    |
+| global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type         |
+| global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type    |
+| global.database.type                      | `""`          | Type of the database, currently only `postgresql` is supported        |
+| global.database.host                      | `""`          | Host where is the database located                                    |
+| global.database.port                      | `""`          | Port on which is the database listening                               |
+| global.database.name                      | `""`          | Database name                                                         |
+| global.database.username                  | `""`          | Username to access the database                                       |
+| global.database.password                  | `""`          | Password to access the database                                       |
+| global.httpProxy                          | `""`          | Proxy to be used to access external resources through http            |
+| global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https           |
+| global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings |
 
 ### Local parameters
 
 The following values may be configured:
 
-| Parameter         | Default value                                          | Description                                                           |
-|-------------------|--------------------------------------------------------|-----------------------------------------------------------------------|
-| image.registry    | `harbor.3key.company`                                  | Docker registry name for the image                                    |
-| image.repository  | `czertainly/czertainly-cryptosense-discovery-provider` | Docker image repository name                                          |
-| image.tag         | `1.2.0`                                                | Docker image tag                                                      |
-| image.digest      | `""`                                                   | Docker image digest, will override tag if specified                   |
-| image.pullPolicy  | `IfNotPresent`                                         | Image pull policy                                                     |
-| image.pullSecrets | `[]`                                                   | Array of secret names for image pull                                  |
-| database.type     | `"postgresql"`                                         | Type of the database, currently only `postgresql` is supported        |
-| database.host     | `"host.docker.internal"`                               | Host where is the database located                                    |
-| database.port     | `5432`                                                 | Port on which is the database listening                               |
-| database.name     | `"czertainlydb"`                                       | Database name                                                         |
-| database.username | `"czertainlyuser"`                                     | Username to access the database                                       |
-| database.password | `"your-strong-password"`                               | Password to access the database                                       |
-| httpProxy         | `""`                                                   | Proxy to be used to access external resources through http            |
-| httpsProxy        | `""`                                                   | Proxy to be used to access external resources through https           |
-| httpProxy         | `""`                                                   | Defines list of external resources that should not use proxy settings |
-| logging.level     | `"INFO"`                                               | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
-| service.type      | `"ClusterIP"`                                          | Type of the service that is exposed                                   |
-| service.port      | `8080`                                                 | Port number of the exposed service                                    |
+| Parameter                                    | Default value                                          | Description                                                           |
+|----------------------------------------------|--------------------------------------------------------|-----------------------------------------------------------------------|
+| image.registry                               | `harbor.3key.company`                                  | Docker registry name for the image                                    |
+| image.repository                             | `czertainly/czertainly-cryptosense-discovery-provider` | Docker image repository name                                          |
+| image.tag                                    | `1.2.0`                                                | Docker image tag                                                      |
+| image.digest                                 | `""`                                                   | Docker image digest, will override tag if specified                   |
+| image.pullPolicy                             | `IfNotPresent`                                         | Image pull policy                                                     |
+| image.pullSecrets                            | `[]`                                                   | Array of secret names for image pull                                  |
+| image.securityContext.runAsNonRoot           | `true`                                                 | Run the container as non-root user                                    |
+| image.securityContext.runAsUser              | `10001`                                                | User ID for the container                                             |
+| image.securityContext.readOnlyRootFilesystem | `true`                                                 | Run the container with read-only root filesystem                      |
+| podSecurityContext                           | `{}`                                                   | Pod security context                                                  |
+| volumes.ephemeral.type                       | `memory`                                               | Ephemeral volume type to be used                                      |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`                                                | Ephemeral volume size limit                                           |
+| volumes.ephemeral.storageClassName           | `""`                                                   | Ephemeral volume storage class name for `storage` type                |
+| volumes.ephemeral.custom                     | `{}`                                                   | Custom definition of the ephemeral volume for `custom` type           |
+| database.type                                | `"postgresql"`                                         | Type of the database, currently only `postgresql` is supported        |
+| database.host                                | `"host.docker.internal"`                               | Host where is the database located                                    |
+| database.port                                | `5432`                                                 | Port on which is the database listening                               |
+| database.name                                | `"czertainlydb"`                                       | Database name                                                         |
+| database.username                            | `"czertainlyuser"`                                     | Username to access the database                                       |
+| database.password                            | `"your-strong-password"`                               | Password to access the database                                       |
+| httpProxy                                    | `""`                                                   | Proxy to be used to access external resources through http            |
+| httpsProxy                                   | `""`                                                   | Proxy to be used to access external resources through https           |
+| httpProxy                                    | `""`                                                   | Defines list of external resources that should not use proxy settings |
+| logging.level                                | `"INFO"`                                               | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
+| service.type                                 | `"ClusterIP"`                                          | Type of the service that is exposed                                   |
+| service.port                                 | `8080`                                                 | Port number of the exposed service                                    |
 
 ### Additional parameters
 
