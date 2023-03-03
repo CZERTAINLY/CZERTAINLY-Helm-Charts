@@ -87,5 +87,22 @@ jobs:
         uses: helm/kind-action@v1.4.0
         if: env.changed == 'true'
 
+      - name: Create testing namespace
+        run: kubectl create namespace chart-testing
+
+      - name: Create pull secret
+        env:
+          REGISTRY_SERVER: ${{ secrets.REGISTRY_SERVER }}
+          REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+          REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+          REGISTRY_EMAIL: ${{ secrets.REGISTRY_EMAIL }}
+        run: |
+          echo "Creating pull secret for private registry"
+          kubectl create secret -n chart-testing docker-registry czertainlycred \
+            --docker-server=$REGISTRY_SERVER \
+            --docker-username=$REGISTRY_USERNAME \
+            --docker-password=$REGISTRY_PASSWORD \
+            --docker-email=$REGISTRY_EMAIL
+
       - name: Run chart-testing (install)
-        run: ct install --target-branch develop --excluded-charts czertainly-lib
+        run: ct install --namespace chart-testing --target-branch develop --excluded-charts czertainly-lib
