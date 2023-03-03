@@ -25,6 +25,9 @@ spec:
       {{- end }}
     spec:
       {{- include "cryptosense-discovery-provider.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- end }}
       containers:
       - name: cryptosense-discovery-provider
         image: {{ include "cryptosense-discovery-provider.image" . }}
@@ -60,3 +63,12 @@ spec:
               key: password
         ports:
           - containerPort: {{ .Values.service.port }}
+        {{- if .Values.image.securityContext }}
+        securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+        {{- end }}
+        volumeMounts:
+          - mountPath: /tmp
+            name: ephemeral
+      volumes:
+        - name: ephemeral
+          {{- include "cryptosense-discovery-provider.ephemeralVolume" . | indent 10 }}
