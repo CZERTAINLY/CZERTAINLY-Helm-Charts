@@ -10,6 +10,12 @@ global:
     registry: ""
     # array of secret names
     pullSecrets: []
+  volumes:
+    ephemeral:
+      type: ""
+      sizeLimit: ""
+      storageClassName: ""
+      custom: {}
 
 autoscaling:
   enabled: false
@@ -33,6 +39,22 @@ image:
   pullPolicy: IfNotPresent
   # array of secret names
   pullSecrets: []
+  # default security context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 101
+    readOnlyRootFilesystem: true
+
+volumes:
+  ephemeral:
+    # available types are: memory, storage, custom
+    type: memory
+    sizeLimit: "1Mi"
+    storageClassName: ""
+    custom: {}
+    #  emptyDir:
+    #    sizeLimit: "10Mi"
+    #    medium: "Memory"
 
 url:
   base: "/administrator"

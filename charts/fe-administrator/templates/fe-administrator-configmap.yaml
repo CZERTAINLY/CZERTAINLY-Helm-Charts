@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fe-administrator-configmap
+  labels:
+    {{- include "fe-administrator.labels" . | nindent 4 }}
+data:
+  config.js: |
+    window.__ENV__ =
+    {
+        "API_URL": {{ .Values.url.api | quote}},
+        "LOGIN_URL": {{ .Values.url.login | quote}},
+        "LOGOUT_URL": {{ .Values.url.logout | quote}}
+    }

@@ -22,18 +22,32 @@ spec:
       {{- end }}
     spec:
       {{- include "fe-administrator.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- end }}
       containers:
-        - name: fe-administrator
-          image: {{ include "fe-administrator.image" . }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: BASE_URL
-              value: {{ .Values.url.base | quote }}
-            - name: API_URL
-              value: {{ .Values.url.api | quote }}
-            - name: LOGIN_URL
-              value: {{ .Values.url.login | quote }}
-            - name: LOGOUT_URL
-              value: {{ .Values.url.logout | quote }}
-          ports:
-            - containerPort: {{ .Values.service.port }}
+      - name: fe-administrator
+        image: {{ include "fe-administrator.image" . }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - containerPort: {{ .Values.service.port }}
+        {{- if .Values.image.securityContext }}
+        securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+        {{- end }}
+        volumeMounts:
+          - name: fe-administrator-config-volume
+            mountPath: /usr/share/nginx/html/config.js
+            subPath: config.js
+          - mountPath: /var/cache/nginx
+            name: ephemeral
+          - mountPath: /tmp
+            name: ephemeral
+      volumes:
+        - name: fe-administrator-config-volume
+          configMap:
+            name: fe-administrator-configmap
+            items:
+              - key: config.js
+                path: config.js
+        - name: ephemeral
+          {{- include "fe-administrator.ephemeralVolume" . | indent 10 }}
