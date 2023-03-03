@@ -25,6 +25,9 @@ spec:
       {{- end }}
     spec:
       {{- include "software-cryptography-provider.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- end }}
       containers:
       - name: software-cryptography-provider
         image: {{ include "software-cryptography-provider.image" . }}
@@ -64,3 +67,12 @@ spec:
           value: {{ .Values.javaOpts | quote }}
         ports:
           - containerPort: {{ .Values.service.port }}
+        {{- if .Values.image.securityContext }}
+        securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+        {{- end }}
+        volumeMounts:
+          - mountPath: /tmp
+            name: ephemeral
+      volumes:
+        - name: ephemeral
+          {{- include "software-cryptography-provider.ephemeralVolume" . | indent 10 }}
