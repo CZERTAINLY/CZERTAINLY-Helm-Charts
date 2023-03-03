@@ -8,8 +8,11 @@ metadata:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: wget
-      image: busybox
-      command: ['wget']
-      args: ['{{ include "network-discovery-provider.fullname" . }}:{{ .Values.service.port }}']
+    - name: curl
+      image: alpine/curl
+      command:
+        - /bin/sh
+        - -c
+        - |
+          curl --silent --retry 5 --retry-delay 5 --retry-all-errors network-discovery-provider-service:{{ .Values.service.port }}/v1
   restartPolicy: Never
