@@ -67,30 +67,42 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                | Default value | Description                                 |
-|--------------------------|---------------|---------------------------------------------|
-| global.image.registry    | `""`          | Global docker registry name                 |
-| global.image.pullSecrets | `[]`          | Global array of secret names for image pull |
+| Parameter                                 | Default value | Description                                                        |
+|-------------------------------------------|---------------|--------------------------------------------------------------------|
+| global.image.registry                     | `""`          | Global docker registry name                                        |
+| global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                        |
+| global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                            |
+| global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                 |
+| global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type      |
+| global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type |
 
 ### Local parameters
 
 The following values may be configured:
 
-| Parameter         | Default value                                   | Description                                                 |
-|-------------------|-------------------------------------------------|-------------------------------------------------------------|
-| image.registry    | `docker.io`                                     | Docker registry name for the image                          |
-| image.repository  | `3keycompany/czertainly-frontend-administrator` | Docker image repository name                                |
-| image.tag         | `2.5.0`                                         | Docker image tag                                            |
-| image.digest      | `""`                                            | Docker image digest, will override tag if specified         |
-| image.pullPolicy  | `IfNotPresent`                                  | Image pull policy                                           |
-| image.pullSecrets | `[]`                                            | Array of secret names for image pull                        |
-| logging.level     | `"INFO"`                                        | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"` |
-| service.type      | `"ClusterIP"`                                   | Type of the service that is exposed                         |
-| service.port      | `8080`                                          | Port number of the exposed service                          |
-| url.base          | `"/administrator"`                              | Base URL for the web                                        |
-| url.api           | `"/api"`                                        | URL for the api requests                                    |
-| url.login         | `"/login"`                                      | Login URL for authentication of the user                    |
-| url.logou         | `"/logout"`                                     | Logout URL for logout of the user                           |
+| Parameter                                    | Default value                                   | Description                                                 |
+|----------------------------------------------|-------------------------------------------------|-------------------------------------------------------------|
+| image.registry                               | `docker.io`                                     | Docker registry name for the image                          |
+| image.repository                             | `3keycompany/czertainly-frontend-administrator` | Docker image repository name                                |
+| image.tag                                    | `2.5.0`                                         | Docker image tag                                            |
+| image.digest                                 | `""`                                            | Docker image digest, will override tag if specified         |
+| image.pullPolicy                             | `IfNotPresent`                                  | Image pull policy                                           |
+| image.pullSecrets                            | `[]`                                            | Array of secret names for image pull                        |
+| image.securityContext.runAsNonRoot           | `true`                                          | Run the container as non-root user                          |
+| image.securityContext.runAsUser              | `101`                                           | User ID for the container                                   |
+| image.securityContext.readOnlyRootFilesystem | `true`                                          | Run the container with read-only root filesystem            |
+| podSecurityContext                           | `{}`                                            | Pod security context                                        |
+| volumes.ephemeral.type                       | `memory`                                        | Ephemeral volume type to be used                            |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`                                         | Ephemeral volume size limit                                 |
+| volumes.ephemeral.storageClassName           | `""`                                            | Ephemeral volume storage class name for `storage` type      |
+| volumes.ephemeral.custom                     | `{}`                                            | Custom definition of the ephemeral volume for `custom` type |
+| logging.level                                | `"INFO"`                                        | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"` |
+| service.type                                 | `"ClusterIP"`                                   | Type of the service that is exposed                         |
+| service.port                                 | `8080`                                          | Port number of the exposed service                          |
+| url.base                                     | `"/administrator"`                              | Base URL for the web                                        |
+| url.api                                      | `"/api"`                                        | URL for the api requests                                    |
+| url.login                                    | `"/login"`                                      | Login URL for authentication of the user                    |
+| url.logou                                    | `"/logout"`                                     | Logout URL for logout of the user                           |
 
 ### Additional parameters
 
