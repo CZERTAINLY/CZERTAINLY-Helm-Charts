@@ -8,6 +8,12 @@ global:
     registry: ""
     # array of secret names
     pullSecrets: []
+  volumes:
+    ephemeral:
+      type: ""
+      sizeLimit: ""
+      storageClassName: ""
+      custom: {}
   database:
     # currently only postgresql is supported
     type: "postgresql"
@@ -134,18 +140,39 @@ image:
   pullPolicy: IfNotPresent
   # array of secret names
   pullSecrets: []
+  # default security context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 10001
+    readOnlyRootFilesystem: true
+
+volumes:
+  ephemeral:
+    # available types are: memory, storage, custom
+    type: memory
+    sizeLimit: "1Mi"
+    storageClassName: ""
+    custom: {}
+    #  emptyDir:
+    #    sizeLimit: "10Mi"
+    #    medium: "Memory"
 
 curl:
   image:
     # default registry name
     registry: docker.io
-    repository: alpine/curl
-    tag: 3.14
+    repository: curlimages/curl
+    tag: 7.87.0
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent
     # array of secret names
     pullSecrets: []
+    # default security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 100
+      readOnlyRootFilesystem: true
 
 kubectl:
   image:
@@ -158,18 +185,28 @@ kubectl:
     pullPolicy: IfNotPresent
     # array of secret names
     pullSecrets: []
+    # default security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      readOnlyRootFilesystem: true
 
 opa:
   image:
     # default registry name
     registry: docker.io
     repository: openpolicyagent/opa
-    tag: 0.45.0
+    tag: 0.45.0-rootless
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent
     # array of secret names
     pullSecrets: []
+    # default security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      readOnlyRootFilesystem: true
 
 logging:
   level: "INFO"
@@ -196,14 +233,6 @@ podAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
 
 certManager:
   version: ""

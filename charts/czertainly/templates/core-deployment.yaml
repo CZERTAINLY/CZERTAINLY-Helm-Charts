@@ -23,16 +23,22 @@ spec:
       {{- end }}
     spec:
       {{- include "czertainly.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- end }}
       initContainers:
         - name: wait-for-auth-service
           image: {{ include "czertainly.curl.image" . }}
           imagePullPolicy: {{ .Values.curl.image.pullPolicy }}
+          {{- if .Values.curl.image.securityContext }}
+          securityContext: {{- .Values.curl.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
           command:
             - /bin/sh
             - -c
             - |
-              while ! nc -z auth-service 80; do sleep 1; done &&
-              while ! nc -z auth-opa-policies-service 80; do sleep 1; done &&
+              while ! nc -z auth-service {{ .Values.authService.service.port }}; do sleep 1; done &&
+              while ! nc -z auth-opa-policies-service {{ .Values.authOpaPolicies.service.port }}; do sleep 1; done &&
               echo "auth service seems to be started"
       containers:
         - name: czertainly-auth-opa
@@ -40,6 +46,9 @@ spec:
           imagePullPolicy: {{ .Values.opa.image.pullPolicy }}
           ports:
             - containerPort: 8181
+          {{- if .Values.opa.image.securityContext }}
+          securityContext: {{- .Values.opa.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
           args:
             - "run"
             - "--server"
@@ -113,6 +122,12 @@ spec:
               value: {{ .Values.javaOpts | quote }}
           ports:
             - containerPort: {{ .Values.service.port }}
+          {{- if .Values.image.securityContext }}
+          securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - mountPath: /tmp
+              name: ephemeral
           readinessProbe:
             tcpSocket:
               port: {{ .Values.service.port }}
@@ -153,3 +168,6 @@ spec:
                      }' \
                      http://localhost:{{ .Values.service.port }}/api/v1/local/admins
           {{- end }}
+      volumes:
+        - name: ephemeral
+          {{- include "czertainly.ephemeralVolume" . | indent 10 }}
