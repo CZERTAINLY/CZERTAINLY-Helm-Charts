@@ -88,9 +88,11 @@ jobs:
         if: env.changed == 'true'
 
       - name: Create testing namespace
+        if: env.changed == 'true'
         run: kubectl create namespace chart-testing
 
       - name: Create pull secret
+        if: env.changed == 'true'
         env:
           REGISTRY_SERVER: ${{ secrets.REGISTRY_SERVER }}
           REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
