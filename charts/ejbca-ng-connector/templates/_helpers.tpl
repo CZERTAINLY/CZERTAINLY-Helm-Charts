@@ -63,3 +63,10 @@ Return the image pull secret names
 {{- define "ejbca-ng-connector.imagePullSecrets" -}}
 {{ include "czertainly-lib.images.pullSecrets" (dict "images" (list .Values.image) "global" .Values.global) }}
 {{- end -}}
+
+{{/*
+Retun the ephemeral volume configuration
+*/}}
+{{- define "ejbca-ng-connector.ephemeralVolume" -}}
+{{ include "czertainly-lib.volumes.ephemeral" (dict "volumes" .Values.volumes "global" .Values.global.volumes) }}
+{{- end -}}
