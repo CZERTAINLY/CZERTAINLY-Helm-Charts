@@ -63,3 +63,10 @@ Return the image pull secret names
 {{- define "ms-adcs-connector.imagePullSecrets" -}}
 {{ include "czertainly-lib.images.pullSecrets" (dict "images" (list .Values.image) "global" .Values.global) }}
 {{- end -}}
+
+{{/*
+Retun the ephemeral volume configuration
+*/}}
+{{- define "ms-adcs-connector.ephemeralVolume" -}}
+{{ include "czertainly-lib.volumes.ephemeral" (dict "volumes" .Values.volumes "global" .Values.global.volumes) }}
+{{- end -}}
