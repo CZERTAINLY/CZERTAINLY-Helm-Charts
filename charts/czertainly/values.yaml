@@ -298,6 +298,7 @@ affinity: {}
 # dependencies management
 #
 apiGateway:
+  nameOverride: api-gateway
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -312,6 +313,7 @@ apiGateway:
   trustedIps: ""
 
 feAdministrator:
+  nameOverride: fe-administrator
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -324,28 +326,42 @@ feAdministrator:
     port: 8080
   podAnnotations: {}
 
+authService:
+  nameOverride: auth-service
+
+authOpaPolicies:
+  nameOverride: auth-opa-policies
+
 registerConnectors: true
 
 commonCredentialProvider:
+  nameOverride: common-credential-provider
   enabled: true
 
 ejbcaNgConnector:
+  nameOverride: ejbca-ng-connector
   enabled: false
 
 msAdcsConnector:
+  nameOverride: ms-adcs-connector
   enabled: false
 
 x509ComplianceProvider:
+  nameOverride: x509-compliance-provider
   enabled: false
 
 cryptosenseDiscoveryProvider:
+  nameOverride: cryptosense-discovery-provider
   enabled: false
 
 networkDiscoveryProvider:
+  nameOverride: network-discovery-provider
   enabled: false
 
 keystoreEntityProvider:
+  nameOverride: keystore-entity-provider
   enabled: false
 
 softwareCryptographyProvider:
+  nameOverride: software-cryptography-provider
   enabled: false
