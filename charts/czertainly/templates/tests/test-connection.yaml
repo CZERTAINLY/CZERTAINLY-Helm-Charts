@@ -8,8 +8,11 @@ metadata:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: wget
-      image: busybox
-      command: ['wget']
-      args: ['{{ include "czertainly.fullname" . }}:{{ .Values.service.port }}']
+    - name: curl
+      image: alpine/curl
+      command:
+        - /bin/sh
+        - -c
+        - |
+          curl --silent --retry 10 --retry-delay 5 --retry-all-errors core-service:{{ .Values.service.port }}/api/v1/health/liveness
   restartPolicy: Never

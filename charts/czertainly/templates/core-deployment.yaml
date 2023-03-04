@@ -23,16 +23,22 @@ spec:
       {{- end }}
     spec:
       {{- include "czertainly.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- end }}
       initContainers:
         - name: wait-for-auth-service
           image: {{ include "czertainly.curl.image" . }}
           imagePullPolicy: {{ .Values.curl.image.pullPolicy }}
+          {{- if .Values.curl.image.securityContext }}
+          securityContext: {{- .Values.curl.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
           command:
             - /bin/sh
             - -c
             - |
-              while ! nc -z auth-service 80; do sleep 1; done &&
-              while ! nc -z auth-opa-policies-service 80; do sleep 1; done &&
+              while ! nc -z auth-service {{ .Values.authService.service.port }}; do sleep 1; done &&
+              while ! nc -z auth-opa-policies-service {{ .Values.authOpaPolicies.service.port }}; do sleep 1; done &&
               echo "auth service seems to be started"
       containers:
         - name: czertainly-auth-opa
@@ -40,12 +46,15 @@ spec:
           imagePullPolicy: {{ .Values.opa.image.pullPolicy }}
           ports:
             - containerPort: 8181
+          {{- if .Values.opa.image.securityContext }}
+          securityContext: {{- .Values.opa.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
           args:
             - "run"
             - "--server"
             - "--log-format=json-pretty"
             - "--set=decision_logs.console=true"
-            - "--set=services.nginx.url=http://auth-opa-policies-service"
+            - "--set=services.nginx.url=http://auth-opa-policies-service:{{ .Values.authOpaPolicies.service.port }}"
             - "--set=bundles.nginx.service=nginx"
             - "--set=bundles.nginx.resource=bundles/bundle.tar.gz"
         - name: czertainly-core
@@ -101,7 +110,7 @@ spec:
             - name: OPA_BASE_URL
               value: "http://localhost:8181"
             - name: AUTH_SERVICE_BASE_URL
-              value: "http://auth-service"
+              value: "http://auth-service:{{ .Values.authService.service.port }}"
             {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
             - name: TRUSTED_CERTIFICATES
               valueFrom:
@@ -113,6 +122,12 @@ spec:
               value: {{ .Values.javaOpts | quote }}
           ports:
             - containerPort: {{ .Values.service.port }}
+          {{- if .Values.image.securityContext }}
+          securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - mountPath: /tmp
+              name: ephemeral
           readinessProbe:
             tcpSocket:
               port: {{ .Values.service.port }}
@@ -153,3 +168,6 @@ spec:
                      }' \
                      http://localhost:{{ .Values.service.port }}/api/v1/local/admins
           {{- end }}
+      volumes:
+        - name: ephemeral
+          {{- include "czertainly.ephemeralVolume" . | indent 10 }}

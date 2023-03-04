@@ -1,0 +1,22 @@
+global:
+  database:
+    host: "172.17.0.1"
+
+image:
+  tag: develop-latest
+
+authService:
+  image:
+    tag: develop-latest
+
+authOpaPolicies:
+  image:
+    tag: develop-latest
+
+feAdministrator:
+  image:
+    tag: develop-latest
+
+commonCredentialProvider:
+  image:
+    tag: develop-latest

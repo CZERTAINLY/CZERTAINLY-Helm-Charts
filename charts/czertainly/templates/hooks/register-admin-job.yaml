@@ -26,6 +26,9 @@ spec:
       containers:
         - name: register-admin-job
           image: {{ include "czertainly.kubectl.image" . }}
+          {{- if .Values.kubectl.image.securityContext }}
+          securityContext: {{- .Values.kubectl.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
           command:
           - /bin/sh
           - -c
@@ -46,6 +49,8 @@ spec:
               mountPath: /opt/trusted-certs/
             - name: admin-certificate-volume
               mountPath: /opt/admin-certificate/
+            - mountPath: /tmp
+              name: ephemeral
       volumes:
         - name: trusted-certificates-volume
           secret:
@@ -62,4 +67,6 @@ spec:
         - name: admin-certificate-volume
           secret:
             secretName: admin-certificate-secret
+        - name: ephemeral
+          {{- include "czertainly.ephemeralVolume" . | indent 10 }}
 {{- end }}
