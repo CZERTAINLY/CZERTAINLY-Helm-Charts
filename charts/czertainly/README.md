@@ -159,6 +159,10 @@ The following values may be configured for the CZERTAINLY core service:
 | auth.header.certificate                      | `"X-APP-CERTIFICATE"`                                                                                                                                                                                                                                                                                                                        | Name of the header containing client certificate                                                                                                                                                                                         |
 | javaOpts                                     | `""`                                                                                                                                                                                                                                                                                                                                         | Customize Java system properties                                                                                                                                                                                                         |
 
+#### Parameters for associated containers
+
+**Open Policy Agent**
+
 | Parameter                                        | Default value         | Description                                         |
 |--------------------------------------------------|-----------------------|-----------------------------------------------------|
 | opa.image.registry                               | `docker.io`           | Docker registry name for the image                  |
@@ -171,6 +175,8 @@ The following values may be configured for the CZERTAINLY core service:
 | opa.image.securityContext.runAsUser              | `1000`                | User ID for the container                           |
 | opa.image.securityContext.readOnlyRootFilesystem | `true`                | Run the container with read-only root filesystem    |
 
+**cURL**
+
 | Parameter                                         | Default value     | Description                                         |
 |---------------------------------------------------|-------------------|-----------------------------------------------------|
 | curl.image.registry                               | `docker.io`       | Docker registry name for the image                  |
@@ -182,6 +188,8 @@ The following values may be configured for the CZERTAINLY core service:
 | curl.image.securityContext.runAsNonRoot           | `true`            | Run the container as non-root user                  |
 | curl.image.securityContext.runAsUser              | `100`             | User ID for the container                           |
 | curl.image.securityContext.readOnlyRootFilesystem | `true`            | Run the container with read-only root filesystem    |
+
+**kubectl**
 
 | Parameter                                            | Default value     | Description                                         |
 |------------------------------------------------------|-------------------|-----------------------------------------------------|

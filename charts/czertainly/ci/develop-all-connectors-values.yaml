@@ -1,0 +1,60 @@
+global:
+  database:
+    host: "172.17.0.1"
+  image:
+    pullSecrets:
+      - czertainlycred
+
+image:
+  tag: develop-latest
+
+authService:
+  image:
+    tag: develop-latest
+
+authOpaPolicies:
+  image:
+    tag: develop-latest
+
+feAdministrator:
+  image:
+    tag: develop-latest
+
+commonCredentialProvider:
+  image:
+    tag: develop-latest
+
+ejbcaNgConnector:
+  enabled: true
+  image:
+    tag: develop-latest
+
+msAdcsConnector:
+  enabled: true
+  image:
+    tag: develop-latest
+
+x509ComplianceProvider:
+  enabled: true
+  image:
+    tag: develop-latest
+
+cryptosenseDiscoveryProvider:
+  enabled: true
+  image:
+    tag: develop-latest
+
+networkDiscoveryProvider:
+  enabled: true
+  image:
+    tag: develop-latest
+
+keystoreEntityProvider:
+  enabled: true
+  image:
+    tag: develop-latest
+
+softwareCryptographyProvider:
+  enabled: true
+  image:
+    tag: develop-latest
