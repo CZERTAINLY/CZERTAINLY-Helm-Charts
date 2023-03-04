@@ -110,7 +110,7 @@ spec:
             - name: OPA_BASE_URL
               value: "http://localhost:8181"
             - name: AUTH_SERVICE_BASE_URL
-              value: "http://auth-service"
+              value: "http://auth-service:{{ .Values.authService.service.port }}"
             {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
             - name: TRUSTED_CERTIFICATES
               valueFrom:
