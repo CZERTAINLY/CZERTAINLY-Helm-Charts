@@ -321,8 +321,7 @@ feAdministrator:
   replicaCount: 1
   service:
     type: "ClusterIP"
-    port: 80
-  baseUrl: /administrator
+    port: 8080
   podAnnotations: {}
 
 registerConnectors: true

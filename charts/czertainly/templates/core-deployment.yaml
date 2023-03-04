@@ -54,7 +54,7 @@ spec:
             - "--server"
             - "--log-format=json-pretty"
             - "--set=decision_logs.console=true"
-            - "--set=services.nginx.url=http://auth-opa-policies-service"
+            - "--set=services.nginx.url=http://auth-opa-policies-service:{{ .Values.authOpaPolicies.service.port }}"
             - "--set=bundles.nginx.service=nginx"
             - "--set=bundles.nginx.resource=bundles/bundle.tar.gz"
         - name: czertainly-core
