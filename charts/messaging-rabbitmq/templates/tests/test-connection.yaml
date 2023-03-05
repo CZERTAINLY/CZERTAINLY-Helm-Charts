@@ -14,5 +14,5 @@ spec:
         - /bin/sh
         - -c
         - |
-          curl -u {{ .Values.secret.user }}:{{ .Values.secret.pass}} --silent --retry 10 --retry-delay 5 --retry-all-errors messaging-service:{{ .Values.service.client.http.port }}/api/overview
+          curl -u {{ .Values.secret.user }}:{{ .Values.secret.pass}} --retry 10 --retry-delay 5 --retry-all-errors messaging-service:{{ .Values.service.client.http.port }}/api/overview
   restartPolicy: Never
