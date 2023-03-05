@@ -119,12 +119,12 @@ spec:
             periodSeconds: 60
             timeoutSeconds: 10
           volumeMounts:
-            - name: rabbitmq-config-rw
-              mountPath: "/etc/rabbitmq"
+            #- name: rabbitmq-config-rw
+            #  mountPath: "/etc/rabbitmq"
               # mountPath: "/etc/rabbitmq/conf.d/"
             # mounting rabbitmq.conf and enabled_plugins
-            # - name: configuration
-            #   mountPath: "/etc/rabbitmq"
+            - name: configuration
+              mountPath: "/etc/rabbitmq"
             #   # mountPath: "/etc/rabbitmq/conf.d/"
             # rabbitmq data directory
             - name: data
