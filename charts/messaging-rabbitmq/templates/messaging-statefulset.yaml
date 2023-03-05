@@ -81,6 +81,8 @@ spec:
                   fieldPath: metadata.namespace
             - name: K8S_SERVICE_NAME
               value: "messaging-service-headless"
+            - name: K8S_ADDRESS_TYPE
+              value: "hostname"
             - name: RABBITMQ_NODE_NAME
               value: "rabbit@$(MY_POD_NAME)"
           ports:
