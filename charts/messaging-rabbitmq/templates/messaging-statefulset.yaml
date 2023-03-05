@@ -91,6 +91,7 @@ spec:
             {{- else }}
             - name: RABBITMQ_NODE_NAME
               value: "rabbit@$(MY_POD_NAME)"
+            {{- end }}
           ports:
             - name: amqp
               containerPort: {{ .Values.service.client.amqp.port }}
