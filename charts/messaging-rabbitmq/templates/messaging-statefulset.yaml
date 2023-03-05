@@ -61,6 +61,19 @@ spec:
           {{- if .Values.image.securityContext }}
           securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
           {{- end }}
+          livenessProbe:
+            exec:
+              command: [ "rabbitmq-diagnostics", "status" ]
+            initialDelaySeconds: 60
+            # See https://www.rabbitmq.com/monitoring.html for monitoring frequency recommendations.
+            periodSeconds: 60
+            timeoutSeconds: 15
+          readinessProbe: # probe to know when RMQ is ready to accept traffic
+            exec:
+              command: [ "rabbitmq-diagnostics", "ping" ]
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            timeoutSeconds: 10
           volumeMounts:
             # mounting rabbitmq.conf and enabled_plugins
             - name: configuration
