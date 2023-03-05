@@ -48,6 +48,11 @@ service:
     clusterRpc:
       port: 25672
 
+clustering:
+  # ip or hostname
+  addressType: hostname
+  domain: cluster.local
+
 image:
   # default registry name
   registry: docker.io

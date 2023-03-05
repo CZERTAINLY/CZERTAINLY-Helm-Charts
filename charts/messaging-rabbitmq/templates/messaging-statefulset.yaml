@@ -82,7 +82,13 @@ spec:
             - name: K8S_SERVICE_NAME
               value: "messaging-service-headless"
             - name: K8S_ADDRESS_TYPE
-              value: "hostname"
+              value: {{ .Values.clustering.addressType }}
+            {{- if (eq "hostname" .Values.clustering.addressType) }}
+            - name: RABBITMQ_NODE_NAME
+              value: "rabbit@$(MY_POD_NAME).$(K8S_SERVICE_NAME).$(MY_POD_NAMESPACE).svc.{{ .Values.clustering.domain }}"
+            - name: K8S_HOSTNAME_SUFFIX
+              value: ".$(K8S_SERVICE_NAME).$(MY_POD_NAMESPACE).svc.{{ .Values.clustering.domain }}"
+            {{- else }}
             - name: RABBITMQ_NODE_NAME
               value: "rabbit@$(MY_POD_NAME)"
           ports:
