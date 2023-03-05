@@ -65,6 +65,8 @@ spec:
                 secretKeyRef:
                   name: messaging-secret
                   key: cookie
+            - name: RABBITMQ_LOGS
+              value: "-"
             - name: MY_POD_IP
               valueFrom:
                 fieldRef:
@@ -80,7 +82,7 @@ spec:
             - name: K8S_SERVICE_NAME
               value: "messaging-service-headless"
             - name: RABBITMQ_NODE_NAME
-              value: "rabbit@$(MY_POD_IP)"
+              value: "rabbit@$(MY_POD_NAME)"
           ports:
             - name: amqp
               containerPort: {{ .Values.service.client.amqp.port }}
