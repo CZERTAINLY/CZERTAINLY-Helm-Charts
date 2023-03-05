@@ -6,13 +6,11 @@ data:
   enabled_plugins: |
     [rabbitmq_peer_discovery_k8s, rabbitmq_management].
   rabbitmq.conf: |
-    cluster_formation.peer_discovery_backend = k8s
-    cluster_formation.k8s.host = kubernetes.default.svc.cluster.local
-    cluster_formation.k8s.address_type = hostname
-    cluster_formation.k8s.service_name = rabbitmq-headless
+    cluster_formation.peer_discovery_backend = rabbit_peer_discovery_k8s
+    cluster_formation.k8s.host = kubernetes.default
     queue_master_locator=min-masters
+
     ## Logging to console
-    ##
     log.console = true
     log.console.level = info
     log.file = false
