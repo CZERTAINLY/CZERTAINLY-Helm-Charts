@@ -129,6 +129,9 @@ spec:
             # rabbitmq data directory
             - name: data
               mountPath: "/var/lib/rabbitmq/mnesia"
+            # there is a bug in the Docker image that prevents upgrade logs from being written to stdout
+            - mountPath: /var/log/rabbitmq
+              name: ephemeral
       volumes:
         - name: configuration
           configMap:
@@ -139,6 +142,8 @@ spec:
                 path: "rabbitmq.conf"
               - key: enabled_plugins
                 path: "enabled_plugins"
+        - name: ephemeral
+          {{- include "messaging-rabbitmq.ephemeralVolume" . | indent 10 }}
         #- name: rabbitmq-config-rw
         #  emptyDir: { }
   {{- if not .Values.persistence.enabled }}

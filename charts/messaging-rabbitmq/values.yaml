@@ -67,7 +67,7 @@ image:
   securityContext:
     runAsNonRoot: true
     runAsUser: 999
-    # readOnlyRootFilesystem: true
+    readOnlyRootFilesystem: true
 
 volumes:
   ephemeral:
