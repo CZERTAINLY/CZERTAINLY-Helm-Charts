@@ -14,3 +14,4 @@ data:
     log.console = true
     log.console.level = info
     log.file = false
+    log.upgrade.file = false
