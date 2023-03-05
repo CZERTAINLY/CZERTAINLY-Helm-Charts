@@ -65,6 +65,8 @@ spec:
                 secretKeyRef:
                   name: messaging-secret
                   key: cookie
+            - name: K8S_SERVICE_NAME
+              value: "messaging-service-headless"
           ports:
             - name: amqp
               containerPort: {{ .Values.service.client.amqp.port }}
