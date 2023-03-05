@@ -1,0 +1,134 @@
+# Default values for messaging-rabbitmq.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Global parameters that will overwrite local parameters
+global:
+  image:
+    registry: ""
+    # array of secret names
+    pullSecrets: []
+  volumes:
+    ephemeral:
+      type: ""
+      sizeLimit: ""
+      storageClassName: ""
+      custom: {}
+  persistence:
+    storageClassName: ""
+  httpProxy: ""
+  httpsProxy: ""
+  noProxy: ""
+
+httpProxy: ""
+httpsProxy: ""
+noProxy: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+replicaCount: 1
+
+service:
+  client:
+    type: "ClusterIP"
+    http:
+      port: 15672
+    amqp:
+      port: 5672
+  headless:
+    epmd:
+      port: 4369
+    clusterRpc:
+      port: 25672
+
+image:
+  # default registry name
+  registry: docker.io
+  repository: rabbitmq
+  tag: 3.11.10
+  # the digest to be used instead of the tag
+  digest: ""
+  pullPolicy: IfNotPresent
+  # array of secret names
+  pullSecrets: []
+  # default security context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    readOnlyRootFilesystem: true
+
+volumes:
+  ephemeral:
+    # available types are: memory, storage, custom
+    type: memory
+    sizeLimit: "1Mi"
+    storageClassName: ""
+    custom: {}
+    #  emptyDir:
+    #    sizeLimit: "10Mi"
+    #    medium: "Memory"
+
+logging:
+  level: "INFO"
+  audit:
+    enabled: "false"
+
+javaOpts: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "messaging-rabbitmq-sa"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+hostName: localhost
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+persistence:
+  enabled: true
+  storageClass: ""
+  selector: {}
+  accessModes:
+    - ReadWriteOnce
+  existingClaim: ""
+  mountPath: /bitnami/rabbitmq/mnesia
+  subPath: ""
+  size: 8Gi
+  annotations: {}
+
+secret:
+  user: "quest"
+  pass: "quest"
+  cookie: "defaultCookies"

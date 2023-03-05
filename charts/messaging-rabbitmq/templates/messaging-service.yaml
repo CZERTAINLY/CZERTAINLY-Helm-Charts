@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: messaging-service
+  labels:
+    {{- include "messaging-rabbitmq.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.client.type }}
+  ports:
+    - name: http
+      port: {{ .Values.service.client.http.port }}
+      protocol: "TCP"
+    - name: amqp
+      port: {{ .Values.service.client.amqp.port }}
+      protocol: "TCP"
+  selector:
+    {{- include "messaging-rabbitmq.selectorLabels" . | nindent 4 }}

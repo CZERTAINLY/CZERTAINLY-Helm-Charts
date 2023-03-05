@@ -1,0 +1,115 @@
+{{- $storageClassName := pluck "storageClassName" .Values.global.persistence .Values.persistence | compact | first }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: messaging-statefulset
+  labels:
+    {{- include "messaging-rabbitmq.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "messaging-rabbitmq.selectorLabels" . | nindent 6 }}
+  # headless service that gives network identity to the RMQ nodes, and enables them to cluster
+  serviceName: messaging-service-headless
+  template:
+    metadata:
+      labels:
+        {{- include "messaging-rabbitmq.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- include "messaging-rabbitmq.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ template "messaging-rabbitmq.serviceAccountName" . }}
+      containers:
+        - name: rabbitmq
+          image: {{ include "messaging-rabbitmq.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: messaging-secret
+                  key: pass
+            - name: RABBITMQ_DEFAULT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: messaging-secret
+                  key: user
+            - name: RABBITMQ_ERLANG_COOKIE
+              valueFrom:
+                secretKeyRef:
+                  name: messaging-secret
+                  key: cookie
+          ports:
+            - name: amqp
+              containerPort: {{ .Values.service.client.amqp.port }}
+              protocol: "TCP"
+            - name: management
+              containerPort: {{ .Values.service.client.http.port }}
+              protocol: "TCP"
+            - name: epmd
+              containerPort: {{ .Values.service.headless.epmd.port }}
+              protocol: "TCP"
+          {{- if .Values.image.securityContext }}
+          securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            # mounting rabbitmq.conf and enabled_plugins
+            - name: configuration
+              mountPath: "/etc/rabbitmq"
+              # mountPath: "/etc/rabbitmq/conf.d/"
+            # rabbitmq data directory
+            - name: data
+              mountPath: "/var/lib/rabbitmq/mnesia"
+      volumes:
+        - name: configuration
+          configMap:
+            name: messaging-configmap
+            optional: false
+            items:
+              - key: rabbitmq.conf
+                path: "rabbitmq.conf"
+              - key: enabled_plugins
+                path: "enabled_plugins"
+  {{- if not .Values.persistence.enabled }}
+        - name: data
+          emptyDir: {}
+  {{- else if .Values.persistence.existingClaim }}
+        - name: data
+          persistentVolumeClaim:
+            {{- with .Values.persistence.existingClaim }}
+            claimName: {{ tpl . $ }}
+            {{- end }}
+  {{- else }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          {{- include "messaging-rabbitmq.labels" . | nindent 10 }}
+        {{- if .Values.persistence.annotations }}
+        annotations: {{- .Values.persistence.annotations | toYaml | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes:
+          {{- range .Values.persistence.accessModes }}
+          - {{ . | quote }}
+          {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size | quote }}
+        {{- if $storageClassName }}
+        storageClassName: {{ $storageClassName }}
+        {{- end }}
+        {{- if .Values.persistence.selector }}
+        selector: {{- .Values.persistence.selector | toYaml | nindent 10 }}
+        {{- end -}}
+  {{- end }}
+
