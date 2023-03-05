@@ -173,4 +173,3 @@ spec:
         selector: {{- .Values.persistence.selector | toYaml | nindent 10 }}
         {{- end -}}
   {{- end }}
-
