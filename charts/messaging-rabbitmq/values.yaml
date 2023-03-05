@@ -139,3 +139,7 @@ secret:
   user: "quest"
   pass: "quest"
   cookie: "defaultCookies"
+
+plugins:
+  management:
+    enabled: false

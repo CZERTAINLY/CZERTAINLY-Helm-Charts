@@ -4,7 +4,11 @@ metadata:
   name: messaging-configmap
 data:
   enabled_plugins: |
+    {{- if .Values.plugins.management.enabled }}
     [rabbitmq_peer_discovery_k8s, rabbitmq_management].
+    {{- else }}
+    [rabbitmq_peer_discovery_k8s].
+    {{- end }}
   rabbitmq.conf: |
     cluster_formation.peer_discovery_backend = rabbit_peer_discovery_k8s
     cluster_formation.k8s.host = kubernetes.default
