@@ -116,6 +116,7 @@ tolerations: []
 
 affinity: {}
 
+# inspired by bitnami
 persistence:
   enabled: true
   storageClass: ""
@@ -123,7 +124,6 @@ persistence:
   accessModes:
     - ReadWriteOnce
   existingClaim: ""
-  mountPath: /bitnami/rabbitmq/mnesia
   subPath: ""
   size: 8Gi
   annotations: {}
