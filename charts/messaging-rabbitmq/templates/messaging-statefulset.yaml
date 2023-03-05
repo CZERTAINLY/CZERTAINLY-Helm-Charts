@@ -49,7 +49,7 @@ spec:
                   name: messaging-secret
                   key: cookie
             - name: RABBITMQ_LOGS
-              value: "-"
+              value: '-'
           ports:
             - name: amqp
               containerPort: {{ .Values.service.client.amqp.port }}
