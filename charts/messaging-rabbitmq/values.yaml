@@ -62,7 +62,7 @@ image:
   securityContext:
     runAsNonRoot: true
     runAsUser: 999
-    readOnlyRootFilesystem: true
+    # readOnlyRootFilesystem: true
 
 volumes:
   ephemeral:
@@ -93,8 +93,10 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
+podSecurityContext:
+  fsGroup: 999
+  runAsUser: 999
+  runAsGroup: 999
 
 hostName: localhost
 
