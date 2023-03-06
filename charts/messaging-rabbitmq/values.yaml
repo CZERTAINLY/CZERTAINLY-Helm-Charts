@@ -136,10 +136,6 @@ persistence:
   annotations: {}
 
 secret:
-  user: "quest"
-  pass: "quest"
+  user: "guest"
+  pass: "guest"
   cookie: "defaultCookies"
-
-plugins:
-  management:
-    enabled: false
