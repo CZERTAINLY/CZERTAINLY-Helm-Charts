@@ -139,3 +139,7 @@ secret:
   user: "guest"
   pass: "guest"
   cookie: "defaultCookies"
+
+plugins:
+  management:
+    accessRemotely: true

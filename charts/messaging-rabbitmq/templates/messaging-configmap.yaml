@@ -14,3 +14,8 @@ data:
     log.console = true
     log.console.level = info
     log.file = false
+
+    ## Management plugin
+    {{- if .Values.plugins.management.accessRemotely }}
+    loopback_users = none
+    {{- end }}
