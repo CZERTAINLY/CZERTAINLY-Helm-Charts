@@ -90,10 +90,10 @@ image:
       # custom probe command, will override the default one
       custom: {}
       initialDelaySeconds: 10
-      periodSeconds: 15
       timeoutSeconds: 3
-      failureThreshold: 20
+      periodSeconds: 15
       successThreshold: 1
+      failureThreshold: 20
 
 logging:
   level: "INFO"
