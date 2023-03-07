@@ -127,7 +127,6 @@ For mode details about probes, see the [Kubernetes documentation](https://kubern
 | image.probes.startup.successThreshold      | `20`          | Success threshold for startup probe                                                |
 | image.probes.startup.failureThreshold      | `1`           | Failure threshold for startup probe                                                |
 
-
 ### Additional parameters
 
 Additional parameters may be found in the [values.yaml](values.yaml) and dependencies.
