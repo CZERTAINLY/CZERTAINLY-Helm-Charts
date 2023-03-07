@@ -25,6 +25,35 @@ image:
     runAsNonRoot: true
     runAsUser: 10001
     readOnlyRootFilesystem: true
+  # probes configuration
+  probes:
+    liveness:
+      enabled: true
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 20
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 3
+    readiness:
+      enabled: true
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 20
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 3
+    startup:
+      enabled: false
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 20
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 10
 
 logging:
   # possible values are: INFO, DEBUG, WARN, ERROR, PANIC, FATAL
