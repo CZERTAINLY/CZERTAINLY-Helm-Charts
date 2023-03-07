@@ -141,7 +141,7 @@ For mode details about probes, see the [Kubernetes documentation](https://kubern
 | image.probes.readiness.periodSeconds       | `10`          | Period seconds for readiness probe                                                 |
 | image.probes.readiness.successThreshold    | `1`           | Success threshold for readiness probe                                              |
 | image.probes.readiness.failureThreshold    | `3`           | Failure threshold for readiness probe                                              |
-| image.probes.startup.enabled               | `true`        | Enable/disable startup probe                                                       |
+| image.probes.startup.enabled               | `false`       | Enable/disable startup probe                                                       |
 | image.probes.startup.custom                | `{}`          | Custom startup probe command. When defined, it will override the default command   |
 | image.probes.startup.initialDelaySeconds   | `10`          | Initial delay seconds for startup probe                                            |
 | image.probes.startup.timeoutSeconds        | `15`          | Timeout seconds for startup probe                                                  |
