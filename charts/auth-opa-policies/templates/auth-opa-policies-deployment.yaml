@@ -41,7 +41,7 @@ spec:
             {{- else }}
             httpGet:
               path: /index.html
-              port: 8080
+              port: {{ .Values.service.port }}
             {{- end }}
             initialDelaySeconds: {{ .Values.image.probes.liveness.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.image.probes.liveness.timeoutSeconds }}
@@ -56,7 +56,7 @@ spec:
             {{- else }}
             httpGet:
               path: /index.html
-              port: 8080
+              port: {{ .Values.service.port }}
             {{- end }}
             initialDelaySeconds: {{ .Values.image.probes.readiness.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.image.probes.readiness.timeoutSeconds }}
@@ -71,7 +71,7 @@ spec:
             {{- else }}
             httpGet:
               path: /index.html
-              port: 8080
+              port: {{ .Values.service.port }}
             {{- end }}
             initialDelaySeconds: {{ .Values.image.probes.startup.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.image.probes.startup.timeoutSeconds }}
