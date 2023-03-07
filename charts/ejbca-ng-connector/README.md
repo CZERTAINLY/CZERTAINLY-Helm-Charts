@@ -121,6 +121,34 @@ The following values may be configured:
 | service.type                                 | `"ClusterIP"`                               | Type of the service that is exposed                                   |
 | service.port                                 | `8080`                                      | Port number of the exposed service                                    |
 
+#### Probes parameters
+
+For mode details about probes, see the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+
+| Parameter                                  | Default value | Description                                                                        |
+|--------------------------------------------|---------------|------------------------------------------------------------------------------------|
+| image.probes.liveness.enabled              | `true`        | Enable/disable liveness probe                                                      |
+| image.probes.liveness.custom               | `{}`          | Custom liveness probe command. When defined, it will override the default command  |
+| image.probes.liveness.initialDelaySeconds  | `60`          | Initial delay seconds for liveness probe                                           |
+| image.probes.liveness.timeoutSeconds       | `5`           | Timeout seconds for liveness probe                                                 |
+| image.probes.liveness.periodSeconds        | `10`          | Period seconds for liveness probe                                                  |
+| image.probes.liveness.successThreshold     | `1`           | Success threshold for liveness probe                                               |
+| image.probes.liveness.failureThreshold     | `3`           | Failure threshold for liveness probe                                               |
+| image.probes.readiness.enabled             | `true`        | Enable/disable readiness probe                                                     |
+| image.probes.readiness.custom              | `{}`          | Custom readiness probe command. When defined, it will override the default command |
+| image.probes.readiness.initialDelaySeconds | `60`          | Initial delay seconds for readiness probe                                          |
+| image.probes.readiness.timeoutSeconds      | `5`           | Timeout seconds for readiness probe                                                |
+| image.probes.readiness.periodSeconds       | `10`          | Period seconds for readiness probe                                                 |
+| image.probes.readiness.successThreshold    | `1`           | Success threshold for readiness probe                                              |
+| image.probes.readiness.failureThreshold    | `3`           | Failure threshold for readiness probe                                              |
+| image.probes.startup.enabled               | `false`       | Enable/disable startup probe                                                       |
+| image.probes.startup.custom                | `{}`          | Custom startup probe command. When defined, it will override the default command   |
+| image.probes.startup.initialDelaySeconds   | `60`          | Initial delay seconds for startup probe                                            |
+| image.probes.startup.timeoutSeconds        | `5`           | Timeout seconds for startup probe                                                  |
+| image.probes.startup.periodSeconds         | `10`          | Period seconds for startup probe                                                   |
+| image.probes.startup.successThreshold      | `1`           | Success threshold for startup probe                                                |
+| image.probes.startup.failureThreshold      | `3`           | Failure threshold for startup probe                                                |
+
 ### Additional parameters
 
 Additional parameters may be found in the [values.yaml](values.yaml) and dependencies.
