@@ -203,6 +203,60 @@ The following values may be configured for the CZERTAINLY core service:
 | kubectl.image.securityContext.runAsUser              | `1001`            | User ID for the container                           |
 | kubectl.image.securityContext.readOnlyRootFilesystem | `true`            | Run the container with read-only root filesystem    |
 
+#### Probes parameters
+
+For mode details about probes, see the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+
+| Parameter                                  | Default value | Description                                                                        |
+|--------------------------------------------|---------------|------------------------------------------------------------------------------------|
+| image.probes.liveness.enabled              | `true`        | Enable/disable liveness probe                                                      |
+| image.probes.liveness.custom               | `{}`          | Custom liveness probe command. When defined, it will override the default command  |
+| image.probes.liveness.initialDelaySeconds  | `60`          | Initial delay seconds for liveness probe                                           |
+| image.probes.liveness.timeoutSeconds       | `5`           | Timeout seconds for liveness probe                                                 |
+| image.probes.liveness.periodSeconds        | `10`          | Period seconds for liveness probe                                                  |
+| image.probes.liveness.successThreshold     | `1`           | Success threshold for liveness probe                                               |
+| image.probes.liveness.failureThreshold     | `3`           | Failure threshold for liveness probe                                               |
+| image.probes.readiness.enabled             | `true`        | Enable/disable readiness probe                                                     |
+| image.probes.readiness.custom              | `{}`          | Custom readiness probe command. When defined, it will override the default command |
+| image.probes.readiness.initialDelaySeconds | `60`          | Initial delay seconds for readiness probe                                          |
+| image.probes.readiness.timeoutSeconds      | `5`           | Timeout seconds for readiness probe                                                |
+| image.probes.readiness.periodSeconds       | `10`          | Period seconds for readiness probe                                                 |
+| image.probes.readiness.successThreshold    | `1`           | Success threshold for readiness probe                                              |
+| image.probes.readiness.failureThreshold    | `3`           | Failure threshold for readiness probe                                              |
+| image.probes.startup.enabled               | `false`       | Enable/disable startup probe                                                       |
+| image.probes.startup.custom                | `{}`          | Custom startup probe command. When defined, it will override the default command   |
+| image.probes.startup.initialDelaySeconds   | `60`          | Initial delay seconds for startup probe                                            |
+| image.probes.startup.timeoutSeconds        | `5`           | Timeout seconds for startup probe                                                  |
+| image.probes.startup.periodSeconds         | `10`          | Period seconds for startup probe                                                   |
+| image.probes.startup.successThreshold      | `1`           | Success threshold for startup probe                                                |
+| image.probes.startup.failureThreshold      | `10`          | Failure threshold for startup probe                                                |
+
+**Open Policy Agent**
+
+| Parameter                                      | Default value | Description                                                                        |
+|------------------------------------------------|---------------|------------------------------------------------------------------------------------|
+| opa.image.probes.liveness.enabled              | `true`        | Enable/disable liveness probe                                                      |
+| opa.image.probes.liveness.custom               | `{}`          | Custom liveness probe command. When defined, it will override the default command  |
+| opa.image.probes.liveness.initialDelaySeconds  | `5`           | Initial delay seconds for liveness probe                                           |
+| opa.image.probes.liveness.timeoutSeconds       | `5`           | Timeout seconds for liveness probe                                                 |
+| opa.image.probes.liveness.periodSeconds        | `10`          | Period seconds for liveness probe                                                  |
+| opa.image.probes.liveness.successThreshold     | `1`           | Success threshold for liveness probe                                               |
+| opa.image.probes.liveness.failureThreshold     | `3`           | Failure threshold for liveness probe                                               |
+| opa.image.probes.readiness.enabled             | `true`        | Enable/disable readiness probe                                                     |
+| opa.image.probes.readiness.custom              | `{}`          | Custom readiness probe command. When defined, it will override the default command |
+| opa.image.probes.readiness.initialDelaySeconds | `5`           | Initial delay seconds for readiness probe                                          |
+| opa.image.probes.readiness.timeoutSeconds      | `5`           | Timeout seconds for readiness probe                                                |
+| opa.image.probes.readiness.periodSeconds       | `10`          | Period seconds for readiness probe                                                 |
+| opa.image.probes.readiness.successThreshold    | `1`           | Success threshold for readiness probe                                              |
+| opa.image.probes.readiness.failureThreshold    | `3`           | Failure threshold for readiness probe                                              |
+| opa.image.probes.startup.enabled               | `false`       | Enable/disable startup probe                                                       |
+| opa.image.probes.startup.custom                | `{}`          | Custom startup probe command. When defined, it will override the default command   |
+| opa.image.probes.startup.initialDelaySeconds   | `5`           | Initial delay seconds for startup probe                                            |
+| opa.image.probes.startup.timeoutSeconds        | `5`           | Timeout seconds for startup probe                                                  |
+| opa.image.probes.startup.periodSeconds         | `10`          | Period seconds for startup probe                                                   |
+| opa.image.probes.startup.successThreshold      | `1`           | Success threshold for startup probe                                                |
+| opa.image.probes.startup.failureThreshold      | `3`           | Failure threshold for startup probe                                                |
+
 > **Note**
 > TBD - additional description of the values, should be improved
 
