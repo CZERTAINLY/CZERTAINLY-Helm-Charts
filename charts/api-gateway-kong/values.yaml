@@ -71,7 +71,7 @@ volumes:
   ephemeral:
     # available types are: memory, storage, custom
     type: memory
-    sizeLimit: "1Mi"
+    sizeLimit: "10Mi"
     storageClassName: ""
     custom: {}
     #  emptyDir:
