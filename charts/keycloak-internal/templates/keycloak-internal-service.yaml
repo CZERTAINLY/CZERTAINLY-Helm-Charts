@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak-internal-service
+  labels:
+    {{- include "keycloak-internal.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: "TCP"
+  selector:
+    {{- include "keycloak-internal.selectorLabels" . | nindent 4 }}
