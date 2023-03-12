@@ -1,0 +1,215 @@
+# Default values for keycloak-internal.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Global parameters that will overwrite local parameters
+global:
+  image:
+    registry: ""
+    # array of secret names
+    pullSecrets: []
+  volumes:
+    ephemeral:
+      type: ""
+      sizeLimit: ""
+      storageClassName: ""
+      custom: {}
+  database:
+    type: ""
+    host: ""
+    port: ""
+    name: ""
+    username: ""
+    password: ""
+  httpProxy: ""
+  httpsProxy: ""
+  noProxy: ""
+  hostName: ""
+  keycloak:
+    clientSecret: ""
+  admin:
+    username: ""
+    password: ""
+    name: ""
+    surname: ""
+    email: ""
+
+database:
+  # currently only postgresql is supported
+  type: "postgresql"
+  host: "host.docker.internal"
+  port: 5432
+  name: "czertainlydb"
+  username: "czertainlyuser"
+  password: "your-strong-password"
+httpProxy: ""
+httpsProxy: ""
+noProxy: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+replicaCount: 1
+
+service:
+  type: "ClusterIP"
+  port: 8080
+
+image:
+  # default registry name
+  registry: docker.io
+  repository: 3keycompany/czertainly-keycloak-optimized
+  tag: master-latest
+  # the digest to be used instead of the tag
+  digest: ""
+  pullPolicy: IfNotPresent
+  # array of secret names
+  pullSecrets: []
+  # default security context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    readOnlyRootFilesystem: true
+  # probes configuration
+  probes:
+    liveness:
+      enabled: true
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 3
+    readiness:
+      enabled: true
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 3
+    startup:
+      enabled: false
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 10
+
+theme:
+  image:
+    # default registry name
+    registry: docker.io
+    repository: 3keycompany/czertainly-keycloak-theme
+    tag: 0.1.1
+    # the digest to be used instead of the tag
+    digest: ""
+    pullPolicy: IfNotPresent
+    # array of secret names
+    pullSecrets: []
+    # default security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 10001
+      readOnlyRootFilesystem: true
+
+volumes:
+  ephemeral:
+    # available types are: memory, storage, custom
+    type: memory
+    sizeLimit: "1Mi"
+    storageClassName: ""
+    custom: {}
+    #  emptyDir:
+    #    sizeLimit: "10Mi"
+    #    medium: "Memory"
+
+logging:
+  level: "INFO"
+
+javaOpts: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "keycloak-internal-sa"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+hostName: localhost
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# https://www.keycloak.org/server/all-config
+keycloak:
+  dbSchema: "keycloak"
+  # this is admin user for the Keycloak instance master realm
+  admin:
+    username: "admin"
+    password: "admin"
+  # the arguments passed to the entrypoint in the Keycloak container
+  args: []
+  hostnameStrict: false
+  hostnameStrictHttps: false
+  # cacheStack is set by the optimized build to kubernetes
+  # cacheStack: "kubernetes"
+  # relative path is important to run behind a reverse proxy
+  # it is set to "/kc" by the optimized build
+  # do not change this value if you are using the optimized build
+  httpRelativePath: "/kc"
+  httpEnabled: true
+  # none, edge, reencrypt, passthrough
+  proxy: "edge"
+  proxyAddressForwarding: true
+
+# configuration of the CZERTAINLY realm including kong as client for OIDC
+czertainly:
+  admin:
+    username: "czertainly-admin"
+    password: "your-strong-password"
+    name: "admin"
+    surname: "czertainly"
+    email: "admin@czertainly.local"
+  initialUsername: "admin"
+  initialPassword: "admin"
+  # hostname is used as the Root URL for the OIDC configuration
+  hostName: "czertainly.local"
+  # OIDC client secret, it should be also configured for the client in Kong
+  # it is 32 bytes long value, base64 encoded, for example s0qKH5qItTWoxpBt7Zrj348ZhZ7woAbk
+  clientSecret: ""
+  redirectUri:
+    login: "/login/"
+    postLogout: "/administrator/"
