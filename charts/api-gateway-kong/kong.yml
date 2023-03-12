@@ -13,54 +13,54 @@ services:
         paths:
           - {{ .Values.backend.core.service.apiUrl}}/acme
   - name: core
-  host: {{ .Values.backend.core.service.name }}
-  port: {{ .Values.backend.core.service.port }}
-  protocol: http
-  routes:
-    - name: core_route-cert
-      strip_path: false
-      preserve_host: true
-      paths:
-        - {{ .Values.backend.core.service.apiUrl}}
-      headers:
-        ssl-client-cert:
-          - ~*(.*?)
-      plugins:
-        - name: request-transformer
-          config:
-            rename:
-              headers:
-                - '{{ .Values.auth.header.cert.downstream }}:{{ .Values.auth.header.cert.upstream }}'
-    {{- if or .Values.global.keycloak.enabled .Values.oidc.enabled }}
-    - name: core_route-oidc
-      strip_path: false
-      preserve_host: true
-      paths:
-        - {{ .Values.backend.core.service.apiUrl}}
-      plugins:
-        - name: oidc
-          config:
-            {{- if .Values.global.keycloak.enabled }}
-            client_secret: {{ .Values.global.keycloak.clientSecret }}
-            client_id: kong
-            unauth_action: 'deny'
-            realm: CZERTAINLY
-            discovery: >-
-              https://{{ $hostName }}/kc/realms/CZERTAINLY/.well-known/openid-configuration
-            {{- else if .Values.oidc.enabled }}
-            client_secret: {{ .Values.oidc.client.secret }}
-            client_id: {{ .Values.oidc.client.id }}
-            unauth_action: 'deny'
-            realm: {{ .Values.oidc.client.realm }}
-            discovery: >-
-              {{ .Values.oidc.client.discovery }}
-            {{- end }}
-        - name: request-transformer
-          config:
-            remove:
-              headers:
-                - cookie
-    {{- end }}
+    host: {{ .Values.backend.core.service.name }}
+    port: {{ .Values.backend.core.service.port }}
+    protocol: http
+    routes:
+      - name: core_route-cert
+        strip_path: false
+        preserve_host: true
+        paths:
+          - {{ .Values.backend.core.service.apiUrl}}
+        headers:
+          ssl-client-cert:
+            - ~*(.*?)
+        plugins:
+          - name: request-transformer
+            config:
+              rename:
+                headers:
+                  - '{{ .Values.auth.header.cert.downstream }}:{{ .Values.auth.header.cert.upstream }}'
+      {{- if or .Values.global.keycloak.enabled .Values.oidc.enabled }}
+      - name: core_route-oidc
+        strip_path: false
+        preserve_host: true
+        paths:
+          - {{ .Values.backend.core.service.apiUrl}}
+        plugins:
+          - name: oidc
+            config:
+              {{- if .Values.global.keycloak.enabled }}
+              client_secret: {{ .Values.global.keycloak.clientSecret }}
+              client_id: kong
+              unauth_action: 'deny'
+              realm: CZERTAINLY
+              discovery: >-
+                https://{{ $hostName }}/kc/realms/CZERTAINLY/.well-known/openid-configuration
+              {{- else if .Values.oidc.enabled }}
+              client_secret: {{ .Values.oidc.client.secret }}
+              client_id: {{ .Values.oidc.client.id }}
+              unauth_action: 'deny'
+              realm: {{ .Values.oidc.client.realm }}
+              discovery: >-
+                {{ .Values.oidc.client.discovery }}
+              {{- end }}
+          - name: request-transformer
+            config:
+              remove:
+                headers:
+                  - cookie
+      {{- end }}
   - name: fe-administrator
     host: {{ .Values.backend.fe.service.name}}
     port: {{ .Values.backend.fe.service.port }}
