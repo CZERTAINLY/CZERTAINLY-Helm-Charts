@@ -60,6 +60,17 @@ global:
   httpProxy: ""
   httpsProxy: ""
   noProxy: ""
+  hostName: "czertainly.local"
+  keycloak:
+    enabled: false
+    # client secret must be set if keycloak is enabled
+    clientSecret: ""
+  admin:
+    username: "czertainly-admin"
+    password: "your-strong-password"
+    name: "admin"
+    surname: "admin"
+    email: "admin@czertainly.local"
 
 database:
   type: ""
@@ -110,10 +121,10 @@ registerAdmin:
       wDnW3rgsaCHOB0AzqzaQAwEbgAeUKDBxKwm0GqLIgMtGs7CaG58/KqZsMj8ADqqI
       tY3XXAlhjb4=
       -----END CERTIFICATE-----
-    username: "czertainly-admin"
-    name: "admin"
-    surname: "admin"
-    email: "admin@czertainly.local"
+    username: ""
+    name: ""
+    surname: ""
+    email: ""
     description: "First Administrator"
   # options: generated, external
   source: external
@@ -297,7 +308,7 @@ podSecurityContext: {}
 certManager:
   version: ""
 
-hostName: localhost
+hostName: ""
 
 letsEncrypt:
   # email: notifications@sample.com
@@ -391,6 +402,9 @@ authService:
 
 authOpaPolicies:
   nameOverride: auth-opa-policies
+
+keycloakInternal:
+  nameOverride: keycloak-internal
 
 registerConnectors: true
 

@@ -7,6 +7,14 @@ description: A Helm chart for CZERTAINLY platform.
 home: https://github.com/3KeyCompany/CZERTAINLY
 icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 dependencies:
+  - condition: global.keycloak.enabled
+    name: keycloak-internal
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../keycloak-internal
+    tags:
+      - keycloak-internal
+    version: 21.0.1-0-develop
+    alias: keycloakInternal
   - condition: commonCredentialProvider.enabled
     name: common-credential-provider
     # repository: oci://harbor.3key.company/czertainly-helm
