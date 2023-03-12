@@ -124,7 +124,7 @@ volumes:
   ephemeral:
     # available types are: memory, storage, custom
     type: memory
-    sizeLimit: "1Mi"
+    sizeLimit: "10Mi"
     storageClassName: ""
     custom: {}
     #  emptyDir:
@@ -175,7 +175,7 @@ keycloak:
     username: "admin"
     password: "admin"
   # the arguments passed to the entrypoint in the Keycloak container
-  args: []
+  args: [start, --optimized, --import-realm]
   hostnameStrict: false
   hostnameStrictHttps: false
   # cacheStack is set by the optimized build to kubernetes

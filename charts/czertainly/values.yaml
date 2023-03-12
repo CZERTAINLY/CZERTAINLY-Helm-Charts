@@ -403,9 +403,6 @@ authService:
 authOpaPolicies:
   nameOverride: auth-opa-policies
 
-keycloakInternal:
-  nameOverride: keycloak-internal
-
 registerConnectors: true
 
 commonCredentialProvider:

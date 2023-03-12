@@ -46,7 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "keycloak-internal.selectorLabels" -}}
-app.kubernetes.io/name: fe-administrator
+app.kubernetes.io/name: keycloak-internal
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 

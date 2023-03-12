@@ -14,7 +14,6 @@ dependencies:
     tags:
       - keycloak-internal
     version: 21.0.1-0-develop
-    alias: keycloakInternal
   - condition: commonCredentialProvider.enabled
     name: common-credential-provider
     # repository: oci://harbor.3key.company/czertainly-helm
