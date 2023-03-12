@@ -75,6 +75,9 @@ Global values are used to define common parameters for the chart and all its sub
 | global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                 |
 | global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type      |
 | global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type |
+| global.hostName                           | `""`          | Global hostname of the running instance                            |
+| global.keycloak.enabled                   | `false`       | Enables internal Keycloak for authentication                       |
+| global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used internally                  |
 
 ### Local parameters
 
