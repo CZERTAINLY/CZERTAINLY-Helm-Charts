@@ -21,9 +21,6 @@ global:
     name: ""
     username: ""
     password: ""
-  httpProxy: ""
-  httpsProxy: ""
-  noProxy: ""
   hostName: ""
   keycloak:
     clientSecret: ""
@@ -82,7 +79,7 @@ image:
       enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 60
+      initialDelaySeconds: 30
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
@@ -91,7 +88,7 @@ image:
       enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 60
+      initialDelaySeconds: 30
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
@@ -100,7 +97,7 @@ image:
       enabled: false
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 60
+      initialDelaySeconds: 30
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
@@ -134,10 +131,9 @@ volumes:
     #    sizeLimit: "10Mi"
     #    medium: "Memory"
 
+# see https://www.keycloak.org/server/logging
 logging:
   level: "INFO"
-
-javaOpts: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -152,8 +148,6 @@ podAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
-
-hostName: localhost
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -203,8 +197,6 @@ czertainly:
     name: "admin"
     surname: "czertainly"
     email: "admin@czertainly.local"
-  initialUsername: "admin"
-  initialPassword: "admin"
   # hostname is used as the Root URL for the OIDC configuration
   hostName: "czertainly.local"
   # OIDC client secret, it should be also configured for the client in Kong
