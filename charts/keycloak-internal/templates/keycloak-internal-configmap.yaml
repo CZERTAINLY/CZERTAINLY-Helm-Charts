@@ -4,4 +4,4 @@ metadata:
   name: keycloak-internal-configmap
 data:
   czertainly_realm.json: |-
-{{- tpl (.Files.Get "czertainly_realm.json") . | nindent 4 }}
+{{- tpl (.Files.Get "czertainly_realm.json") . | indent 4 }}

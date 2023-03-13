@@ -1,3 +1,7 @@
+{{- $username := pluck "username" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
+{{- $name := pluck "name" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
+{{- $surname := pluck "surname" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
+{{- $email := pluck "email" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -237,11 +241,11 @@ spec:
                     -H 'content-type: application/json' \
                     -d '
                      {
-                        "username": "{{ .Values.registerAdmin.admin.username }}",
-                        "description": "{{ .Values.registerAdmin.admin.description }}",
-                        "firstName": "{{ .Values.registerAdmin.admin.name }}",
-                        "lastName": "{{ .Values.registerAdmin.admin.surname }}",
-                        "email": "{{ .Values.registerAdmin.admin.email }}",
+                        "username": {{ $username }},
+                        "description": {{ .Values.registerAdmin.admin.description | quote}},
+                        "firstName": {{ $name }},
+                        "lastName": {{ $surname }},
+                        "email": {{ $email }},
                         "enabled": "true",
                         "certificateData": "'$ADMIN_CERT'",
                         "certificateUuid": ""

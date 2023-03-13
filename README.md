@@ -40,6 +40,14 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 - [Keystore Entity Provider](charts/keystore-entity-provider)
 - [Software Cryptography Provider](charts/software-cryptography-provider)
 
+**Optional components**
+
+- [Keycloak Internal](charts/keycloak-internal) (internal Keycloak instance that can be used for authentication through OIDC and connect with various identity providers)
+> :warning:
+> For internal Keycloak to process request properly, it is important to have hostname of the CZERTAINLY platform included in the DNS resolver.
+> For local testing, you can upgrade the CZERTAINLY chart with the `--set apiGateway.hostAliases.resolveInternalKeycloak=true`. This will resolve the internal Keycloak inside the cluster with proper IP address.
+
+
 ## Private containers
 
 Some charts may use container images that are part of the private repositories.

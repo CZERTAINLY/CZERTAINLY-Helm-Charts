@@ -1,4 +1,7 @@
 dependencies:
+- name: keycloak-internal
+  repository: file://../keycloak-internal
+  version: 21.0.1-0-develop
 - name: common-credential-provider
   repository: file://../common-credential-provider
   version: 1.2.0-1-develop
@@ -38,5 +41,5 @@ dependencies:
 - name: auth-opa-policies
   repository: file://../auth-opa-policies
   version: 1.0.0-1-develop
-digest: sha256:2cec2f07151f50fc2f7605b27ebf427b51ed34d243218dbfe7cd974b0bda1d2c
-generated: "2023-03-03T19:42:04.611233+01:00"
+digest: sha256:5afc489c6407fa243da7dc10a0770b10dcd55ae5733dd5dadf6da71fd101d67f
+generated: "2023-03-12T16:20:20.220112+01:00"

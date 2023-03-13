@@ -13,6 +13,12 @@ global:
       sizeLimit: ""
       storageClassName: ""
       custom: {}
+  hostName: ""
+  keycloak:
+    # if enabled, it has precedence from OIDC configuration
+    enabled: false
+    # client secret must be set if keycloak is enabled
+    clientSecret: ""
 
 replicaCount: 1
 
@@ -65,7 +71,7 @@ volumes:
   ephemeral:
     # available types are: memory, storage, custom
     type: memory
-    sizeLimit: "1Mi"
+    sizeLimit: "10Mi"
     storageClassName: ""
     custom: {}
     #  emptyDir:
@@ -87,6 +93,8 @@ service:
     port: 8001
   consumer:
     port: 8000
+
+hostName: "czertainly.local"
 
 backend:
   core:
@@ -165,3 +173,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+hostAliases:
+  resolveInternalKeycloak: false
