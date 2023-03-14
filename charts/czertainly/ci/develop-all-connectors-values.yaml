@@ -41,66 +41,54 @@ global:
 
 image:
   tag: develop-latest
-  pullPolicy: Always
 
 authService:
   image:
     tag: develop-latest
-    pullPolicy: Always
 
 authOpaPolicies:
   image:
     tag: develop-latest
-    pullPolicy: Always
 
 feAdministrator:
   image:
     tag: develop-latest
-    pullPolicy: Always
 
 commonCredentialProvider:
   image:
     tag: develop-latest
-    pullPolicy: Always
 
 ejbcaNgConnector:
   enabled: true
   image:
     tag: develop-latest
-    pullPolicy: Always
 
 msAdcsConnector:
   enabled: true
   image:
     tag: develop-latest
-    pullPolicy: Always
 
 x509ComplianceProvider:
   enabled: true
   image:
     tag: develop-latest
-    pullPolicy: Always
 
 cryptosenseDiscoveryProvider:
   enabled: true
   image:
     tag: develop-latest
-    pullPolicy: Always
 
 networkDiscoveryProvider:
   enabled: true
   image:
     tag: develop-latest
-    pullPolicy: Always
 
 keystoreEntityProvider:
   enabled: true
   image:
     tag: develop-latest
-    pullPolicy: Always
 
 softwareCryptographyProvider:
   enabled: true
   image:
     tag: develop-latest
-    pullPolicy: Always
