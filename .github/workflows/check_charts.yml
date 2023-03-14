@@ -107,4 +107,4 @@ jobs:
             --docker-email=$REGISTRY_EMAIL
 
       - name: Run chart-testing (install)
-        run: ct install --namespace chart-testing --target-branch develop --excluded-charts czertainly-lib
+        run: ct install --namespace chart-testing --target-branch develop --excluded-charts czertainly-lib --helm-extra-args "--timeout 1h"
