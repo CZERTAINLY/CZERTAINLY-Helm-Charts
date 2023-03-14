@@ -47,6 +47,7 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 > For internal Keycloak to process request properly, it is important to have hostname of the CZERTAINLY platform included in the DNS resolver.
 > For local testing, you can upgrade the CZERTAINLY chart with the `--set apiGateway.hostAliases.resolveInternalKeycloak=true`. This will resolve the internal Keycloak inside the cluster with proper IP address.
 
+- [Utils Service](charts/utils-service) (service that provides various utility functions for the platform)
 
 ## Private containers
 
