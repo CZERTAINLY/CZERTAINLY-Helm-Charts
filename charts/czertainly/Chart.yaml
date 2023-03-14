@@ -80,6 +80,14 @@ dependencies:
       - cryptography-provider
     version: 1.0.0-1-develop
     alias: softwareCryptographyProvider
+  - condition: utilsService.enabled
+    name: utils-service
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../utils-service
+    tags:
+      - utils-service
+    version: 1.0.0-0-develop
+    alias: utilsService
   # the following are mandatory dependencies
   - name: czertainly-lib
     # repository: oci://harbor.3key.company/czertainly-helm

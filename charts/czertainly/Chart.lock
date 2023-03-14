@@ -26,6 +26,9 @@ dependencies:
 - name: software-cryptography-provider
   repository: file://../software-cryptography-provider
   version: 1.0.0-1-develop
+- name: utils-service
+  repository: file://../utils-service
+  version: 1.0.0-0-develop
 - name: czertainly-lib
   repository: file://../czertainly-lib
   version: 1.2.0-develop
@@ -41,5 +44,5 @@ dependencies:
 - name: auth-opa-policies
   repository: file://../auth-opa-policies
   version: 1.0.0-1-develop
-digest: sha256:5afc489c6407fa243da7dc10a0770b10dcd55ae5733dd5dadf6da71fd101d67f
-generated: "2023-03-12T16:20:20.220112+01:00"
+digest: sha256:3b978165b8fb85d866afe0de101aef558f7823e807479e4e297309ae915a5874
+generated: "2023-03-14T17:51:08.458545+01:00"

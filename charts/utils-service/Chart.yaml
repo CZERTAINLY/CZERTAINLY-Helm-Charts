@@ -1,0 +1,31 @@
+annotations:
+  category: trustLifecycleManagement
+apiVersion: v2
+appVersion: 1.0.0
+name: utils-service
+description: A Helm chart for Utils service to support CZERTAINLY platform.
+home: https://github.com/3KeyCompany/CZERTAINLY-Utils-Service
+icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
+dependencies:
+  - name: czertainly-lib
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../czertainly-lib
+    version: 1.2.0-develop
+keywords:
+  - czertainly
+  - trust
+  - management
+  - lifecycle
+  - platform
+  - utils
+  - service
+maintainers:
+  - name: CZERTAINLY
+    email: info@czertainly.com
+    url: https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts
+type: application
+sources:
+  - https://github.com/3KeyCompany/CZERTAINLY
+  - https://www.czertainly.com
+  - https://docs.czertainly.com
+version: 1.0.0-0-develop

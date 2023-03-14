@@ -405,6 +405,9 @@ authService:
 authOpaPolicies:
   nameOverride: auth-opa-policies
 
+#
+# connectors
+#
 registerConnectors: true
 
 commonCredentialProvider:
@@ -437,4 +440,11 @@ keystoreEntityProvider:
 
 softwareCryptographyProvider:
   nameOverride: software-cryptography-provider
+  enabled: false
+
+#
+# supportive optional components
+#
+utilsService:
+  nameOverride: utils-service
   enabled: false
