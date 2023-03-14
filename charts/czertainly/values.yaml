@@ -127,6 +127,7 @@ registerAdmin:
     name: "admin"
     surname: "admin"
     email: "admin@czertainly.local"
+    description: "CZERTAINLY Admin"
   # options: generated, external
   source: external
 
