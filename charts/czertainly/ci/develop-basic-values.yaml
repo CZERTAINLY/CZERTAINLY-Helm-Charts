@@ -38,19 +38,24 @@ global:
 
 image:
   tag: develop-latest
+  pullPolicy: Always
 
 authService:
   image:
     tag: develop-latest
+    pullPolicy: Always
 
 authOpaPolicies:
   image:
     tag: develop-latest
+    pullPolicy: Always
 
 feAdministrator:
   image:
     tag: develop-latest
+    pullPolicy: Always
 
 commonCredentialProvider:
   image:
     tag: develop-latest
+    pullPolicy: Always
