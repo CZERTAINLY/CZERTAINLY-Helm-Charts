@@ -54,6 +54,16 @@ image:
       periodSeconds: 10
       successThreshold: 1
       failureThreshold: 10
+  resources: {}
+    # We follow recommendations and general guidelines to manage resources from:
+    # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
+    # We recommend default requests for CPU and Memory, leaving the limits as a conscious
+    # choice for the user. If you do want to specify your own resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources'.
+    # requests:
+    #   cpu: 30m
+    #   memory: 40M
+    # limits: {}
 
 logging:
   # possible values are: INFO, DEBUG, WARN, ERROR, PANIC, FATAL
@@ -79,18 +89,6 @@ podSecurityContext: {}
 service:
   type: ClusterIP
   port: 8080
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
 autoscaling:
   enabled: false

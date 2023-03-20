@@ -99,6 +99,9 @@ spec:
           successThreshold: {{ .Values.image.probes.startup.successThreshold }}
           failureThreshold: {{ .Values.image.probes.startup.failureThreshold }}
         {{- end }}
+        {{- if .Values.image.resources }}
+        resources: {{- toYaml .Values.image.resources | nindent 12 }}
+        {{- end }}
         {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
         volumeMounts:
           - name: trusted-certificates-volume
