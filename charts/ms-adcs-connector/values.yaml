@@ -100,6 +100,20 @@ image:
       periodSeconds: 10
       successThreshold: 1
       failureThreshold: 10
+  resources:
+    # We follow recommendations and general guidelines to manage resources from:
+    # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
+    # We define default requests for CPU and Memory, leaving the limits as a conscious
+    # choice for the user. If you do want to specify your own resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'requests' and/or 'limits'.
+    # If you do not want to manage resources, keep the curly braces after 'resources'
+    # and comment the rest of the lines.
+    requests:
+      cpu: 100m
+      memory: 550M
+    limits: {}
+    #   cpu: 100m
+    #   memory: 128Mi
 
 volumes:
   ephemeral:

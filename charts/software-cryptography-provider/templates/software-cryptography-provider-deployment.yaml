@@ -115,6 +115,9 @@ spec:
           successThreshold: {{ .Values.image.probes.startup.successThreshold }}
           failureThreshold: {{ .Values.image.probes.startup.failureThreshold }}
         {{- end }}
+        {{- if .Values.image.resources }}
+        resources: {{- toYaml .Values.image.resources | nindent 12 }}
+        {{- end }}
         volumeMounts:
           - mountPath: /tmp
             name: ephemeral

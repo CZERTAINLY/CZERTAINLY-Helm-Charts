@@ -100,6 +100,9 @@ spec:
             successThreshold: {{ .Values.opa.image.probes.startup.successThreshold }}
             failureThreshold: {{ .Values.opa.image.probes.startup.failureThreshold }}
           {{- end }}
+          {{- if .Values.opa.image.resources }}
+          resources: {{- toYaml .Values.opa.image.resources | nindent 12 }}
+          {{- end }}
           args:
             - "run"
             - "--server"
@@ -220,6 +223,9 @@ spec:
             periodSeconds: {{ .Values.image.probes.startup.periodSeconds }}
             successThreshold: {{ .Values.image.probes.startup.successThreshold }}
             failureThreshold: {{ .Values.image.probes.startup.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.resources }}
+          resources: {{- toYaml .Values.image.resources | nindent 12 }}
           {{- end }}
           volumeMounts:
             - mountPath: /tmp

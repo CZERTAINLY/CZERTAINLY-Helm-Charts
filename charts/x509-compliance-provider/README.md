@@ -89,6 +89,8 @@ The following values may be configured:
 | image.securityContext.runAsNonRoot           | `true`                                            | Run the container as non-root user                          |
 | image.securityContext.runAsUser              | `10001`                                           | User ID for the container                                   |
 | image.securityContext.readOnlyRootFilesystem | `true`                                            | Run the container with read-only root filesystem            |
+| image.resources.requests                     | `cpu: 30m`<br>`memory: 40M`                       | The requested resources for the container                   |
+| image.resources.limits                       | `{}`                                              | The resources limits for the container                      |
 | podSecurityContext                           | `{}`                                              | Pod security context                                        |
 | logging.level                                | `"INFO"`                                          | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"` |
 | service.type                                 | `"ClusterIP"`                                     | Type of the service that is exposed                         |

@@ -98,6 +98,8 @@ The following values may be configured:
 | image.securityContext.runAsNonRoot           | `true`                        | Run the container as non-root user                                    |
 | image.securityContext.runAsUser              | `10001`                       | User ID for the container                                             |
 | image.securityContext.readOnlyRootFilesystem | `true`                        | Run the container with read-only root filesystem                      |
+| image.resources.requests                     | `cpu: 100m`<br>`memory: 270M` | The requested resources for the container                             |
+| image.resources.limits                       | `{}`                          | The resources limits for the container                                |
 | podSecurityContext                           | `{}`                          | Pod security context                                                  |
 | database.type                                | `"postgresql"`                | Type of the database, currently only `postgresql` is supported        |
 | database.host                                | `"host.docker.internal"`      | Host where is the database located                                    |

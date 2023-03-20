@@ -94,6 +94,8 @@ The following values may be configured:
 | image.securityContext.runAsNonRoot           | `true`                                                | Run the container as non-root user                                                         |
 | image.securityContext.runAsUser              | `100`                                                 | User ID for the container                                                                  |
 | image.securityContext.readOnlyRootFilesystem | `true`                                                | Run the container with read-only root filesystem                                           |
+| image.resources.requests                     | `cpu: 70m`<br>`memory: 1100M`                         | The requested resources for the container                                                  |
+| image.resources.limits                       | `{}`                                                  | The resources limits for the container                                                     |
 | podSecurityContext                           | `{}`                                                  | Pod security context                                                                       |
 | volumes.ephemeral.type                       | `memory`                                              | Ephemeral volume type to be used                                                           |
 | volumes.ephemeral.sizeLimit                  | `"1Mi"`                                               | Ephemeral volume size limit                                                                |
