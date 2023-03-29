@@ -33,7 +33,7 @@ image:
   # default registry name
   registry: harbor.3key.company
   repository: czertainly/czertainly-utils-service
-  tag: develop-latest
+  tag: 1.0.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent

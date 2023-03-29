@@ -147,7 +147,7 @@ image:
   # default registry name
   registry: docker.io
   repository: 3keycompany/czertainly-core
-  tag: 2.6.0
+  tag: 2.7.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent

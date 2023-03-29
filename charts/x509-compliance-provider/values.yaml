@@ -14,7 +14,7 @@ image:
   # default registry name
   registry: docker.io
   repository: 3keycompany/czertainly-x509-compliance-provider
-  tag: 1.1.0
+  tag: 1.2.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
