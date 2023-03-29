@@ -67,7 +67,7 @@ jobs:
       - name: Run chart-testing (lint)
         env:
           last_tag: ${{ env.last_tag }}
-        run: ct lint --target-branch master --since $last_tag)
+        run: ct lint --target-branch master --since $(last_tag)
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@main
