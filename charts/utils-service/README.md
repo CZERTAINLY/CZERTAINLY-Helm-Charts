@@ -86,7 +86,7 @@ The following values may be configured:
 |----------------------------------------------|---------------------------------------|-------------------------------------------------------------|
 | image.registry                               | `harbor.3key.company`                 | Docker registry name for the image                          |
 | image.repository                             | `czertainly/czertainly-utils-service` | Docker image repository name                                |
-| image.tag                                    | `develop-latest`                      | Docker image tag                                            |
+| image.tag                                    | `1.0.0`                               | Docker image tag                                            |
 | image.digest                                 | `""`                                  | Docker image digest, will override tag if specified         |
 | image.pullPolicy                             | `IfNotPresent`                        | Image pull policy                                           |
 | image.pullSecrets                            | `[]`                                  | Array of secret names for image pull                        |

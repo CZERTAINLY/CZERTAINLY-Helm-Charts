@@ -82,7 +82,7 @@ The following values may be configured:
 |----------------------------------------------|---------------------------------------------------|-------------------------------------------------------------|
 | image.registry                               | `docker.io`                                       | Docker registry name for the image                          |
 | image.repository                             | `3keycompany/czertainly-x509-compliance-provider` | Docker image repository name                                |
-| image.tag                                    | `1.1.0`                                           | Docker image tag                                            |
+| image.tag                                    | `1.2.0`                                           | Docker image tag                                            |
 | image.digest                                 | `""`                                              | Docker image digest, will override tag if specified         |
 | image.pullPolicy                             | `IfNotPresent`                                    | Image pull policy                                           |
 | image.pullSecrets                            | `[]`                                              | Array of secret names for image pull                        |
