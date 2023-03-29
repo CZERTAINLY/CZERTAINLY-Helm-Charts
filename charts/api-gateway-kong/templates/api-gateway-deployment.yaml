@@ -22,6 +22,21 @@ spec:
       {{- end }}
     spec:
       {{- include "api-gateway-kong.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- end }}
+      {{- if and (.Values.global.keycloak.enabled) (.Values.hostAliases.resolveInternalKeycloak) }}
+        {{- $namespace := .Release.Namespace }}
+        {{- $keycloakService := (lookup "v1" "Service" $namespace "keycloak-internal-service") }}
+        {{- if $keycloakService }}
+          {{- $hostName := pluck "hostName" .Values.global .Values | compact | first }}
+          {{- $internalIp := (lookup "v1" "Service" $namespace "keycloak-internal-service").spec.clusterIP }}
+      hostAliases:
+      - ip: {{ $internalIp | quote }}
+        hostnames:
+        - {{ $hostName | quote }}
+        {{- end }}
+      {{- end }}
       containers:
         - name: api-gateway
           image: {{ include "api-gateway-kong.image" . }}
@@ -29,6 +44,8 @@ spec:
           env:
             - name: KONG_DATABASE
               value: "off"
+            - name: KONG_PREFIX
+              value: "/tmp/"
             - name: KONG_PROXY_ACCESS_LOG
               value: "/dev/stdout"
             - name: KONG_ADMIN_ACCESS_LOG
@@ -54,17 +71,69 @@ spec:
               value: {{ .Values.trustedIps | quote }}
             {{- end }}
           ports:
-            - containerPort: 8000
+            - containerPort: {{ .Values.service.consumer.port }}
               name: consumer-http
-            - containerPort: 8443
-              name: consumer-https
-            - containerPort: 8001
+            - containerPort: {{ .Values.service.admin.port }}
               name: admin-http
-            - containerPort: 8444
-              name: admin-https
+          {{- if .Values.image.securityContext }}
+          securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
+          {{- if .Values.image.probes.liveness.enabled }}
+          livenessProbe:
+            {{- if .Values.image.probes.liveness.custom }}
+            {{- toYaml .Values.image.probes.liveness.custom | nindent 12 }}
+            {{- else }}
+            exec:
+              command:
+                - kong
+                - health
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.liveness.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.liveness.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.liveness.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.liveness.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.liveness.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.probes.readiness.enabled }}
+          readinessProbe:
+            {{- if .Values.image.probes.readiness.custom }}
+            {{- toYaml .Values.image.probes.readiness.custom | nindent 12 }}
+            {{- else }}
+            exec:
+              command:
+                - kong
+                - health
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.readiness.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.readiness.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.readiness.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.readiness.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.readiness.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.probes.startup.enabled }}
+          startupProbe:
+            {{- if .Values.image.probes.startup.custom }}
+            {{- toYaml .Values.image.probes.startup.custom | nindent 12 }}
+            {{- else }}
+            exec:
+              command:
+                - kong
+                - health
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.startup.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.startup.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.startup.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.startup.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.startup.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.resources }}
+          resources: {{- toYaml .Values.image.resources | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - name: api-gateway-config-volume
               mountPath: /kong/declarative
+            - mountPath: /tmp
+              name: ephemeral
       volumes:
         - name: api-gateway-config-volume
           configMap:
@@ -72,3 +141,5 @@ spec:
             items:
               - key: kong.yml
                 path: kong.yml
+        - name: ephemeral
+          {{- include "api-gateway-kong.ephemeralVolume" . | indent 10 }}

@@ -63,3 +63,10 @@ Return the image pull secret names
 {{- define "software-cryptography-provider.imagePullSecrets" -}}
 {{ include "czertainly-lib.images.pullSecrets" (dict "images" (list .Values.image) "global" .Values.global) }}
 {{- end -}}
+
+{{/*
+Retun the ephemeral volume configuration
+*/}}
+{{- define "software-cryptography-provider.ephemeralVolume" -}}
+{{ include "czertainly-lib.volumes.ephemeral" (dict "volumes" .Values.volumes "global" .Values.global.volumes) }}
+{{- end -}}

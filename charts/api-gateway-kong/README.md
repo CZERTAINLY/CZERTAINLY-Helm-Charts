@@ -67,47 +67,92 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                | Default value                | Description                                 |
-|--------------------------|------------------------------|---------------------------------------------|
-| global.image.registry    | `""`                         | Global docker registry name                 |
-| global.image.pullSecrets | `[]`                         | Global array of secret names for image pull |
+| Parameter                                 | Default value | Description                                                        |
+|-------------------------------------------|---------------|--------------------------------------------------------------------|
+| global.image.registry                     | `""`          | Global docker registry name                                        |
+| global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                        |
+| global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                            |
+| global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                 |
+| global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type      |
+| global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type |
+| global.hostName                           | `""`          | Global hostname of the running instance                            |
+| global.keycloak.enabled                   | `false`       | Enables internal Keycloak for authentication                       |
+| global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used internally                  |
 
 ### Local parameters
 
 The following values may be configured:
 
-| Parameter                    | Default value                                         | Description                                                                                |
-|------------------------------|-------------------------------------------------------|--------------------------------------------------------------------------------------------|
-| image.registry               | `docker.io`                                           | Docker registry name for the image                                                         |
-| image.repository             | `revomatico/docker-kong-oidc`                         | Docker image repository name                                                               |
-| image.tag                    | `3.0.0-6`                                             | Docker image tag                                                                           |
-| image.digest                 | `""`                                                  | Docker image digest, will override tag if specified                                        |
-| image.pullPolicy             | `IfNotPresent`                                        | Image pull policy                                                                          |
-| image.pullSecrets            | `[]`                                                  | Array of secret names for image pull                                                       |
-| logging.level                | `"info"`                                              | Allowed values are `debug`, `info`, `notice`, `warn`, `error`, `crit`, `alert`, or `emerg` |
-| service.type                 | `"ClusterIP"`                                         | Type of the service that is exposed                                                        |
-| service.admin.port           | `8001`                                                | Port number of the exposed admin service                                                   |
-| service.consumer.port        | `8000`                                                | Port number of the exposed consumer service                                                |
-| backend.core.service.name    | `"core-service"`                                      | Name of the Core service                                                                   |
-| backend.core.service.port    | `8080`                                                | Port number of the Core service                                                            |
-| backend.core.service.apiUrl  | `"/api"`                                              | Base URL of the API requests                                                               |
-| backend.fe.service.name      | `"fe-administrator-service"`                          | Name of the front end service                                                              |
-| backend.fe.service.port      | `80`                                                  | Port number of the front end service                                                       |
-| backend.fe.service.baseUrl   | `"/administrator"`                                    | URL of the frontend application                                                            |
-| backend.fe.service.apiUrl    | `"/api"`                                              | URL of the API requests                                                                    |
-| backend.fe.service.loginUrl  | `"/login"`                                            | URL of the login page                                                                      |
-| backend.fe.service.logoutUrl | `"/logout"`                                           | URL of the logout page                                                                     |
-| auth.header.cert.downstream  | `"ssl-client-cert"`                                   | Downstream header name containing certificate                                              |
-| auth.header.cert.upstream    | `"X-APP-CERTIFICATE"`                                 | Upstream header name to forward certificate                                                |
-| oidc.enabled                 | `false`                                               | Whether the OIDC plugin should be enabled for external authentication                      |
-| oidc.client.id               | `czertainly`                                          | OIDC client ID                                                                             |
-| oidc.client.secret           | `s0qKH5qItTWoxpBt7Zrj348Zha7woAbk`                    | OIDC client secret                                                                         |
-| oidc.client.realm            | `czertainly`                                          | Realm used in WWW-Authenticate response header                                             |
-| oidc.client.discovery        | `https://server.com/.well-known/openid-configuration` | OIDC discovery endpoint                                                                    |
-| cors.enabled                 | `false`                                               | Whether CORS plugin should be enabled                                                      |
-| cors.origins                 | `['*']`                                               | List of allowed domains for the Access-Control-Allow-Origin header                         |
-| cors.exposedHeaders          | `[X-Auth-Token]`                                      | List of values for the Access-Control-Expose-Headers header                                |
-| trustedIps                   | `""`                                                  | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
+| Parameter                                    | Default value                                         | Description                                                                                |
+|----------------------------------------------|-------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| image.registry                               | `docker.io`                                           | Docker registry name for the image                                                         |
+| image.repository                             | `revomatico/docker-kong-oidc`                         | Docker image repository name                                                               |
+| image.tag                                    | `3.0.0-6`                                             | Docker image tag                                                                           |
+| image.digest                                 | `""`                                                  | Docker image digest, will override tag if specified                                        |
+| image.pullPolicy                             | `IfNotPresent`                                        | Image pull policy                                                                          |
+| image.pullSecrets                            | `[]`                                                  | Array of secret names for image pull                                                       |
+| image.securityContext.runAsNonRoot           | `true`                                                | Run the container as non-root user                                                         |
+| image.securityContext.runAsUser              | `100`                                                 | User ID for the container                                                                  |
+| image.securityContext.readOnlyRootFilesystem | `true`                                                | Run the container with read-only root filesystem                                           |
+| image.resources                              | `{}`                                                  | The resources for the container                                                            |
+| podSecurityContext                           | `{}`                                                  | Pod security context                                                                       |
+| volumes.ephemeral.type                       | `memory`                                              | Ephemeral volume type to be used                                                           |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`                                               | Ephemeral volume size limit                                                                |
+| volumes.ephemeral.storageClassName           | `""`                                                  | Ephemeral volume storage class name for `storage` type                                     |
+| volumes.ephemeral.custom                     | `{}`                                                  | Custom definition of the ephemeral volume for `custom` type                                |
+| logging.level                                | `"info"`                                              | Allowed values are `debug`, `info`, `notice`, `warn`, `error`, `crit`, `alert`, or `emerg` |
+| service.type                                 | `"ClusterIP"`                                         | Type of the service that is exposed                                                        |
+| service.admin.port                           | `8001`                                                | Port number of the exposed admin service                                                   |
+| service.consumer.port                        | `8000`                                                | Port number of the exposed consumer service                                                |
+| backend.core.service.name                    | `"core-service"`                                      | Name of the Core service                                                                   |
+| backend.core.service.port                    | `8080`                                                | Port number of the Core service                                                            |
+| backend.core.service.apiUrl                  | `"/api"`                                              | Base URL of the API requests                                                               |
+| backend.fe.service.name                      | `"fe-administrator-service"`                          | Name of the front end service                                                              |
+| backend.fe.service.port                      | `80`                                                  | Port number of the front end service                                                       |
+| backend.fe.service.baseUrl                   | `"/administrator"`                                    | URL of the frontend application                                                            |
+| backend.fe.service.apiUrl                    | `"/api"`                                              | URL of the API requests                                                                    |
+| backend.fe.service.loginUrl                  | `"/login"`                                            | URL of the login page                                                                      |
+| backend.fe.service.logoutUrl                 | `"/logout"`                                           | URL of the logout page                                                                     |
+| auth.header.cert.downstream                  | `"ssl-client-cert"`                                   | Downstream header name containing certificate                                              |
+| auth.header.cert.upstream                    | `"X-APP-CERTIFICATE"`                                 | Upstream header name to forward certificate                                                |
+| oidc.enabled                                 | `false`                                               | Whether the OIDC plugin should be enabled for external authentication                      |
+| oidc.client.id                               | `czertainly`                                          | OIDC client ID                                                                             |
+| oidc.client.secret                           | `s0qKH5qItTWoxpBt7Zrj348Zha7woAbk`                    | OIDC client secret                                                                         |
+| oidc.client.realm                            | `czertainly`                                          | Realm used in WWW-Authenticate response header                                             |
+| oidc.client.discovery                        | `https://server.com/.well-known/openid-configuration` | OIDC discovery endpoint                                                                    |
+| cors.enabled                                 | `false`                                               | Whether CORS plugin should be enabled                                                      |
+| cors.origins                                 | `['*']`                                               | List of allowed domains for the Access-Control-Allow-Origin header                         |
+| cors.exposedHeaders                          | `[X-Auth-Token]`                                      | List of values for the Access-Control-Expose-Headers header                                |
+| trustedIps                                   | `""`                                                  | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
+| hostAliases.resolveInternalKeycloak          | `false`                                               | Resolves internal Keycloak services as hostname for the OIDC client                        |
+
+#### Probes parameters
+
+For mode details about probes, see the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+
+| Parameter                                  | Default value | Description                                                                        |
+|--------------------------------------------|---------------|------------------------------------------------------------------------------------|
+| image.probes.liveness.enabled              | `true`        | Enable/disable liveness probe                                                      |
+| image.probes.liveness.custom               | `{}`          | Custom liveness probe command. When defined, it will override the default command  |
+| image.probes.liveness.initialDelaySeconds  | `5`           | Initial delay seconds for liveness probe                                           |
+| image.probes.liveness.timeoutSeconds       | `5`           | Timeout seconds for liveness probe                                                 |
+| image.probes.liveness.periodSeconds        | `10`          | Period seconds for liveness probe                                                  |
+| image.probes.liveness.successThreshold     | `1`           | Success threshold for liveness probe                                               |
+| image.probes.liveness.failureThreshold     | `3`           | Failure threshold for liveness probe                                               |
+| image.probes.readiness.enabled             | `true`        | Enable/disable readiness probe                                                     |
+| image.probes.readiness.custom              | `{}`          | Custom readiness probe command. When defined, it will override the default command |
+| image.probes.readiness.initialDelaySeconds | `5`           | Initial delay seconds for readiness probe                                          |
+| image.probes.readiness.timeoutSeconds      | `5`           | Timeout seconds for readiness probe                                                |
+| image.probes.readiness.periodSeconds       | `10`          | Period seconds for readiness probe                                                 |
+| image.probes.readiness.successThreshold    | `1`           | Success threshold for readiness probe                                              |
+| image.probes.readiness.failureThreshold    | `3`           | Failure threshold for readiness probe                                              |
+| image.probes.startup.enabled               | `false`       | Enable/disable startup probe                                                       |
+| image.probes.startup.custom                | `{}`          | Custom startup probe command. When defined, it will override the default command   |
+| image.probes.startup.initialDelaySeconds   | `10`          | Initial delay seconds for startup probe                                            |
+| image.probes.startup.timeoutSeconds        | `3`           | Timeout seconds for startup probe                                                  |
+| image.probes.startup.periodSeconds         | `15`          | Period seconds for startup probe                                                   |
+| image.probes.startup.successThreshold      | `1`           | Success threshold for startup probe                                                |
+| image.probes.startup.failureThreshold      | `20`          | Failure threshold for startup probe                                                |
 
 ### Additional parameters
 

@@ -8,62 +8,80 @@ global:
     registry: ""
     # array of secret names
     pullSecrets: []
+  volumes:
+    ephemeral:
+      type: ""
+      sizeLimit: ""
+      storageClassName: ""
+      custom: {}
   database:
     # currently only postgresql is supported
-    type: "postgresql"
-    host: "host.docker.internal"
-    port: 5432
-    name: "czertainlydb"
-    username: "czertainlyuser"
-    password: "your-strong-password"
+    type: ""
+    host: ""
+    port: ""
+    name: ""
+    username: ""
+    password: ""
   trusted:
-    # CZERTAINLY Dummy Root CA
-    certificates: |
-      -----BEGIN CERTIFICATE-----
-      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
-      -----END CERTIFICATE-----
+    certificates: ""
   httpProxy: ""
   httpsProxy: ""
   noProxy: ""
+  hostName: ""
+  keycloak:
+    enabled: false
+    # client secret must be set if keycloak is enabled
+    clientSecret: ""
+  admin:
+    username: ""
+    password: ""
+    name: ""
+    surname: ""
+    email: ""
 
 database:
-  type: ""
-  host: ""
-  port: ""
-  name: ""
-  username: ""
-  password: ""
+  # currently only postgresql is supported
+  type: "postgresql"
+  host: "host.docker.internal"
+  port: 5432
+  name: "czertainlydb"
+  username: "czertainlyuser"
+  password: "your-strong-password"
 trusted:
-  certificates: ""
+  # CZERTAINLY Dummy Root CA
+  certificates: |
+    -----BEGIN CERTIFICATE-----
+    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
+    -----END CERTIFICATE-----
 httpProxy: ""
 httpsProxy: ""
 noProxy: ""
@@ -105,10 +123,11 @@ registerAdmin:
       tY3XXAlhjb4=
       -----END CERTIFICATE-----
     username: "czertainly-admin"
+    password: "your-strong-password"
     name: "admin"
     surname: "admin"
     email: "admin@czertainly.local"
-    description: "First Administrator"
+    description: "CZERTAINLY Admin"
   # options: generated, external
   source: external
 
@@ -128,24 +147,85 @@ image:
   # default registry name
   registry: docker.io
   repository: 3keycompany/czertainly-core
-  tag: 2.6.0
+  tag: 2.7.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
   # array of secret names
   pullSecrets: []
+  # default security context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 10001
+    readOnlyRootFilesystem: true
+  # probes configuration
+  probes:
+    liveness:
+      enabled: true
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 3
+    readiness:
+      enabled: true
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 3
+    startup:
+      enabled: false
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 10
+  resources: {}
+    # We follow recommendations and general guidelines to manage resources from:
+    # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
+    # We recommend default requests for CPU and Memory, leaving the limits as a conscious
+    # choice for the user. If you do want to specify your own resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources'.
+    # requests:
+    #   cpu: 200m
+    #   memory: 2000M
+    # limits: {}
+
+volumes:
+  ephemeral:
+    # available types are: memory, storage, custom
+    type: memory
+    sizeLimit: "1Mi"
+    storageClassName: ""
+    custom: {}
+    #  emptyDir:
+    #    sizeLimit: "10Mi"
+    #    medium: "Memory"
 
 curl:
   image:
     # default registry name
     registry: docker.io
-    repository: alpine/curl
-    tag: 3.14
+    repository: curlimages/curl
+    tag: 7.87.0
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent
     # array of secret names
     pullSecrets: []
+    # default security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 100
+      readOnlyRootFilesystem: true
+    # it does not make sense to have probes for curl
 
 kubectl:
   image:
@@ -158,18 +238,68 @@ kubectl:
     pullPolicy: IfNotPresent
     # array of secret names
     pullSecrets: []
+    # default security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      readOnlyRootFilesystem: true
+    # it does not make sense to have probes for kubectl
 
 opa:
   image:
     # default registry name
     registry: docker.io
     repository: openpolicyagent/opa
-    tag: 0.45.0
+    tag: 0.45.0-rootless
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent
     # array of secret names
     pullSecrets: []
+    # default security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      readOnlyRootFilesystem: true
+    # probes configuration
+    probes:
+      liveness:
+        enabled: true
+        # custom probe command, will override the default one
+        custom: {}
+        initialDelaySeconds: 5
+        timeoutSeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        failureThreshold: 3
+      readiness:
+        enabled: true
+        # custom probe command, will override the default one
+        custom: {}
+        initialDelaySeconds: 5
+        timeoutSeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        failureThreshold: 3
+      startup:
+        enabled: false
+        # custom probe command, will override the default one
+        custom: {}
+        initialDelaySeconds: 5
+        timeoutSeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        failureThreshold: 3
+    resources: {}
+      # We follow recommendations and general guidelines to manage resources from:
+      # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
+      # We recommend default requests for CPU and Memory, leaving the limits as a conscious
+      # choice for the user. If you do want to specify your own resources, uncomment the following
+      # lines, adjust them as necessary, and remove the curly braces after 'resources'.
+      # requests:
+      #   cpu: 50m
+      #   memory: 150M
+      # limits: {}
 
 logging:
   level: "INFO"
@@ -197,28 +327,19 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
 certManager:
   version: ""
 
-hostName: localhost
+hostName: "czertainly.local"
 
 letsEncrypt:
   # email: notifications@sample.com
   environment: production
-  ingress:
 
 ingress:
   enabled: false
   certificate:
-    # options: internal, external
+    # options: internal, external, letsencrypt
     source: internal
   # options: traefik, nginx
   class: nginx
@@ -227,7 +348,8 @@ ingress:
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "optional",
     nginx.ingress.kubernetes.io/auth-tls-secret: "czertainly/trusted-certificates",
     nginx.ingress.kubernetes.io/auth-tls-verify-depth: "3",
-    nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
+    nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true",
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
   }
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
@@ -236,7 +358,7 @@ ingress:
     # nginx.ingress.kubernetes.io/auth-tls-secret: "czertainly/ingress-ca-secret",
     # nginx.ingress.kubernetes.io/auth-tls-verify-depth: "3",
     # nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
-  #hosts:
+  # hosts:
   #  - host: czertainly.local
   #    paths:
   #      - path: /
@@ -246,18 +368,6 @@ ingress:
   #  - secretName: czertainly.local-tls
   #    hosts:
   #      - czertainly.local
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
 nodeSelector: {}
 
@@ -269,6 +379,7 @@ affinity: {}
 # dependencies management
 #
 apiGateway:
+  nameOverride: api-gateway
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -283,6 +394,7 @@ apiGateway:
   trustedIps: ""
 
 feAdministrator:
+  nameOverride: fe-administrator
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -292,33 +404,55 @@ feAdministrator:
   replicaCount: 1
   service:
     type: "ClusterIP"
-    port: 80
-  baseUrl: /administrator
-  podAnnotations: { }
+    port: 8080
+  podAnnotations: {}
 
+authService:
+  nameOverride: auth-service
+
+authOpaPolicies:
+  nameOverride: auth-opa-policies
+
+#
+# connectors
+#
 registerConnectors: true
 
 commonCredentialProvider:
+  nameOverride: common-credential-provider
   enabled: true
 
 ejbcaNgConnector:
+  nameOverride: ejbca-ng-connector
   enabled: false
 
 msAdcsConnector:
+  nameOverride: ms-adcs-connector
   enabled: false
 
 x509ComplianceProvider:
+  nameOverride: x509-compliance-provider
   enabled: false
-  
+
 cryptosenseDiscoveryProvider:
+  nameOverride: cryptosense-discovery-provider
   enabled: false
 
 networkDiscoveryProvider:
+  nameOverride: network-discovery-provider
   enabled: false
 
 keystoreEntityProvider:
+  nameOverride: keystore-entity-provider
   enabled: false
 
 softwareCryptographyProvider:
+  nameOverride: software-cryptography-provider
   enabled: false
-  
+
+#
+# supportive optional components
+#
+utilsService:
+  nameOverride: utils-service
+  enabled: false

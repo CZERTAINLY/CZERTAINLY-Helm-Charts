@@ -1,0 +1,13 @@
+global:
+  database:
+    host: "172.17.0.1"
+
+image:
+  tag: master-latest
+
+keycloak:
+  dbSchema: "public"
+  args: [start, --optimized, --import-realm]
+
+czertainly:
+  clientSecret: "s0qKH5qItTWoxpBt7Zrj348ZhZ7woAbk"

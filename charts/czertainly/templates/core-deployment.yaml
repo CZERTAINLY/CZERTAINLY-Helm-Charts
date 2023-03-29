@@ -1,3 +1,7 @@
+{{- $username := pluck "username" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
+{{- $name := pluck "name" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
+{{- $surname := pluck "surname" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
+{{- $email := pluck "email" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,16 +27,22 @@ spec:
       {{- end }}
     spec:
       {{- include "czertainly.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- end }}
       initContainers:
         - name: wait-for-auth-service
           image: {{ include "czertainly.curl.image" . }}
           imagePullPolicy: {{ .Values.curl.image.pullPolicy }}
+          {{- if .Values.curl.image.securityContext }}
+          securityContext: {{- .Values.curl.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
           command:
             - /bin/sh
             - -c
             - |
-              while ! nc -z auth-service 80; do sleep 1; done &&
-              while ! nc -z auth-opa-policies-service 80; do sleep 1; done &&
+              while ! nc -z auth-service {{ .Values.authService.service.port }}; do sleep 1; done &&
+              while ! nc -z auth-opa-policies-service {{ .Values.authOpaPolicies.service.port }}; do sleep 1; done &&
               echo "auth service seems to be started"
       containers:
         - name: czertainly-auth-opa
@@ -40,12 +50,65 @@ spec:
           imagePullPolicy: {{ .Values.opa.image.pullPolicy }}
           ports:
             - containerPort: 8181
+          {{- if .Values.opa.image.securityContext }}
+          securityContext: {{- .Values.opa.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
+          {{- if .Values.opa.image.probes.liveness.enabled }}
+          livenessProbe:
+            {{- if .Values.opa.image.probes.liveness.custom }}
+            {{- toYaml .Values.opa.image.probes.liveness.custom | nindent 12 }}
+            {{- else }}
+            httpGet:
+              scheme: HTTP
+              port: 8181
+            {{- end }}
+            initialDelaySeconds: {{ .Values.opa.image.probes.liveness.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.opa.image.probes.liveness.timeoutSeconds }}
+            periodSeconds: {{ .Values.opa.image.probes.liveness.periodSeconds }}
+            successThreshold: {{ .Values.opa.image.probes.liveness.successThreshold }}
+            failureThreshold: {{ .Values.opa.image.probes.liveness.failureThreshold }}
+          {{- end }}
+          {{- if .Values.opa.image.probes.readiness.enabled }}
+          readinessProbe:
+            {{- if .Values.opa.image.probes.readiness.custom }}
+            {{- toYaml .Values.opa.image.probes.readiness.custom | nindent 12 }}
+            {{- else }}
+            httpGet:
+              path: /health?bundle=true
+              scheme: HTTP
+              port: 8181
+            {{- end }}
+            initialDelaySeconds: {{ .Values.opa.image.probes.readiness.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.opa.image.probes.readiness.timeoutSeconds }}
+            periodSeconds: {{ .Values.opa.image.probes.readiness.periodSeconds }}
+            successThreshold: {{ .Values.opa.image.probes.readiness.successThreshold }}
+            failureThreshold: {{ .Values.opa.image.probes.readiness.failureThreshold }}
+          {{- end }}
+          {{- if .Values.opa.image.probes.startup.enabled }}
+          startupProbe:
+            {{- if .Values.opa.image.probes.startup.custom }}
+            {{- toYaml .Values.opa.image.probes.startup.custom | nindent 12 }}
+            {{- else }}
+            httpGet:
+              path: /health?bundle=true
+              scheme: HTTP
+              port: 8181
+            {{- end }}
+            initialDelaySeconds: {{ .Values.opa.image.probes.startup.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.opa.image.probes.startup.timeoutSeconds }}
+            periodSeconds: {{ .Values.opa.image.probes.startup.periodSeconds }}
+            successThreshold: {{ .Values.opa.image.probes.startup.successThreshold }}
+            failureThreshold: {{ .Values.opa.image.probes.startup.failureThreshold }}
+          {{- end }}
+          {{- if .Values.opa.image.resources }}
+          resources: {{- toYaml .Values.opa.image.resources | nindent 12 }}
+          {{- end }}
           args:
             - "run"
             - "--server"
             - "--log-format=json-pretty"
             - "--set=decision_logs.console=true"
-            - "--set=services.nginx.url=http://auth-opa-policies-service"
+            - "--set=services.nginx.url=http://auth-opa-policies-service:{{ .Values.authOpaPolicies.service.port }}"
             - "--set=bundles.nginx.service=nginx"
             - "--set=bundles.nginx.resource=bundles/bundle.tar.gz"
         - name: czertainly-core
@@ -101,7 +164,7 @@ spec:
             - name: OPA_BASE_URL
               value: "http://localhost:8181"
             - name: AUTH_SERVICE_BASE_URL
-              value: "http://auth-service"
+              value: "http://auth-service:{{ .Values.authService.service.port }}"
             {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
             - name: TRUSTED_CERTIFICATES
               valueFrom:
@@ -113,18 +176,60 @@ spec:
               value: {{ .Values.javaOpts | quote }}
           ports:
             - containerPort: {{ .Values.service.port }}
-          readinessProbe:
-            tcpSocket:
+          {{- if .Values.image.securityContext }}
+          securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
+          {{- if .Values.image.probes.liveness.enabled }}
+          livenessProbe:
+            {{- if .Values.image.probes.liveness.custom }}
+            {{- toYaml .Values.image.probes.liveness.custom | nindent 12 }}
+            {{- else }}
+            httpGet:
+              path: /api/v1/health/liveness
               port: {{ .Values.service.port }}
-            initialDelaySeconds: 3
-            periodSeconds: 3
-            failureThreshold: 10
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.liveness.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.liveness.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.liveness.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.liveness.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.liveness.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.probes.readiness.enabled }}
           readinessProbe:
-            tcpSocket:
-              port: 8181
-            initialDelaySeconds: 3
-            periodSeconds: 3
-            failureThreshold: 10
+            {{- if .Values.image.probes.readiness.custom }}
+            {{- toYaml .Values.image.probes.readiness.custom | nindent 12 }}
+            {{- else }}
+            httpGet:
+              path: /api/v1/health/readiness
+              port: {{ .Values.service.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.readiness.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.readiness.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.readiness.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.readiness.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.readiness.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.probes.startup.enabled }}
+          startupProbe:
+            {{- if .Values.image.probes.startup.custom }}
+            {{- toYaml .Values.image.probes.startup.custom | nindent 12 }}
+            {{- else }}
+            httpGet:
+              path: /api/v1/health/liveness
+              port: {{ .Values.service.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.startup.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.startup.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.startup.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.startup.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.startup.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.resources }}
+          resources: {{- toYaml .Values.image.resources | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - mountPath: /tmp
+              name: ephemeral
           {{- if .Values.registerAdmin.enabled }}
           lifecycle:
             postStart:
@@ -142,14 +247,17 @@ spec:
                     -H 'content-type: application/json' \
                     -d '
                      {
-                        "username": "{{ .Values.registerAdmin.admin.username }}",
-                        "description": "{{ .Values.registerAdmin.admin.description }}",
-                        "firstName": "{{ .Values.registerAdmin.admin.name }}",
-                        "lastName": "{{ .Values.registerAdmin.admin.surname }}",
-                        "email": "{{ .Values.registerAdmin.admin.email }}",
+                        "username": {{ $username }},
+                        "description": {{ .Values.registerAdmin.admin.description | quote}},
+                        "firstName": {{ $name }},
+                        "lastName": {{ $surname }},
+                        "email": {{ $email }},
                         "enabled": "true",
                         "certificateData": "'$ADMIN_CERT'",
                         "certificateUuid": ""
                      }' \
                      http://localhost:{{ .Values.service.port }}/api/v1/local/admins
           {{- end }}
+      volumes:
+        - name: ephemeral
+          {{- include "czertainly.ephemeralVolume" . | indent 10 }}

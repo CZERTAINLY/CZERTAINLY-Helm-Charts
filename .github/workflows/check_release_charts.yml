@@ -1,0 +1,110 @@
+name: Check Charts for master
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres:15
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: czertainlyuser
+          POSTGRES_PASSWORD: your-strong-password
+          POSTGRES_DB: czertainlydb
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        volumes:
+          - ${{ github.workspace }}/initdb:/docker-entrypoint-initdb.d
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.10.0
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          check-latest: true
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.3.1
+
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --target-branch master)
+          echo "${changed}"
+          if [[ -n "$changed" ]]; then
+            echo "changed=true" >> $GITHUB_ENV
+          
+            # multiline string
+            echo "changed_charts<<EOF" >> $GITHUB_ENV
+            echo "$changed" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV            
+          fi
+
+      - name: Check that chart version does not contain develop
+        if: env.changed == 'true'
+        env:
+          changed_charts: ${{ env.changed_charts }}
+        run: |
+          #echo "${changed}"
+          #echo "${changed_charts}"
+          for CHART in $changed_charts
+          do
+            echo "Checking chart $CHART for develop version"
+            version=$(yq ".version" < ${CHART}/Chart.yaml)
+            if [[ $version == *-develop ]]; then
+              echo "Chart $CHART contains develop, but not intended for develop" 
+              exit 1
+            fi
+          done
+
+      - name: Run chart-testing (lint)
+        run: ct lint --target-branch master
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.4.0
+        if: env.changed == 'true'
+
+      - name: Create testing namespace
+        if: env.changed == 'true'
+        run: kubectl create namespace chart-testing
+
+      - name: Create pull secret
+        if: env.changed == 'true'
+        env:
+          REGISTRY_SERVER: ${{ secrets.REGISTRY_SERVER }}
+          REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+          REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+          REGISTRY_EMAIL: ${{ secrets.REGISTRY_EMAIL }}
+        run: |
+          echo "Creating pull secret for private registry"
+          kubectl create secret -n chart-testing docker-registry czertainlycred \
+            --docker-server=$REGISTRY_SERVER \
+            --docker-username=$REGISTRY_USERNAME \
+            --docker-password=$REGISTRY_PASSWORD \
+            --docker-email=$REGISTRY_EMAIL
+
+      - name: Run chart-testing (install)
+        run: ct install --namespace chart-testing --target-branch master --excluded-charts czertainly-lib

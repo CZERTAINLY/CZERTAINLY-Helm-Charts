@@ -1,42 +1,48 @@
 dependencies:
+- name: keycloak-internal
+  repository: file://../keycloak-internal
+  version: 1.0.0
 - name: common-credential-provider
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 1.2.0
+  repository: file://../common-credential-provider
+  version: 1.3.0
 - name: ejbca-ng-connector
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 1.3.0
+  repository: file://../ejbca-ng-connector
+  version: 1.4.0
 - name: ms-adcs-connector
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 1.3.0
+  repository: file://../ms-adcs-connector
+  version: 1.4.0
 - name: x509-compliance-provider
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 1.1.0
+  repository: file://../x509-compliance-provider
+  version: 1.2.0
 - name: cryptosense-discovery-provider
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 1.2.0
+  repository: file://../cryptosense-discovery-provider
+  version: 1.3.0
 - name: network-discovery-provider
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 1.2.0
+  repository: file://../network-discovery-provider
+  version: 1.3.0
 - name: keystore-entity-provider
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 1.2.0
+  repository: file://../keystore-entity-provider
+  version: 1.3.0
 - name: software-cryptography-provider
-  repository: oci://harbor.3key.company/czertainly-helm
+  repository: file://../software-cryptography-provider
+  version: 1.1.0
+- name: utils-service
+  repository: file://../utils-service
   version: 1.0.0
 - name: czertainly-lib
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 1.1.0
+  repository: file://../czertainly-lib
+  version: 1.2.0
 - name: api-gateway-kong
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 3.0.0-6-1
+  repository: file://../api-gateway-kong
+  version: 3.0.0-6-2
 - name: fe-administrator
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 2.5.0
+  repository: file://../fe-administrator
+  version: 2.7.0
 - name: auth-service
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 1.0.0
+  repository: file://../auth-service
+  version: 1.1.0
 - name: auth-opa-policies
-  repository: oci://harbor.3key.company/czertainly-helm
-  version: 1.0.0
-digest: sha256:682da928088430334d3d09ff4534e786369413dff713e98fa8c8ca0de56342d4
-generated: "2023-02-21T12:43:48.320134+01:00"
+  repository: file://../auth-opa-policies
+  version: 1.1.0
+digest: sha256:75d400b5d49ac7b15c6fbcf46faaf199f6dec0aba7753dc650776f3e9b0272de
+generated: "2023-03-29T10:06:42.011886+02:00"

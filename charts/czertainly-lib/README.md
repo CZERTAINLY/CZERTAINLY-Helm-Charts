@@ -17,7 +17,7 @@ Include the dependency into your target `chart.yaml`:
 ```yaml
 dependencies:
   - name: czertainly-lib
-    version: 0.2.0
+    version: 1.2.0
     repository: oci://harbor.3key.company/czertainly-helm/czertainly-helm
 ```
 
@@ -56,3 +56,9 @@ The following functions are defined:
 |--------------------------------------|---------------------------------------------------|
 | `czertainly-lib.images.image`        | Prepares the image name from the image properties |
 | `czertainly-lib.images.pullSecrets`  | Prepares the image pull secret names              |
+
+### Volumes
+
+| Identifier                         | Description                                            |
+|------------------------------------|--------------------------------------------------------|
+| `czertainly-lib.volumes.ephemeral` | Prepares the ephemeral volume for the read-only images |

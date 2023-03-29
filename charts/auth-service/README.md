@@ -87,29 +87,62 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter            | Default value                 | Description                                                           |
-|----------------------|-------------------------------|-----------------------------------------------------------------------|
-| image.registry       | `docker.io`                   | Docker registry name for the image                                    |
-| image.repository     | `3keycompany/czertainly-auth` | Docker image repository name                                          |
-| image.tag            | `1.0.0`                       | Docker image tag                                                      |
-| image.digest         | `""`                          | Docker image digest, will override tag if specified                   |
-| image.pullPolicy     | `IfNotPresent`                | Image pull policy                                                     |
-| image.pullSecrets    | `[]`                          | Array of secret names for image pull                                  |
-| database.type        | `"postgresql"`                | Type of the database, currently only `postgresql` is supported        |
-| database.host        | `"host.docker.internal"`      | Host where is the database located                                    |
-| database.port        | `5432`                        | Port on which is the database listening                               |
-| database.name        | `"czertainlydb"`              | Database name                                                         |
-| database.username    | `"czertainlyuser"`            | Username to access the database                                       |
-| database.password    | `"your-strong-password"`      | Password to access the database                                       |
-| trusted.certificates | `""`                          | List of additional CA certificates that should be trusted             |
-| httpProxy            | `""`                          | Proxy to be used to access external resources through http            |
-| httpsProxy           | `""`                          | Proxy to be used to access external resources through https           |
-| httpProxy            | `""`                          | Defines list of external resources that should not use proxy settings |
-| logging.level        | `"INFO"`                      | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
-| service.type         | `"ClusterIP"`                 | Type of the service that is exposed                                   |
-| service.port         | `80`                          | Port number of the exposed service                                    |
-| createUnknownUsers   | `false`                       | Whether user should be automatically created when not exists          |
-| createUnknownRoles   | `false`                       | Whether roles should be automatically create when not exist           |
+| Parameter                                    | Default value                 | Description                                                           |
+|----------------------------------------------|-------------------------------|-----------------------------------------------------------------------|
+| image.registry                               | `docker.io`                   | Docker registry name for the image                                    |
+| image.repository                             | `3keycompany/czertainly-auth` | Docker image repository name                                          |
+| image.tag                                    | `1.1.0`                       | Docker image tag                                                      |
+| image.digest                                 | `""`                          | Docker image digest, will override tag if specified                   |
+| image.pullPolicy                             | `IfNotPresent`                | Image pull policy                                                     |
+| image.pullSecrets                            | `[]`                          | Array of secret names for image pull                                  |
+| image.securityContext.runAsNonRoot           | `true`                        | Run the container as non-root user                                    |
+| image.securityContext.runAsUser              | `10001`                       | User ID for the container                                             |
+| image.securityContext.readOnlyRootFilesystem | `true`                        | Run the container with read-only root filesystem                      |
+| image.resources                              | `{}`                          | The resources for the container                                       |
+| podSecurityContext                           | `{}`                          | Pod security context                                                  |
+| database.type                                | `"postgresql"`                | Type of the database, currently only `postgresql` is supported        |
+| database.host                                | `"host.docker.internal"`      | Host where is the database located                                    |
+| database.port                                | `5432`                        | Port on which is the database listening                               |
+| database.name                                | `"czertainlydb"`              | Database name                                                         |
+| database.username                            | `"czertainlyuser"`            | Username to access the database                                       |
+| database.password                            | `"your-strong-password"`      | Password to access the database                                       |
+| trusted.certificates                         | `""`                          | List of additional CA certificates that should be trusted             |
+| httpProxy                                    | `""`                          | Proxy to be used to access external resources through http            |
+| httpsProxy                                   | `""`                          | Proxy to be used to access external resources through https           |
+| httpProxy                                    | `""`                          | Defines list of external resources that should not use proxy settings |
+| logging.level                                | `"INFO"`                      | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
+| service.type                                 | `"ClusterIP"`                 | Type of the service that is exposed                                   |
+| service.port                                 | `8080`                        | Port number of the exposed service                                    |
+| createUnknownUsers                           | `false`                       | Whether user should be automatically created when not exists          |
+| createUnknownRoles                           | `false`                       | Whether roles should be automatically create when not exist           |
+
+#### Probes parameters
+
+For mode details about probes, see the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+
+| Parameter                                  | Default value | Description                                                                        |
+|--------------------------------------------|---------------|------------------------------------------------------------------------------------|
+| image.probes.liveness.enabled              | `true`        | Enable/disable liveness probe                                                      |
+| image.probes.liveness.custom               | `{}`          | Custom liveness probe command. When defined, it will override the default command  |
+| image.probes.liveness.initialDelaySeconds  | `5`           | Initial delay seconds for liveness probe                                           |
+| image.probes.liveness.timeoutSeconds       | `5`           | Timeout seconds for liveness probe                                                 |
+| image.probes.liveness.periodSeconds        | `10`          | Period seconds for liveness probe                                                  |
+| image.probes.liveness.successThreshold     | `1`           | Success threshold for liveness probe                                               |
+| image.probes.liveness.failureThreshold     | `3`           | Failure threshold for liveness probe                                               |
+| image.probes.readiness.enabled             | `true`        | Enable/disable readiness probe                                                     |
+| image.probes.readiness.custom              | `{}`          | Custom readiness probe command. When defined, it will override the default command |
+| image.probes.readiness.initialDelaySeconds | `5`           | Initial delay seconds for readiness probe                                          |
+| image.probes.readiness.timeoutSeconds      | `5`           | Timeout seconds for readiness probe                                                |
+| image.probes.readiness.periodSeconds       | `10`          | Period seconds for readiness probe                                                 |
+| image.probes.readiness.successThreshold    | `1`           | Success threshold for readiness probe                                              |
+| image.probes.readiness.failureThreshold    | `3`           | Failure threshold for readiness probe                                              |
+| image.probes.startup.enabled               | `false`       | Enable/disable startup probe                                                       |
+| image.probes.startup.custom                | `{}`          | Custom startup probe command. When defined, it will override the default command   |
+| image.probes.startup.initialDelaySeconds   | `10`          | Initial delay seconds for startup probe                                            |
+| image.probes.startup.timeoutSeconds        | `3`           | Timeout seconds for startup probe                                                  |
+| image.probes.startup.periodSeconds         | `15`          | Period seconds for startup probe                                                   |
+| image.probes.startup.successThreshold      | `1`           | Success threshold for startup probe                                                |
+| image.probes.startup.failureThreshold      | `20`          | Failure threshold for startup probe                                                |
 
 ### Additional parameters
 

@@ -101,3 +101,10 @@ Return the image pull secret names
 {{- define "czertainly.imagePullSecrets" -}}
 {{ include "czertainly-lib.images.pullSecrets" (dict "images" (list .Values.image .Values.opa.image .Values.curl.image .Values.kubectl.image) "global" .Values.global) }}
 {{- end -}}
+
+{{/*
+Retun the ephemeral volume configuration
+*/}}
+{{- define "czertainly.ephemeralVolume" -}}
+{{ include "czertainly-lib.volumes.ephemeral" (dict "volumes" .Values.volumes "global" .Values.global.volumes) }}
+{{- end -}}
