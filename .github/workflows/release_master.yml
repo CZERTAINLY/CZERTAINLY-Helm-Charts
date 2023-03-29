@@ -82,6 +82,8 @@ jobs:
           HELM_OCI_REPOSITORY: ${{ secrets.HELM_OCI_REPOSITORY }}
           HELM_USERNAME: ${{ secrets.HELM_USERNAME }}
           HELM_PASSWORD: ${{ secrets.HELM_PASSWORD }}
+          COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
+          COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
         run: |
           echo "Logging in to $HELM_OCI_REGISTRY"
           helm registry login $HELM_OCI_REGISTRY --username $HELM_USERNAME --password $HELM_PASSWORD
