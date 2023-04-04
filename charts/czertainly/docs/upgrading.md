@@ -20,7 +20,7 @@ Upgrading Helm chart is done by running the `helm upgrade` command. The command 
 
 The global parameters were cleaned up and reorganized.
 
-The following default parameters were removed:
+The following default parameters were removed. They must be explicitly set now in the values, if you want to use them. Check your current configuration and update it accordingly:
 ```yaml
 global:
   database:
@@ -34,13 +34,13 @@ global:
     certificates: ""
 ```
 
-Hostname was introduced as a global parameter that can be shared across the deployment:
+Hostname was introduced as a global parameter that can be shared across the deployment. The main reason is optional implementation of the internal Keycloak service that requires to know the hostname of the platform to properly set URLs:
 ```yaml
 global:
   hostName: ""
 ```
 
-Administrator registration information are introduced as global parameters. This allows to share for example the same data with internal Keycloak, if enabled:
+Administrator registration information is introduced as global parameters. This allows to share for example the same data with internal Keycloak, if enabled. If you want to keep the client certificate-based authentication for administrator, configure certificate in the `registerAdmin.admin.certificate` parameter:
 ```yaml
 global:
   admin:
@@ -49,6 +49,13 @@ global:
     name: ""
     surname: ""
     email: ""
+```
+
+Be aware that you can always enable auto-provisioning of the users with JSON ID using the following parameter:
+```yaml
+authService:
+  createUnknownUsers: "true"
+  createUnknownRoles: "true"
 ```
 
 ### Hardening of the deployment
