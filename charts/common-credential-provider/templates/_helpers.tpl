@@ -46,7 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "common-credential-provider.selectorLabels" -}}
-app.kubernetes.io/name: common-credential-provider
+app.kubernetes.io/name: {{ include "common-credential-provider.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 

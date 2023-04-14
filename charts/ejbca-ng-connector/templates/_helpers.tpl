@@ -46,7 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "ejbca-ng-connector.selectorLabels" -}}
-app.kubernetes.io/name: ejbca-ng-connector
+app.kubernetes.io/name: {{ include "ejbca-ng-connector.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
