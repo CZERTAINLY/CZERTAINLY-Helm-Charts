@@ -14,6 +14,7 @@ dependencies:
     tags:
       - keycloak-internal
     version: 1.0.0-1-develop
+    alias: keycloakInternal
   - condition: commonCredentialProvider.enabled
     name: common-credential-provider
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -98,7 +99,7 @@ dependencies:
     repository: file://../api-gateway-kong
     tags:
       - api-gateway
-    version: 3.0.0-6-2
+    version: 3.0.0-6-3-develop
     alias: apiGateway
   - name: fe-administrator
     # repository: oci://harbor.3key.company/czertainly-helm

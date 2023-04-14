@@ -32,6 +32,8 @@ global:
     enabled: false
     # client secret must be set if keycloak is enabled
     clientSecret: ""
+  utils:
+    enabled: false
   admin:
     username: ""
     password: ""
@@ -453,6 +455,10 @@ softwareCryptographyProvider:
 #
 # supportive optional components
 #
+keycloakInternal:
+  nameOverride: keycloak-internal
+  # the enabled flag is defined as global.keycloak.enabled
+
 utilsService:
   nameOverride: utils-service
-  enabled: false
+  # the enabled flag is defined as global.utils.enabled

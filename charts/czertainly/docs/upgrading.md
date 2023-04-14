@@ -14,6 +14,17 @@ The following contains important information and instructions about upgrading He
 
 Upgrading Helm chart is done by running the `helm upgrade` command. The command upgrades the platform to the specified version. The command can be used to upgrade the platform to the same version with changed parameters.
 
+## To 2.7.1
+
+### Enabling Utils Service
+
+Enabling parameter of Utils Service was moved from the `utilsService.enabled` to global parameters:
+```yaml
+global:
+  utils:
+    enabled: false
+```
+
 ## To 2.7.0
 
 ### Cleanup of the global parameters
