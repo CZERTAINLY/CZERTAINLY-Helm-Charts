@@ -19,6 +19,8 @@ global:
     enabled: false
     # client secret must be set if keycloak is enabled
     clientSecret: ""
+  utils:
+    enabled: false
 
 replicaCount: 1
 

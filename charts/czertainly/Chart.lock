@@ -34,7 +34,7 @@ dependencies:
   version: 1.2.0
 - name: api-gateway-kong
   repository: file://../api-gateway-kong
-  version: 3.0.0-6-2
+  version: 3.0.0-6-3-develop
 - name: fe-administrator
   repository: file://../fe-administrator
   version: 2.7.0-1-develop
@@ -44,5 +44,5 @@ dependencies:
 - name: auth-opa-policies
   repository: file://../auth-opa-policies
   version: 1.1.0
-digest: sha256:10cfedb45eaad324f6cecd9ff4191f88ea713ecb885ca2e7c10d2d350c76f425
-generated: "2023-04-14T15:45:18.618747+02:00"
+digest: sha256:b0efc7f0c3ba4b62877b8ddf2d955687ba12774982a04bb92ad57a6fb5cb0305
+generated: "2023-04-14T16:20:47.599194+02:00"
