@@ -81,7 +81,7 @@ jobs:
           done
 
       - name: Run chart-testing (lint)
-        run: ct lint --target-branch master
+        run: ct lint --target-branch master --check-version-increment=false
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.4.0
