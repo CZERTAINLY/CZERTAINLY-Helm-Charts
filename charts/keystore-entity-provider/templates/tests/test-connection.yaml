@@ -14,5 +14,5 @@ spec:
         - /bin/sh
         - -c
         - |
-          curl --silent --retry 5 --retry-delay 5 --retry-all-errors keystore-entity-provider-service:{{ .Values.service.port }}/v1/oid/2.5.4.3
+          curl --silent --retry 5 --retry-delay 5 --retry-all-errors keystore-entity-provider-service:{{ .Values.service.port }}/v1
   restartPolicy: Never
