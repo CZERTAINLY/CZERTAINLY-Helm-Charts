@@ -46,7 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "czertainly.selectorLabels" -}}
-app.kubernetes.io/name: czertainly-core
+app.kubernetes.io/name: {{ include "czertainly.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
