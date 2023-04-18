@@ -7,7 +7,11 @@ on:
 
 jobs:
   check:
-    if: ${{ (!contains(github.event.pull_request.labels.*.name, 'skip-workflow')) && (github.event.pull_request.merged) }}
+    # we want to trigger this workflow only if:
+    # - the PR is merged
+    # - it does not contain the skip-workflow label
+    # - the target branch is develop
+    if: ${{ (!contains(github.event.pull_request.labels.*.name, 'skip-workflow')) && (github.event.pull_request.merged) && (github.event.pull_request.base.ref == 'develop') }}
     name: Check
     runs-on: ubuntu-latest
     steps:

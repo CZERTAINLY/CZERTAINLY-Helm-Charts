@@ -6,6 +6,8 @@ on:
 
 jobs:
   check:
+    # we want to trigger this workflow only if:
+    # - the PR does not contain the skip-workflow label
     if: ${{ (!contains(github.event.pull_request.labels.*.name, 'skip-workflow')) }}
     name: Check
     runs-on: ubuntu-latest
