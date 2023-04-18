@@ -7,7 +7,7 @@ on:
 
 jobs:
   check:
-    if: !contains(github.event.pull_request.labels.*.name, 'skip-workflow') && github.event.pull_request.merged
+    if: ${{ (!contains(github.event.pull_request.labels.*.name, 'skip-workflow')) && (github.event.pull_request.merged) }}
     name: Check
     runs-on: ubuntu-latest
     steps:
