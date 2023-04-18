@@ -1,11 +1,13 @@
-name: Release Charts from develop
+name: Release develop Charts
 on:
-  push:
+  pull_request:
     branches: [develop]
+    types: [closed]
   workflow_dispatch:
 
 jobs:
   check:
+    if: !contains(github.event.pull_request.labels.*.name, 'skip-workflow') && github.event.pull_request.merged
     name: Check
     runs-on: ubuntu-latest
     steps:
