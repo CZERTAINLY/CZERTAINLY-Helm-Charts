@@ -6,7 +6,7 @@ on:
 
 jobs:
   check:
-    if: ${{ github.event.label.name != 'skip-workflow' }}
+    if: contains(github.event.pull_request.labels.*.name, 'skip-workflow')
     name: Check
     runs-on: ubuntu-latest
 
