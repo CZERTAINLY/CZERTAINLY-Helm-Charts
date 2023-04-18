@@ -55,8 +55,10 @@ jobs:
           // because we track the duration of runs over time
 
           const workflows = [
-            'build.yml',
-            'publish-package.yml',
+            'check_develop_charts.yml',
+            'check_release_charts.yml',
+            'release_develop.yml',
+            'release_master.yml',
             'workflow_run_pruner.yml'
           ]
 

@@ -1,4 +1,4 @@
-name: Release Charts from master
+name: Release master Charts
 on:
   push:
     tags:
