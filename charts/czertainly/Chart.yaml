@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 2.7.1
+appVersion: 2.8.0
 name: czertainly
 description: A Helm chart for CZERTAINLY platform.
 home: https://github.com/3KeyCompany/CZERTAINLY
@@ -99,7 +99,7 @@ dependencies:
     repository: file://../api-gateway-kong
     tags:
       - api-gateway
-    version: 3.0.0-6-3
+    version: 3.0.0-6-4-develop
     alias: apiGateway
   - name: fe-administrator
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -139,4 +139,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.7.1
+version: 2.8.0-develop
