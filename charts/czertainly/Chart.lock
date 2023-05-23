@@ -44,5 +44,5 @@ dependencies:
 - name: auth-opa-policies
   repository: file://../auth-opa-policies
   version: 1.1.0
-digest: sha256:a39289f34fd54d376a00c245a166fe12d6c9a0095c314d12821894ba69364d52
-generated: "2023-05-21T09:59:36.702654+02:00"
+digest: sha256:b8ce489685988c7afb21e419a33f01d3b2282ec9aaf31bef8fec3b641b5a278c
+generated: "2023-05-23T09:42:01.156248+02:00"
