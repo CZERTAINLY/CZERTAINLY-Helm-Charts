@@ -81,7 +81,7 @@ dependencies:
       - cryptography-provider
     version: 1.1.0
     alias: softwareCryptographyProvider
-  - condition: utilsService.enabled
+  - condition: global.utils.enabled
     name: utils-service
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../utils-service
