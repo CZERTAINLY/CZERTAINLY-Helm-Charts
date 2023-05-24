@@ -8,8 +8,11 @@ metadata:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: wget
-      image: busybox
-      command: ['wget']
-      args: ['auth-service:{{ .Values.service.port }}/health']
+    - name: curl
+      image: curlimages/curl:8.1.1
+      command:
+        - /bin/sh
+        - -c
+        - |
+          curl --silent --retry 5 --retry-delay 5 --retry-all-errors auth-service:{{ .Values.service.port }}/health
   restartPolicy: Never
