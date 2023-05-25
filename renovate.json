@@ -2,5 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
+  ],
+  "hostRules": [
+    {
+      "matchHost": "harbor.3key.company",
+      "username": "{{ secrets.REGISTRY_USERNAME }}",
+      "password": "{{ secrets.REGISTRY_PASSWORD }}"
+    }
   ]
 }
