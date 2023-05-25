@@ -147,11 +147,6 @@ spec:
                 secretKeyRef:
                   name: core-secret
                   key: jdbcPassword
-            - name: TS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: core-secret
-                  key: tsPassword
             - name: LOGGING_LEVEL_COM_CZERTAINLY
               value: {{ .Values.logging.level | quote }}
             {{- if .Values.registerAdmin.enabled }}
