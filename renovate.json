@@ -3,6 +3,13 @@
   "extends": [
     "config:base"
   ],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["^docker\\.io/.+"],
+      "replacementNameTemplate": "{{{replace 'docker\\.io/3keycompany/' 'harbor.3key.company/czertainly/' packageName}}}"
+    }
+  ],
   "hostRules": [
     {
       "matchHost": "harbor.3key.company",
