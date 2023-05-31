@@ -104,7 +104,9 @@ The following values may be configured:
 | logging.level                                | `"info"`                                              | Allowed values are `debug`, `info`, `notice`, `warn`, `error`, `crit`, `alert`, or `emerg` |
 | service.type                                 | `"ClusterIP"`                                         | Type of the service that is exposed                                                        |
 | service.admin.port                           | `8001`                                                | Port number of the exposed admin service                                                   |
+| service.admin.nodePort                       | `""`                                                  | Node port to be exposed for admin service (only works with `service.type: NodePort`)       |
 | service.consumer.port                        | `8000`                                                | Port number of the exposed consumer service                                                |
+| service.consumer.nodePort                    | `""`                                                  | Node port to be exposed for consumer service (only works with `service.type: NodePort`)    |
 | backend.core.service.name                    | `"core-service"`                                      | Name of the Core service                                                                   |
 | backend.core.service.port                    | `8080`                                                | Port number of the Core service                                                            |
 | backend.core.service.apiUrl                  | `"/api"`                                              | Base URL of the API requests                                                               |

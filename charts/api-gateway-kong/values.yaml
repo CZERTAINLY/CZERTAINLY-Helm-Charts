@@ -100,11 +100,18 @@ podSecurityContext: {}
 
 # kong admin and consumer ports
 service:
+  # See https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: ClusterIP
   admin:
     port: 8001
+    # Node port to be exposed for admin service (only works with service.type: NodePort)
+    # choose port between 30000-32767
+    nodePort: ""
   consumer:
     port: 8000
+    # Node port to be exposed for consumer service (only works with service.type: NodePort)
+    # choose port between 30000-32767
+    nodePort: ""
 
 hostName: "czertainly.local"
 
