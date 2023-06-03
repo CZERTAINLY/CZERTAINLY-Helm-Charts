@@ -14,6 +14,29 @@ The following contains important information and instructions about upgrading He
 
 Upgrading Helm chart is done by running the `helm upgrade` command. The command upgrades the platform to the specified version. The command can be used to upgrade the platform to the same version with changed parameters.
 
+## To 2.8.0
+
+Using `NodePort` to access the platform should be configured on API Gateway level, not for the Core service (as a service in `czertainly` chart). The `nodePort` parameter is included for both `admin` and `consumer` service in `api-gateway-kong` sub-chart. The proper way to configure `NodePort` is:
+
+```yaml
+ingress:
+  # disable ingress as we are going to use direct access to the platform
+  enabled: false
+
+apiGateway:
+  service:
+    # use NodePort to access the platform
+    type: "NodePort"
+    consumer:
+      port: 8000
+      nodePort: 30080
+    admin:
+      port: 8001
+      nodePort: 30081
+```
+
+See the [CZERTAINLY Helm chart 2.8.0 release notes](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.8.0) for more information.
+
 ## To 2.7.1
 
 ### Enabling Utils Service
@@ -24,6 +47,8 @@ global:
   utils:
     enabled: false
 ```
+
+See the [CZERTAINLY Helm chart 2.7.1 release notes](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.7.1) for more information.
 
 ## To 2.7.0
 
@@ -100,7 +125,7 @@ utilsService:
   enabled: false
 ```
 
-See the [CZERTAINLY Helm chart 2.7.0 release note](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.7.0) for more information.
+See the [CZERTAINLY Helm chart 2.7.0 release notes](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.7.0) for more information.
 
 ## To 2.6.0
 
@@ -125,7 +150,7 @@ softwareCryptographyProvider:
   enabled: false
 ```
 
-See the [CZERTAINLY Helm chart 2.6.0 release note](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.6.0) for more information.
+See the [CZERTAINLY Helm chart 2.6.0 release notes](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.6.0) for more information.
 
 ## To 2.5.2
 
@@ -181,4 +206,4 @@ keystoreEntityProvider:
   enabled: false
 ```
 
-See the [CZERTAINLY Helm chart 2.5.2 release note](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.5.2) for more information.
+See the [CZERTAINLY Helm chart 2.5.2 release notes](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.5.2) for more information.
