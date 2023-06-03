@@ -149,7 +149,7 @@ image:
   # default registry name
   registry: docker.io
   repository: 3keycompany/czertainly-core
-  tag: 2.7.1
+  tag: 2.8.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -216,7 +216,7 @@ curl:
     # default registry name
     registry: docker.io
     repository: curlimages/curl
-    tag: 7.87.0
+    tag: 8.1.1
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent
@@ -234,7 +234,7 @@ kubectl:
     # default registry name
     registry: docker.io
     repository: bitnami/kubectl
-    tag: 1.26.1
+    tag: 1.27.2
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent
@@ -252,7 +252,7 @@ opa:
     # default registry name
     registry: docker.io
     repository: openpolicyagent/opa
-    tag: 0.45.0-rootless
+    tag: 0.53.0-rootless
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent

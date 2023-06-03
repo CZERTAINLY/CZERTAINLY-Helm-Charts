@@ -10,8 +10,14 @@ spec:
     - port: {{ .Values.service.admin.port }}
       protocol: "TCP"
       name: admin
+      {{- if (and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) (not (empty .Values.service.admin.nodePort))) }}
+      nodePort: {{ .Values.service.admin.nodePort }}
+      {{- end }}
     - port: {{ .Values.service.consumer.port }}
       protocol: "TCP"
       name: consumer
+      {{- if (and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) (not (empty .Values.service.consumer.nodePort))) }}
+      nodePort: {{ .Values.service.consumer.nodePort }}
+      {{- end }}
   selector:
     {{- include "api-gateway-kong.selectorLabels" . | nindent 4 }}

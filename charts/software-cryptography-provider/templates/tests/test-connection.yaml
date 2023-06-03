@@ -9,7 +9,7 @@ metadata:
 spec:
   containers:
     - name: curl
-      image: alpine/curl
+      image: curlimages/curl:8.1.1
       command:
         - /bin/sh
         - -c

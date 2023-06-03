@@ -25,6 +25,8 @@ spec:
         {{- if .Values.global.trusted.certificates }}
         checksum/config: {{ include ("czertainly-lib.trusted.certificates.secret.global") . | sha256sum }}
         {{- end }}
+        # when connection string is changed, restart deployment
+        checksum/secret: {{ include (print $.Template.BasePath "/auth-secret.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}

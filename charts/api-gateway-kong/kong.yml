@@ -2,16 +2,16 @@
 _format_version: '2.1'
 _transform: true
 services:
-  - name: acme
+  - name: protocols
     host: {{ .Values.backend.core.service.name }}
     port: {{ .Values.backend.core.service.port }}
     protocol: http
     routes:
-      - name: acme_route
+      - name: protocols_route
         strip_path: false
         preserve_host: true
         paths:
-          - {{ .Values.backend.core.service.apiUrl}}/acme
+          - {{ .Values.backend.core.service.apiUrl}}/v1/protocols
   - name: core
     host: {{ .Values.backend.core.service.name }}
     port: {{ .Values.backend.core.service.port }}
