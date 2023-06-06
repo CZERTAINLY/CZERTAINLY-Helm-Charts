@@ -16,6 +16,4 @@ data:
     log.file = false
 
     ## Management plugin
-    {{- if .Values.global.messaging.remoteAccess }}
     loopback_users = none
-    {{- end }}
