@@ -169,6 +169,14 @@ spec:
             {{- end }}
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
+            - name: RABBITMQ_URL
+              value: "messaging-service"
+            - name: RABBITMQ_PORT
+              value: {{ .Values.messaging.service.client.amqp | quote }}
+            - name: RABBITMQ_USERNAME
+              value: {{ .Values.messaging.secret.user | quote }}
+            - name: RABBITMQ_PASSWORD
+              value: {{ .Values.messaging.secret.pass | quote }}
           ports:
             - containerPort: {{ .Values.service.port }}
           {{- if .Values.image.securityContext }}
