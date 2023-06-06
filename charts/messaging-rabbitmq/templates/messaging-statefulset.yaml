@@ -1,4 +1,6 @@
 {{- $storageClassName := pluck "storageClassName" .Values.global.persistence .Values.persistence | compact | first }}
+{{- $messagingAmqpPort := pluck "port" .Values.global.messaging.amqp .Values.service.client.amqp | compact | first }}
+{{- $messagingHttpPort := pluck "port" .Values.global.messaging.http .Values.service.client.http | compact | first }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -54,12 +56,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: messaging-secret
-                  key: pass
+                  key: password
             - name: RABBITMQ_DEFAULT_USER
               valueFrom:
                 secretKeyRef:
                   name: messaging-secret
-                  key: user
+                  key: username
             - name: RABBITMQ_ERLANG_COOKIE
               valueFrom:
                 secretKeyRef:
@@ -96,10 +98,10 @@ spec:
             #   value: "-rabbitmq_management load_definitions '/tmp/definitions.json'"
           ports:
             - name: amqp
-              containerPort: {{ .Values.service.client.amqp.port }}
+              containerPort: {{ $messagingAmqpPort }}
               protocol: "TCP"
             - name: management
-              containerPort: {{ .Values.service.client.http.port }}
+              containerPort: {{ $messagingHttpPort }}
               protocol: "TCP"
             - name: epmd
               containerPort: {{ .Values.service.headless.epmd.port }}

@@ -17,6 +17,7 @@ helm dependency update charts/keystore-entity-provider
 helm dependency update charts/messaging-rabbitmq
 helm dependency update charts/ms-adcs-connector
 helm dependency update charts/network-discovery-provider
+helm dependency update charts/scheduler-service
 helm dependency update charts/software-cryptography-provider
 helm dependency update charts/utils-service
 helm dependency update charts/x509-compliance-provider

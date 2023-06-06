@@ -34,6 +34,13 @@ global:
     clientSecret: ""
   messaging:
     remoteAccess: false
+    host: ""
+    http:
+      port: ""
+    amqp:
+      port: ""
+    username: ""
+    password: ""
   utils:
     enabled: false
   admin:
@@ -417,8 +424,21 @@ authService:
 authOpaPolicies:
   nameOverride: auth-opa-policies
 
-messaging:
-  nameOverride: messaging
+messagingService:
+  nameOverride: messaging-service
+  service:
+    client:
+      type: "ClusterIP"
+      http:
+        port: 15672
+      amqp:
+        port: 5672
+  secret:
+    username: "guest"
+    password: "guest"
+
+schedulerService:
+  nameOverride: scheduler-service
 
 #
 # connectors

@@ -129,7 +129,14 @@ dependencies:
     tags:
       - messaging
     version: 3.12.0-develop
-    alias: messaging
+    alias: messagingService
+  - name: scheduler-service
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../scheduler-service
+    tags:
+      - scheduler
+    version: 1.0.0-develop
+    alias: schedulerService
 keywords:
   - czertainly
   - certificate
