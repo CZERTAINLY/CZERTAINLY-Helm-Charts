@@ -1,11 +1,17 @@
-name: Release Charts from develop
+name: Release develop Charts
 on:
-  push:
+  pull_request:
     branches: [develop]
+    types: [closed]
   workflow_dispatch:
 
 jobs:
   check:
+    # we want to trigger this workflow only if:
+    # - the PR is merged
+    # - it does not contain the skip-workflow label
+    # - the target branch is develop
+    if: ${{ (!contains(github.event.pull_request.labels.*.name, 'skip-workflow')) && (github.event.pull_request.merged) && (github.event.pull_request.base.ref == 'develop') }}
     name: Check
     runs-on: ubuntu-latest
     steps:
@@ -25,7 +31,7 @@ jobs:
           check-latest: true
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.3.1
+        uses: helm/chart-testing-action@v2.4.0
 
       - name: Run chart-testing (list-changed)
         id: list-changed

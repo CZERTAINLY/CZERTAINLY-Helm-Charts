@@ -84,6 +84,54 @@ spec:
         {{- if .Values.image.securityContext }}
         securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
         {{- end }}
+        {{- if .Values.image.probes.liveness.enabled }}
+        livenessProbe:
+          {{- if .Values.image.probes.liveness.custom }}
+          {{- toYaml .Values.image.probes.liveness.custom | nindent 12 }}
+          {{- else }}
+          httpGet:
+            path: /health/liveness
+            port: {{ .Values.service.port }}
+          {{- end }}
+          initialDelaySeconds: {{ .Values.image.probes.liveness.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.image.probes.liveness.timeoutSeconds }}
+          periodSeconds: {{ .Values.image.probes.liveness.periodSeconds }}
+          successThreshold: {{ .Values.image.probes.liveness.successThreshold }}
+          failureThreshold: {{ .Values.image.probes.liveness.failureThreshold }}
+        {{- end }}
+        {{- if .Values.image.probes.readiness.enabled }}
+        readinessProbe:
+          {{- if .Values.image.probes.readiness.custom }}
+          {{- toYaml .Values.image.probes.readiness.custom | nindent 12 }}
+          {{- else }}
+          httpGet:
+            path: /health/readiness
+            port: {{ .Values.service.port }}
+          {{- end }}
+          initialDelaySeconds: {{ .Values.image.probes.readiness.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.image.probes.readiness.timeoutSeconds }}
+          periodSeconds: {{ .Values.image.probes.readiness.periodSeconds }}
+          successThreshold: {{ .Values.image.probes.readiness.successThreshold }}
+          failureThreshold: {{ .Values.image.probes.readiness.failureThreshold }}
+        {{- end }}
+        {{- if .Values.image.probes.startup.enabled }}
+        startupProbe:
+          {{- if .Values.image.probes.startup.custom }}
+          {{- toYaml .Values.image.probes.startup.custom | nindent 12 }}
+          {{- else }}
+          httpGet:
+            path: /health/liveness
+            port: {{ .Values.service.port }}
+          {{- end }}
+          initialDelaySeconds: {{ .Values.image.probes.startup.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.image.probes.startup.timeoutSeconds }}
+          periodSeconds: {{ .Values.image.probes.startup.periodSeconds }}
+          successThreshold: {{ .Values.image.probes.startup.successThreshold }}
+          failureThreshold: {{ .Values.image.probes.startup.failureThreshold }}
+        {{- end }}
+        {{- if .Values.image.resources }}
+        resources: {{- toYaml .Values.image.resources | nindent 12 }}
+        {{- end }}
         volumeMounts:
           - mountPath: /tmp
             name: ephemeral

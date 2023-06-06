@@ -1,19 +1,27 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 2.6.0
+appVersion: 2.8.0
 name: czertainly
 description: A Helm chart for CZERTAINLY platform.
 home: https://github.com/3KeyCompany/CZERTAINLY
 icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 dependencies:
+  - condition: global.keycloak.enabled
+    name: keycloak-internal
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../keycloak-internal
+    tags:
+      - keycloak-internal
+    version: 1.0.0-2
+    alias: keycloakInternal
   - condition: commonCredentialProvider.enabled
     name: common-credential-provider
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../common-credential-provider
     tags:
       - credential-provider
-    version: 1.2.0-1-develop
+    version: 1.3.1-1
     alias: commonCredentialProvider
   - condition: ejbcaNgConnector.enabled
     name: ejbca-ng-connector
@@ -22,7 +30,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.3.0-1-develop
+    version: 1.4.0-2
     alias: ejbcaNgConnector
   - condition: msAdcsConnector.enabled
     name: ms-adcs-connector
@@ -31,7 +39,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.3.0-1-develop
+    version: 1.4.0-2
     alias: msAdcsConnector
   - condition: x509ComplianceProvider.enabled
     name: x509-compliance-provider
@@ -39,7 +47,7 @@ dependencies:
     repository: file://../x509-compliance-provider
     tags:
       - compliance-provider
-    version: 1.1.0-1-develop
+    version: 1.3.0
     alias: x509ComplianceProvider
   - condition: cryptosenseDiscoveryProvider.enabled
     name: cryptosense-discovery-provider
@@ -47,7 +55,7 @@ dependencies:
     repository: file://../cryptosense-discovery-provider
     tags:
       - cryptosense-discovery-provider
-    version: 1.2.0-1-develop
+    version: 1.3.0-1
     alias: cryptosenseDiscoveryProvider
   - condition: networkDiscoveryProvider.enabled
     name: network-discovery-provider
@@ -55,7 +63,7 @@ dependencies:
     repository: file://../network-discovery-provider
     tags:
       - discovery-provider
-    version: 1.2.0-1-develop
+    version: 1.3.1-1
     alias: networkDiscoveryProvider
   - condition: keystoreEntityProvider.enabled
     name: keystore-entity-provider
@@ -63,7 +71,7 @@ dependencies:
     repository: file://../keystore-entity-provider
     tags:
       - entity-provider
-    version: 1.2.0-1-develop
+    version: 1.4.0
     alias: keystoreEntityProvider
   - condition: softwareCryptographyProvider.enabled
     name: software-cryptography-provider
@@ -71,33 +79,41 @@ dependencies:
     repository: file://../software-cryptography-provider
     tags:
       - cryptography-provider
-    version: 1.0.0-1-develop
+    version: 1.2.0
     alias: softwareCryptographyProvider
+  - condition: global.utils.enabled
+    name: utils-service
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../utils-service
+    tags:
+      - utils-service
+    version: 1.0.0-2
+    alias: utilsService
   # the following are mandatory dependencies
   - name: czertainly-lib
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../czertainly-lib
-    version: 1.2.0-develop
+    version: 1.2.0
   - name: api-gateway-kong
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../api-gateway-kong
     tags:
       - api-gateway
-    version: 3.0.0-6-2-develop
+    version: 3.0.0-6-4
     alias: apiGateway
   - name: fe-administrator
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../fe-administrator
     tags:
       - fe
-    version: 2.5.0-1-develop
+    version: 2.8.0
     alias: feAdministrator
   - name: auth-service
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../auth-service
     tags:
       - auth
-    version: 1.0.0-1-develop
+    version: 1.2.0
     alias: authService
   - name: auth-opa-policies
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -105,7 +121,7 @@ dependencies:
     tags:
       - auth
       - opa
-    version: 1.0.0-1-develop
+    version: 1.1.0-1
     alias: authOpaPolicies
 keywords:
   - czertainly
@@ -123,4 +139,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.6.0-1-develop
+version: 2.8.0

@@ -56,7 +56,7 @@ image:
   # default registry name
   registry: harbor.3key.company
   repository: czertainly/czertainly-cryptosense-discovery-provider
-  tag: 1.2.0
+  tag: 1.3.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -67,6 +67,45 @@ image:
     runAsNonRoot: true
     runAsUser: 10001
     readOnlyRootFilesystem: true
+  # probes configuration
+  probes:
+    liveness:
+      enabled: true
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 3
+    readiness:
+      enabled: true
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 3
+    startup:
+      enabled: false
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 10
+  resources: {}
+    # We follow recommendations and general guidelines to manage resources from:
+    # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
+    # We recommend default requests for CPU and Memory, leaving the limits as a conscious
+    # choice for the user. If you do want to specify your own resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources'.
+    # requests:
+    #   cpu: 100m
+    #   memory: 550M
+    # limits: {}
 
 volumes:
   ephemeral:

@@ -75,6 +75,10 @@ Global values are used to define common parameters for the chart and all its sub
 | global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                 |
 | global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type      |
 | global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type |
+| global.hostName                           | `""`          | Global hostname of the running instance                            |
+| global.keycloak.enabled                   | `false`       | Enables internal Keycloak for authentication                       |
+| global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used internally                  |
+| global.utils.enabled                      | `false`       | Enables external access to Utils Service                           |
 
 ### Local parameters
 
@@ -91,6 +95,7 @@ The following values may be configured:
 | image.securityContext.runAsNonRoot           | `true`                                                | Run the container as non-root user                                                         |
 | image.securityContext.runAsUser              | `100`                                                 | User ID for the container                                                                  |
 | image.securityContext.readOnlyRootFilesystem | `true`                                                | Run the container with read-only root filesystem                                           |
+| image.resources                              | `{}`                                                  | The resources for the container                                                            |
 | podSecurityContext                           | `{}`                                                  | Pod security context                                                                       |
 | volumes.ephemeral.type                       | `memory`                                              | Ephemeral volume type to be used                                                           |
 | volumes.ephemeral.sizeLimit                  | `"1Mi"`                                               | Ephemeral volume size limit                                                                |
@@ -99,7 +104,9 @@ The following values may be configured:
 | logging.level                                | `"info"`                                              | Allowed values are `debug`, `info`, `notice`, `warn`, `error`, `crit`, `alert`, or `emerg` |
 | service.type                                 | `"ClusterIP"`                                         | Type of the service that is exposed                                                        |
 | service.admin.port                           | `8001`                                                | Port number of the exposed admin service                                                   |
+| service.admin.nodePort                       | `""`                                                  | Node port to be exposed for admin service (only works with `service.type: NodePort`)       |
 | service.consumer.port                        | `8000`                                                | Port number of the exposed consumer service                                                |
+| service.consumer.nodePort                    | `""`                                                  | Node port to be exposed for consumer service (only works with `service.type: NodePort`)    |
 | backend.core.service.name                    | `"core-service"`                                      | Name of the Core service                                                                   |
 | backend.core.service.port                    | `8080`                                                | Port number of the Core service                                                            |
 | backend.core.service.apiUrl                  | `"/api"`                                              | Base URL of the API requests                                                               |
@@ -120,6 +127,35 @@ The following values may be configured:
 | cors.origins                                 | `['*']`                                               | List of allowed domains for the Access-Control-Allow-Origin header                         |
 | cors.exposedHeaders                          | `[X-Auth-Token]`                                      | List of values for the Access-Control-Expose-Headers header                                |
 | trustedIps                                   | `""`                                                  | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
+| hostAliases.resolveInternalKeycloak          | `false`                                               | Resolves internal Keycloak services as hostname for the OIDC client                        |
+
+#### Probes parameters
+
+For mode details about probes, see the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+
+| Parameter                                  | Default value | Description                                                                        |
+|--------------------------------------------|---------------|------------------------------------------------------------------------------------|
+| image.probes.liveness.enabled              | `true`        | Enable/disable liveness probe                                                      |
+| image.probes.liveness.custom               | `{}`          | Custom liveness probe command. When defined, it will override the default command  |
+| image.probes.liveness.initialDelaySeconds  | `5`           | Initial delay seconds for liveness probe                                           |
+| image.probes.liveness.timeoutSeconds       | `5`           | Timeout seconds for liveness probe                                                 |
+| image.probes.liveness.periodSeconds        | `10`          | Period seconds for liveness probe                                                  |
+| image.probes.liveness.successThreshold     | `1`           | Success threshold for liveness probe                                               |
+| image.probes.liveness.failureThreshold     | `3`           | Failure threshold for liveness probe                                               |
+| image.probes.readiness.enabled             | `true`        | Enable/disable readiness probe                                                     |
+| image.probes.readiness.custom              | `{}`          | Custom readiness probe command. When defined, it will override the default command |
+| image.probes.readiness.initialDelaySeconds | `5`           | Initial delay seconds for readiness probe                                          |
+| image.probes.readiness.timeoutSeconds      | `5`           | Timeout seconds for readiness probe                                                |
+| image.probes.readiness.periodSeconds       | `10`          | Period seconds for readiness probe                                                 |
+| image.probes.readiness.successThreshold    | `1`           | Success threshold for readiness probe                                              |
+| image.probes.readiness.failureThreshold    | `3`           | Failure threshold for readiness probe                                              |
+| image.probes.startup.enabled               | `false`       | Enable/disable startup probe                                                       |
+| image.probes.startup.custom                | `{}`          | Custom startup probe command. When defined, it will override the default command   |
+| image.probes.startup.initialDelaySeconds   | `10`          | Initial delay seconds for startup probe                                            |
+| image.probes.startup.timeoutSeconds        | `3`           | Timeout seconds for startup probe                                                  |
+| image.probes.startup.periodSeconds         | `15`          | Period seconds for startup probe                                                   |
+| image.probes.startup.successThreshold      | `1`           | Success threshold for startup probe                                                |
+| image.probes.startup.failureThreshold      | `20`          | Failure threshold for startup probe                                                |
 
 ### Additional parameters
 

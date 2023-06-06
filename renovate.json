@@ -1,0 +1,15 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "hostRules": [
+    {
+      "matchHost": "harbor.3key.company",
+      "username": "github-actions",
+      "encrypted": {
+        "password": "wcFMA/xDdHCJBTolAQ/+InQX12cJuswEVmr7wik8S6CHWm73vJixUBmlhJHQtCt3sMoLarQ42uBfAzNCIeDEkSppXMeoNW6lA6tUCUyzoRzuy1IoQ0ec7L/J7dvyy+gVUu4q1JWN5XoO20PGePysEVIjZFD5tZFm6KyxQ0QFB9kGk+aAHdcqyGDcr2LdAmv7Vf8787ts7TUgyaDw11f5GbW3RCjdrvW/zz6btcr+JoZyArJ0V/Xi3z+rMWS46Ohza45/oncVw23mPG6HpTxAv2S5Gu6JjoTvVRdPfPmEsZ8H+i3yslLF8nGlq5/fFMKukLtudJ9d9t9hbYMZT7SS/I8E3ffoi+tiveU43v/gz2FhiTybZcI5CwAuDLx4EU4i+vwMuc7d/WPsBVz9aC4QLlBhkVT7yYyTALG1brbOK+e+Xke5D3PqjmzknKPsfTWwHV96WxhkmdrXbU9TqgxYb+ayHUWJhU38B2dKM08AYWSZ5qmEI4mRKajDRfKWyQYAqDS8Qkp0KidahKtuS3QXk5aNmB6M3ECqygApDhl9wr310pUuiDDfNBoTpXcEjyFzyHJgj/lfmlLRayN7fIYzLpUW81sDz1RvpksR7X0tOfmHRiiTEZAlovBlr4QYwh1f0p4qgHepj1oZTsBNv1pB5FO8j3VLstRBPirdfTDiK1euLp7cH3dxnG2i9Lj2U+7SegEyi5wm8MUpdr3o1uNEizVQPI4RM3PUNKU3TKEQfSmA8Kr/aQjASRRmt/eKAAqefOpK4vNcJv5b1VErmXkN6wwngRg3eglGv1Im0LOOIUuJq5LWDjVSUXnTJ1m6kLrf1sMWa5LrFItc90DnizSdWBmw9nIEA+AVLpm/"
+      }
+    }
+  ]
+}

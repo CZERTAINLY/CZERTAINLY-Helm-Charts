@@ -46,7 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "ms-adcs-connector.selectorLabels" -}}
-app.kubernetes.io/name: ms-adcs-connector
+app.kubernetes.io/name: {{ include "ms-adcs-connector.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 

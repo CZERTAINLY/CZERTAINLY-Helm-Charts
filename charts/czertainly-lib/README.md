@@ -17,7 +17,7 @@ Include the dependency into your target `chart.yaml`:
 ```yaml
 dependencies:
   - name: czertainly-lib
-    version: 0.2.0
+    version: 1.2.0
     repository: oci://harbor.3key.company/czertainly-helm/czertainly-helm
 ```
 

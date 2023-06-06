@@ -46,7 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "fe-administrator.selectorLabels" -}}
-app.kubernetes.io/name: fe-administrator
+app.kubernetes.io/name: {{ include "fe-administrator.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
