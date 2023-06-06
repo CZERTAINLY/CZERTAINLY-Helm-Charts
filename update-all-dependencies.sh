@@ -14,6 +14,7 @@ helm dependency update charts/ejbca-ng-connector
 helm dependency update charts/fe-administrator
 helm dependency update charts/keycloak-internal
 helm dependency update charts/keystore-entity-provider
+helm dependency update charts/messaging-rabbitmq
 helm dependency update charts/ms-adcs-connector
 helm dependency update charts/network-discovery-provider
 helm dependency update charts/software-cryptography-provider

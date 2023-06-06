@@ -9,11 +9,10 @@ metadata:
 spec:
   containers:
     - name: curl
-      image: alpine/curl
+      image: curlimages/curl:8.1.1
       command:
         - /bin/sh
         - -c
         - |
-          echo "curl -u {{ .Values.secret.user }}:{{ .Values.secret.pass}} --retry 10 --retry-delay 5 --retry-all-errors messaging-service:{{ .Values.service.client.http.port }}/api"
           curl -u {{ .Values.secret.user }}:{{ .Values.secret.pass}} --retry 10 --retry-delay 5 --retry-all-errors messaging-service:{{ .Values.service.client.http.port }}/api
   restartPolicy: Never

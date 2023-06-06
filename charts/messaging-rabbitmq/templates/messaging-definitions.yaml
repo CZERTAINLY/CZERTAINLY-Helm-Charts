@@ -5,10 +5,10 @@ metadata:
 data:
   definitions.json: |
     {
-      "rabbit_version": "3.11.10",
-      "rabbitmq_version": "3.11.10",
+      "rabbit_version": "3.12.0",
+      "rabbitmq_version": "3.12.0",
       "product_name": "RabbitMQ",
-      "product_version": "3.11.10",
+      "product_version": "3.12.0",
       "users": [
         {
           "name": "{{ .Values.secret.user }}",

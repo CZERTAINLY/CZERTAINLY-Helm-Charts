@@ -12,10 +12,10 @@ data:
 
     ## Logging to console
     log.console = true
-    log.console.level = info
+    log.console.level = {{ .Values.logging.level }}
     log.file = false
 
     ## Management plugin
-    {{- if .Values.plugins.management.accessRemotely }}
+    {{- if .Values.global.messaging.remoteAccess }}
     loopback_users = none
     {{- end }}

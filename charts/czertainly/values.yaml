@@ -32,6 +32,8 @@ global:
     enabled: false
     # client secret must be set if keycloak is enabled
     clientSecret: ""
+  messaging:
+    remoteAccess: false
   utils:
     enabled: false
   admin:
@@ -414,6 +416,9 @@ authService:
 
 authOpaPolicies:
   nameOverride: auth-opa-policies
+
+messaging:
+  nameOverride: messaging
 
 #
 # connectors

@@ -79,6 +79,7 @@ Global values are used to define common parameters for the chart and all its sub
 | global.keycloak.enabled                   | `false`       | Enables internal Keycloak for authentication                       |
 | global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used internally                  |
 | global.utils.enabled                      | `false`       | Enables external access to Utils Service                           |
+| global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                          |
 
 ### Local parameters
 

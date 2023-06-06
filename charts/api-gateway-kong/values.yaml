@@ -21,6 +21,8 @@ global:
     clientSecret: ""
   utils:
     enabled: false
+  messaging:
+    remoteAccess: false
 
 replicaCount: 1
 
