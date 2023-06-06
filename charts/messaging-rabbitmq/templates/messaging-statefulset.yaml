@@ -92,8 +92,8 @@ spec:
             - name: RABBITMQ_NODE_NAME
               value: "rabbit@$(MY_POD_NAME)"
             {{- end }}
-            - name: RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS
-              value: "-rabbitmq_management load_definitions '/tmp/definitions.json'"
+            # - name: RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS
+            #   value: "-rabbitmq_management load_definitions '/tmp/definitions.json'"
           ports:
             - name: amqp
               containerPort: {{ .Values.service.client.amqp.port }}
