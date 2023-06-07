@@ -2,6 +2,7 @@
 {{- $name := pluck "name" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 {{- $surname := pluck "surname" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 {{- $email := pluck "email" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
+{{- $messagingAmqpPort := pluck "port" .Values.global.messaging.amqp .Values.messagingService.service.client.amqp | compact | first | quote }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -43,7 +44,10 @@ spec:
             - |
               while ! nc -z auth-service {{ .Values.authService.service.port }}; do sleep 1; done &&
               while ! nc -z auth-opa-policies-service {{ .Values.authOpaPolicies.service.port }}; do sleep 1; done &&
-              echo "auth service seems to be started"
+              echo "auth service seems to be started" &&
+              while ! nc -z messaging-service {{ .Values.messagingService.service.client.amqp.port }}; do sleep 1; done &&
+              while ! nc -z scheduler-service-service {{ .Values.schedulerService.service.port }}; do sleep 1; done &&
+              echo "messaging and scheduler service seems to be started"
       containers:
         - name: czertainly-auth-opa
           image: {{ include "czertainly.opa.image" . }}
@@ -169,6 +173,22 @@ spec:
             {{- end }}
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
+            - name: RABBITMQ_HOST
+              value: "messaging-service"
+            - name: RABBITMQ_PORT
+              value: {{ $messagingAmqpPort }}
+            - name: RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: core-secret
+                  key: messagingUsername
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: core-secret
+                  key: messagingPassword
+            - name: SCHEDULER_BASE_URL
+              value: "http://scheduler-service-service:{{ .Values.schedulerService.service.port }}"
           ports:
             - containerPort: {{ .Values.service.port }}
           {{- if .Values.image.securityContext }}

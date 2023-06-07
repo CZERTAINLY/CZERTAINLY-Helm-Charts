@@ -34,7 +34,7 @@ dependencies:
   version: 1.2.0
 - name: api-gateway-kong
   repository: file://../api-gateway-kong
-  version: 3.0.0-6-4
+  version: 3.0.0-6-5-develop
 - name: fe-administrator
   repository: file://../fe-administrator
   version: 2.8.0
@@ -44,5 +44,11 @@ dependencies:
 - name: auth-opa-policies
   repository: file://../auth-opa-policies
   version: 1.1.0-1
-digest: sha256:9654a93421d57f5597732d2ccbf9fa37158027a66a6539d20828125d1639fe3e
-generated: "2023-06-03T09:38:00.873414+02:00"
+- name: messaging-rabbitmq
+  repository: file://../messaging-rabbitmq
+  version: 3.12.0-develop
+- name: scheduler-service
+  repository: file://../scheduler-service
+  version: 1.0.0-develop
+digest: sha256:4704cb24fc30aecb6ab33e25a5f6fb69c7bc099ffeb1cb3a4cee948316e8e9a5
+generated: "2023-06-06T20:18:55.48073+02:00"

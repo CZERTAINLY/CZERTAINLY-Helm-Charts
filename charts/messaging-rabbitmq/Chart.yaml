@@ -1,9 +1,9 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 3.0.0-6
-name: api-gateway-kong
-description: A Helm chart for API Gateway based on the revomatico/kong-oidc for CZERTAINLY platform.
+appVersion: 3.12.0
+name: messaging-rabbitmq
+description: A Helm chart for RabbitMQ messaging for CZERTAINLY platform.
 home: https://github.com/3KeyCompany/CZERTAINLY
 icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 dependencies:
@@ -17,8 +17,8 @@ keywords:
   - management
   - lifecycle
   - platform
-  - api
-  - gateway
+  - messaging
+  - rabbitmq
 maintainers:
   - name: CZERTAINLY
     email: info@czertainly.com
@@ -28,6 +28,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-  - https://github.com/revomatico/docker-kong-oidc
-  - https://github.com/revomatico/kong-oidc
-version: 3.0.0-6-5-develop
+version: 3.12.0-develop
