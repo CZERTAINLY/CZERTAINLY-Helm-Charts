@@ -166,6 +166,8 @@ persistence:
   annotations: {}
 
 secret:
-  username: "guest"
-  password: "guest"
+  username: "czertainly"
+  password: "your-strong-password"
   cookie: "defaultCookies"
+  defaultUsername: "guest"
+  defaultPassword: "guest"

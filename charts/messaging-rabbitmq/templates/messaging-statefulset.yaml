@@ -94,8 +94,8 @@ spec:
             - name: RABBITMQ_NODE_NAME
               value: "rabbit@$(MY_POD_NAME)"
             {{- end }}
-            # - name: RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS
-            #   value: "-rabbitmq_management load_definitions '/tmp/definitions.json'"
+            - name: RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS
+              value: "-rabbitmq_management load_definitions '/tmp/definitions.json'"
           ports:
             - name: amqp
               containerPort: {{ $messagingAmqpPort }}
@@ -165,8 +165,8 @@ spec:
             - name: data
               mountPath: "/var/lib/rabbitmq/mnesia"
             # there is a bug in the Docker image that prevents upgrade logs from being written to stdout
-            # - name: definitions
-            #   mountPath: "/tmp"
+            - name: definitions
+              mountPath: "/tmp"
             - mountPath: /var/log/rabbitmq
               name: ephemeral
       volumes:
@@ -179,13 +179,13 @@ spec:
                 path: "rabbitmq.conf"
               - key: enabled_plugins
                 path: "enabled_plugins"
-        # - name: definitions
-        #   configMap:
-        #     name: messaging-definitions
-        #     optional: false
-        #     items:
-        #       - key: definitions.json
-        #         path: "definitions.json"
+        - name: definitions
+          configMap:
+            name: messaging-definitions
+            optional: false
+            items:
+              - key: definitions.json
+                path: "definitions.json"
         - name: ephemeral
           {{- include "messaging-rabbitmq.ephemeralVolume" . | indent 10 }}
         #- name: rabbitmq-config-rw

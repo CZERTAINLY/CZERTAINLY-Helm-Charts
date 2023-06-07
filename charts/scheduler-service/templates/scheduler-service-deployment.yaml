@@ -37,8 +37,8 @@ spec:
             - /bin/sh
             - -c
             - |
-              while ! nc -z messaging-service $messagingAmqpPort; do sleep 1; done &&
-              echo "messaging and scheduler service seems to be started"
+              while ! nc -z messaging-service {{ $messagingAmqpPort }}; do sleep 1; done &&
+              echo "messaging service seems to be started"
       containers:
       - name: scheduler-service
         image: {{ include "scheduler-service.image" . }}

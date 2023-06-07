@@ -91,9 +91,9 @@ image:
       enabled: false
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 60
+      initialDelaySeconds: 30
       timeoutSeconds: 5
-      periodSeconds: 10
+      periodSeconds: 5
       successThreshold: 1
       failureThreshold: 50
   resources: {}
@@ -147,8 +147,9 @@ podSecurityContext: {}
   # fsGroup: 2000
 
 messaging:
+  local: false
   host: "messaging-service"
   amqp:
     port: 5672
-  username: "guest"
-  password: "guest"
+  username: "czertainly"
+  password: "your-strong-password"

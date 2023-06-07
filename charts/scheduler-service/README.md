@@ -27,7 +27,7 @@ kubectl create namespace czertainly
 
 Copy the default `values.yaml` from the Helm chart and modify the values accordingly:
 ```bash
-helm show values oci://harbor.3key.company/czertainly-helm/software-cryptography-provider > values.yaml
+helm show values oci://harbor.3key.company/czertainly-helm/scheduler-service > values.yaml
 ```
 Now edit the `values.yaml` according to your desired stated, see [Configurable parameters](#configurable-parameters) for more information.
 
@@ -35,7 +35,7 @@ Now edit the `values.yaml` according to your desired stated, see [Configurable p
 
 For the basic installation, run:
 ```bash
-helm install --namespace czertainly -f values.yaml czertainly-software-cryptography-provider oci://harbor.3key.company/czertainly-helm/software-cryptography-provider
+helm install --namespace czertainly -f values.yaml czertainly-scheduler-service oci://harbor.3key.company/czertainly-helm/scheduler-service
 ```
 
 **Save your configuration**
@@ -49,14 +49,14 @@ Always make sure you save the `values.yaml` and all `--set` and `--set-file` opt
 
 For upgrading the installation, update your configuration and run:
 ```bash
-helm upgrade --namespace czertainly -f values.yaml czertainly-software-cryptography-provider oci://harbor.3key.company/czertainly-helm/software-cryptography-provider
+helm upgrade --namespace czertainly -f values.yaml czertainly-scheduler-service oci://harbor.3key.company/czertainly-helm/scheduler-service
 ```
 
 ### Uninstall
 
 You can use the `helm uninstall` command to uninstall the application:
 ```bash
-helm uninstall --namespace czertainly czertainly-software-cryptography-provider
+helm uninstall --namespace czertainly czertainly-scheduler-service
 ```
 
 ## Configurable parameters
@@ -120,8 +120,8 @@ The following values may be configured:
 | javaOpts                                     | `""`                                        | Customize Java system properties                                      |
 | messaging.host                               | `"messaging-service"`                       | Host of the messaging service                                         |
 | messaging.amqp.port                          | `5672`                                      | AMQP port number of the messaging service                             |
-| messaging.username                           | `"guest"`                                   | Username to access messaging service                                  |
-| messaging.password                           | `"guest"`                                   | Password to access messaging service                                  |
+| messaging.username                           | `"czertainly"`                              | Username to access messaging service                                  |
+| messaging.password                           | `your-strong-password"`                     | Password to access messaging service                                  |
 
 #### Probes parameters
 
@@ -145,9 +145,9 @@ For mode details about probes, see the [Kubernetes documentation](https://kubern
 | image.probes.readiness.failureThreshold    | `3`           | Failure threshold for readiness probe                                              |
 | image.probes.startup.enabled               | `false`       | Enable/disable startup probe                                                       |
 | image.probes.startup.custom                | `{}`          | Custom startup probe command. When defined, it will override the default command   |
-| image.probes.startup.initialDelaySeconds   | `60`          | Initial delay seconds for startup probe                                            |
+| image.probes.startup.initialDelaySeconds   | `30`          | Initial delay seconds for startup probe                                            |
 | image.probes.startup.timeoutSeconds        | `5`           | Timeout seconds for startup probe                                                  |
-| image.probes.startup.periodSeconds         | `10`          | Period seconds for startup probe                                                   |
+| image.probes.startup.periodSeconds         | `5`           | Period seconds for startup probe                                                   |
 | image.probes.startup.successThreshold      | `1`           | Success threshold for startup probe                                                |
 | image.probes.startup.failureThreshold      | `50`          | Failure threshold for startup probe                                                |
 

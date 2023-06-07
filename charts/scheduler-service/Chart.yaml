@@ -11,6 +11,13 @@ dependencies:
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../czertainly-lib
     version: 1.2.0
+  - name: messaging-rabbitmq
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../messaging-rabbitmq
+    tags:
+      - messaging
+    version: 3.12.0-develop
+    condition: messaging.local
 keywords:
   - czertainly
   - trust

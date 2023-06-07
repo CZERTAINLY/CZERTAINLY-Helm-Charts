@@ -4,6 +4,7 @@ global:
       - czertainlycred
   database:
     host: "172.17.0.1"
+    # host: "host.docker.internal"
   messaging:
     remoteAccess: false
     host: "messaging-service"
@@ -11,8 +12,8 @@ global:
       port: 15672
     amqp:
       port: 5672
-    username: "guest"
-    password: "guest"
+    username: "czertainly"
+    password: "your-strong-password"
   trusted:
     certificates: |
       -----BEGIN CERTIFICATE-----
@@ -58,6 +59,11 @@ authService:
     pullPolicy: Always
 
 authOpaPolicies:
+  image:
+    tag: develop-latest
+    pullPolicy: Always
+
+schedulerService:
   image:
     tag: develop-latest
     pullPolicy: Always

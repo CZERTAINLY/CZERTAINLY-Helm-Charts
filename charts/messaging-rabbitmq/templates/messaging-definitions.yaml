@@ -1,3 +1,5 @@
+{{- $messagingUsername := pluck "username" .Values.global.messaging .Values.secret | compact | first }}
+{{- $messagingPassword := pluck "password" .Values.global.messaging .Values.secret | compact | first }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -11,16 +13,8 @@ data:
       "product_version": "3.12.0",
       "users": [
         {
-          "name": "{{ .Values.secret.user }}",
-          "password": "{{ .Values.secret.pass }}",
-          "tags": [
-            "administrator"
-          ],
-          "limits": {}
-        },
-        {
-          "name": "testuser",
-          "password": "testuser",
+          "name": "{{ $messagingUsername }}",
+          "password": "{{ $messagingPassword }}",
           "tags": [
             "administrator"
           ],
@@ -34,46 +28,11 @@ data:
       ],
       "permissions": [
         {
-          "user": "{{ .Values.secret.user }}",
+          "user": "{{ $messagingUsername }}",
           "vhost": "czertainly",
           "configure": ".*",
           "write": ".*",
           "read": ".*"
-        }
-      ],
-      "topic_permissions": [],
-      "parameters": [],
-      "policies": [],
-      "queues": [
-        {
-          "name": "testqueue",
-          "vhost": "czertainly",
-          "durable": true,
-          "auto_delete": false,
-          "arguments": {
-            "x-queue-type": "classic"
-          }
-        }
-      ],
-      "exchanges": [
-        {
-          "name": "testexchange",
-          "vhost": "czertainly",
-          "type": "direct",
-          "durable": true,
-          "auto_delete": false,
-          "internal": false,
-          "arguments": {}
-        }
-      ],
-      "bindings": [
-        {
-          "source": "testexchange",
-          "vhost": "czertainly",
-          "destination": "testqueue",
-          "destination_type": "queue",
-          "routing_key": "",
-          "arguments": {}
         }
       ]
     }
