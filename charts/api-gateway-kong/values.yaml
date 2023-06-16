@@ -3,6 +3,8 @@
 # Declare variables to be passed into your templates.
 
 global:
+  config:
+    enabled: false
   image:
     registry: ""
     # array of secret names

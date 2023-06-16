@@ -4,6 +4,10 @@
 
 # Global parameters that will overwrite local parameters
 global:
+  config:
+    enabled: false
+    existingSecret: ""
+    existingConfigMap: ""
   image:
     registry: ""
     # array of secret names
@@ -165,9 +169,8 @@ persistence:
   size: 8Gi
   annotations: {}
 
+existingSecret: ""
+existingConfigMap: ""
+
 secret:
   username: "czertainly"
-  password: "your-strong-password"
-  cookie: "defaultCookies"
-  defaultUsername: "guest"
-  defaultPassword: "guest"

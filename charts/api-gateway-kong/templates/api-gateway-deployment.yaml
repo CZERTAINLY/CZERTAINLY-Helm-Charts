@@ -137,7 +137,11 @@ spec:
       volumes:
         - name: api-gateway-config-volume
           configMap:
+            {{- if .Values.global.config.enabled }}
+            name: global-configmap
+            {{- else }}
             name: api-gateway-configmap
+            {{- end }}
             items:
               - key: kong.yml
                 path: kong.yml
