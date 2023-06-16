@@ -4,5 +4,5 @@ kind: ConfigMap
 metadata:
   name: messaging-configmap
 data:
-  {{- include "czertainly-lib.messaging.configmap" (dict "global" .Values.global "messagingService" .Values) | indent 2 }}
+  {{- include "czertainly-lib.messaging.configmap" (dict "global" .Values.global "messagingService" .Values) | nindent 2 }}
 {{- end }}

@@ -6,12 +6,10 @@ Example:
 {{ include "czertainly-lib.messaging.secrets" ( dict "global" .Values.global "messagingService" .Values "release" .Release) }}
 */}}
 {{- define "czertainly-lib.messaging.secrets" -}}
-
 {{- $secretObj := (lookup "v1" "Secret" .release.Namespace "messaging-secret") | default dict }}
 {{- if .global.config.enabled }}
   {{- $secretObj := (lookup "v1" "Secret" .release.Namespace "global-secret") | default dict }}
 {{- end }}
-
 {{- $secretData := (get $secretObj "data") | default dict }}
 {{- $username := .messagingService.secret.username }}
 {{- $password := (get $secretData "password") | default (include "czertainly-lib.secrets.generate_static_password" (list .release "messaging.password")) }}
