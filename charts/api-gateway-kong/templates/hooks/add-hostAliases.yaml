@@ -1,0 +1,63 @@
+{{- if (.Values.global.keycloak.enabled) }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}"
+  labels:
+    {{- include "api-gateway-kong.labels" . | nindent 4 }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install, post-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      serviceAccountName: {{ include "api-gateway-kong.serviceAccountName" . }}
+      restartPolicy: Never
+      containers:
+        - name: add-hosts-to-deployment
+          image: {{ include "api-gateway-kong.kubectl.image" . }}
+          {{- if .Values.kubectl.image.securityContext }}
+          securityContext: {{- .Values.kubectl.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
+          command:
+          - /bin/sh
+          - -c
+          - |
+            {{- if .Values.hostAliases.resolveInternalKeycloak }}
+            echo "Resolve internal keycloak hostname enabled:" &&
+            echo "Getting IP address of keycloak-internal-service..." &&
+            INTERNAL_IP=$(kubectl get service keycloak-internal-service -o jsonpath='{.spec.clusterIP}') &&
+            echo "IP address of keycloak-internal-service is $INTERNAL_IP" &&
+            HOSTNAME={{ pluck "hostName" .Values.global .Values | compact | first }} &&
+            echo "Adding '$INTERNAL_IP' to /etc/hosts as '$HOSTNAME'..." &&
+            kubectl patch deployment api-gateway-deployment -p='{"spec":{"template":{"spec":{"hostAliases":[{"ip": "'$INTERNAL_IP'", "hostnames":["'$HOSTNAME'"]}]}}}}' &&
+            {{- else }}
+            echo "Resolve internal keycloak hostname disabled:" &&
+            echo "Check if hostAliases object is present in deployment..." &&
+            HOST_ALIASES=$(kubectl get deployment api-gateway-deployment -o jsonpath='{.spec.template.spec.hostAliases}') &&
+            echo "Check if hostAliases object is empty..." &&
+            if [ -z "$HOST_ALIASES" ]; then
+              echo "hostAliases is empty, nothing to do"
+            else
+              echo "hostAliases present with value '$HOST_ALIASES', removing it..." &&
+              kubectl patch deployment api-gateway-deployment --type json -p='[{"op": "remove", "path": "/spec/template/spec/hostAliases"}]'
+            fi &&
+            {{- end }}
+            echo "Done"
+          volumeMounts:
+            - mountPath: /tmp
+              name: ephemeral
+      volumes:
+        - name: ephemeral
+          {{- include "api-gateway-kong.ephemeralVolume" . | indent 10 }}
+{{- end }}

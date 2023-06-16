@@ -25,18 +25,6 @@ spec:
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
-      {{- if and (.Values.global.keycloak.enabled) (.Values.hostAliases.resolveInternalKeycloak) }}
-        {{- $namespace := .Release.Namespace }}
-        {{- $keycloakService := (lookup "v1" "Service" $namespace "keycloak-internal-service") }}
-        {{- if $keycloakService }}
-          {{- $hostName := pluck "hostName" .Values.global .Values | compact | first }}
-          {{- $internalIp := (lookup "v1" "Service" $namespace "keycloak-internal-service").spec.clusterIP }}
-      hostAliases:
-      - ip: {{ $internalIp | quote }}
-        hostnames:
-        - {{ $hostName | quote }}
-        {{- end }}
-      {{- end }}
       containers:
         - name: api-gateway
           image: {{ include "api-gateway-kong.image" . }}

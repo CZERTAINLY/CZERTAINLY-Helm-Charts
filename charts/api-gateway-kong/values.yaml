@@ -83,6 +83,24 @@ image:
     #   memory: 1100M
     # limits: {}
 
+kubectl:
+  image:
+    # default registry name
+    registry: docker.io
+    repository: bitnami/kubectl
+    tag: 1.27.2
+    # the digest to be used instead of the tag
+    digest: ""
+    pullPolicy: IfNotPresent
+    # array of secret names
+    pullSecrets: []
+    # default security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      readOnlyRootFilesystem: true
+    # it does not make sense to have probes for kubectl
+
 volumes:
   ephemeral:
     # available types are: memory, storage, custom
@@ -96,6 +114,15 @@ volumes:
 
 nameOverride: ""
 fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "api-gateway-sa"
 
 podAnnotations: {}
 
