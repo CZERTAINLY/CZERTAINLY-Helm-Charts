@@ -4,6 +4,8 @@
 
 # Global parameters that will overwrite local parameters
 global:
+  config:
+    enabled: false
   image:
     registry: ""
     # array of secret names
@@ -167,7 +169,3 @@ persistence:
 
 secret:
   username: "czertainly"
-  password: "your-strong-password"
-  cookie: "defaultCookies"
-  defaultUsername: "guest"
-  defaultPassword: "guest"

@@ -7,13 +7,6 @@ global:
     # host: "host.docker.internal"
   messaging:
     remoteAccess: false
-    host: "messaging-service"
-    http:
-      port: 15672
-    amqp:
-      port: 5672
-    username: "czertainly"
-    password: "your-strong-password"
   trusted:
     certificates: |
       -----BEGIN CERTIFICATE-----

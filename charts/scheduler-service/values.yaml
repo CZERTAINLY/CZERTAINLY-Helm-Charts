@@ -7,6 +7,8 @@ fullnameOverride: ""
 
 # Global parameters that will overwrite local parameters
 global:
+  config:
+    enabled: false
   image:
     registry: ""
     # array of secret names
@@ -152,4 +154,3 @@ messaging:
   amqp:
     port: 5672
   username: "czertainly"
-  password: "your-strong-password"

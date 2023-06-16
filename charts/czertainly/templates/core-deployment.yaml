@@ -2,7 +2,6 @@
 {{- $name := pluck "name" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 {{- $surname := pluck "surname" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 {{- $email := pluck "email" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
-{{- $messagingAmqpPort := pluck "port" .Values.global.messaging.amqp .Values.messagingService.service.client.amqp | compact | first | quote }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -174,19 +173,25 @@ spec:
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
             - name: RABBITMQ_HOST
-              value: "messaging-service"
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configmap
+                  key: messaging.host
             - name: RABBITMQ_PORT
-              value: {{ $messagingAmqpPort }}
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configmap
+                  key: messaging.amqp.port
             - name: RABBITMQ_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: core-secret
-                  key: messagingUsername
+                  name: global-secret
+                  key: messaging.username
             - name: RABBITMQ_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: core-secret
-                  key: messagingPassword
+                  name: global-secret
+                  key: messaging.password
             - name: SCHEDULER_BASE_URL
               value: "http://scheduler-service-service:{{ .Values.schedulerService.service.port }}"
           ports:

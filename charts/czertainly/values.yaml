@@ -4,6 +4,8 @@
 
 # Global parameters that will overwrite local parameters
 global:
+  config:
+    enabled: true
   image:
     registry: ""
     # array of secret names
@@ -34,13 +36,6 @@ global:
     clientSecret: ""
   messaging:
     remoteAccess: false
-    host: ""
-    http:
-      port: ""
-    amqp:
-      port: ""
-    username: ""
-    password: ""
   utils:
     enabled: false
   admin:
@@ -426,16 +421,6 @@ authOpaPolicies:
 
 messagingService:
   nameOverride: messaging-service
-  service:
-    client:
-      type: "ClusterIP"
-      http:
-        port: 15672
-      amqp:
-        port: 5672
-  secret:
-    username: "guest"
-    password: "guest"
 
 schedulerService:
   nameOverride: scheduler-service
