@@ -3,8 +3,8 @@ global:
     pullSecrets:
       - czertainlycred
   database:
-    # host: "172.17.0.1"
-    host: "host.docker.internal"
+    host: "172.17.0.1"
+    # host: "host.docker.internal"
   messaging:
     remoteAccess: false
   trusted:
