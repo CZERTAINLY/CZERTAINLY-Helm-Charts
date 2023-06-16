@@ -8,6 +8,7 @@ Global values are used to define common parameters for the chart and all its sub
 
 | Parameter                                 | Default value | Description                                                           |
 |-------------------------------------------|---------------|-----------------------------------------------------------------------|
+| global.config.enabled                     | `true`        | Enables global configuration                                          |
 | global.image.registry                     | `""`          | Global docker registry name                                           |
 | global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                           |
 | global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                               |
@@ -28,11 +29,6 @@ Global values are used to define common parameters for the chart and all its sub
 | global.keycloak.enabled                   | `false`       | Enables internal Keycloak for authentication                          |
 | global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used internally                     |
 | global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                             |
-| global.messaging.host                     | `""`          | Host of the messaging service                                         |
-| global.messaging.http.port                | `""`          | HTTP port number of the messaging service                             |
-| global.messaging.amqp.port                | `""`          | AMQP port number of the messaging service                             |
-| global.messaging.username                 | `""`          | Username to access messaging service                                  |
-| global.messaging.password                 | `""`          | Password to access messaging service                                  |
 | global.utils.enabled                      | `false`       | Enables external access to Utils Service                              |
 | global.admin.username                     | `""`          | Initial administrator username                                        |
 | global.admin.password                     | `""`          | Initial administrator password                                        |

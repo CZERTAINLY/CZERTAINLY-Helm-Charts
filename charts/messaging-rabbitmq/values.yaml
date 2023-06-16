@@ -20,13 +20,6 @@ global:
     storageClassName: ""
   messaging:
     remoteAccess: false
-    host: ""
-    http:
-      port: ""
-    amqp:
-      port: ""
-    username: ""
-    password: ""
   httpProxy: ""
   httpsProxy: ""
   noProxy: ""

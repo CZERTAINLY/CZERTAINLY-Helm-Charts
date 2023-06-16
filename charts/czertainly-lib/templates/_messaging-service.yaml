@@ -2,8 +2,13 @@
 Return the secrets for the messaging service.
 The output should be used as part of the Secret manifest as stringData.
 
+Parameters:
+- global: global values
+- messagingService: messaging service values
+- release: release object
+
 Example:
-{{ include "czertainly-lib.messaging.secrets" ( dict "global" .Values.global "messagingService" .Values "release" .Release) }}
+{{ include "czertainly-lib.messaging.secrets" ( dict "global" .Values.global "messagingService" .Values "release" .Release ) }}
 */}}
 {{- define "czertainly-lib.messaging.secrets" -}}
 {{- $secretObj := (lookup "v1" "Secret" .release.Namespace "messaging-secret") | default dict }}
@@ -53,8 +58,12 @@ messaging.definitions.json: |
 {{/*
 Return the the configuration of the messaging service.
 
+Parameters:
+- global: global values
+- messagingService: messaging service values
+
 Example:
-{{ include "czertainly-lib.messaging.configmap" ( dict "global" .Values.global "messagingService" .Values) }}
+{{ include "czertainly-lib.messaging.configmap" ( dict "global" .Values.global "messagingService" .Values ) }}
 */}}
 {{- define "czertainly-lib.messaging.configmap" -}}
 messaging.host: "messaging-service"

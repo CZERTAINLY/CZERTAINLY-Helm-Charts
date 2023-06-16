@@ -1,5 +1,5 @@
 {{- $imagePullSecrets := pluck "imagePullSecrets" .Values.global .Values | compact | first }}
-{{- $messagingAmqpPort := pluck "port" .Values.global.messaging.amqp .Values.messaging.amqp | compact | first }}
+{{- $messagingAmqpPort := .Values.messaging.amqp }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

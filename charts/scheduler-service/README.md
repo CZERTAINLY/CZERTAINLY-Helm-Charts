@@ -70,6 +70,7 @@ Global values are used to define common parameters for the chart and all its sub
 
 | Parameter                                 | Default value | Description                                                        |
 |-------------------------------------------|---------------|--------------------------------------------------------------------|
+| global.config.enabled                     | `false`       | Enables global configuration                                       |
 | global.image.registry                     | `""`          | Global docker registry name                                        |
 | global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                        |
 | global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                            |
@@ -82,10 +83,6 @@ Global values are used to define common parameters for the chart and all its sub
 | global.database.name                      | `""`          | Database name                                                      |
 | global.database.username                  | `""`          | Username to access the database                                    |
 | global.database.password                  | `""`          | Password to access the database                                    |
-| global.messaging.host                     | `""`          | Host of the messaging service                                      |
-| global.messaging.amqp.port                | `""`          | AMQP port number of the messaging service                          |
-| global.messaging.username                 | `""`          | Username to access messaging service                               |
-| global.messaging.password                 | `""`          | Password to access messaging service                               |
 
 ### Local parameters
 
@@ -118,10 +115,6 @@ The following values may be configured:
 | service.type                                 | `"ClusterIP"`                               | Type of the service that is exposed                                   |
 | service.port                                 | `8080`                                      | Port number of the exposed service                                    |
 | javaOpts                                     | `""`                                        | Customize Java system properties                                      |
-| messaging.host                               | `"messaging-service"`                       | Host of the messaging service                                         |
-| messaging.amqp.port                          | `5672`                                      | AMQP port number of the messaging service                             |
-| messaging.username                           | `"czertainly"`                              | Username to access messaging service                                  |
-| messaging.password                           | `your-strong-password"`                     | Password to access messaging service                                  |
 
 #### Probes parameters
 
