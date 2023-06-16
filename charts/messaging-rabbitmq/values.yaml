@@ -6,8 +6,6 @@
 global:
   config:
     enabled: false
-    existingSecret: ""
-    existingConfigMap: ""
   image:
     registry: ""
     # array of secret names
@@ -168,9 +166,6 @@ persistence:
   subPath: ""
   size: 8Gi
   annotations: {}
-
-existingSecret: ""
-existingConfigMap: ""
 
 secret:
   username: "czertainly"
