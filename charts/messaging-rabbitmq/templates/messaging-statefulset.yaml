@@ -1,6 +1,6 @@
 {{- $storageClassName := pluck "storageClassName" .Values.global.persistence .Values.persistence | compact | first }}
-{{- $messagingAmqpPort := pluck "port" .Values.global.messaging.amqp .Values.service.client.amqp | compact | first }}
-{{- $messagingHttpPort := pluck "port" .Values.global.messaging.http .Values.service.client.http | compact | first }}
+{{- $messagingAmqpPort := .Values.service.client.amqp.port }}
+{{- $messagingHttpPort := .Values.service.client.http.port }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:

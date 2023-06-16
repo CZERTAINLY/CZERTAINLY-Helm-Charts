@@ -26,12 +26,6 @@ global:
     name: ""
     username: ""
     password: ""
-  messaging:
-    host: ""
-    amqp:
-      port: ""
-    username: ""
-    password: ""
 
 database:
   # currently only postgresql is supported

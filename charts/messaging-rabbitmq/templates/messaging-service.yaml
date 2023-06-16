@@ -1,5 +1,5 @@
-{{- $messagingHttpPort := pluck "port" .Values.global.messaging.http .Values.service.client.http | compact | first }}
-{{- $messagingAmqpPort := pluck "port" .Values.global.messaging.amqp .Values.service.client.amqp | compact | first }}
+{{- $messagingHttpPort := .Values.service.client.http.port }}
+{{- $messagingAmqpPort := .Values.service.client.amqp.port }}
 apiVersion: v1
 kind: Service
 metadata:

@@ -1,6 +1,12 @@
 {{/*
 Return the kong api gateway configuration for the given environment.
-{{ include "czertainly-lib.api-gateway.kong.yaml" ( dict "global" .Values.global "apiGateway" .Values) }}
+
+Parameters:
+- global: The global values
+- apiGateway: The api gateway values
+
+Example:
+{{ include "czertainly-lib.api-gateway.kong.yaml" ( dict "global" .Values.global "apiGateway" .Values ) }}
 */}}
 {{- define "czertainly-lib.api-gateway.kong.yaml" -}}
 {{- $hostName := pluck "hostName" .global .apiGateway | compact | first }}

@@ -69,6 +69,7 @@ Global values are used to define common parameters for the chart and all its sub
 
 | Parameter                                 | Default value | Description                                                        |
 |-------------------------------------------|---------------|--------------------------------------------------------------------|
+| global.config.enabled                     | `false`       | Enables global configuration                                       |
 | global.image.registry                     | `""`          | Global docker registry name                                        |
 | global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                        |
 | global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                            |

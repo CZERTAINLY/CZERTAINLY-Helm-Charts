@@ -70,6 +70,7 @@ Global values are used to define common parameters for the chart and all its sub
 
 | Parameter                                 | Default value | Description                                                               |
 |-------------------------------------------|---------------|---------------------------------------------------------------------------|
+| global.config.enabled                     | `false`       | Enables global configuration                                              |
 | global.image.registry                     | `""`          | Global docker registry name                                               |
 | global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                               |
 | global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                                   |
@@ -78,11 +79,6 @@ Global values are used to define common parameters for the chart and all its sub
 | global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type        |
 | global.persistence.storageClassName       | `""`          | Global storage class name for RabbitMQ stateful set `volumeClaimTemplate` |
 | global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                                 |
-| global.messaging.host                     | `""`          | Host of the messaging service                                             |
-| global.messaging.http.port                | `""`          | HTTP port number of the messaging service                                 |
-| global.messaging.amqp.port                | `""`          | AMQP port number of the messaging service                                 |
-| global.messaging.username                 | `""`          | Username to access messaging service                                      |
-| global.messaging.password                 | `""`          | Password to access messaging service                                      |
 | global.httpProxy                          | `""`          | Proxy to be used to access external resources through http                |
 | global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https               |
 | global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings     |
@@ -129,9 +125,7 @@ The following values may be configured:
 | persistence.subPath               | `""`                | Subpath for RabbitMQ persistence                          |
 | persistence.size                  | `8Gi`               | Size for RabbitMQ persistence                             |
 | persistence.annotations           | `{}`                | Annotations for RabbitMQ persistence                      |
-| secret.username                   | `"guest"`           | Username for RabbitMQ                                     |
-| secret.password                   | `"guest"`           | Password for RabbitMQ                                     |
-| secret.cookie                     | `"defaultCookies"`  | Erlang cookie for RabbitMQ                                |
+| secret.username                   | `"czertainly"`      | Username for RabbitMQ                                     |
 | plugins.management.accessRemotely | `false`             | Enable/disable remote access to RabbitMQ management       |
 
 #### Probes parameters
