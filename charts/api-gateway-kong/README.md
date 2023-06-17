@@ -131,6 +131,22 @@ The following values may be configured:
 | trustedIps                                   | `""`                                                  | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
 | hostAliases.resolveInternalKeycloak          | `false`                                               | Resolves internal Keycloak services as hostname for the OIDC client                        |
 
+### Parameters for associated containers
+
+**kubectl**
+
+| Parameter                                            | Default value     | Description                                         |
+|------------------------------------------------------|-------------------|-----------------------------------------------------|
+| kubectl.image.registry                               | `docker.io`       | Docker registry name for the image                  |
+| kubectl.image.repository                             | `bitnami/kubectl` | Docker image repository name                        |
+| kubectl.image.tag                                    | `1.27.2`          | Docker image tag                                    |
+| kubectl.image.digest                                 | `""`              | Docker image digest, will override tag if specified |
+| kubectl.image.pullPolicy                             | `IfNotPresent`    | Image pull policy                                   |
+| kubectl.image.pullSecrets                            | `[]`              | Array of secret names for image pull                |
+| kubectl.image.securityContext.runAsNonRoot           | `true`            | Run the container as non-root user                  |
+| kubectl.image.securityContext.runAsUser              | `1001`            | User ID for the container                           |
+| kubectl.image.securityContext.readOnlyRootFilesystem | `true`            | Run the container with read-only root filesystem    |
+
 #### Probes parameters
 
 For mode details about probes, see the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
