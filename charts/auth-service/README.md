@@ -144,6 +144,22 @@ For mode details about probes, see the [Kubernetes documentation](https://kubern
 | image.probes.startup.successThreshold      | `1`           | Success threshold for startup probe                                                |
 | image.probes.startup.failureThreshold      | `20`          | Failure threshold for startup probe                                                |
 
+### Parameters for associated containers
+
+**kubectl**
+
+| Parameter                                            | Default value     | Description                                         |
+|------------------------------------------------------|-------------------|-----------------------------------------------------|
+| kubectl.image.registry                               | `docker.io`       | Docker registry name for the image                  |
+| kubectl.image.repository                             | `bitnami/kubectl` | Docker image repository name                        |
+| kubectl.image.tag                                    | `1.27.2`          | Docker image tag                                    |
+| kubectl.image.digest                                 | `""`              | Docker image digest, will override tag if specified |
+| kubectl.image.pullPolicy                             | `IfNotPresent`    | Image pull policy                                   |
+| kubectl.image.pullSecrets                            | `[]`              | Array of secret names for image pull                |
+| kubectl.image.securityContext.runAsNonRoot           | `true`            | Run the container as non-root user                  |
+| kubectl.image.securityContext.runAsUser              | `1001`            | User ID for the container                           |
+| kubectl.image.securityContext.readOnlyRootFilesystem | `true`            | Run the container with read-only root filesystem    |
+
 ### Additional parameters
 
 Additional parameters may be found in the [values.yaml](values.yaml) and dependencies.
