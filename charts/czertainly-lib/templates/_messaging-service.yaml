@@ -17,7 +17,8 @@ Example:
 {{- end }}
 {{- $secretData := (get $secretObj "data") | default dict }}
 {{- $username := .messagingService.secret.username }}
-{{- $password := (get $secretData "password") | default (include "czertainly-lib.secrets.generate_static_password" (list .release "messaging.password")) }}
+{{- $pass := (include "czertainly-lib.messaging.secrets.password" (dict "global" .global "release" .release)) | fromYaml }}
+{{- $password := (get $pass "messaging.password") }}
 {{- $cookie := (get $secretData "cookie") | default (randAlphaNum 32) }}
 messaging.username: "{{ $username }}"
 messaging.password: "{{ $password }}"
