@@ -22,6 +22,8 @@ spec:
       annotations:
         # when the list of the trusted certificates is changed, restart deployment
         checksum/config: {{ include (print $.Template.BasePath "/trusted-certificates-secret.yaml") . | sha256sum }}
+        # when the messaging secrets are changed, restart deployment
+        checksum/mq-secret: {{ include "czertainly-lib.messaging.secrets" (dict "global" .Values.global "messagingService" .Values.messagingService "release" .Release) | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}

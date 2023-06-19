@@ -17,7 +17,8 @@ Example:
 {{- end }}
 {{- $secretData := (get $secretObj "data") | default dict }}
 {{- $username := .messagingService.secret.username }}
-{{- $password := (get $secretData "password") | default (include "czertainly-lib.secrets.generate_static_password" (list .release "messaging.password")) }}
+{{- $pass := (include "czertainly-lib.messaging.secrets.password" (dict "global" .global "release" .release)) | fromYaml }}
+{{- $password := (get $pass "messaging.password") }}
 {{- $cookie := (get $secretData "cookie") | default (randAlphaNum 32) }}
 messaging.username: "{{ $username }}"
 messaging.password: "{{ $password }}"
@@ -85,4 +86,24 @@ messaging.rabbitmq.conf: |
   {{- if .global.messaging.remoteAccess }}
   loopback_users = none
   {{- end }}
+{{- end }}
+
+{{/*
+Return the password for the messaging service.
+
+Parameters:
+- global: global values
+- release: release object
+
+Example:
+{{ include "czertainly-lib.messaging.secrets.password" ( dict "global" .Values.global "release" .Release ) }}
+*/}}
+{{- define "czertainly-lib.messaging.secrets.password" -}}
+{{- $secretObj := (lookup "v1" "Secret" .release.Namespace "messaging-secret") | default dict }}
+{{- if .global.config.enabled }}
+  {{- $secretObj := (lookup "v1" "Secret" .release.Namespace "global-secret") | default dict }}
+{{- end }}
+{{- $secretData := (get $secretObj "data") | default dict }}
+{{- $password := (get $secretData "password") | default (include "czertainly-lib.secrets.generate_static_password" (list .release "messaging.password")) }}
+messaging.password: "{{ $password }}"
 {{- end }}
