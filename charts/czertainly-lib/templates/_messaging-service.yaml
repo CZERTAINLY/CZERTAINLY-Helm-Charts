@@ -88,7 +88,16 @@ messaging.rabbitmq.conf: |
   {{- end }}
 {{- end }}
 
+{{/*
+Return the password for the messaging service.
 
+Parameters:
+- global: global values
+- release: release object
+
+Example:
+{{ include "czertainly-lib.messaging.secrets.password" ( dict "global" .Values.global "release" .Release ) }}
+*/}}
 {{- define "czertainly-lib.messaging.secrets.password" -}}
 {{- $secretObj := (lookup "v1" "Secret" .release.Namespace "messaging-secret") | default dict }}
 {{- if .global.config.enabled }}
