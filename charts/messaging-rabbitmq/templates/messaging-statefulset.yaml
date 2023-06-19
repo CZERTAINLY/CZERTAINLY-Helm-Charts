@@ -20,8 +20,11 @@ spec:
     metadata:
       labels:
         {{- include "messaging-rabbitmq.selectorLabels" . | nindent 8 }}
-      {{- with .Values.podAnnotations }}
       annotations:
+        # when the list of the trusted certificates is changed, restart deployment
+        checksum/config: {{ include "czertainly-lib.messaging.configmap" (dict "global" .Values.global "messagingService" .Values) | sha256sum }}
+        checksum/secret: {{ include "czertainly-lib.messaging.secrets" (dict "global" .Values.global "messagingService" .Values "release" .Release) | sha256sum }}
+      {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
