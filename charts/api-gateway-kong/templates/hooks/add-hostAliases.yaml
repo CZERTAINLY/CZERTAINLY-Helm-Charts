@@ -1,5 +1,5 @@
 {{- if (.Values.global.keycloak.enabled) }}
-{{- jobName := "add-hosts-to-deployment-job" }}
+{{- $jobName := "add-hosts-to-deployment-job" }}
 apiVersion: batch/v1
 kind: Job
 metadata:

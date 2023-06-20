@@ -1,5 +1,5 @@
 {{- if .Values.registerConnectors }}
-{{- jobName := "register-admin-job" }}
+{{- $jobName := "register-admin-job" }}
 apiVersion: batch/v1
 kind: Job
 metadata:
