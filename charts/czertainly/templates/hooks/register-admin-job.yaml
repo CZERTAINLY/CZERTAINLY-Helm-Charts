@@ -1,8 +1,9 @@
 {{- if and (.Values.registerAdmin.enabled) (eq .Values.registerAdmin.source "generated") }}
+{{- jobName := "register-admin-job" }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}"
+  name: "{{ .Release.Name }}-{{ jobName }}"
   labels:
     {{- include "czertainly.labels" . | nindent 4 }}
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -15,7 +16,7 @@ metadata:
 spec:
   template:
     metadata:
-      name: "{{ .Release.Name }}"
+      name: "{{ .Release.Name }}-{{ jobName }}"
       labels:
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
@@ -24,7 +25,7 @@ spec:
       serviceAccountName: {{ include "czertainly.serviceAccountName" . }}
       restartPolicy: Never
       containers:
-        - name: register-admin-job
+        - name: {{ $jobName }}
           image: {{ include "czertainly.kubectl.image" . }}
           {{- if .Values.kubectl.image.securityContext }}
           securityContext: {{- .Values.kubectl.image.securityContext | toYaml | nindent 12 }}

@@ -1,8 +1,9 @@
 {{- if .Values.registerConnectors }}
+{{- jobName := "register-admin-job" }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}"
+  name: "{{ .Release.Name }}-{{ jobName }}"
   labels:
     {{- include "czertainly.labels" . | nindent 4 }}
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -15,7 +16,7 @@ metadata:
 spec:
   template:
     metadata:
-      name: "{{ .Release.Name }}"
+      name: "{{ .Release.Name }}-{{ jobName }}"
       labels:
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
@@ -23,7 +24,7 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-        - name: register-connectors-job
+        - name: {{ $jobName }}
           image: {{ include "czertainly.curl.image" . }}
           command:
           - /bin/sh
