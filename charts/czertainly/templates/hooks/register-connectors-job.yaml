@@ -3,7 +3,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}-{{ jobName }}"
+  name: "{{ .Release.Name }}-{{ $jobName }}"
   labels:
     {{- include "czertainly.labels" . | nindent 4 }}
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -16,7 +16,7 @@ metadata:
 spec:
   template:
     metadata:
-      name: "{{ .Release.Name }}-{{ jobName }}"
+      name: "{{ .Release.Name }}-{{ $jobName }}"
       labels:
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
