@@ -1,8 +1,9 @@
 {{- if (.Values.global.keycloak.enabled) }}
+{{- $jobName := "add-hosts-to-deployment-job" }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}"
+  name: "{{ .Release.Name }}-{{ $jobName }}"
   labels:
     {{- include "api-gateway-kong.labels" . | nindent 4 }}
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -15,7 +16,7 @@ metadata:
 spec:
   template:
     metadata:
-      name: "{{ .Release.Name }}"
+      name: "{{ .Release.Name }}-{{ $jobName }}"
       labels:
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
@@ -24,7 +25,7 @@ spec:
       serviceAccountName: {{ include "api-gateway-kong.serviceAccountName" . }}
       restartPolicy: Never
       containers:
-        - name: add-hosts-to-deployment
+        - name: {{ $jobName }}
           image: {{ include "api-gateway-kong.kubectl.image" . }}
           {{- if .Values.kubectl.image.securityContext }}
           securityContext: {{- .Values.kubectl.image.securityContext | toYaml | nindent 12 }}
