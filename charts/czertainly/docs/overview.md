@@ -6,6 +6,7 @@ Helm chart simplifies the deployment of the platform using already pre-defined t
 - Kubernetes 1.19+
 - Helm 3.8.0+
 - PostgreSQL 11+
+- PV provisioner support in the underlying infrastructure
 
 In case you want to enable Ingress you need to have installed Ingress Controller, for example:
 ```bash
@@ -80,3 +81,11 @@ helm uninstall --namespace czertainly czertainly-tlm
 :::info Helm chart
 See [CZERTAINLY-Helm-Charts](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts) for description of all charts and sub-charts that are available for the platform.
 :::
+
+## Persistence
+
+The CZERTAINLY platform uses PostgreSQL database to store all data.
+
+However, internal services use Persistence Volume Claims to store the data. The PVC is created dynamically by default, but different behaviour can be configured. The following sub-charts requires persistence:
+
+- [Messaging RabbitMQ](../../messaging-rabbitmq)

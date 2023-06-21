@@ -14,6 +14,18 @@ The following contains important information and instructions about upgrading He
 
 Upgrading Helm chart is done by running the `helm upgrade` command. The command upgrades the platform to the specified version. The command can be used to upgrade the platform to the same version with changed parameters.
 
+## To 2.9.0
+
+### Persistent volume provisioner
+
+This version introduced requirement for the persistent volume provisioner support in the underlying infrastructure. The `StorageClass` is required to be available in the cluster. The volumes are dynamically provisioned by default, but it can be changed by setting existing persistent volume claim or disabling persistence (which will use `emptyDir` volume).
+
+The list of components that need persistence can be found in the [Overview - Persistence](./overview.md#persistence) section.
+
+:::caution Persistent volume claim
+The provisioner of the persistent volume must be properly configured to upgrade the platform. The upgrade will not work if the provisioner is not available. In case the dynamic provisioning is not enabled, the persistent volume claim must be created manually before upgrading the platform. Form more information see [Dynamic Volume Provisioning](https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/).
+:::
+
 ## To 2.8.0
 
 Using `NodePort` to access the platform should be configured on API Gateway level, not for the Core service (as a service in `czertainly` chart). The `nodePort` parameter is included for both `admin` and `consumer` service in `api-gateway-kong` sub-chart. The proper way to configure `NodePort` is:
