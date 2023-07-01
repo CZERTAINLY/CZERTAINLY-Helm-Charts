@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ejbca-legacy-connector-service
+  labels:
+    {{- include "ejbca-legacy-connector.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: "TCP"
+  selector:
+    {{- include "ejbca-legacy-connector.selectorLabels" . | nindent 4 }}
