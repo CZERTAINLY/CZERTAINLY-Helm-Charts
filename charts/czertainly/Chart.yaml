@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 2.8.0
+appVersion: 2.8.1
 name: czertainly
 description: A Helm chart for CZERTAINLY platform.
 home: https://github.com/3KeyCompany/CZERTAINLY
@@ -30,7 +30,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.4.0-2
+    version: 1.5.0
     alias: ejbcaNgConnector
   - condition: msAdcsConnector.enabled
     name: ms-adcs-connector
@@ -39,7 +39,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.4.0-2
+    version: 1.4.1
     alias: msAdcsConnector
   - condition: x509ComplianceProvider.enabled
     name: x509-compliance-provider
@@ -63,7 +63,7 @@ dependencies:
     repository: file://../network-discovery-provider
     tags:
       - discovery-provider
-    version: 1.3.1-1
+    version: 1.3.2
     alias: networkDiscoveryProvider
   - condition: keystoreEntityProvider.enabled
     name: keystore-entity-provider
@@ -106,7 +106,7 @@ dependencies:
     repository: file://../fe-administrator
     tags:
       - fe
-    version: 2.8.0
+    version: 2.8.1
     alias: feAdministrator
   - name: auth-service
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -139,4 +139,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.8.0
+version: 2.8.1
