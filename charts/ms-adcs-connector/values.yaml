@@ -60,7 +60,7 @@ image:
   # default registry name
   registry: harbor.3key.company
   repository: czertainly/czertainly-ms-adcs-connector
-  tag: 1.4.0
+  tag: 1.4.1
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
