@@ -78,9 +78,9 @@ spec:
               key: ca.crt
         {{- end }}
         - name: MAX_PAYLOAD_SIZE
-          value: {{ .Values.ejbca.maxPayloadSize | quote }}
+          value: {{ .Values.ejbca.maxPayloadSize }}
         - name: EJBCA_SEARCH_PAGE_SIZE
-          value: {{ .Values.ejbca.searchPageSize | quote }}
+          value: {{ .Values.ejbca.searchPageSize }}
         ports:
           - containerPort: {{ .Values.service.port }}
         {{- if .Values.image.securityContext }}
