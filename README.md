@@ -22,6 +22,7 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 - [CZERTAINLY](charts/czertainly) (**umbrella chart**)
 - [Auth Service](charts/auth-service)
 - [Auth OPA Policies](charts/auth-opa-policies)
+- [Messaging RabbitMQ](charts/messaging-rabbitmq)
 
 **API Gateways**
 - [API Gateway HAProxy](charts/api-gateway-haproxy) (**deprecated**)

@@ -1,0 +1,8 @@
+{{- if not .Values.global.config.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: messaging-configmap
+data:
+  {{- include "czertainly-lib.messaging.configmap" (dict "global" .Values.global "messagingService" .Values) | nindent 2 }}
+{{- end }}

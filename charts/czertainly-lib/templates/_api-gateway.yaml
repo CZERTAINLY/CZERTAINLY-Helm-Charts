@@ -1,0 +1,212 @@
+{{/*
+Return the kong api gateway configuration for the given environment.
+
+Parameters:
+- global: The global values
+- apiGateway: The api gateway values
+
+Example:
+{{ include "czertainly-lib.api-gateway.kong.yaml" ( dict "global" .Values.global "apiGateway" .Values ) }}
+*/}}
+{{- define "czertainly-lib.api-gateway.kong.yaml" -}}
+{{- $hostName := pluck "hostName" .global .apiGateway | compact | first }}
+kong.yml: |-
+  _format_version: '2.1'
+  _transform: true
+  services:
+    - name: protocols
+      host: {{ .apiGateway.backend.core.service.name }}
+      port: {{ .apiGateway.backend.core.service.port }}
+      protocol: http
+      routes:
+        - name: protocols_route
+          strip_path: false
+          preserve_host: true
+          paths:
+            - {{ .apiGateway.backend.core.service.apiUrl}}/v1/protocols
+    - name: core
+      host: {{ .apiGateway.backend.core.service.name }}
+      port: {{ .apiGateway.backend.core.service.port }}
+      protocol: http
+      routes:
+        - name: core_route-cert
+          strip_path: false
+          preserve_host: true
+          paths:
+            - {{ .apiGateway.backend.core.service.apiUrl}}
+          headers:
+            ssl-client-cert:
+              - ~*(.*?)
+          plugins:
+            - name: request-transformer
+              config:
+                rename:
+                  headers:
+                    - '{{ .apiGateway.auth.header.cert.downstream }}:{{ .apiGateway.auth.header.cert.upstream }}'
+        {{- if or .global.keycloak.enabled .apiGateway.oidc.enabled }}
+        - name: core_route-oidc
+          strip_path: false
+          preserve_host: true
+          paths:
+            - {{ .apiGateway.backend.core.service.apiUrl}}
+          plugins:
+            - name: oidc
+              config:
+                {{- if .global.keycloak.enabled }}
+                client_secret: {{ .global.keycloak.clientSecret }}
+                client_id: kong
+                unauth_action: 'deny'
+                realm: CZERTAINLY
+                discovery: >-
+                  https://{{ $hostName }}/kc/realms/CZERTAINLY/.well-known/openid-configuration
+                {{- else if .apiGateway.oidc.enabled }}
+                client_secret: {{ .apiGateway.oidc.client.secret }}
+                client_id: {{ .apiGateway.oidc.client.id }}
+                unauth_action: 'deny'
+                realm: {{ .apiGateway.oidc.client.realm }}
+                discovery: >-
+                  {{ .apiGateway.oidc.client.discovery }}
+                {{- end }}
+            - name: request-transformer
+              config:
+                remove:
+                  headers:
+                    - cookie
+        {{- end }}
+    - name: fe-administrator
+      host: {{ .apiGateway.backend.fe.service.name}}
+      port: {{ .apiGateway.backend.fe.service.port }}
+      protocol: http
+      routes:
+        - name: fe-administrator_route-cert
+          preserve_host: true
+          strip_path: true
+          paths:
+            - {{ .apiGateway.backend.fe.service.baseUrl}}
+          headers:
+            ssl-client-cert:
+              - ~*(.*?)
+          plugins:
+            - name: request-transformer
+              config:
+                rename:
+                  headers:
+                    - '{{ .apiGateway.auth.header.cert.downstream }}:{{ .apiGateway.auth.header.cert.upstream }}'
+        {{- if or .global.keycloak.enabled .apiGateway.oidc.enabled }}
+        - name: fe-administrator_route-oidc
+          strip_path: true
+          preserve_host: true
+          paths:
+            - {{ .apiGateway.backend.fe.service.loginUrl}}
+          plugins:
+            - name: oidc
+              config:
+                {{- if .global.keycloak.enabled }}
+                client_secret: {{ .global.keycloak.clientSecret }}
+                client_id: kong
+                realm: CZERTAINLY
+                discovery: >-
+                  https://{{ $hostName }}/kc/realms/CZERTAINLY/.well-known/openid-configuration
+                {{- else if .apiGateway.oidc.enabled }}
+                client_secret: {{ .apiGateway.oidc.client.secret }}
+                client_id: {{ .apiGateway.oidc.client.id }}
+                realm: {{ .apiGateway.oidc.client.realm }}
+                discovery: >-
+                  {{ .apiGateway.oidc.client.discovery }}
+                {{- end }}
+            - name: response-transformer
+              config:
+                add:
+                  headers:
+                    - cache-control:no-cache,no-store,max-age=0
+            - name: post-function
+              config:
+                access:
+                  - |2
+                      -- Get redirect query value
+                      local redirect = kong.request.get_query_arg('redirect')
+
+                      -- add validation of redirect path
+                      -- should start with /$BASE_URL/
+
+                      -- Redirect only if the redirect exists
+                      if redirect then
+                        kong.log.debug('Redirecting to: ' .. redirect)
+                        return kong.response.exit(301, 'redirecting...', {['Location'] = redirect})
+                      end
+        - name: fe-administrator_route-logout
+          strip_path: true
+          preserve_host: true
+          paths:
+            - {{ .apiGateway.backend.fe.service.logoutUrl}}
+          plugins:
+            - name: oidc
+              config:
+                {{- if .global.keycloak.enabled }}
+                client_secret: {{ .global.keycloak.clientSecret }}
+                client_id: kong
+                realm: CZERTAINLY
+                discovery: >-
+                  https://{{ $hostName }}/kc/realms/CZERTAINLY/.well-known/openid-configuration
+                {{- else if .apiGateway.oidc.enabled }}
+                client_secret: {{ .apiGateway.oidc.client.secret }}
+                client_id: {{ .apiGateway.oidc.client.id }}
+                realm: {{ .apiGateway.oidc.client.realm }}
+                discovery: >-
+                  {{ .apiGateway.oidc.client.discovery }}
+                {{- end }}
+                # null because the default value is '/' and we need to invoke endpoint from discovery, if discovery does not provide it, it should be defined here
+                redirect_after_logout_uri: null
+                redirect_after_logout_with_id_token_hint: 'yes'
+                post_logout_redirect_uri: >-
+                  https://{{ $hostName }}{{ .apiGateway.backend.fe.service.baseUrl}}/
+        - name: fe-administrator_route
+          strip_path: true
+          preserve_host: true
+          paths:
+            - {{ .apiGateway.backend.fe.service.baseUrl}}
+        {{- end }}
+    {{- if or .global.keycloak.enabled }}
+    - name: keycloak-internal-service
+      host: keycloak-internal-service
+      port: 8080
+      routes:
+        - name: keycloak
+          strip_path: false
+          preserve_host: true
+          paths:
+            - /kc
+    {{- end }}
+    {{- if or .global.messaging.remoteAccess }}
+    - name: messaging-service
+      host: messaging-service
+      port: 15672
+      routes:
+        - name: rabbitmq
+          strip_path: true
+          preserve_host: true
+          paths:
+            - /mq
+    {{- end }}
+    {{- if or .global.utils.enabled }}
+    - name: utils-service-service
+      host: utils-service-service
+      port: 8080
+      routes:
+        - name: v1-utils-route
+          strip_path: true
+          preserve_host: true
+          paths:
+            - /utils
+    {{- end }}
+  {{- if .apiGateway.cors.enabled }}
+  plugins:
+    - name: cors
+      config:
+        origins: {{ toYaml .apiGateway.cors.origins | nindent 8 }}
+        credentials: true
+        max_age: 3600
+        exposed_headers: {{ toYaml .apiGateway.cors.exposedHeaders | nindent 8 }}
+        preflight_continue: false
+  {{- end }}
+{{- end }}

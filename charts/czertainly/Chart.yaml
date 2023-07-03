@@ -93,13 +93,13 @@ dependencies:
   - name: czertainly-lib
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../czertainly-lib
-    version: 1.2.0
+    version: 1.3.0-develop
   - name: api-gateway-kong
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../api-gateway-kong
     tags:
       - api-gateway
-    version: 3.0.0-6-4
+    version: 3.0.0-6-6-develop
     alias: apiGateway
   - name: fe-administrator
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -123,6 +123,20 @@ dependencies:
       - opa
     version: 1.1.0-1
     alias: authOpaPolicies
+  - name: messaging-rabbitmq
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../messaging-rabbitmq
+    tags:
+      - messaging
+    version: 3.12.0-develop
+    alias: messagingService
+  - name: scheduler-service
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../scheduler-service
+    tags:
+      - scheduler
+    version: 1.0.0-develop
+    alias: schedulerService
 keywords:
   - czertainly
   - certificate
@@ -139,4 +153,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.8.1
+version: 2.8.1-1-develop
