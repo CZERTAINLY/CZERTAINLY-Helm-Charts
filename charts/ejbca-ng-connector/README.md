@@ -121,6 +121,8 @@ The following values may be configured:
 | logging.level                                | `"INFO"`                                    | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
 | service.type                                 | `"ClusterIP"`                               | Type of the service that is exposed                                   |
 | service.port                                 | `8080`                                      | Port number of the exposed service                                    |
+| ejbca.maxPayloadSize                         | `"2000000"`                                 | Maximum payload size in bytes                                         |
+| ejbca.searchPageSize                         | `"100"`                                     | Maximum number of certificates to fetch in one request                |
 
 #### Probes parameters
 

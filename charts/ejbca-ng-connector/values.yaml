@@ -141,5 +141,5 @@ podSecurityContext: {}
 
 # EJBCA specific configuration
 ejbca:
-  maxPayloadSize: 2000000
-  searchPageSize: 100
+  maxPayloadSize: "2000000"
+  searchPageSize: "100"
