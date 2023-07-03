@@ -31,10 +31,10 @@ dependencies:
   version: 1.0.0-2
 - name: czertainly-lib
   repository: file://../czertainly-lib
-  version: 1.2.0
+  version: 1.3.0-develop
 - name: api-gateway-kong
   repository: file://../api-gateway-kong
-  version: 3.0.0-6-4
+  version: 3.0.0-6-6-develop
 - name: fe-administrator
   repository: file://../fe-administrator
   version: 2.8.1
@@ -44,5 +44,11 @@ dependencies:
 - name: auth-opa-policies
   repository: file://../auth-opa-policies
   version: 1.1.0-1
-digest: sha256:f7e167b1baf100ed4709d3b7bd07a73a58bcaf67e510254d312abaa0abbf40c0
-generated: "2023-07-03T11:11:00.846862+02:00"
+- name: messaging-rabbitmq
+  repository: file://../messaging-rabbitmq
+  version: 3.12.0-develop
+- name: scheduler-service
+  repository: file://../scheduler-service
+  version: 1.0.0-develop
+digest: sha256:282068340f28e15ba3d2efbae1e974ae2bb8e8a6d329087da244de6c50abc99f
+generated: "2023-07-03T12:08:37.468224+02:00"

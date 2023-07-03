@@ -4,6 +4,8 @@
 
 # Global parameters that will overwrite local parameters
 global:
+  config:
+    enabled: true
   image:
     registry: ""
     # array of secret names
@@ -32,6 +34,8 @@ global:
     enabled: false
     # client secret must be set if keycloak is enabled
     clientSecret: ""
+  messaging:
+    remoteAccess: false
   utils:
     enabled: false
   admin:
@@ -414,6 +418,12 @@ authService:
 
 authOpaPolicies:
   nameOverride: auth-opa-policies
+
+messagingService:
+  nameOverride: messaging-service
+
+schedulerService:
+  nameOverride: scheduler-service
 
 #
 # connectors

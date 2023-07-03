@@ -165,6 +165,17 @@ services:
         paths:
           - /kc
   {{- end }}
+  {{- if or .Values.global.messaging.remoteAccess }}
+  - name: messaging-service
+    host: messaging-service
+    port: 15672
+    routes:
+      - name: rabbitmq
+        strip_path: true
+        preserve_host: true
+        paths:
+          - /mq
+  {{- end }}
   {{- if or .Values.global.utils.enabled }}
   - name: utils-service-service
     host: utils-service-service
