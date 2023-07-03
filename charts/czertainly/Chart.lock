@@ -50,5 +50,5 @@ dependencies:
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.0-develop
-digest: sha256:2f036869669031e21ccbb497c4b378e5792d6ef03b0392b4a2006d5fc249a0bd
-generated: "2023-06-16T10:35:24.722281+02:00"
+digest: sha256:282068340f28e15ba3d2efbae1e974ae2bb8e8a6d329087da244de6c50abc99f
+generated: "2023-07-03T12:08:37.468224+02:00"
