@@ -7,7 +7,7 @@ This repository contains [Helm](https://helm.sh/) charts as part of the CZERTAIN
 ## Prerequisites
 - Kubernetes 1.19+
 - Helm 3.8.0+
-- PostgreSQL 11+
+- PV provisioner support in the underlying infrastructure
 
 ## Using this Chart
 
@@ -159,3 +159,21 @@ For mode details about probes, see the [Kubernetes documentation](https://kubern
 
 Additional parameters may be found in the [values.yaml](values.yaml) and dependencies.
 See dependent charts for the description of available parameters.
+
+## Persistence
+
+The [RabbitMQ image](https://hub.docker.com/_/rabbitmq) stores the RabbitMQ data and configurations at the `/var/lib/rabbitmq/` path of the container.
+
+By default, the volume is created using dynamic volume provisioning. However, an existing `PersistentVolumeClaim` can be used, or persistence can be turned off.
+
+### Using existing PersistentVolumeClaim
+
+To use an existing `PersistentVolumeClaim`, specify the `persistence.existingClaim` parameter.
+
+### Disabling persistence
+
+Persistence can be disabled by setting the `persistence.enabled` parameter to `false`.
+
+### Global persistence configuration
+
+When the global configuration is enabled, meaning that this chart is used with the complete CZERTAINLY deployment, the persistence is managed globally by the umbrella chart. In this case, the local persistence configuration is ignored.
