@@ -128,7 +128,7 @@ dependencies:
     repository: file://../messaging-rabbitmq
     tags:
       - messaging
-    version: 3.12.0-develop
+    version: 3.12.1-develop
     alias: messagingService
   - name: scheduler-service
     # repository: oci://harbor.3key.company/czertainly-helm
