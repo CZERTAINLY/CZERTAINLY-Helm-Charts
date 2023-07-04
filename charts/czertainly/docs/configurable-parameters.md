@@ -6,35 +6,42 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                                 | Default value | Description                                                           |
-|-------------------------------------------|---------------|-----------------------------------------------------------------------|
-| global.config.enabled                     | `true`        | Enables global configuration                                          |
-| global.image.registry                     | `""`          | Global docker registry name                                           |
-| global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                           |
-| global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                               |
-| global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                    |
-| global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type         |
-| global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type    |
-| global.database.type                      | `""`          | Type of the database, currently only `postgresql` is supported        |
-| global.database.host                      | `""`          | Host where is the database located                                    |
-| global.database.port                      | `""`          | Port on which is the database listening                               |
-| global.database.name                      | `""`          | Database name                                                         |
-| global.database.username                  | `""`          | Username to access the database                                       |
-| global.database.password                  | `""`          | Password to access the database                                       |
-| global.trusted.certificates               | `""`          | List of additional CA certificates that should be trusted             |
-| global.httpProxy                          | `""`          | Proxy to be used to access external resources through http            |
-| global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https           |
-| global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings |
-| global.hostName                           | `""`          | Global hostname of the running instance                               |
-| global.keycloak.enabled                   | `false`       | Enables internal Keycloak for authentication                          |
-| global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used internally                     |
-| global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                             |
-| global.utils.enabled                      | `false`       | Enables external access to Utils Service                              |
-| global.admin.username                     | `""`          | Initial administrator username                                        |
-| global.admin.password                     | `""`          | Initial administrator password                                        |
-| global.admin.name                         | `""`          | Initial administrator first name                                      |
-| global.admin.surname                      | `""`          | Initial administrator last name                                       |
-| global.admin.email                        | `""`          | Initial administrator email                                           |
+| Parameter                                 | Default value       | Description                                                                     |
+|-------------------------------------------|---------------------|---------------------------------------------------------------------------------|
+| global.config.enabled                     | `true`              | Enables global configuration                                                    |
+| global.image.registry                     | `""`                | Global docker registry name                                                     |
+| global.image.pullSecrets                  | `[]`                | Global array of secret names for image pull                                     |
+| global.volumes.ephemeral.type             | `""`                | Global ephemeral volume type to be used                                         |
+| global.volumes.ephemeral.sizeLimit        | `""`                | Global ephemeral volume size limit                                              |
+| global.volumes.ephemeral.storageClassName | `""`                | Global ephemeral volume storage class name for `storage` type                   |
+| global.volumes.ephemeral.custom           | `{}`                | Global custom definition of the ephemeral volume for `custom` type              |
+| global.database.type                      | `""`                | Type of the database, currently only `postgresql` is supported                  |
+| global.database.host                      | `""`                | Host where is the database located                                              |
+| global.database.port                      | `""`                | Port on which is the database listening                                         |
+| global.database.name                      | `""`                | Database name                                                                   |
+| global.database.username                  | `""`                | Username to access the database                                                 |
+| global.database.password                  | `""`                | Password to access the database                                                 |
+| global.trusted.certificates               | `""`                | List of additional CA certificates that should be trusted                       |
+| global.httpProxy                          | `""`                | Proxy to be used to access external resources through http                      |
+| global.httpsProxy                         | `""`                | Proxy to be used to access external resources through https                     |
+| global.noProxy                            | `""`                | Defines list of external resources that should not use proxy settings           |
+| global.hostName                           | `""`                | Global hostname of the running instance                                         |
+| global.keycloak.enabled                   | `false`             | Enables internal Keycloak for authentication                                    |
+| global.keycloak.clientSecret              | `""`                | Keycloak OIDC client secret to be used internally                               |
+| global.messaging.remoteAccess             | `false`             | Enable remote access to messaging service                                       |
+| global.utils.enabled                      | `false`             | Enables external access to Utils Service                                        |
+| global.admin.username                     | `""`                | Initial administrator username                                                  |
+| global.admin.password                     | `""`                | Initial administrator password                                                  |
+| global.admin.name                         | `""`                | Initial administrator first name                                                |
+| global.admin.surname                      | `""`                | Initial administrator last name                                                 |
+| global.admin.email                        | `""`                | Initial administrator email                                                     |
+| global.persistence.enabled                | `true`              | Enable persistence                                                              |
+| global.persistence.storageClassName       | `""`                | Storage class name for persistence                                              |
+| global.persistence.selector               | `{}`                | Selector for dynamic provisioning of persistence                                |
+| global.persistence.accessModes            | `["ReadWriteOnce"]` | Access mode for persistence                                                     |
+| global.persistence.existingClaim          | `""`                | Existing claim name for persistence, if defined, existing claim will be applied |
+| global.persistence.size                   | `1Gi`               | Size for the persistence                                                        |
+| global.persistence.annotations            | `{}`                | Annotations for persistence                                                     |
 
 ## Local parameters
 
