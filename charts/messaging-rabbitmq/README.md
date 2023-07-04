@@ -68,20 +68,20 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                                 | Default value | Description                                                               |
-|-------------------------------------------|---------------|---------------------------------------------------------------------------|
-| global.config.enabled                     | `false`       | Enables global configuration                                              |
-| global.image.registry                     | `""`          | Global docker registry name                                               |
-| global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                               |
-| global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                                   |
-| global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                        |
-| global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type             |
-| global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type        |
-| global.persistence.storageClassName       | `""`          | Global storage class name for RabbitMQ stateful set `volumeClaimTemplate` |
-| global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                                 |
-| global.httpProxy                          | `""`          | Proxy to be used to access external resources through http                |
-| global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https               |
-| global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings     |
+| Parameter                                 | Default value | Description                                                                   |
+|-------------------------------------------|---------------|-------------------------------------------------------------------------------|
+| global.config.enabled                     | `false`       | Enables global configuration                                                  |
+| global.image.registry                     | `""`          | Global docker registry name                                                   |
+| global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                                   |
+| global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                                       |
+| global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                            |
+| global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type                 |
+| global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type            |
+| global.persistence.enabled                | `false`       | Enable shared persistence, if enable, existing `czertainly-data` will be used |
+| global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                                     |
+| global.httpProxy                          | `""`          | Proxy to be used to access external resources through http                    |
+| global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https                   |
+| global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings         |
 
 ### Local parameters
 
@@ -122,8 +122,7 @@ The following values may be configured:
 | persistence.selector              | `{}`                | Selector for dynamic provisioning of RabbitMQ persistence |
 | persistence.accessModes           | `["ReadWriteOnce"]` | Access mode for RabbitMQ persistence                      |
 | persistence.existingClaim         | `""`                | Existing claim name for RabbitMQ persistence              |
-| persistence.subPath               | `""`                | Subpath for RabbitMQ persistence                          |
-| persistence.size                  | `8Gi`               | Size for RabbitMQ persistence                             |
+| persistence.size                  | `1Gi`               | Size for RabbitMQ persistence                             |
 | persistence.annotations           | `{}`                | Annotations for RabbitMQ persistence                      |
 | secret.username                   | `"czertainly"`      | Username for RabbitMQ                                     |
 | plugins.management.accessRemotely | `false`             | Enable/disable remote access to RabbitMQ management       |

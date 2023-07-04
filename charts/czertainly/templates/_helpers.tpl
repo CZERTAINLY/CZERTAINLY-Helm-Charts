@@ -103,8 +103,15 @@ Return the image pull secret names
 {{- end -}}
 
 {{/*
-Retun the ephemeral volume configuration
+Return the ephemeral volume configuration
 */}}
 {{- define "czertainly.ephemeralVolume" -}}
 {{ include "czertainly-lib.volumes.ephemeral" (dict "volumes" .Values.volumes "global" .Values.global.volumes) }}
+{{- end -}}
+
+{{/*
+Return spec for the persistent volume claim
+*/}}
+{{- define "czertainly.pvc.spec.template" -}}
+{{ include "czertainly-lib.persistence.spec.template2" . }}
 {{- end -}}
