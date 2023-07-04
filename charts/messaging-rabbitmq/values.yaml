@@ -17,7 +17,7 @@ global:
       storageClassName: ""
       custom: {}
   persistence:
-    storageClassName: ""
+    enabled: false
   messaging:
     remoteAccess: false
   httpProxy: ""
@@ -148,16 +148,15 @@ tolerations: []
 
 affinity: {}
 
-# inspired by bitnami
+# persistence parameters
 persistence:
   enabled: true
-  storageClass: ""
+  storageClassName: ""
   selector: {}
   accessModes:
     - ReadWriteOnce
   existingClaim: ""
-  subPath: ""
-  size: 8Gi
+  size: 1Gi
   annotations: {}
 
 secret:

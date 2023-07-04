@@ -81,3 +81,9 @@ The following functions are defined:
 | Identifier                                        | Description                                                                  |
 |---------------------------------------------------|------------------------------------------------------------------------------|
 | `czertainly-lib.secrets.generate_static_password` | Return static password as a string that can be shared across multiple charts |
+
+### Persistence
+
+| Identifier                                 | Description                                           |
+|--------------------------------------------|-------------------------------------------------------|
+| `czertainly-lib.persistence.spec.template` | Prepares the persistent volume claim dynamic template |

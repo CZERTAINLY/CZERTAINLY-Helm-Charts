@@ -60,7 +60,7 @@ image:
   # default registry name
   registry: docker.io
   repository: 3keycompany/czertainly-ejbca-ng-connector
-  tag: 1.4.0
+  tag: 1.5.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -138,3 +138,8 @@ podAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
+
+# EJBCA specific configuration
+ejbca:
+  maxPayloadSize: "2000000"
+  searchPageSize: "100"

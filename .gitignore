@@ -41,3 +41,6 @@ build/
 # Local development support files
 **/dummy/*
 *-develop.sh
+
+# For local testing purposes
+/for-testing/
