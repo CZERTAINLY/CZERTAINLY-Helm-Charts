@@ -173,3 +173,7 @@ To use an existing `PersistentVolumeClaim`, specify the `persistence.existingCla
 ### Disabling persistence
 
 Persistence can be disabled by setting the `persistence.enabled` parameter to `false`.
+
+### Global persistence configuration
+
+When the global configuration is enabled, meaning that this chart is used with the complete CZERTAINLY deployment, the persistence is managed globally by the umbrella chart. In this case, the local persistence configuration is ignored.

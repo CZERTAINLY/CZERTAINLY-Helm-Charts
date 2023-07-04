@@ -23,7 +23,7 @@ This version introduced requirement for the persistent volume provisioner suppor
 The list of components that need persistence can be found in the [Overview - Persistence](./overview.md#persistence) section.
 
 :::caution Persistent volume claim
-The provisioner of the persistent volume must be properly configured to upgrade the platform. The upgrade will not work if the provisioner is not available. In case the dynamic provisioning is not enabled, the persistent volume claim must be created manually before upgrading the platform. Form more information see [Dynamic Volume Provisioning](https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/).
+The provisioner of the persistent volume must be properly configured to upgrade the platform, in case the dynamic storage should be created. In case the dynamic provisioning is not enabled, the persistent volume claim must be created manually before upgrading the platform. Form more information see [Dynamic Volume Provisioning](https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/).
 :::
 
 ## To 2.8.0
