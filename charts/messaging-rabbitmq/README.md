@@ -87,29 +87,29 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                    | Default value       | Description                                                 |
-|----------------------------------------------|---------------------|-------------------------------------------------------------|
-| image.registry                               | `docker.io`         | Docker registry name for the image                          |
-| image.repository                             | `rabbitmq`          | Docker image repository name                                |
-| image.tag                                    | `3.12.0`            | Docker image tag                                            |
-| image.digest                                 | `""`                | Docker image digest, will override tag if specified         |
-| image.pullPolicy                             | `IfNotPresent`      | Image pull policy                                           |
-| image.pullSecrets                            | `[]`                | Array of secret names for image pull                        |
-| image.securityContext.runAsNonRoot           | `true`              | Run the container as non-root user                          |
-| image.securityContext.runAsUser              | `999`               | User ID for the container                                   |
-| image.securityContext.readOnlyRootFilesystem | `true`              | Run the container with read-only root filesystem            |
-| image.resources                              | `{}`                | The resources for the container                             |
-| podSecurityContext.fsGroup                   | `999`               | Pod security context `fsGroup`                              |
-| podSecurityContext.runAsUser                 | `999`               | User ID for running the pod                                 |
-| podSecurityContext.runAsGroup                | `999`               | Group ID for running the pod                                |
-| volumes.ephemeral.type                       | `memory`            | Ephemeral volume type to be used                            |
-| volumes.ephemeral.sizeLimit                  | `"1Mi"`             | Ephemeral volume size limit                                 |
-| volumes.ephemeral.storageClassName           | `""`                | Ephemeral volume storage class name for `storage` type      |
-| volumes.ephemeral.custom                     | `{}`                | Custom definition of the ephemeral volume for `custom` type |
-| logging.level                                | `"info"`            | Allowed values are `info`, `error`, `warning`, `deubg`      |
-| service.client.type                          | `"ClusterIP"`       | Type of the service that is exposed                         |
-| service.client.http.port                     | `15672`             | Http port number of the exposed service                     |
-| service.client.amqp.port                     | `5672`              | Amqp port number of the exposed service                     |
+| Parameter                                    | Default value  | Description                                                 |
+|----------------------------------------------|----------------|-------------------------------------------------------------|
+| image.registry                               | `docker.io`    | Docker registry name for the image                          |
+| image.repository                             | `rabbitmq`     | Docker image repository name                                |
+| image.tag                                    | `3.12.1`       | Docker image tag                                            |
+| image.digest                                 | `""`           | Docker image digest, will override tag if specified         |
+| image.pullPolicy                             | `IfNotPresent` | Image pull policy                                           |
+| image.pullSecrets                            | `[]`           | Array of secret names for image pull                        |
+| image.securityContext.runAsNonRoot           | `true`         | Run the container as non-root user                          |
+| image.securityContext.runAsUser              | `999`          | User ID for the container                                   |
+| image.securityContext.readOnlyRootFilesystem | `true`         | Run the container with read-only root filesystem            |
+| image.resources                              | `{}`           | The resources for the container                             |
+| podSecurityContext.fsGroup                   | `999`          | Pod security context `fsGroup`                              |
+| podSecurityContext.runAsUser                 | `999`          | User ID for running the pod                                 |
+| podSecurityContext.runAsGroup                | `999`          | Group ID for running the pod                                |
+| volumes.ephemeral.type                       | `memory`       | Ephemeral volume type to be used                            |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`        | Ephemeral volume size limit                                 |
+| volumes.ephemeral.storageClassName           | `""`           | Ephemeral volume storage class name for `storage` type      |
+| volumes.ephemeral.custom                     | `{}`           | Custom definition of the ephemeral volume for `custom` type |
+| logging.level                                | `"info"`       | Allowed values are `info`, `error`, `warning`, `deubg`      |
+| service.client.type                          | `"ClusterIP"`  | Type of the service that is exposed                         |
+| service.client.http.port                     | `15672`        | Http port number of the exposed service                     |
+| service.client.amqp.port                     | `5672`         | Amqp port number of the exposed service                     |
 
 #### RabbitMQ associated parameters
 

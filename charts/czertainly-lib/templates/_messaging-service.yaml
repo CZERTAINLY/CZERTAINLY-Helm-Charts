@@ -25,10 +25,6 @@ messaging.password: "{{ $password }}"
 messaging.cookie: "{{ $cookie }}"
 messaging.definitions.json: |
   {
-    "rabbit_version": "3.12.0",
-    "rabbitmq_version": "3.12.0",
-    "product_name": "RabbitMQ",
-    "product_version": "3.12.0",
     "users": [
       {
         "name": "{{ $username }}",
