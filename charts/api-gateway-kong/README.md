@@ -139,7 +139,7 @@ The following values may be configured:
 |------------------------------------------------------|-------------------|-----------------------------------------------------|
 | kubectl.image.registry                               | `docker.io`       | Docker registry name for the image                  |
 | kubectl.image.repository                             | `bitnami/kubectl` | Docker image repository name                        |
-| kubectl.image.tag                                    | `1.27.2`          | Docker image tag                                    |
+| kubectl.image.tag                                    | `1.27.3`          | Docker image tag                                    |
 | kubectl.image.digest                                 | `""`              | Docker image digest, will override tag if specified |
 | kubectl.image.pullPolicy                             | `IfNotPresent`    | Image pull policy                                   |
 | kubectl.image.pullSecrets                            | `[]`              | Array of secret names for image pull                |
