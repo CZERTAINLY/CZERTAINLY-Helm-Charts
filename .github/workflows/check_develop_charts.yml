@@ -38,10 +38,8 @@ jobs:
         ports:
           - 25:25
         env:
-          RELAY_HOST: ${{ secrets.SMTP_HOST }}
-          RELAY_PORT: ${{ secrets.SMTP_PORT }}
-          RELAY_USER: ${{ secrets.SMTP_USERNAME }}
-          RELAY_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          SMTP_ONLY: 1
+          OVERRIDE_HOSTNAME: czertainly.helm
 
     steps:
       - name: Checkout
