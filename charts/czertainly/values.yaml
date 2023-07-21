@@ -482,6 +482,10 @@ softwareCryptographyProvider:
   nameOverride: software-cryptography-provider
   enabled: false
 
+emailNotificationProvider:
+  nameOverride: email-notification-provider
+  enabled: false
+
 #
 # supportive optional components
 #
