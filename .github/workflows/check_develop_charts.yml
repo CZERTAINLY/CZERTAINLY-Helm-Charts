@@ -33,6 +33,19 @@ jobs:
         volumes:
           - ${{ github.workspace }}/initdb:/docker-entrypoint-initdb.d
 
+      mail:
+        image: mailserver/docker-mailserver:12.1.0
+        ports:
+          - 25:25
+          - 465:465
+          - 587:587
+          - 993:993
+        env:
+          RELAY_HOST: czertainlyuser
+          RELAY_PORT: your-strong-password
+          RELAY_USER: czertainlydb
+          RELAY_PASSWORD: czertainlydb
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
