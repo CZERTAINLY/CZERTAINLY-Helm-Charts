@@ -37,14 +37,11 @@ jobs:
         image: mailserver/docker-mailserver:12.1.0
         ports:
           - 25:25
-          - 465:465
-          - 587:587
-          - 993:993
         env:
-          RELAY_HOST: czertainlyuser
-          RELAY_PORT: your-strong-password
-          RELAY_USER: czertainlydb
-          RELAY_PASSWORD: czertainlydb
+          RELAY_HOST: ${{ secrets.SMTP_HOST }}
+          RELAY_PORT: ${{ secrets.SMTP_PORT }}
+          RELAY_USER: ${{ secrets.SMTP_USERNAME }}
+          RELAY_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
 
     steps:
       - name: Checkout
