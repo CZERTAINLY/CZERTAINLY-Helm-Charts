@@ -1,0 +1,13 @@
+database:
+  host: "172.17.0.1"
+
+image:
+  tag: develop-latest
+
+smtp:
+  host: "smtp.freesmtpservers.com"
+  port: 25
+  username: ""
+  password: ""
+  auth: false
+  tls: false

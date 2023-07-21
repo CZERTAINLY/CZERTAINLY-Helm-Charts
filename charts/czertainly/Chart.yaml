@@ -81,6 +81,14 @@ dependencies:
       - cryptography-provider
     version: 1.2.0
     alias: softwareCryptographyProvider
+  - condition: emailNotificationProvider.enabled
+    name: email-notification-provider
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../email-notification-provider
+    tags:
+      - notification-provider
+    version: 1.0.0-develop
+    alias: emailNotificationProvider
   - condition: global.utils.enabled
     name: utils-service
     # repository: oci://harbor.3key.company/czertainly-helm

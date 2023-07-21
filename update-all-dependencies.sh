@@ -11,6 +11,7 @@ helm dependency update charts/auth-service
 helm dependency update charts/common-credential-provider
 helm dependency update charts/cryptosense-discovery-provider
 helm dependency update charts/ejbca-ng-connector
+helm dependency update charts/email-notification-provider
 helm dependency update charts/fe-administrator
 helm dependency update charts/keycloak-internal
 helm dependency update charts/keystore-entity-provider

@@ -26,6 +26,9 @@ dependencies:
 - name: software-cryptography-provider
   repository: file://../software-cryptography-provider
   version: 1.2.0
+- name: email-notification-provider
+  repository: file://../email-notification-provider
+  version: 1.0.0-develop
 - name: utils-service
   repository: file://../utils-service
   version: 1.0.0-2
@@ -50,5 +53,5 @@ dependencies:
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.0-develop
-digest: sha256:150d37a4d7b889f1e9d49563b8e390dbc118df08db68e8ff21a4ed4a30c09cab
-generated: "2023-07-04T19:54:05.981285+02:00"
+digest: sha256:bfcc9a6be7dd498ac2e63ff924fbce0c2e3b699fa492aa870c8fd176894ca198
+generated: "2023-07-21T17:03:53.183272+02:00"
