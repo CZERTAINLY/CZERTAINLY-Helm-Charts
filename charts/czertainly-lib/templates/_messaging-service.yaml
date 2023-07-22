@@ -100,6 +100,6 @@ Example:
   {{- $secretObj := (lookup "v1" "Secret" .release.Namespace "global-secret") | default dict }}
 {{- end }}
 {{- $secretData := (get $secretObj "data") | default dict }}
-{{- $password := (get $secretData "password") | default (include "czertainly-lib.secrets.generate_static_password" (list .release "messaging.password")) }}
+{{- $password := (get $secretData "messaging.password") | default (include "czertainly-lib.secrets.generate_static_password" (list .release "messaging.password")) }}
 messaging.password: "{{ $password }}"
 {{- end }}
