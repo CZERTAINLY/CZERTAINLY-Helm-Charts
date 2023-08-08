@@ -13,13 +13,13 @@ Example:
 {{- define "czertainly-lib.messaging.secrets" -}}
 {{- $secretObj := (lookup "v1" "Secret" .release.Namespace "messaging-secret") | default dict }}
 {{- if .global.config.enabled }}
-  {{- $secretObj := (lookup "v1" "Secret" .release.Namespace "global-secret") | default dict }}
+  {{- $secretObj = (lookup "v1" "Secret" .release.Namespace "global-secret") | default dict }}
 {{- end }}
 {{- $secretData := (get $secretObj "data") | default dict }}
 {{- $username := .messagingService.secret.username }}
 {{- $pass := (include "czertainly-lib.messaging.secrets.password" (dict "global" .global "release" .release)) | fromYaml }}
 {{- $password := (get $pass "messaging.password") }}
-{{- $cookie := (get $secretData "cookie") | default (randAlphaNum 32) }}
+{{- $cookie := (get $secretData "messaging.cookie" | b64dec) | default (randAlphaNum 32) }}
 messaging.username: "{{ $username }}"
 messaging.password: "{{ $password }}"
 messaging.cookie: "{{ $cookie }}"
@@ -97,9 +97,9 @@ Example:
 {{- define "czertainly-lib.messaging.secrets.password" -}}
 {{- $secretObj := (lookup "v1" "Secret" .release.Namespace "messaging-secret") | default dict }}
 {{- if .global.config.enabled }}
-  {{- $secretObj := (lookup "v1" "Secret" .release.Namespace "global-secret") | default dict }}
+  {{- $secretObj = (lookup "v1" "Secret" .release.Namespace "global-secret") | default dict }}
 {{- end }}
 {{- $secretData := (get $secretObj "data") | default dict }}
-{{- $password := (get $secretData "messaging.password") | default (include "czertainly-lib.secrets.generate_static_password" (list .release "messaging.password")) }}
+{{- $password := (get $secretData "messaging.password" | b64dec ) | default (include "czertainly-lib.secrets.generate_static_password" (list .release "messaging.password")) }}
 messaging.password: "{{ $password }}"
 {{- end }}
