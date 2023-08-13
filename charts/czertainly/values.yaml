@@ -44,15 +44,6 @@ global:
     name: ""
     surname: ""
     email: ""
-  persistence:
-    enabled: true
-    storageClassName: ""
-    selector: {}
-    accessModes:
-      - ReadWriteOnce
-    existingClaim: ""
-    size: 1Gi
-    annotations: {}
 
 database:
   # currently only postgresql is supported
@@ -383,17 +374,6 @@ ingress:
   #  - secretName: czertainly.local-tls
   #    hosts:
   #      - czertainly.local
-
-# persistence parameters
-persistence:
-  enabled: false
-  storageClassName: ""
-  selector: {}
-  accessModes:
-    - ReadWriteOnce
-  existingClaim: ""
-  size: 1Gi
-  annotations: {}
 
 nodeSelector: {}
 
