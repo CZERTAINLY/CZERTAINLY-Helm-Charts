@@ -35,13 +35,6 @@ Global values are used to define common parameters for the chart and all its sub
 | global.admin.name                         | `""`                | Initial administrator first name                                                |
 | global.admin.surname                      | `""`                | Initial administrator last name                                                 |
 | global.admin.email                        | `""`                | Initial administrator email                                                     |
-| global.persistence.enabled                | `true`              | Enable persistence                                                              |
-| global.persistence.storageClassName       | `""`                | Storage class name for persistence                                              |
-| global.persistence.selector               | `{}`                | Selector for dynamic provisioning of persistence                                |
-| global.persistence.accessModes            | `["ReadWriteOnce"]` | Access mode for persistence                                                     |
-| global.persistence.existingClaim          | `""`                | Existing claim name for persistence, if defined, existing claim will be applied |
-| global.persistence.size                   | `1Gi`               | Size for the persistence                                                        |
-| global.persistence.annotations            | `{}`                | Annotations for persistence                                                     |
 
 ## Local parameters
 

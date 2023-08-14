@@ -16,8 +16,6 @@ global:
       sizeLimit: ""
       storageClassName: ""
       custom: {}
-  persistence:
-    enabled: false
   messaging:
     remoteAccess: false
   httpProxy: ""
@@ -156,7 +154,7 @@ persistence:
   accessModes:
     - ReadWriteOnce
   existingClaim: ""
-  size: 1Gi
+  size: 100Mi
   annotations: {}
 
 secret:

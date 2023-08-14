@@ -84,7 +84,7 @@ See [CZERTAINLY-Helm-Charts](https://github.com/3KeyCompany/CZERTAINLY-Helm-Char
 
 ## Persistence
 
-Internal services can use Persistence Volume Claims to store the data. The PVC is created dynamically by default, but different behaviour can be configured. The global PVC that is attached and shared with the internal services is named `czertainly-data` and each service has its own sub-path in this PVC.
+Internal services can use Persistence Volume Claims to store the data. The PVC is created dynamically by default, but different behaviour can be configured.
 
 The following sub-charts requires persistence:
 
