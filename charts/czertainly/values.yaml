@@ -256,7 +256,7 @@ opa:
     # default registry name
     registry: docker.io
     repository: openpolicyagent/opa
-    tag: 0.53.0-rootless
+    tag: 0.55.0-rootless
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent
