@@ -9,6 +9,7 @@ fullnameOverride: ""
 global:
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   volumes:
@@ -55,7 +56,8 @@ service:
 image:
   # default registry name
   registry: harbor.3key.company
-  repository: czertainly/czertainly-cryptosense-discovery-provider
+  repository: czertainly
+  name: czertainly-cryptosense-discovery-provider
   tag: 1.3.0
   # the digest to be used instead of the tag
   digest: ""

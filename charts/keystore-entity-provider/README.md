@@ -71,6 +71,7 @@ Global values are used to define common parameters for the chart and all its sub
 | Parameter                                 | Default value | Description                                                           |
 |-------------------------------------------|---------------|-----------------------------------------------------------------------|
 | global.image.registry                     | `""`          | Global docker registry name                                           |
+| global.image.repository                   | `""`          | Global docker image repository name                                   |
 | global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                           |
 | global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                               |
 | global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                    |
@@ -93,7 +94,8 @@ The following values may be configured:
 | Parameter                                    | Default value                                     | Description                                                           |
 |----------------------------------------------|---------------------------------------------------|-----------------------------------------------------------------------|
 | image.registry                               | `docker.io`                                       | Docker registry name for the image                                    |
-| image.repository                             | `3keycompany/czertainly-keystore-entity-provider` | Docker image repository name                                          |
+| image.repository                             | `3keycompany`                                     | Docker image repository name                                          |
+| image.name                                   | `czertainly-keystore-entity-provider`             | Docker image name                                                     |
 | image.tag                                    | `1.4.0`                                           | Docker image tag                                                      |
 | image.digest                                 | `""`                                              | Docker image digest, will override tag if specified                   |
 | image.pullPolicy                             | `IfNotPresent`                                    | Image pull policy                                                     |

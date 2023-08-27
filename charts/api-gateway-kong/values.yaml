@@ -7,6 +7,7 @@ global:
     enabled: false
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   volumes:
@@ -31,7 +32,8 @@ replicaCount: 1
 image:
   # default registry name
   registry: docker.io
-  repository: revomatico/docker-kong-oidc
+  repository: revomatico
+  name: docker-kong-oidc
   tag: 3.0.0-6
   # the digest to be used instead of the tag
   digest: ""
@@ -87,7 +89,8 @@ kubectl:
   image:
     # default registry name
     registry: docker.io
-    repository: bitnami/kubectl
+    repository: bitnami
+    name: kubectl
     tag: 1.27.3
     # the digest to be used instead of the tag
     digest: ""

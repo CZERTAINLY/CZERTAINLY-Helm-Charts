@@ -16,7 +16,7 @@ dependencies:
     repository: file://../messaging-rabbitmq
     tags:
       - messaging
-    version: 3.12.0-develop
+    version: 3.12.1-develop
     condition: messaging.local
 keywords:
   - czertainly

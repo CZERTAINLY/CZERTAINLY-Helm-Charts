@@ -6,6 +6,7 @@
 global:
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   volumes:
@@ -61,7 +62,8 @@ service:
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany/czertainly-keycloak-optimized
+  repository: 3keycompany
+  name: czertainly-keycloak-optimized
   tag: 1.0.0
   # the digest to be used instead of the tag
   digest: ""
@@ -117,7 +119,8 @@ theme:
   image:
     # default registry name
     registry: docker.io
-    repository: 3keycompany/czertainly-keycloak-theme
+    repository: 3keycompany
+    name: czertainly-keycloak-theme
     tag: 0.1.1
     # the digest to be used instead of the tag
     digest: ""

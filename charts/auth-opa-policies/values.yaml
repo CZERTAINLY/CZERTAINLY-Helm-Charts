@@ -6,6 +6,7 @@
 global:
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   volumes:
@@ -20,7 +21,8 @@ replicaCount: 1
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany/czertainly-auth-opa-policies
+  repository: 3keycompany
+  name: czertainly-auth-opa-policies
   tag: 1.1.0
   # the digest to be used instead of the tag
   digest: ""

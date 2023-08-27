@@ -72,6 +72,7 @@ Global values are used to define common parameters for the chart and all its sub
 |-------------------------------------------|---------------|-------------------------------------------------------------------------------|
 | global.config.enabled                     | `false`       | Enables global configuration                                                  |
 | global.image.registry                     | `""`          | Global docker registry name                                                   |
+| global.image.repository                   | `""`          | Global docker image repository name                                           |
 | global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                                   |
 | global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                                       |
 | global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                            |
@@ -89,7 +90,8 @@ The following values may be configured:
 | Parameter                                    | Default value  | Description                                                 |
 |----------------------------------------------|----------------|-------------------------------------------------------------|
 | image.registry                               | `docker.io`    | Docker registry name for the image                          |
-| image.repository                             | `rabbitmq`     | Docker image repository name                                |
+| image.repository                             | `""`           | Docker image repository name                                |
+| image.name                                   | `rabbitmq`     | Docker image name                                           |
 | image.tag                                    | `3.12.1`       | Docker image tag                                            |
 | image.digest                                 | `""`           | Docker image digest, will override tag if specified         |
 | image.pullPolicy                             | `IfNotPresent` | Image pull policy                                           |

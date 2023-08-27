@@ -9,6 +9,7 @@ fullnameOverride: ""
 global:
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   volumes:
@@ -59,7 +60,8 @@ service:
 image:
   # default registry name
   registry: harbor.3key.company
-  repository: czertainly/czertainly-ms-adcs-connector
+  repository: czertainly
+  name: czertainly-ms-adcs-connector
   tag: 1.4.1
   # the digest to be used instead of the tag
   digest: ""

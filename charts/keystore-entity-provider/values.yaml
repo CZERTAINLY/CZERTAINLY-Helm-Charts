@@ -9,6 +9,7 @@ fullnameOverride: ""
 global:
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   volumes:
@@ -55,7 +56,8 @@ service:
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany/czertainly-keystore-entity-provider
+  repository: 3keycompany
+  name: czertainly-keystore-entity-provider
   tag: 1.4.0
   # the digest to be used instead of the tag
   digest: ""

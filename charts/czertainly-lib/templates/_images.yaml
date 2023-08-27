@@ -9,21 +9,26 @@ Return the image name based on the global values and image configuration
 {{- define "czertainly-lib.images.image" -}}
 {{- $registryName := .image.registry -}}
 {{- $repositoryName := .image.repository -}}
+{{- $imageName := .image.name -}}
 {{- $separator := ":" -}}
 {{- $termination := .image.tag | toString -}}
-
 {{- if .global }}
   {{- if .global.image.registry }}
     {{- $registryName = .global.image.registry -}}
   {{- end -}}
+  {{- if .global.image.repository }}
+      {{- $repositoryName = .global.image.repository -}}
+  {{- end -}}
 {{- end -}}
-
 {{- if .image.digest }}
   {{- $separator = "@" -}}
   {{- $termination = .image.digest | toString -}}
 {{- end -}}
-
-{{- printf "%s/%s%s%s" $registryName $repositoryName $separator $termination -}}
+{{- if $repositoryName}}
+  {{- printf "%s/%s/%s%s%s" $registryName $repositoryName $imageName $separator $termination -}}
+{{- else -}}
+  {{- printf "%s/%s%s%s" $registryName $imageName $separator $termination -}}
+{{- end -}}
 {{- end -}}
 
 {{/*
