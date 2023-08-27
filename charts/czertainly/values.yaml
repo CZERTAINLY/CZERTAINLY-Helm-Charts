@@ -8,6 +8,7 @@ global:
     enabled: true
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   volumes:
@@ -152,7 +153,8 @@ service:
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany/czertainly-core
+  repository: 3keycompany
+  name: czertainly-core
   tag: 2.8.1
   # the digest to be used instead of the tag
   digest: ""
@@ -219,7 +221,8 @@ curl:
   image:
     # default registry name
     registry: docker.io
-    repository: curlimages/curl
+    repository: curlimages
+    name: curl
     tag: 8.1.1
     # the digest to be used instead of the tag
     digest: ""
@@ -237,7 +240,8 @@ kubectl:
   image:
     # default registry name
     registry: docker.io
-    repository: bitnami/kubectl
+    repository: bitnami
+    name: kubectl
     tag: 1.27.3
     # the digest to be used instead of the tag
     digest: ""
@@ -255,7 +259,8 @@ opa:
   image:
     # default registry name
     registry: docker.io
-    repository: openpolicyagent/opa
+    repository: openpolicyagent
+    name: opa
     tag: 0.53.0-rootless
     # the digest to be used instead of the tag
     digest: ""

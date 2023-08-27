@@ -8,6 +8,7 @@ global:
     enabled: false
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   volumes:
@@ -58,7 +59,8 @@ clustering:
 image:
   # default registry name
   registry: docker.io
-  repository: rabbitmq
+  repository: ""
+  name: rabbitmq
   tag: 3.12.1
   # the digest to be used instead of the tag
   digest: ""

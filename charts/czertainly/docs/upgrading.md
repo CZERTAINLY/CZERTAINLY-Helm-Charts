@@ -26,6 +26,28 @@ The list of components that need persistence can be found in the [Overview - Per
 The provisioner of the persistent volume must be properly configured to upgrade the platform, in case the dynamic storage should be created. In case the dynamic provisioning is not enabled, the persistent volume claim must be created manually before upgrading the platform. Form more information see [Dynamic Volume Provisioning](https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/).
 :::
 
+### Container image configuration and repository
+
+To support multiple container registries, including better support for privately managed registries, where there are different naming conventions and images are organized in projects, we have split image `repository` property to `repository` and `name`.
+
+This allows to control the repository name using the global configuration, providing better support for private repositories with different organization of images and repositories. For example the following values:
+
+```yaml
+global:
+  image:
+    registry: myregistry.com
+    repository: czertainly/project
+
+image:
+  # default registry name
+  registry: docker.io
+  repository: 3keycompany
+  name: czertainly-core
+  tag: 2.9.0
+```
+
+will result in the following image name: `myregistry.com/czertainly/project/czertainly-core:2.9.0`.
+
 ## To 2.8.0
 
 Using `NodePort` to access the platform should be configured on API Gateway level, not for the Core service (as a service in `czertainly` chart). The `nodePort` parameter is included for both `admin` and `consumer` service in `api-gateway-kong` sub-chart. The proper way to configure `NodePort` is:

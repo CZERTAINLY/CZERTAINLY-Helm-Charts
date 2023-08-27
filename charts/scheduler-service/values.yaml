@@ -11,6 +11,7 @@ global:
     enabled: false
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   volumes:
@@ -51,7 +52,8 @@ service:
 image:
   # default registry name
   registry: harbor.3key.company
-  repository: czertainly/czertainly-scheduler
+  repository: czertainly
+  name: czertainly-scheduler
   tag: develop-latest
   # the digest to be used instead of the tag
   digest: ""
@@ -107,7 +109,8 @@ curl:
   image:
     # default registry name
     registry: docker.io
-    repository: curlimages/curl
+    repository: curlimages
+    name: curl
     tag: 8.1.1
     # the digest to be used instead of the tag
     digest: ""

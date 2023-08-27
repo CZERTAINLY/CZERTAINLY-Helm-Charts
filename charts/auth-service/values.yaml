@@ -9,6 +9,7 @@ fullnameOverride: ""
 global:
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   database:
@@ -53,7 +54,8 @@ service:
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany/czertainly-auth
+  repository: 3keycompany
+  name: czertainly-auth
   tag: 1.2.0
   # the digest to be used instead of the tag
   digest: ""
