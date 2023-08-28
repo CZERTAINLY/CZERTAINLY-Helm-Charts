@@ -25,6 +25,15 @@ spec:
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
+      {{- if or .Values.global.initContainers .Values.initContainers }}
+      initContainers:
+        {{- if .Values.global.initContainers }}
+        {{- tpl (.Values.global.initContainers | toYaml) $ | nindent 8 }}
+        {{- end }}
+        {{- if .Values.initContainers }}
+        {{- tpl (.Values.initContainers | toYaml) $ | nindent 8 }}
+        {{- end }}
+      {{- end }}
       containers:
         - name: api-gateway
           image: {{ include "api-gateway-kong.image" . }}
@@ -58,6 +67,39 @@ spec:
             - name: KONG_TRUSTED_IPS
               value: {{ .Values.trustedIps | quote }}
             {{- end }}
+            {{- if .Values.global.additionalEnv.variables }}
+              {{- tpl (.Values.global.additionalEnv.variables | toYaml) $ | nindent 12 }}
+            {{- end }}
+            {{- if .Values.additionalEnv.variables }}
+              {{- tpl (.Values.additionalEnv.variables | toYaml) $ | nindent 12 }}
+            {{- end }}
+          {{- if or .Values.global.additionalEnv.configMaps .Values.additionalEnv.configMaps .Values.global.additionalEnv.secrets .Values.additionalEnv.secrets }}
+          envFrom:
+            {{- if .Values.global.additionalEnv.configMaps }}
+              {{- range .Values.global.additionalEnv.configMaps }}
+            - configMapRef:
+                name: {{ . }}
+              {{- end }}
+            {{- end }}
+            {{- if .Values.additionalEnv.configMaps }}
+              {{- range .Values.additionalEnv.configMaps }}
+            - configMapRef:
+                name: {{ . }}
+              {{- end }}
+            {{- end }}
+            {{- if .Values.global.additionalEnv.secrets }}
+              {{- range .Values.global.additionalEnv.secrets }}
+            - secretRef:
+                name: {{ . }}
+              {{- end }}
+            {{- end }}
+            {{- if .Values.additionalEnv.secrets }}
+              {{- range .Values.additionalEnv.secrets }}
+            - secretRef:
+                name: {{ . }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
           ports:
             - containerPort: {{ .Values.service.consumer.port }}
               name: consumer-http
@@ -122,6 +164,18 @@ spec:
               mountPath: /kong/declarative
             - mountPath: /tmp
               name: ephemeral
+            {{- if .Values.global.additionalVolumeMounts }}
+              {{- tpl (.Values.global.additionalVolumeMounts | toYaml) $ | nindent 12 }}
+            {{- end }}
+            {{- if .Values.additionalVolumeMounts }}
+              {{- tpl (.Values.additionalVolumeMounts | toYaml) $ | nindent 12 }}
+            {{- end }}
+        {{- if .Values.global.sidecarContainers }}
+          {{- tpl (.Values.global.sidecarContainers | toYaml) $ | nindent 8 }}
+        {{- end }}
+        {{- if .Values.sidecarContainers }}
+          {{- tpl (.Values.sidecarContainers | toYaml) $ | nindent 8 }}
+        {{- end }}
       volumes:
         - name: api-gateway-config-volume
           configMap:
@@ -135,3 +189,9 @@ spec:
                 path: kong.yml
         - name: ephemeral
           {{- include "api-gateway-kong.ephemeralVolume" . | indent 10 }}
+        {{- if .Values.global.additionalVolumes }}
+          {{- tpl (.Values.global.additionalVolumes | toYaml) $ | nindent 8 }}
+        {{- end }}
+        {{- if .Values.additionalVolumes }}
+          {{- tpl (.Values.additionalVolumes | toYaml) $ | nindent 8 }}
+        {{- end }}

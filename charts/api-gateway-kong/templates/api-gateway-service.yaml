@@ -19,5 +19,11 @@ spec:
       {{- if (and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) (not (empty .Values.service.consumer.nodePort))) }}
       nodePort: {{ .Values.service.consumer.nodePort }}
       {{- end }}
+    {{- if .Values.global.additionalPorts }}
+      {{- tpl (.Values.global.additionalPorts | toYaml) $ | nindent 4 }}
+    {{- end }}
+    {{- if .Values.additionalPorts }}
+      {{- tpl (.Values.additionalPorts | toYaml) $ | nindent 4 }}
+    {{- end }}
   selector:
     {{- include "api-gateway-kong.selectorLabels" . | nindent 4 }}
