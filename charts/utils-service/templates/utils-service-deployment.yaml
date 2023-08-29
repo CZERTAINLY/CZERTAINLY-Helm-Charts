@@ -1,3 +1,9 @@
+{{- $additionalInitContainers := (include "utils-service.customization.initContainers" $) }}
+{{- $additionalSidecarContainers := (include "utils-service.customization.sidecarContainers" $) }}
+{{- $additionalVolumes := (include "utils-service.customization.volumes" $) }}
+{{- $additionalVolumeMounts := (include "utils-service.customization.volumeMounts" $) }}
+{{- $additionalEnv := (include "utils-service.customization.env" $) }}
+{{- $additionalEnvFrom := (include "utils-service.customization.envFrom" $) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -24,6 +30,10 @@ spec:
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
+      {{- if $additionalInitContainers }}
+      initContainers:
+        {{- $additionalInitContainers | nindent 8 }}
+      {{- end }}
       containers:
         - name: utils-service
           image: {{ include "utils-service.image" . }}
@@ -35,6 +45,13 @@ spec:
               value: {{ .Values.logging.level | quote }}
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
+            {{- if $additionalEnv }}
+              {{- $additionalEnv | nindent 12 }}
+            {{- end }}
+          {{- if $additionalEnvFrom }}
+          envFrom:
+            {{- $additionalEnvFrom | indent 12 }}
+          {{- end }}
           ports:
             - containerPort: {{ .Values.service.port }}
           {{- if .Values.image.securityContext }}
@@ -91,6 +108,15 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: ephemeral
+            {{- if $additionalVolumeMounts }}
+              {{- $additionalVolumeMounts | nindent 12 }}
+            {{- end }}
+        {{- if $additionalSidecarContainers }}
+          {{- $additionalSidecarContainers | nindent 8 }}
+        {{- end }}
       volumes:
         - name: ephemeral
           {{- include "utils-service.ephemeralVolume" . | indent 10 }}
+        {{- if $additionalVolumes }}
+          {{- $additionalVolumes | nindent 8 }}
+        {{- end }}

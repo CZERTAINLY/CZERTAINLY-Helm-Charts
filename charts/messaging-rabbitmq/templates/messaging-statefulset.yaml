@@ -1,5 +1,11 @@
 {{- $messagingAmqpPort := .Values.service.client.amqp.port }}
 {{- $messagingHttpPort := .Values.service.client.http.port }}
+{{- $additionalInitContainers := (include "messaging-rabbitmq.customization.initContainers" $) }}
+{{- $additionalSidecarContainers := (include "messaging-rabbitmq.customization.sidecarContainers" $) }}
+{{- $additionalVolumes := (include "messaging-rabbitmq.customization.volumes" $) }}
+{{- $additionalVolumeMounts := (include "messaging-rabbitmq.customization.volumeMounts" $) }}
+{{- $additionalEnv := (include "messaging-rabbitmq.customization.env" $) }}
+{{- $additionalEnvFrom := (include "messaging-rabbitmq.customization.envFrom" $) }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -50,6 +56,10 @@ spec:
             # the newline is needed since the Docker image entrypoint scripts appends to the config file
       #      - cp /tmp/rabbitmq/rabbitmq.conf /etc/rabbitmq/rabbitmq.conf && echo '' >> /etc/rabbitmq/rabbitmq.conf;
       #        cp /tmp/rabbitmq/enabled_plugins /etc/rabbitmq/enabled_plugins
+      {{- if $additionalInitContainers }}
+      initContainers:
+        {{- $additionalInitContainers | nindent 8 }}
+      {{- end }}
       containers:
         - name: rabbitmq
           image: {{ include "messaging-rabbitmq.image" . }}
@@ -111,6 +121,13 @@ spec:
             {{- end }}
             - name: RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS
               value: "-rabbitmq_management load_definitions '/tmp/definitions.json'"
+            {{- if $additionalEnv }}
+              {{- $additionalEnv | nindent 12 }}
+            {{- end }}
+          {{- if $additionalEnvFrom }}
+          envFrom:
+            {{- $additionalEnvFrom | indent 12 }}
+          {{- end }}
           ports:
             - name: amqp
               containerPort: {{ $messagingAmqpPort }}
@@ -185,6 +202,12 @@ spec:
               mountPath: "/tmp"
             - mountPath: /var/log/rabbitmq
               name: ephemeral
+            {{- if $additionalVolumeMounts }}
+              {{- $additionalVolumeMounts | nindent 12 }}
+            {{- end }}
+        {{- if $additionalSidecarContainers }}
+          {{- $additionalSidecarContainers | nindent 8 }}
+        {{- end }}
       volumes:
         - name: configuration
           configMap:
@@ -214,6 +237,9 @@ spec:
           {{- include "messaging-rabbitmq.ephemeralVolume" . | indent 10 }}
         #- name: rabbitmq-config-rw
         #  emptyDir: { }
+        {{- if $additionalVolumes }}
+          {{- $additionalVolumes | nindent 8 }}
+        {{- end }}
   {{- if not .Values.persistence.enabled }}
         - name: data
           emptyDir: {}

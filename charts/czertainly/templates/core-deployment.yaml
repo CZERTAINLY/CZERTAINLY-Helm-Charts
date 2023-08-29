@@ -2,6 +2,12 @@
 {{- $name := pluck "name" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 {{- $surname := pluck "surname" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 {{- $email := pluck "email" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
+{{- $additionalInitContainers := (include "czertainly.customization.initContainers" $) }}
+{{- $additionalSidecarContainers := (include "czertainly.customization.sidecarContainers" $) }}
+{{- $additionalVolumes := (include "czertainly.customization.volumes" $) }}
+{{- $additionalVolumeMounts := (include "czertainly.customization.volumeMounts" $) }}
+{{- $additionalEnv := (include "czertainly.customization.env" $) }}
+{{- $additionalEnvFrom := (include "czertainly.customization.envFrom" $) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,6 +55,9 @@ spec:
               while ! nc -z messaging-service {{ .Values.messagingService.service.client.amqp.port }}; do sleep 1; done &&
               while ! nc -z scheduler-service-service {{ .Values.schedulerService.service.port }}; do sleep 1; done &&
               echo "messaging and scheduler service seems to be started"
+        {{- if $additionalInitContainers }}
+          {{- $additionalInitContainers | nindent 8 }}
+        {{- end }}
       containers:
         - name: czertainly-auth-opa
           image: {{ include "czertainly.opa.image" . }}
@@ -196,6 +205,13 @@ spec:
                   key: messaging.password
             - name: SCHEDULER_BASE_URL
               value: "http://scheduler-service-service:{{ .Values.schedulerService.service.port }}"
+            {{- if $additionalEnv }}
+              {{- $additionalEnv | nindent 12 }}
+            {{- end }}
+          {{- if $additionalEnvFrom }}
+          envFrom:
+            {{- $additionalEnvFrom | indent 12 }}
+          {{- end }}
           ports:
             - containerPort: {{ .Values.service.port }}
           {{- if .Values.image.securityContext }}
@@ -252,6 +268,9 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: ephemeral
+            {{- if $additionalVolumeMounts }}
+              {{- $additionalVolumeMounts | nindent 12 }}
+            {{- end }}
           {{- if .Values.registerAdmin.enabled }}
           lifecycle:
             postStart:
@@ -280,6 +299,12 @@ spec:
                      }' \
                      http://localhost:{{ .Values.service.port }}/api/v1/local/admins
           {{- end }}
+        {{- if $additionalSidecarContainers }}
+          {{- $additionalSidecarContainers | nindent 8 }}
+        {{- end }}
       volumes:
         - name: ephemeral
           {{- include "czertainly.ephemeralVolume" . | indent 10 }}
+        {{- if $additionalVolumes }}
+          {{- $additionalVolumes | nindent 8 }}
+        {{- end }}

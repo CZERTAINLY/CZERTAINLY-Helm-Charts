@@ -48,6 +48,23 @@ image:
 
 will result in the following image name: `myregistry.com/czertainly/project/czertainly-core:2.9.0`.
 
+### Customization of the deployment
+
+The deployment of the platform can be customized using the following parameters:
+```yaml
+initContainers: []
+sidecarContainers: []
+additionalVolumes: []
+additionalVolumeMounts: []
+additionalPorts: []
+additionalEnv:
+  variables: []
+  configMaps: []
+  secrets: []
+```
+
+When the parameters are set globally, they are applied to all charts and sub-charts. When the parameters are set for specific chart or sub-chart, they are applied only to the sub-chart. If they global and local parameters are defined, they are merged together.
+
 ## To 2.8.0
 
 Using `NodePort` to access the platform should be configured on API Gateway level, not for the Core service (as a service in `czertainly` chart). The `nodePort` parameter is included for both `admin` and `consumer` service in `api-gateway-kong` sub-chart. The proper way to configure `NodePort` is:

@@ -81,3 +81,53 @@ Retun the ephemeral volume configuration
 {{- define "messaging-rabbitmq.ephemeralVolume" -}}
 {{ include "czertainly-lib.volumes.ephemeral" (dict "volumes" .Values.volumes "global" .Values.global.volumes) }}
 {{- end -}}
+
+{{/*
+Render init containers, if any
+*/}}
+{{- define "messaging-rabbitmq.customization.initContainers" -}}
+{{- include "czertainly-lib.customizations.render.yaml" ( dict "parts" (list .Values.global.initContainers .Values.initContainers) "context" $ ) }}
+{{- end -}}
+
+{{/*
+Render sidecar containers, if any
+*/}}
+{{- define "messaging-rabbitmq.customization.sidecarContainers" -}}
+{{- include "czertainly-lib.customizations.render.yaml" ( dict "parts" (list .Values.global.sidecarContainers .Values.sidecarContainers) "context" $ ) }}
+{{- end -}}
+
+{{/*
+Render additional volumes, if any
+*/}}
+{{- define "messaging-rabbitmq.customization.volumes" -}}
+{{- include "czertainly-lib.customizations.render.yaml" ( dict "parts" (list .Values.global.additionalVolumes .Values.additionalVolumes) "context" $ ) }}
+{{- end -}}
+
+{{/*
+Render additional volume mounts, if any
+*/}}
+{{- define "messaging-rabbitmq.customization.volumeMounts" -}}
+{{- include "czertainly-lib.customizations.render.yaml" ( dict "parts" (list .Values.global.additionalVolumeMounts .Values.additionalVolumeMounts) "context" $ ) }}
+{{- end -}}
+
+{{/*
+Render customized ports, if any
+*/}}
+{{- define "messaging-rabbitmq.customization.ports" -}}
+{{- include "czertainly-lib.customizations.render.yaml" ( dict "parts" (list .Values.global.additionalPorts .Values.additionalPorts) "context" $ ) }}
+{{- end -}}
+
+{{/*
+Render customized environment variables, if any
+*/}}
+{{- define "messaging-rabbitmq.customization.env" -}}
+{{- include "czertainly-lib.customizations.render.yaml" ( dict "parts" (list .Values.global.additionalEnv.variables .Values.additionalEnv.variables) "context" $ ) }}
+{{- end -}}
+
+{{/*
+Render customized environment variables from configmaps and secrets, if any
+*/}}
+{{- define "messaging-rabbitmq.customization.envFrom" -}}
+{{- include "czertainly-lib.customizations.render.configMapEnv" ( dict "parts" (list .Values.global.additionalEnv.configMaps .Values.additionalEnv.configMaps) "context" $ ) }}
+{{- include "czertainly-lib.customizations.render.secretEnv" ( dict "parts" (list .Values.global.additionalEnv.secrets .Values.additionalEnv.secrets) "context" $ ) }}
+{{- end -}}

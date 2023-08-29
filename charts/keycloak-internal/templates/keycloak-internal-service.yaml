@@ -1,3 +1,4 @@
+{{- $additionalPorts := (include "keycloak-internal.customization.ports" $) }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -19,5 +20,8 @@ spec:
       port: 80
       targetPort: 8080
       protocol: "TCP"
+    {{- if $additionalPorts }}
+      {{- $additionalPorts | nindent 4 }}
+    {{- end }}
   selector:
     {{- include "keycloak-internal.selectorLabels" . | nindent 4 }}

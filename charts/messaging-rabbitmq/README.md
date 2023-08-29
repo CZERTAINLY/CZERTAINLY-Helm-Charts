@@ -82,6 +82,14 @@ Global values are used to define common parameters for the chart and all its sub
 | global.httpProxy                          | `""`          | Proxy to be used to access external resources through http                    |
 | global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https                   |
 | global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings         |
+| global.initContainers                     | `[]`          | Global init containers                                             |
+| global.sidecarContainers                  | `[]`          | Global sidecar containers                                          |
+| global.additionalVolumes                  | `[]`          | Global additional volumes                                          |
+| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                    |
+| global.additionalPorts                    | `[]`          | Global additional ports                                            |
+| global.additionalEnv.variables            | `[]`          | Global additional environment variables                            |
+| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                              |
+| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                          |
 
 ### Local parameters
 
@@ -111,6 +119,19 @@ The following values may be configured:
 | service.client.type                          | `"ClusterIP"`  | Type of the service that is exposed                         |
 | service.client.http.port                     | `15672`        | Http port number of the exposed service                     |
 | service.client.amqp.port                     | `5672`         | Amqp port number of the exposed service                     |
+
+#### Customization parameters
+
+| Parameter                | Default value | Description                        |
+|--------------------------|---------------|------------------------------------|
+| initContainers           | `[]`          | Init containers                    |
+| sidecarContainers        | `[]`          | Sidecar containers                 |
+| additionalVolumes        | `[]`          | Additional volumes                 |
+| additionalVolumeMounts   | `[]`          | Additional volume mounts           |
+| additionalPorts          | `[]`          | Additional ports                   |
+| additionalEnv.variables  | `[]`          | Additional environment variables   |
+| additionalEnv.secrets    | `[]`          | Additional environment secrets     |
+| additionalEnv.configMaps | `[]`          | Additional environment config maps |
 
 #### RabbitMQ associated parameters
 

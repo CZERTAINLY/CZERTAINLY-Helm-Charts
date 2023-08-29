@@ -87,3 +87,13 @@ The following functions are defined:
 | Identifier                                 | Description                                           |
 |--------------------------------------------|-------------------------------------------------------|
 | `czertainly-lib.persistence.spec.template` | Prepares the persistent volume claim dynamic template |
+
+### Customizations
+
+The following helper templates are used to render customizations (YAML templates for containers, volumes, etc.):
+
+| Identifier                                          | Description                                           |
+|-----------------------------------------------------|-------------------------------------------------------|
+| `czertainly-lib.customizations.render.yaml`         | Render template based on the YAML manifests           |
+| `czertainly-lib.customizations.render.configMapEnv` | Render `configMapRef` based on the list of configMaps |
+| `czertainly-lib.customizations.render.secretEnv`    | Render `secretRef` based on the list of secrets       |

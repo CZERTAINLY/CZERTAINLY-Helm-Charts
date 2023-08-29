@@ -90,6 +90,14 @@ Global values are used to define common parameters for the chart and all its sub
 | global.admin.name                         | `""`          | Initial administrator first name                                   |
 | global.admin.surname                      | `""`          | Initial administrator last name                                    |
 | global.admin.email                        | `""`          | Initial administrator email                                        |
+| global.initContainers                     | `[]`          | Global init containers                                             |
+| global.sidecarContainers                  | `[]`          | Global sidecar containers                                          |
+| global.additionalVolumes                  | `[]`          | Global additional volumes                                          |
+| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                    |
+| global.additionalPorts                    | `[]`          | Global additional ports                                            |
+| global.additionalEnv.variables            | `[]`          | Global additional environment variables                            |
+| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                              |
+| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                          |
 
 ### Local parameters
 
@@ -116,6 +124,19 @@ The following values may be configured:
 | logging.level                                | `"info"`                                    | Allowed values are `fatal`, `error`, `warn`, `info`, `debug`, `trace`, `all`, or `off` |
 | service.type                                 | `"ClusterIP"`                               | Type of the service that is exposed                                                    |
 | service.port                                 | `8080`                                      | Port number of the exposed service                                                     |
+
+#### Customization parameters
+
+| Parameter                | Default value | Description                        |
+|--------------------------|---------------|------------------------------------|
+| initContainers           | `[]`          | Init containers                    |
+| sidecarContainers        | `[]`          | Sidecar containers                 |
+| additionalVolumes        | `[]`          | Additional volumes                 |
+| additionalVolumeMounts   | `[]`          | Additional volume mounts           |
+| additionalPorts          | `[]`          | Additional ports                   |
+| additionalEnv.variables  | `[]`          | Additional environment variables   |
+| additionalEnv.secrets    | `[]`          | Additional environment secrets     |
+| additionalEnv.configMaps | `[]`          | Additional environment config maps |
 
 #### Parameters for associated containers
 

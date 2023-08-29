@@ -6,36 +6,44 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                                 | Default value       | Description                                                                     |
-|-------------------------------------------|---------------------|---------------------------------------------------------------------------------|
-| global.config.enabled                     | `true`              | Enables global configuration                                                    |
-| global.image.registry                     | `""`                | Global docker registry name                                                     |
-| global.image.repository                   | `""`                | Global docker image repository name                                             |
-| global.image.pullSecrets                  | `[]`                | Global array of secret names for image pull                                     |
-| global.volumes.ephemeral.type             | `""`                | Global ephemeral volume type to be used                                         |
-| global.volumes.ephemeral.sizeLimit        | `""`                | Global ephemeral volume size limit                                              |
-| global.volumes.ephemeral.storageClassName | `""`                | Global ephemeral volume storage class name for `storage` type                   |
-| global.volumes.ephemeral.custom           | `{}`                | Global custom definition of the ephemeral volume for `custom` type              |
-| global.database.type                      | `""`                | Type of the database, currently only `postgresql` is supported                  |
-| global.database.host                      | `""`                | Host where is the database located                                              |
-| global.database.port                      | `""`                | Port on which is the database listening                                         |
-| global.database.name                      | `""`                | Database name                                                                   |
-| global.database.username                  | `""`                | Username to access the database                                                 |
-| global.database.password                  | `""`                | Password to access the database                                                 |
-| global.trusted.certificates               | `""`                | List of additional CA certificates that should be trusted                       |
-| global.httpProxy                          | `""`                | Proxy to be used to access external resources through http                      |
-| global.httpsProxy                         | `""`                | Proxy to be used to access external resources through https                     |
-| global.noProxy                            | `""`                | Defines list of external resources that should not use proxy settings           |
-| global.hostName                           | `""`                | Global hostname of the running instance                                         |
-| global.keycloak.enabled                   | `false`             | Enables internal Keycloak for authentication                                    |
-| global.keycloak.clientSecret              | `""`                | Keycloak OIDC client secret to be used internally                               |
-| global.messaging.remoteAccess             | `false`             | Enable remote access to messaging service                                       |
-| global.utils.enabled                      | `false`             | Enables external access to Utils Service                                        |
-| global.admin.username                     | `""`                | Initial administrator username                                                  |
-| global.admin.password                     | `""`                | Initial administrator password                                                  |
-| global.admin.name                         | `""`                | Initial administrator first name                                                |
-| global.admin.surname                      | `""`                | Initial administrator last name                                                 |
-| global.admin.email                        | `""`                | Initial administrator email                                                     |
+| Parameter                                 | Default value | Description                                                           |
+|-------------------------------------------|---------------|-----------------------------------------------------------------------|
+| global.config.enabled                     | `true`        | Enables global configuration                                          |
+| global.image.registry                     | `""`          | Global docker registry name                                           |
+| global.image.repository                   | `""`          | Global docker image repository name                                   |
+| global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                           |
+| global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                               |
+| global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                    |
+| global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type         |
+| global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type    |
+| global.database.type                      | `""`          | Type of the database, currently only `postgresql` is supported        |
+| global.database.host                      | `""`          | Host where is the database located                                    |
+| global.database.port                      | `""`          | Port on which is the database listening                               |
+| global.database.name                      | `""`          | Database name                                                         |
+| global.database.username                  | `""`          | Username to access the database                                       |
+| global.database.password                  | `""`          | Password to access the database                                       |
+| global.trusted.certificates               | `""`          | List of additional CA certificates that should be trusted             |
+| global.httpProxy                          | `""`          | Proxy to be used to access external resources through http            |
+| global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https           |
+| global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings |
+| global.hostName                           | `""`          | Global hostname of the running instance                               |
+| global.keycloak.enabled                   | `false`       | Enables internal Keycloak for authentication                          |
+| global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used internally                     |
+| global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                             |
+| global.utils.enabled                      | `false`       | Enables external access to Utils Service                              |
+| global.admin.username                     | `""`          | Initial administrator username                                        |
+| global.admin.password                     | `""`          | Initial administrator password                                        |
+| global.admin.name                         | `""`          | Initial administrator first name                                      |
+| global.admin.surname                      | `""`          | Initial administrator last name                                       |
+| global.admin.email                        | `""`          | Initial administrator email                                           |
+| global.initContainers                     | `[]`          | Global init containers                                                |
+| global.sidecarContainers                  | `[]`          | Global sidecar containers                                             |
+| global.additionalVolumes                  | `[]`          | Global additional volumes                                             |
+| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                       |
+| global.additionalPorts                    | `[]`          | Global additional ports                                               |
+| global.additionalEnv.variables            | `[]`          | Global additional environment variables                               |
+| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                                 |
+| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                             |
 
 ## Local parameters
 
@@ -96,6 +104,19 @@ The following values may be configured for the CZERTAINLY core service:
 | auth.header.token                            | `"X-USERINFO"`                                                                                                                                                                                                                                                                                                                               | Name of the header containing JSON ID                                                                                                                                                                                                    |
 | auth.header.certificate                      | `"X-APP-CERTIFICATE"`                                                                                                                                                                                                                                                                                                                        | Name of the header containing client certificate                                                                                                                                                                                         |
 | javaOpts                                     | `""`                                                                                                                                                                                                                                                                                                                                         | Customize Java system properties                                                                                                                                                                                                         |
+
+#### Customization parameters
+
+| Parameter                | Default value | Description                        |
+|--------------------------|---------------|------------------------------------|
+| initContainers           | `[]`          | Init containers                    |
+| sidecarContainers        | `[]`          | Sidecar containers                 |
+| additionalVolumes        | `[]`          | Additional volumes                 |
+| additionalVolumeMounts   | `[]`          | Additional volume mounts           |
+| additionalPorts          | `[]`          | Additional ports                   |
+| additionalEnv.variables  | `[]`          | Additional environment variables   |
+| additionalEnv.secrets    | `[]`          | Additional environment secrets     |
+| additionalEnv.configMaps | `[]`          | Additional environment config maps |
 
 ### Parameters for associated containers
 

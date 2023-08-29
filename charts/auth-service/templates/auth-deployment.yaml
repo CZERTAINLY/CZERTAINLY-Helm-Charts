@@ -1,7 +1,12 @@
 {{- $httpProxy := pluck "httpProxy" .Values.global .Values | compact | first }}
 {{- $httpsProxy := pluck "httpsProxy" .Values.global .Values | compact | first }}
 {{- $noProxy := pluck "noProxy" .Values.global .Values | compact | first }}
-{{- $imagePullSecrets := pluck "imagePullSecrets" .Values.global .Values | compact | first }}
+{{- $additionalInitContainers := (include "auth-service.customization.initContainers" $) }}
+{{- $additionalSidecarContainers := (include "auth-service.customization.sidecarContainers" $) }}
+{{- $additionalVolumes := (include "auth-service.customization.volumes" $) }}
+{{- $additionalVolumeMounts := (include "auth-service.customization.volumeMounts" $) }}
+{{- $additionalEnv := (include "auth-service.customization.env" $) }}
+{{- $additionalEnvFrom := (include "auth-service.customization.envFrom" $) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -35,82 +40,101 @@ spec:
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
+      {{- if $additionalInitContainers }}
+      initContainers:
+        {{- $additionalInitContainers | nindent 8 }}
+      {{- end }}
       containers:
-      - name: auth
-        image: {{ include "auth-service.image" . }}
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        env:
-          - name: AUTH_CREATE_UNKNOWN_USERS
-            value: {{ .Values.createUnknownUsers | quote }}
-          - name: AUTH_CREATE_UNKNOWN_ROLES
-            value: {{ .Values.createUnknownRoles | quote }}
-          - name: AUTH_DB_CONNECTION_STRING
-            valueFrom:
-              secretKeyRef:
-                name: auth-secret
-                key: connection-string
-          - name: ASPNETCORE_URLS
-            value: "http://+:{{ .Values.service.port }}"
-        ports:
-          - containerPort: {{ .Values.service.port }}
-        {{- if .Values.image.securityContext }}
-        securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
-        {{- end }}
-        {{- if .Values.image.probes.liveness.enabled }}
-        livenessProbe:
-          {{- if .Values.image.probes.liveness.custom }}
-          {{- toYaml .Values.image.probes.liveness.custom | nindent 12 }}
-          {{- else }}
-          httpGet:
-            path: /health
-            port: {{ .Values.service.port }}
+        - name: auth
+          image: {{ include "auth-service.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: AUTH_CREATE_UNKNOWN_USERS
+              value: {{ .Values.createUnknownUsers | quote }}
+            - name: AUTH_CREATE_UNKNOWN_ROLES
+              value: {{ .Values.createUnknownRoles | quote }}
+            - name: AUTH_DB_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secret
+                  key: connection-string
+            - name: ASPNETCORE_URLS
+              value: "http://+:{{ .Values.service.port }}"
+            {{- if $additionalEnv }}
+              {{- $additionalEnv | nindent 12 }}
+            {{- end }}
+          {{- if $additionalEnvFrom }}
+          envFrom:
+            {{- $additionalEnvFrom | indent 12 }}
           {{- end }}
-          initialDelaySeconds: {{ .Values.image.probes.liveness.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.image.probes.liveness.timeoutSeconds }}
-          periodSeconds: {{ .Values.image.probes.liveness.periodSeconds }}
-          successThreshold: {{ .Values.image.probes.liveness.successThreshold }}
-          failureThreshold: {{ .Values.image.probes.liveness.failureThreshold }}
-        {{- end }}
-        {{- if .Values.image.probes.readiness.enabled }}
-        readinessProbe:
-          {{- if .Values.image.probes.readiness.custom }}
-          {{- toYaml .Values.image.probes.readiness.custom | nindent 12 }}
-          {{- else }}
-          httpGet:
-            path: /health
-            port: {{ .Values.service.port }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          {{- if .Values.image.securityContext }}
+          securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
           {{- end }}
-          initialDelaySeconds: {{ .Values.image.probes.readiness.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.image.probes.readiness.timeoutSeconds }}
-          periodSeconds: {{ .Values.image.probes.readiness.periodSeconds }}
-          successThreshold: {{ .Values.image.probes.readiness.successThreshold }}
-          failureThreshold: {{ .Values.image.probes.readiness.failureThreshold }}
-        {{- end }}
-        {{- if .Values.image.probes.startup.enabled }}
-        startupProbe:
-          {{- if .Values.image.probes.startup.custom }}
-          {{- toYaml .Values.image.probes.startup.custom | nindent 12 }}
-          {{- else }}
-          httpGet:
-            path: /health
-            port: {{ .Values.service.port }}
+          {{- if .Values.image.probes.liveness.enabled }}
+          livenessProbe:
+            {{- if .Values.image.probes.liveness.custom }}
+            {{- toYaml .Values.image.probes.liveness.custom | nindent 12 }}
+            {{- else }}
+            httpGet:
+              path: /health
+              port: {{ .Values.service.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.liveness.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.liveness.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.liveness.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.liveness.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.liveness.failureThreshold }}
           {{- end }}
-          initialDelaySeconds: {{ .Values.image.probes.startup.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.image.probes.startup.timeoutSeconds }}
-          periodSeconds: {{ .Values.image.probes.startup.periodSeconds }}
-          successThreshold: {{ .Values.image.probes.startup.successThreshold }}
-          failureThreshold: {{ .Values.image.probes.startup.failureThreshold }}
+          {{- if .Values.image.probes.readiness.enabled }}
+          readinessProbe:
+            {{- if .Values.image.probes.readiness.custom }}
+            {{- toYaml .Values.image.probes.readiness.custom | nindent 12 }}
+            {{- else }}
+            httpGet:
+              path: /health
+              port: {{ .Values.service.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.readiness.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.readiness.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.readiness.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.readiness.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.readiness.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.probes.startup.enabled }}
+          startupProbe:
+            {{- if .Values.image.probes.startup.custom }}
+            {{- toYaml .Values.image.probes.startup.custom | nindent 12 }}
+            {{- else }}
+            httpGet:
+              path: /health
+              port: {{ .Values.service.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.startup.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.startup.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.startup.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.startup.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.startup.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.resources }}
+          resources: {{- toYaml .Values.image.resources | nindent 12 }}
+          {{- end }}
+          {{- if or .Values.global.trusted.certificates .Values.trusted.certificates $additionalVolumeMounts }}
+          volumeMounts:
+            {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
+            - name: trusted-certificates-volume
+              mountPath: /etc/ssl/certs
+              readOnly: true
+            {{- end }}
+            {{- if $additionalVolumeMounts }}
+              {{- $additionalVolumeMounts | nindent 12 }}
+            {{- end }}
+          {{- end }}
+        {{- if $additionalSidecarContainers }}
+          {{- $additionalSidecarContainers | nindent 8 }}
         {{- end }}
-        {{- if .Values.image.resources }}
-        resources: {{- toYaml .Values.image.resources | nindent 12 }}
-        {{- end }}
-        {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
-        volumeMounts:
-          - name: trusted-certificates-volume
-            mountPath: /etc/ssl/certs
-            readOnly: true
-        {{- end }}
-      {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
+      {{- if or .Values.global.trusted.certificates .Values.trusted.certificates $additionalVolumes }}
       volumes:
         {{- if .Values.global.trusted.certificates }}
         - name: trusted-certificates-volume
@@ -122,5 +146,8 @@ spec:
           secret:
             defaultMode: 420
             secretName: trusted-certificates-{{ .Chart.Name | lower }}
+        {{- end }}
+        {{- if $additionalVolumes }}
+          {{- $additionalVolumes | nindent 8 }}
         {{- end }}
       {{- end }}

@@ -82,6 +82,14 @@ Global values are used to define common parameters for the chart and all its sub
 | global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used internally                  |
 | global.utils.enabled                      | `false`       | Enables external access to Utils Service                           |
 | global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                          |
+| global.initContainers                     | `[]`          | Global init containers                                             |
+| global.sidecarContainers                  | `[]`          | Global sidecar containers                                          |
+| global.additionalVolumes                  | `[]`          | Global additional volumes                                          |
+| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                    |
+| global.additionalPorts                    | `[]`          | Global additional ports                                            |
+| global.additionalEnv.variables            | `[]`          | Global additional environment variables                            |
+| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                              |
+| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                          |
 
 ### Local parameters
 
@@ -132,6 +140,19 @@ The following values may be configured:
 | cors.exposedHeaders                          | `[X-Auth-Token]`                                      | List of values for the Access-Control-Expose-Headers header                                |
 | trustedIps                                   | `""`                                                  | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
 | hostAliases.resolveInternalKeycloak          | `false`                                               | Resolves internal Keycloak services as hostname for the OIDC client                        |
+
+#### Customization parameters
+
+| Parameter                | Default value | Description                        |
+|--------------------------|---------------|------------------------------------|
+| initContainers           | `[]`          | Init containers                    |
+| sidecarContainers        | `[]`          | Sidecar containers                 |
+| additionalVolumes        | `[]`          | Additional volumes                 |
+| additionalVolumeMounts   | `[]`          | Additional volume mounts           |
+| additionalPorts          | `[]`          | Additional ports                   |
+| additionalEnv.variables  | `[]`          | Additional environment variables   |
+| additionalEnv.secrets    | `[]`          | Additional environment secrets     |
+| additionalEnv.configMaps | `[]`          | Additional environment config maps |
 
 ### Parameters for associated containers
 
