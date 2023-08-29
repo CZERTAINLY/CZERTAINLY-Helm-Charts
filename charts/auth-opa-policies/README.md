@@ -76,6 +76,14 @@ Global values are used to define common parameters for the chart and all its sub
 | global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                 |
 | global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type      |
 | global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type |
+| global.initContainers                     | `[]`          | Global init containers                                             |
+| global.sidecarContainers                  | `[]`          | Global sidecar containers                                          |
+| global.additionalVolumes                  | `[]`          | Global additional volumes                                          |
+| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                    |
+| global.additionalPorts                    | `[]`          | Global additional ports                                            |
+| global.additionalEnv.variables            | `[]`          | Global additional environment variables                            |
+| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                              |
+| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                          |
 
 ### Local parameters
 
@@ -101,6 +109,19 @@ The following values may be configured:
 | volumes.ephemeral.custom                     | `{}`                           | Custom definition of the ephemeral volume for `custom` type |
 | service.type                                 | `"ClusterIP"`                  | Type of the service that is exposed                         |
 | service.port                                 | `8080`                         | Port number of the exposed service                          |
+
+### Customization parameters
+
+| Parameter                | Default value | Description                        |
+|--------------------------|---------------|------------------------------------|
+| initContainers           | `[]`          | Init containers                    |
+| sidecarContainers        | `[]`          | Sidecar containers                 |
+| additionalVolumes        | `[]`          | Additional volumes                 |
+| additionalVolumeMounts   | `[]`          | Additional volume mounts           |
+| additionalPorts          | `[]`          | Additional ports                   |
+| additionalEnv.variables  | `[]`          | Additional environment variables   |
+| additionalEnv.secrets    | `[]`          | Additional environment secrets     |
+| additionalEnv.configMaps | `[]`          | Additional environment config maps |
 
 #### Probes parameters
 

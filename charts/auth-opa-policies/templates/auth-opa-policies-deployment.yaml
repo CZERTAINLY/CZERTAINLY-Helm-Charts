@@ -1,4 +1,10 @@
 {{- $imagePullSecrets := pluck "imagePullSecrets" .Values.global .Values | compact | first }}
+{{- $additionalInitContainers := (include "auth-opa-policies.customization.initContainers" $) }}
+{{- $additionalSidecarContainers := (include "auth-opa-policies.customization.sidecarContainers" $) }}
+{{- $additionalVolumes := (include "auth-opa-policies.customization.volumes" $) }}
+{{- $additionalVolumeMounts := (include "auth-opa-policies.customization.volumeMounts" $) }}
+{{- $additionalEnv := (include "auth-opa-policies.customization.env" $) }}
+{{- $additionalEnvFrom := (include "auth-opa-policies.customization.envFrom" $) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,10 +31,22 @@ spec:
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
+      {{- if $additionalInitContainers }}
+      initContainers:
+        {{- $additionalInitContainers | nindent 8 }}
+      {{- end }}
       containers:
         - name: auth-opa-policies
           image: {{ include "auth-opa-policies.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if $additionalEnv }}
+          env:
+            {{- $additionalEnv | nindent 12 }}
+          {{- end }}
+          {{- if $additionalEnvFrom }}
+          envFrom:
+            {{- $additionalEnvFrom | indent 12 }}
+          {{- end }}
           ports:
             - containerPort: {{ .Values.service.port }}
           {{- if .Values.image.securityContext }}
@@ -87,6 +105,15 @@ spec:
               name: ephemeral
             - mountPath: /tmp
               name: ephemeral
+            {{- if $additionalVolumeMounts }}
+              {{- $additionalVolumeMounts | nindent 12 }}
+            {{- end }}
+        {{- if $additionalSidecarContainers }}
+          {{- $additionalSidecarContainers | nindent 8 }}
+        {{- end }}
       volumes:
         - name: ephemeral
           {{- include "auth-opa-policies.ephemeralVolume" . | indent 10 }}
+        {{- if $additionalVolumes }}
+          {{- $additionalVolumes | nindent 8 }}
+        {{- end }}
