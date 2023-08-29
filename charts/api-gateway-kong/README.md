@@ -141,7 +141,7 @@ The following values may be configured:
 | trustedIps                                   | `""`                                                  | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
 | hostAliases.resolveInternalKeycloak          | `false`                                               | Resolves internal Keycloak services as hostname for the OIDC client                        |
 
-### Customization parameters
+#### Customization parameters
 
 | Parameter                | Default value | Description                        |
 |--------------------------|---------------|------------------------------------|

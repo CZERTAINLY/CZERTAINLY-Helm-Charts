@@ -110,7 +110,7 @@ The following values may be configured:
 | service.type                                 | `"ClusterIP"`                  | Type of the service that is exposed                         |
 | service.port                                 | `8080`                         | Port number of the exposed service                          |
 
-### Customization parameters
+#### Customization parameters
 
 | Parameter                | Default value | Description                        |
 |--------------------------|---------------|------------------------------------|
