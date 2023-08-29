@@ -86,6 +86,14 @@ Global values are used to define common parameters for the chart and all its sub
 | global.httpProxy                          | `""`          | Proxy to be used to access external resources through http            |
 | global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https           |
 | global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings |
+| global.initContainers                     | `[]`          | Global init containers                                             |
+| global.sidecarContainers                  | `[]`          | Global sidecar containers                                          |
+| global.additionalVolumes                  | `[]`          | Global additional volumes                                          |
+| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                    |
+| global.additionalPorts                    | `[]`          | Global additional ports                                            |
+| global.additionalEnv.variables            | `[]`          | Global additional environment variables                            |
+| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                              |
+| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                          |
 
 ### Local parameters
 
@@ -122,6 +130,19 @@ The following values may be configured:
 | service.type                                 | `"ClusterIP"`                                     | Type of the service that is exposed                                   |
 | service.port                                 | `8080`                                            | Port number of the exposed service                                    |
 | javaOpts                                     | `""`                                              | Customize Java system properties                                      |
+
+#### Customization parameters
+
+| Parameter                | Default value | Description                        |
+|--------------------------|---------------|------------------------------------|
+| initContainers           | `[]`          | Init containers                    |
+| sidecarContainers        | `[]`          | Sidecar containers                 |
+| additionalVolumes        | `[]`          | Additional volumes                 |
+| additionalVolumeMounts   | `[]`          | Additional volume mounts           |
+| additionalPorts          | `[]`          | Additional ports                   |
+| additionalEnv.variables  | `[]`          | Additional environment variables   |
+| additionalEnv.secrets    | `[]`          | Additional environment secrets     |
+| additionalEnv.configMaps | `[]`          | Additional environment config maps |
 
 #### Probes parameters
 
