@@ -1,4 +1,10 @@
 {{- $imagePullSecrets := pluck "imagePullSecrets" .Values.global .Values | compact | first }}
+{{- $additionalInitContainers := (include "fe-administrator.customization.initContainers" $) }}
+{{- $additionalSidecarContainers := (include "fe-administrator.customization.sidecarContainers" $) }}
+{{- $additionalVolumes := (include "fe-administrator.customization.volumes" $) }}
+{{- $additionalVolumeMounts := (include "fe-administrator.customization.volumeMounts" $) }}
+{{- $additionalEnv := (include "fe-administrator.customization.env" $) }}
+{{- $additionalEnvFrom := (include "fe-administrator.customization.envFrom" $) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,71 +31,89 @@ spec:
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
+      {{- if $additionalInitContainers }}
+      initContainers:
+        {{- $additionalInitContainers | nindent 8 }}
+      {{- end }}
       containers:
-      - name: fe-administrator
-        image: {{ include "fe-administrator.image" . }}
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        ports:
-          - containerPort: {{ .Values.service.port }}
-        {{- if .Values.image.securityContext }}
-        securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
-        {{- end }}
-        {{- if .Values.image.probes.liveness.enabled }}
-        livenessProbe:
-          {{- if .Values.image.probes.liveness.custom }}
-          {{- toYaml .Values.image.probes.liveness.custom | nindent 12 }}
-          {{- else }}
-          httpGet:
-            path: /
-            port: {{ .Values.service.port }}
+        - name: fe-administrator
+          image: {{ include "fe-administrator.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if $additionalEnv }}
+          env:
+            {{- $additionalEnv | nindent 12 }}
           {{- end }}
-          initialDelaySeconds: {{ .Values.image.probes.liveness.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.image.probes.liveness.timeoutSeconds }}
-          periodSeconds: {{ .Values.image.probes.liveness.periodSeconds }}
-          successThreshold: {{ .Values.image.probes.liveness.successThreshold }}
-          failureThreshold: {{ .Values.image.probes.liveness.failureThreshold }}
-        {{- end }}
-        {{- if .Values.image.probes.readiness.enabled }}
-        readinessProbe:
-          {{- if .Values.image.probes.readiness.custom }}
-          {{- toYaml .Values.image.probes.readiness.custom | nindent 12 }}
-          {{- else }}
-          httpGet:
-            path: /
-            port: {{ .Values.service.port }}
+          {{- if $additionalEnvFrom }}
+          envFrom:
+            {{- $additionalEnvFrom | indent 12 }}
           {{- end }}
-          initialDelaySeconds: {{ .Values.image.probes.readiness.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.image.probes.readiness.timeoutSeconds }}
-          periodSeconds: {{ .Values.image.probes.readiness.periodSeconds }}
-          successThreshold: {{ .Values.image.probes.readiness.successThreshold }}
-          failureThreshold: {{ .Values.image.probes.readiness.failureThreshold }}
-        {{- end }}
-        {{- if .Values.image.probes.startup.enabled }}
-        startupProbe:
-          {{- if .Values.image.probes.startup.custom }}
-          {{- toYaml .Values.image.probes.startup.custom | nindent 12 }}
-          {{- else }}
-          httpGet:
-            path: /
-            port: {{ .Values.service.port }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          {{- if .Values.image.securityContext }}
+          securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
           {{- end }}
-          initialDelaySeconds: {{ .Values.image.probes.startup.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.image.probes.startup.timeoutSeconds }}
-          periodSeconds: {{ .Values.image.probes.startup.periodSeconds }}
-          successThreshold: {{ .Values.image.probes.startup.successThreshold }}
-          failureThreshold: {{ .Values.image.probes.startup.failureThreshold }}
+          {{- if .Values.image.probes.liveness.enabled }}
+          livenessProbe:
+            {{- if .Values.image.probes.liveness.custom }}
+            {{- toYaml .Values.image.probes.liveness.custom | nindent 12 }}
+            {{- else }}
+            httpGet:
+              path: /
+              port: {{ .Values.service.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.liveness.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.liveness.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.liveness.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.liveness.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.liveness.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.probes.readiness.enabled }}
+          readinessProbe:
+            {{- if .Values.image.probes.readiness.custom }}
+            {{- toYaml .Values.image.probes.readiness.custom | nindent 12 }}
+            {{- else }}
+            httpGet:
+              path: /
+              port: {{ .Values.service.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.readiness.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.readiness.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.readiness.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.readiness.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.readiness.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.probes.startup.enabled }}
+          startupProbe:
+            {{- if .Values.image.probes.startup.custom }}
+            {{- toYaml .Values.image.probes.startup.custom | nindent 12 }}
+            {{- else }}
+            httpGet:
+              path: /
+              port: {{ .Values.service.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.startup.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.startup.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.startup.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.startup.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.startup.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.resources }}
+          resources: {{- toYaml .Values.image.resources | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: fe-administrator-config-volume
+              mountPath: /usr/share/nginx/html/config.js
+              subPath: config.js
+            - mountPath: /var/cache/nginx
+              name: ephemeral
+            - mountPath: /tmp
+              name: ephemeral
+            {{- if $additionalVolumeMounts }}
+              {{- $additionalVolumeMounts | nindent 12 }}
+            {{- end }}
+        {{- if $additionalSidecarContainers }}
+          {{- $additionalSidecarContainers | nindent 8 }}
         {{- end }}
-        {{- if .Values.image.resources }}
-        resources: {{- toYaml .Values.image.resources | nindent 12 }}
-        {{- end }}
-        volumeMounts:
-          - name: fe-administrator-config-volume
-            mountPath: /usr/share/nginx/html/config.js
-            subPath: config.js
-          - mountPath: /var/cache/nginx
-            name: ephemeral
-          - mountPath: /tmp
-            name: ephemeral
       volumes:
         - name: fe-administrator-config-volume
           configMap:
@@ -99,3 +123,6 @@ spec:
                 path: config.js
         - name: ephemeral
           {{- include "fe-administrator.ephemeralVolume" . | indent 10 }}
+        {{- if $additionalVolumes }}
+          {{- $additionalVolumes | nindent 8 }}
+        {{- end }}
