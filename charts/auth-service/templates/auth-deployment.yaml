@@ -1,7 +1,6 @@
 {{- $httpProxy := pluck "httpProxy" .Values.global .Values | compact | first }}
 {{- $httpsProxy := pluck "httpsProxy" .Values.global .Values | compact | first }}
 {{- $noProxy := pluck "noProxy" .Values.global .Values | compact | first }}
-{{- $imagePullSecrets := pluck "imagePullSecrets" .Values.global .Values | compact | first }}
 {{- $additionalInitContainers := (include "auth-service.customization.initContainers" $) }}
 {{- $additionalSidecarContainers := (include "auth-service.customization.sidecarContainers" $) }}
 {{- $additionalVolumes := (include "auth-service.customization.volumes" $) }}

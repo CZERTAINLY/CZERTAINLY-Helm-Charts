@@ -1,7 +1,6 @@
 {{- $httpProxy := pluck "httpProxy" .Values.global .Values | compact | first }}
 {{- $httpsProxy := pluck "httpsProxy" .Values.global .Values | compact | first }}
 {{- $noProxy := pluck "noProxy" .Values.global .Values | compact | first }}
-{{- $imagePullSecrets := pluck "imagePullSecrets" .Values.global .Values | compact | first }}
 {{- $additionalInitContainers := (include "ejbca-ng-connector.customization.initContainers" $) }}
 {{- $additionalSidecarContainers := (include "ejbca-ng-connector.customization.sidecarContainers" $) }}
 {{- $additionalVolumes := (include "ejbca-ng-connector.customization.volumes" $) }}

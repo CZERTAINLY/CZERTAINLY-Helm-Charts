@@ -1,4 +1,3 @@
-{{- $imagePullSecrets := pluck "imagePullSecrets" .Values.global .Values | compact | first }}
 {{- $additionalInitContainers := (include "email-notification-provider.customization.initContainers" $) }}
 {{- $additionalSidecarContainers := (include "email-notification-provider.customization.sidecarContainers" $) }}
 {{- $additionalVolumes := (include "email-notification-provider.customization.volumes" $) }}

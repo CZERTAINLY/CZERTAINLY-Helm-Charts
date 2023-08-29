@@ -1,4 +1,3 @@
-{{- $imagePullSecrets := pluck "imagePullSecrets" .Values.global .Values | compact | first }}
 {{- $additionalInitContainers := (include "keycloak-internal.customization.initContainers" $) }}
 {{- $additionalSidecarContainers := (include "keycloak-internal.customization.sidecarContainers" $) }}
 {{- $additionalVolumes := (include "keycloak-internal.customization.volumes" $) }}
