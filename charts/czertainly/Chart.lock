@@ -1,57 +1,57 @@
 dependencies:
 - name: keycloak-internal
   repository: file://../keycloak-internal
-  version: 1.0.0-3-develop
+  version: 1.0.0-3
 - name: common-credential-provider
   repository: file://../common-credential-provider
-  version: 1.3.1-2-develop
+  version: 1.3.1-2
 - name: ejbca-ng-connector
   repository: file://../ejbca-ng-connector
-  version: 1.5.0-1-develop
+  version: 1.6.0
 - name: ms-adcs-connector
   repository: file://../ms-adcs-connector
-  version: 1.4.1-1-develop
+  version: 1.5.0
 - name: x509-compliance-provider
   repository: file://../x509-compliance-provider
-  version: 1.3.0-1-develop
+  version: 1.3.0-1
 - name: cryptosense-discovery-provider
   repository: file://../cryptosense-discovery-provider
-  version: 1.3.0-2-develop
+  version: 1.4.0
 - name: network-discovery-provider
   repository: file://../network-discovery-provider
-  version: 1.3.2-1-develop
+  version: 1.4.0
 - name: keystore-entity-provider
   repository: file://../keystore-entity-provider
-  version: 1.4.0-1-develop
+  version: 1.4.0-1
 - name: software-cryptography-provider
   repository: file://../software-cryptography-provider
-  version: 1.2.0-1-develop
+  version: 1.2.0-1
 - name: email-notification-provider
   repository: file://../email-notification-provider
-  version: 1.0.0-develop
+  version: 1.0.0
 - name: utils-service
   repository: file://../utils-service
-  version: 1.0.0-3-develop
+  version: 1.0.0-3
 - name: czertainly-lib
   repository: file://../czertainly-lib
-  version: 1.3.0-develop
+  version: 1.3.0
 - name: api-gateway-kong
   repository: file://../api-gateway-kong
-  version: 3.0.0-6-6-develop
+  version: 3.0.0-6-6
 - name: fe-administrator
   repository: file://../fe-administrator
-  version: 2.8.1-1-develop
+  version: 2.9.0
 - name: auth-service
   repository: file://../auth-service
-  version: 1.2.0-1-develop
+  version: 1.3.0
 - name: auth-opa-policies
   repository: file://../auth-opa-policies
-  version: 1.1.0-2-develop
+  version: 1.1.0-2
 - name: messaging-rabbitmq
   repository: file://../messaging-rabbitmq
-  version: 3.12.1-develop
+  version: 3.12.1
 - name: scheduler-service
   repository: file://../scheduler-service
-  version: 1.0.0-develop
-digest: sha256:1bf86b9a2e3dab1aa0489dabae56ff9a0d800ec6bfa5abd2ac4824f295403d49
-generated: "2023-08-27T11:44:22.686061+02:00"
+  version: 1.0.0
+digest: sha256:3e42fe1619da0c901432f89938e0e3e49f25c81134495ce724650f4dbf71b5c6
+generated: "2023-09-03T18:22:04.509635+02:00"

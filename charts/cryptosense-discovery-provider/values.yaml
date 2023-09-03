@@ -95,7 +95,7 @@ image:
   registry: harbor.3key.company
   repository: czertainly
   name: czertainly-cryptosense-discovery-provider
-  tag: 1.3.0
+  tag: 1.4.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
