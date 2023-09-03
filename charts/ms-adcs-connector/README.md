@@ -105,7 +105,7 @@ The following values may be configured:
 | image.registry                               | `harbor.3key.company`                     | Docker registry name for the image                                    |
 | image.repository                             | `czertainly`                              | Docker image repository name                                          |
 | image.name                                   | `czertainly-ms-adcs-connector`            | Docker image name                                                     |
-| image.tag                                    | `1.4.1`                                   | Docker image tag                                                      |
+| image.tag                                    | `1.5.0`                                   | Docker image tag                                                      |
 | image.digest                                 | `""`                                      | Docker image digest, will override tag if specified                   |
 | image.pullPolicy                             | `IfNotPresent`                            | Image pull policy                                                     |
 | image.pullSecrets                            | `[]`                                      | Array of secret names for image pull                                  |

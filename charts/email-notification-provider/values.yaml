@@ -86,8 +86,8 @@ service:
 
 image:
   # default registry name
-  registry: harbor.3key.company
-  repository: czertainly
+  registry: docker.io
+  repository: 3keycompany
   name: czertainly-email-notification-provider
   tag: 1.0.0
   # the digest to be used instead of the tag

@@ -98,8 +98,8 @@ The following values may be configured:
 
 | Parameter                                    | Default value                                       | Description                                                    |
 |----------------------------------------------|-----------------------------------------------------|----------------------------------------------------------------|
-| image.registry                               | `harbor.3key.company`                               | Docker registry name for the image                             |
-| image.repository                             | `czertainly`                                        | Docker image repository name                                   |
+| image.registry                               | `docker.io`                                         | Docker registry name for the image                             |
+| image.repository                             | `3keycompany`                                       | Docker image repository name                                   |
 | image.name                                   | `czertainly-email-notification-provider`            | Docker image name                                              |
 | image.tag                                    | `1.0.0`                                             | Docker image tag                                               |
 | image.digest                                 | `""`                                                | Docker image digest, will override tag if specified            |
