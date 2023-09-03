@@ -1,0 +1,15 @@
+database:
+  host: "172.17.0.1"
+
+image:
+  tag: develop-latest
+  pullSecrets:
+    - czertainlycred
+
+smtp:
+  host: "172.17.0.1"
+  port: 25
+  username: ""
+  password: ""
+  auth: false
+  tls: false

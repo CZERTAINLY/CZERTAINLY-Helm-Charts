@@ -1,0 +1,211 @@
+# Default values for messaging-rabbitmq.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Global parameters that will overwrite local parameters
+global:
+  config:
+    enabled: false
+  image:
+    registry: ""
+    repository: ""
+    # array of secret names
+    pullSecrets: []
+  volumes:
+    ephemeral:
+      type: ""
+      sizeLimit: ""
+      storageClassName: ""
+      custom: {}
+  messaging:
+    remoteAccess: false
+  httpProxy: ""
+  httpsProxy: ""
+  noProxy: ""
+  # additional init containers that will be added to each pod
+  # - name: some-image
+  #   image: some-image
+  #   imagePullPolicy: IfNotPresent
+  #   securityContext:
+  #     runAsNonRoot: true
+  #   ports:
+  #     - name: port
+  #       containerPort: "{{ $.Values.container.port }}"
+  initContainers: []
+  # additional sidecar containers that will be added to each pod
+  # see the sample of init containers above
+  sidecarContainers: []
+  # additional volumes that will be added to each pod
+  # - name: additional-volume
+  #   configMap:
+  #     name: additional-volume
+  additionalVolumes: []
+  # additional volume mounts that will be added to each pod
+  # - name: additional-volume
+  #   mountPath: /opt/app
+  #   readOnly: true
+  additionalVolumeMounts: []
+  # additional service ports that will be added to each pod
+  # - name: other-port
+  #   port: 8080
+  #   targetPort: 8080
+  additionalPorts: []
+  # additional environment variables that will be added to each pod
+  additionalEnv:
+    # - name: SOME_ENV
+    #   value: "some-value"
+    variables: []
+    # list of config maps to be added as environment variables
+    configMaps: []
+    # list of secrets to be added as environment variables
+    secrets: []
+
+httpProxy: ""
+httpsProxy: ""
+noProxy: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+replicaCount: 1
+
+service:
+  client:
+    type: "ClusterIP"
+    http:
+      port: 15672
+    amqp:
+      port: 5672
+  headless:
+    epmd:
+      port: 4369
+    clusterRpc:
+      port: 25672
+
+clustering:
+  # ip or hostname
+  addressType: hostname
+  domain: cluster.local
+
+image:
+  # default registry name
+  registry: docker.io
+  repository: ""
+  name: rabbitmq
+  tag: 3.12.1
+  # the digest to be used instead of the tag
+  digest: ""
+  pullPolicy: IfNotPresent
+  # array of secret names
+  pullSecrets: []
+  # default security context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 999
+    readOnlyRootFilesystem: true
+  # probes configuration
+  probes:
+    liveness:
+      enabled: true
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 120
+      timeoutSeconds: 20
+      periodSeconds: 30
+      successThreshold: 1
+      failureThreshold: 6
+    readiness:
+      enabled: true
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 10
+      timeoutSeconds: 20
+      periodSeconds: 30
+      successThreshold: 1
+      failureThreshold: 3
+    startup:
+      enabled: false
+      # custom probe command, will override the default one
+      custom: {}
+      initialDelaySeconds: 10
+      timeoutSeconds: 20
+      periodSeconds: 30
+      successThreshold: 1
+      failureThreshold: 3
+  resources: {}
+    # We follow recommendations and general guidelines to manage resources from:
+    # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
+    # We recommend default requests for CPU and Memory, leaving the limits as a conscious
+    # choice for the user. If you do want to specify your own resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources'.
+    # requests:
+    #   cpu: 1000m
+    #   memory: 2Gi
+    # limits: {}
+
+# customization of the chart
+initContainers: []
+sidecarContainers: []
+additionalVolumes: []
+additionalVolumeMounts: []
+additionalPorts: []
+additionalEnv:
+  variables: []
+  configMaps: []
+  secrets: []
+
+volumes:
+  ephemeral:
+    # available types are: memory, storage, custom
+    type: memory
+    sizeLimit: "1Mi"
+    storageClassName: ""
+    custom: {}
+    #  emptyDir:
+    #    sizeLimit: "10Mi"
+    #    medium: "Memory"
+
+logging:
+  level: "info"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "messaging-rabbitmq-sa"
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 999
+  runAsUser: 999
+  runAsGroup: 999
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# persistence parameters
+persistence:
+  enabled: true
+  storageClassName: ""
+  selector: {}
+  accessModes:
+    - ReadWriteOnce
+  existingClaim: ""
+  size: 100Mi
+  annotations: {}
+
+secret:
+  username: "czertainly"

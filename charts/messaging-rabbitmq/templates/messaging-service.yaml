@@ -1,0 +1,23 @@
+{{- $messagingHttpPort := .Values.service.client.http.port }}
+{{- $messagingAmqpPort := .Values.service.client.amqp.port }}
+{{- $additionalPorts := (include "messaging-rabbitmq.customization.ports" $) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: messaging-service
+  labels:
+    {{- include "messaging-rabbitmq.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.client.type }}
+  ports:
+    - name: http
+      port: {{ $messagingHttpPort }}
+      protocol: "TCP"
+    - name: amqp
+      port: {{ $messagingAmqpPort }}
+      protocol: "TCP"
+    {{- if $additionalPorts }}
+      {{- $additionalPorts | nindent 4 }}
+    {{- end }}
+  selector:
+    {{- include "messaging-rabbitmq.selectorLabels" . | nindent 4 }}

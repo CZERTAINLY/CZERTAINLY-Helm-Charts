@@ -1,0 +1,17 @@
+{{- $additionalPorts := (include "scheduler-service.customization.ports" $) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: scheduler-service-service
+  labels:
+    {{- include "scheduler-service.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: "TCP"
+    {{- if $additionalPorts }}
+      {{- $additionalPorts | nindent 4 }}
+    {{- end }}
+  selector:
+    {{- include "scheduler-service.selectorLabels" . | nindent 4 }}

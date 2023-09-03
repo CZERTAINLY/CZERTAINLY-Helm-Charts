@@ -69,10 +69,19 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                | Default value | Description                                 |
-|--------------------------|---------------|---------------------------------------------|
-| global.image.registry    | `""`          | Global docker registry name                 |
-| global.image.pullSecrets | `[]`          | Global array of secret names for image pull |
+| Parameter                       | Default value | Description                                 |
+|---------------------------------|---------------|---------------------------------------------|
+| global.image.registry           | `""`          | Global docker registry name                 |
+| global.image.repository         | `""`          | Global docker image repository name         |
+| global.image.pullSecrets        | `[]`          | Global array of secret names for image pull |
+| global.initContainers           | `[]`          | Global init containers                      |
+| global.sidecarContainers        | `[]`          | Global sidecar containers                   |
+| global.additionalVolumes        | `[]`          | Global additional volumes                   |
+| global.additionalVolumeMounts   | `[]`          | Global additional volume mounts             |
+| global.additionalPorts          | `[]`          | Global additional ports                     |
+| global.additionalEnv.variables  | `[]`          | Global additional environment variables     |
+| global.additionalEnv.secrets    | `[]`          | Global additional environment secrets       |
+| global.additionalEnv.configMaps | `[]`          | Global additional environment config maps   |
 
 ### Local parameters
 
@@ -81,7 +90,8 @@ The following values may be configured:
 | Parameter                                    | Default value                                     | Description                                                 |
 |----------------------------------------------|---------------------------------------------------|-------------------------------------------------------------|
 | image.registry                               | `docker.io`                                       | Docker registry name for the image                          |
-| image.repository                             | `3keycompany/czertainly-x509-compliance-provider` | Docker image repository name                                |
+| image.repository                             | `3keycompany`                                     | Docker image repository name                                |
+| image.name                                   | `czertainly-x509-compliance-provider`             | Docker image name                                           |
 | image.tag                                    | `1.3.0`                                           | Docker image tag                                            |
 | image.digest                                 | `""`                                              | Docker image digest, will override tag if specified         |
 | image.pullPolicy                             | `IfNotPresent`                                    | Image pull policy                                           |
@@ -94,6 +104,19 @@ The following values may be configured:
 | logging.level                                | `"INFO"`                                          | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"` |
 | service.type                                 | `"ClusterIP"`                                     | Type of the service that is exposed                         |
 | service.port                                 | `8080`                                            | Port number of the exposed service                          |
+
+#### Customization parameters
+
+| Parameter                | Default value | Description                        |
+|--------------------------|---------------|------------------------------------|
+| initContainers           | `[]`          | Init containers                    |
+| sidecarContainers        | `[]`          | Sidecar containers                 |
+| additionalVolumes        | `[]`          | Additional volumes                 |
+| additionalVolumeMounts   | `[]`          | Additional volume mounts           |
+| additionalPorts          | `[]`          | Additional ports                   |
+| additionalEnv.variables  | `[]`          | Additional environment variables   |
+| additionalEnv.secrets    | `[]`          | Additional environment secrets     |
+| additionalEnv.configMaps | `[]`          | Additional environment config maps |
 
 #### Probes parameters
 

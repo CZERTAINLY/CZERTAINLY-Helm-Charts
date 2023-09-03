@@ -33,6 +33,14 @@ jobs:
         volumes:
           - ${{ github.workspace }}/initdb:/docker-entrypoint-initdb.d
 
+      mail:
+        image: mailserver/docker-mailserver:12.1.0
+        ports:
+          - 25:25
+        env:
+          SMTP_ONLY: 1
+          OVERRIDE_HOSTNAME: czertainly.helm
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -87,7 +95,7 @@ jobs:
         run: ct lint --target-branch develop --check-version-increment=false
 
       - name: Create kind cluster
-        uses: helm/kind-action@v1.7.0
+        uses: helm/kind-action@v1.8.0
         if: env.changed == 'true'
 
       - name: Create testing namespace

@@ -69,7 +69,9 @@ Global values are used to define common parameters for the chart and all its sub
 
 | Parameter                                 | Default value | Description                                                        |
 |-------------------------------------------|---------------|--------------------------------------------------------------------|
+| global.config.enabled                     | `false`       | Enables global configuration                                       |
 | global.image.registry                     | `""`          | Global docker registry name                                        |
+| global.image.repository                   | `""`          | Global docker image repository name                                |
 | global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                        |
 | global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                            |
 | global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                 |
@@ -79,6 +81,15 @@ Global values are used to define common parameters for the chart and all its sub
 | global.keycloak.enabled                   | `false`       | Enables internal Keycloak for authentication                       |
 | global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used internally                  |
 | global.utils.enabled                      | `false`       | Enables external access to Utils Service                           |
+| global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                          |
+| global.initContainers                     | `[]`          | Global init containers                                             |
+| global.sidecarContainers                  | `[]`          | Global sidecar containers                                          |
+| global.additionalVolumes                  | `[]`          | Global additional volumes                                          |
+| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                    |
+| global.additionalPorts                    | `[]`          | Global additional ports                                            |
+| global.additionalEnv.variables            | `[]`          | Global additional environment variables                            |
+| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                              |
+| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                          |
 
 ### Local parameters
 
@@ -87,7 +98,8 @@ The following values may be configured:
 | Parameter                                    | Default value                                         | Description                                                                                |
 |----------------------------------------------|-------------------------------------------------------|--------------------------------------------------------------------------------------------|
 | image.registry                               | `docker.io`                                           | Docker registry name for the image                                                         |
-| image.repository                             | `revomatico/docker-kong-oidc`                         | Docker image repository name                                                               |
+| image.repository                             | `revomatico`                                          | Docker image repository name                                                               |
+| image.name                                   | `docker-kong-oidc`                                    | Docker image name                                                                          |
 | image.tag                                    | `3.0.0-6`                                             | Docker image tag                                                                           |
 | image.digest                                 | `""`                                                  | Docker image digest, will override tag if specified                                        |
 | image.pullPolicy                             | `IfNotPresent`                                        | Image pull policy                                                                          |
@@ -128,6 +140,36 @@ The following values may be configured:
 | cors.exposedHeaders                          | `[X-Auth-Token]`                                      | List of values for the Access-Control-Expose-Headers header                                |
 | trustedIps                                   | `""`                                                  | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
 | hostAliases.resolveInternalKeycloak          | `false`                                               | Resolves internal Keycloak services as hostname for the OIDC client                        |
+
+#### Customization parameters
+
+| Parameter                | Default value | Description                        |
+|--------------------------|---------------|------------------------------------|
+| initContainers           | `[]`          | Init containers                    |
+| sidecarContainers        | `[]`          | Sidecar containers                 |
+| additionalVolumes        | `[]`          | Additional volumes                 |
+| additionalVolumeMounts   | `[]`          | Additional volume mounts           |
+| additionalPorts          | `[]`          | Additional ports                   |
+| additionalEnv.variables  | `[]`          | Additional environment variables   |
+| additionalEnv.secrets    | `[]`          | Additional environment secrets     |
+| additionalEnv.configMaps | `[]`          | Additional environment config maps |
+
+### Parameters for associated containers
+
+**kubectl**
+
+| Parameter                                            | Default value     | Description                                         |
+|------------------------------------------------------|-------------------|-----------------------------------------------------|
+| kubectl.image.registry                               | `docker.io`       | Docker registry name for the image                  |
+| kubectl.image.repository                             | `bitnami`         | Docker image repository name                        |
+| kubectl.image.name                                   | `kubectl`         | Docker image name                                   |
+| kubectl.image.tag                                    | `1.27.3`          | Docker image tag                                    |
+| kubectl.image.digest                                 | `""`              | Docker image digest, will override tag if specified |
+| kubectl.image.pullPolicy                             | `IfNotPresent`    | Image pull policy                                   |
+| kubectl.image.pullSecrets                            | `[]`              | Array of secret names for image pull                |
+| kubectl.image.securityContext.runAsNonRoot           | `true`            | Run the container as non-root user                  |
+| kubectl.image.securityContext.runAsUser              | `1001`            | User ID for the container                           |
+| kubectl.image.securityContext.readOnlyRootFilesystem | `true`            | Run the container with read-only root filesystem    |
 
 #### Probes parameters
 

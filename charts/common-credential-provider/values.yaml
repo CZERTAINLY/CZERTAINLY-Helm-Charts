@@ -8,6 +8,7 @@ fullnameOverride: ""
 global:
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   volumes:
@@ -16,6 +17,43 @@ global:
       sizeLimit: ""
       storageClassName: ""
       custom: {}
+  # additional init containers that will be added to each pod
+  # - name: some-image
+  #   image: some-image
+  #   imagePullPolicy: IfNotPresent
+  #   securityContext:
+  #     runAsNonRoot: true
+  #   ports:
+  #     - name: port
+  #       containerPort: "{{ $.Values.container.port }}"
+  initContainers: []
+  # additional sidecar containers that will be added to each pod
+  # see the sample of init containers above
+  sidecarContainers: []
+  # additional volumes that will be added to each pod
+  # - name: additional-volume
+  #   configMap:
+  #     name: additional-volume
+  additionalVolumes: []
+  # additional volume mounts that will be added to each pod
+  # - name: additional-volume
+  #   mountPath: /opt/app
+  #   readOnly: true
+  additionalVolumeMounts: []
+  # additional service ports that will be added to each pod
+  # - name: other-port
+  #   port: 8080
+  #   targetPort: 8080
+  additionalPorts: []
+  # additional environment variables that will be added to each pod
+  additionalEnv:
+    # - name: SOME_ENV
+    #   value: "some-value"
+    variables: []
+    # list of config maps to be added as environment variables
+    configMaps: []
+    # list of secrets to be added as environment variables
+    secrets: []
 
 autoscaling:
   enabled: false
@@ -32,7 +70,8 @@ service:
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany/czertainly-common-credential-provider
+  repository: 3keycompany
+  name: czertainly-common-credential-provider
   tag: 1.3.1
   # the digest to be used instead of the tag
   digest: ""
@@ -83,6 +122,17 @@ image:
     #   cpu: 100m
     #   memory: 270M
     # limits: {}
+
+# customization of the chart
+initContainers: []
+sidecarContainers: []
+additionalVolumes: []
+additionalVolumeMounts: []
+additionalPorts: []
+additionalEnv:
+  variables: []
+  configMaps: []
+  secrets: []
 
 volumes:
   ephemeral:

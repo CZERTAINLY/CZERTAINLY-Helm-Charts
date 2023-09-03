@@ -38,6 +38,19 @@ The following templates are available:
 | `czertainly-lib.trusted.certificates.secret.local.tpl` | Template for the secret containing local additional trusted CA certificates applied for all sub-charts                                                    |
 | `czertainly-lib.trusted.certificates.secret.global`    | Static template for the secret containing trusted certificates                                                                                            |
 
+### API Gateway
+
+| Identifier                             | Description                                                         |
+|----------------------------------------|---------------------------------------------------------------------|
+| `czertainly-lib.api-gateway.kong.yaml` | Return the kong api gateway configuration for the given environment |
+
+### Messaging Service
+
+| Identifier                           | Description                                        |
+|--------------------------------------|----------------------------------------------------|
+| `czertainly-lib.messaging.secrets`   | Return the secrets for the messaging service       |
+| `czertainly-lib.messaging.configmap` | Return the configuration for the messaging service |
+
 ## Functions
 
 The following functions are defined:
@@ -62,3 +75,25 @@ The following functions are defined:
 | Identifier                         | Description                                            |
 |------------------------------------|--------------------------------------------------------|
 | `czertainly-lib.volumes.ephemeral` | Prepares the ephemeral volume for the read-only images |
+
+### Secrets
+
+| Identifier                                        | Description                                                                  |
+|---------------------------------------------------|------------------------------------------------------------------------------|
+| `czertainly-lib.secrets.generate_static_password` | Return static password as a string that can be shared across multiple charts |
+
+### Persistence
+
+| Identifier                                 | Description                                           |
+|--------------------------------------------|-------------------------------------------------------|
+| `czertainly-lib.persistence.spec.template` | Prepares the persistent volume claim dynamic template |
+
+### Customizations
+
+The following helper templates are used to render customizations (YAML templates for containers, volumes, etc.):
+
+| Identifier                                          | Description                                           |
+|-----------------------------------------------------|-------------------------------------------------------|
+| `czertainly-lib.customizations.render.yaml`         | Render template based on the YAML manifests           |
+| `czertainly-lib.customizations.render.configMapEnv` | Render `configMapRef` based on the list of configMaps |
+| `czertainly-lib.customizations.render.secretEnv`    | Render `secretRef` based on the list of secrets       |

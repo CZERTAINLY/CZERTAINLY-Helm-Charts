@@ -1,0 +1,105 @@
+{{/*
+Return the secrets for the messaging service.
+The output should be used as part of the Secret manifest as stringData.
+
+Parameters:
+- global: global values
+- messagingService: messaging service values
+- release: release object
+
+Example:
+{{ include "czertainly-lib.messaging.secrets" ( dict "global" .Values.global "messagingService" .Values "release" .Release ) }}
+*/}}
+{{- define "czertainly-lib.messaging.secrets" -}}
+{{- $secretObj := (lookup "v1" "Secret" .release.Namespace "messaging-secret") | default dict }}
+{{- if .global.config.enabled }}
+  {{- $secretObj = (lookup "v1" "Secret" .release.Namespace "global-secret") | default dict }}
+{{- end }}
+{{- $secretData := (get $secretObj "data") | default dict }}
+{{- $username := .messagingService.secret.username }}
+{{- $pass := (include "czertainly-lib.messaging.secrets.password" (dict "global" .global "release" .release)) | fromYaml }}
+{{- $password := (get $pass "messaging.password") }}
+{{- $cookie := (get $secretData "messaging.cookie" | b64dec) | default (randAlphaNum 32) }}
+messaging.username: "{{ $username }}"
+messaging.password: "{{ $password }}"
+messaging.cookie: "{{ $cookie }}"
+messaging.definitions.json: |
+  {
+    "users": [
+      {
+        "name": "{{ $username }}",
+        "password": "{{ $password }}",
+        "tags": [
+          "administrator"
+        ],
+        "limits": {}
+      }
+    ],
+    "vhosts": [
+      {
+        "name": "czertainly"
+      }
+    ],
+    "permissions": [
+      {
+        "user": "{{ $username }}",
+        "vhost": "czertainly",
+        "configure": ".*",
+        "write": ".*",
+        "read": ".*"
+      }
+    ]
+  }
+{{- end }}
+
+{{/*
+Return the the configuration of the messaging service.
+
+Parameters:
+- global: global values
+- messagingService: messaging service values
+
+Example:
+{{ include "czertainly-lib.messaging.configmap" ( dict "global" .Values.global "messagingService" .Values ) }}
+*/}}
+{{- define "czertainly-lib.messaging.configmap" -}}
+messaging.host: "messaging-service"
+messaging.http.port: "{{ .messagingService.service.client.http.port }}"
+messaging.amqp.port: "{{ .messagingService.service.client.amqp.port }}"
+messaging.enabled_plugins: |
+  [rabbitmq_peer_discovery_k8s, rabbitmq_management].
+messaging.rabbitmq.conf: |
+  cluster_formation.peer_discovery_backend = rabbit_peer_discovery_k8s
+  cluster_formation.k8s.host = kubernetes.default
+  queue_master_locator=min-masters
+
+  ## Logging to console
+  log.console = true
+  log.console.level = {{ .messagingService.logging.level }}
+  log.file = false
+
+  ## Management plugin
+  {{- if .global.messaging.remoteAccess }}
+  loopback_users = none
+  {{- end }}
+{{- end }}
+
+{{/*
+Return the password for the messaging service.
+
+Parameters:
+- global: global values
+- release: release object
+
+Example:
+{{ include "czertainly-lib.messaging.secrets.password" ( dict "global" .Values.global "release" .Release ) }}
+*/}}
+{{- define "czertainly-lib.messaging.secrets.password" -}}
+{{- $secretObj := (lookup "v1" "Secret" .release.Namespace "messaging-secret") | default dict }}
+{{- if .global.config.enabled }}
+  {{- $secretObj = (lookup "v1" "Secret" .release.Namespace "global-secret") | default dict }}
+{{- end }}
+{{- $secretData := (get $secretObj "data") | default dict }}
+{{- $password := (get $secretData "messaging.password" | b64dec ) | default (include "czertainly-lib.secrets.generate_static_password" (list .release "messaging.password")) }}
+messaging.password: "{{ $password }}"
+{{- end }}

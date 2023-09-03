@@ -6,6 +6,7 @@
 global:
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   volumes:
@@ -30,6 +31,43 @@ global:
     name: ""
     surname: ""
     email: ""
+  # additional init containers that will be added to each pod
+  # - name: some-image
+  #   image: some-image
+  #   imagePullPolicy: IfNotPresent
+  #   securityContext:
+  #     runAsNonRoot: true
+  #   ports:
+  #     - name: port
+  #       containerPort: "{{ $.Values.container.port }}"
+  initContainers: []
+  # additional sidecar containers that will be added to each pod
+  # see the sample of init containers above
+  sidecarContainers: []
+  # additional volumes that will be added to each pod
+  # - name: additional-volume
+  #   configMap:
+  #     name: additional-volume
+  additionalVolumes: []
+  # additional volume mounts that will be added to each pod
+  # - name: additional-volume
+  #   mountPath: /opt/app
+  #   readOnly: true
+  additionalVolumeMounts: []
+  # additional service ports that will be added to each pod
+  # - name: other-port
+  #   port: 8080
+  #   targetPort: 8080
+  additionalPorts: []
+  # additional environment variables that will be added to each pod
+  additionalEnv:
+    # - name: SOME_ENV
+    #   value: "some-value"
+    variables: []
+    # list of config maps to be added as environment variables
+    configMaps: []
+    # list of secrets to be added as environment variables
+    secrets: []
 
 database:
   # currently only postgresql is supported
@@ -61,7 +99,8 @@ service:
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany/czertainly-keycloak-optimized
+  repository: 3keycompany
+  name: czertainly-keycloak-optimized
   tag: 1.0.0
   # the digest to be used instead of the tag
   digest: ""
@@ -117,7 +156,8 @@ theme:
   image:
     # default registry name
     registry: docker.io
-    repository: 3keycompany/czertainly-keycloak-theme
+    repository: 3keycompany
+    name: czertainly-keycloak-theme
     tag: 0.1.1
     # the digest to be used instead of the tag
     digest: ""
@@ -129,6 +169,17 @@ theme:
       runAsNonRoot: true
       runAsUser: 10001
       readOnlyRootFilesystem: true
+
+# customization of the chart
+initContainers: []
+sidecarContainers: []
+additionalVolumes: []
+additionalVolumeMounts: []
+additionalPorts: []
+additionalEnv:
+  variables: []
+  configMaps: []
+  secrets: []
 
 volumes:
   ephemeral:

@@ -68,20 +68,29 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                   | Default value | Description                                                           |
-|-----------------------------|---------------|-----------------------------------------------------------------------|
-| global.image.registry       | `""`          | Global docker registry name                                           |
-| global.image.pullSecrets    | `[]`          | Global array of secret names for image pull                           |
-| global.database.type        | `""`          | Type of the database, currently only `postgresql` is supported        |
-| global.database.host        | `""`          | Host where is the database located                                    |
-| global.database.port        | `""`          | Port on which is the database listening                               |
-| global.database.name        | `""`          | Database name                                                         |
-| global.database.username    | `""`          | Username to access the database                                       |
-| global.database.password    | `""`          | Password to access the database                                       |
-| global.trusted.certificates | `""`          | List of additional CA certificates that should be trusted             |
-| global.httpProxy            | `""`          | Proxy to be used to access external resources through http            |
-| global.httpsProxy           | `""`          | Proxy to be used to access external resources through https           |
-| global.noProxy              | `""`          | Defines list of external resources that should not use proxy settings |
+| Parameter                       | Default value | Description                                                           |
+|---------------------------------|---------------|-----------------------------------------------------------------------|
+| global.image.registry           | `""`          | Global docker registry name                                           |
+| global.image.repository         | `""`          | Global docker image repository name                                   |
+| global.image.pullSecrets        | `[]`          | Global array of secret names for image pull                           |
+| global.database.type            | `""`          | Type of the database, currently only `postgresql` is supported        |
+| global.database.host            | `""`          | Host where is the database located                                    |
+| global.database.port            | `""`          | Port on which is the database listening                               |
+| global.database.name            | `""`          | Database name                                                         |
+| global.database.username        | `""`          | Username to access the database                                       |
+| global.database.password        | `""`          | Password to access the database                                       |
+| global.trusted.certificates     | `""`          | List of additional CA certificates that should be trusted             |
+| global.httpProxy                | `""`          | Proxy to be used to access external resources through http            |
+| global.httpsProxy               | `""`          | Proxy to be used to access external resources through https           |
+| global.noProxy                  | `""`          | Defines list of external resources that should not use proxy settings |
+| global.initContainers           | `[]`          | Global init containers                                                |
+| global.sidecarContainers        | `[]`          | Global sidecar containers                                             |
+| global.additionalVolumes        | `[]`          | Global additional volumes                                             |
+| global.additionalVolumeMounts   | `[]`          | Global additional volume mounts                                       |
+| global.additionalPorts          | `[]`          | Global additional ports                                               |
+| global.additionalEnv.variables  | `[]`          | Global additional environment variables                               |
+| global.additionalEnv.secrets    | `[]`          | Global additional environment secrets                                 |
+| global.additionalEnv.configMaps | `[]`          | Global additional environment config maps                             |
 
 ### Local parameters
 
@@ -90,8 +99,9 @@ The following values may be configured:
 | Parameter                                    | Default value                 | Description                                                           |
 |----------------------------------------------|-------------------------------|-----------------------------------------------------------------------|
 | image.registry                               | `docker.io`                   | Docker registry name for the image                                    |
-| image.repository                             | `3keycompany/czertainly-auth` | Docker image repository name                                          |
-| image.tag                                    | `1.2.0`                       | Docker image tag                                                      |
+| image.repository                             | `3keycompany/`                | Docker image repository name                                          |
+| image.name                                   | `czertainly-auth`             | Docker image name                                                     |
+| image.tag                                    | `1.3.0`                       | Docker image tag                                                      |
 | image.digest                                 | `""`                          | Docker image digest, will override tag if specified                   |
 | image.pullPolicy                             | `IfNotPresent`                | Image pull policy                                                     |
 | image.pullSecrets                            | `[]`                          | Array of secret names for image pull                                  |
@@ -115,6 +125,19 @@ The following values may be configured:
 | service.port                                 | `8080`                        | Port number of the exposed service                                    |
 | createUnknownUsers                           | `false`                       | Whether user should be automatically created when not exists          |
 | createUnknownRoles                           | `false`                       | Whether roles should be automatically create when not exist           |
+
+#### Customization parameters
+
+| Parameter                | Default value | Description                        |
+|--------------------------|---------------|------------------------------------|
+| initContainers           | `[]`          | Init containers                    |
+| sidecarContainers        | `[]`          | Sidecar containers                 |
+| additionalVolumes        | `[]`          | Additional volumes                 |
+| additionalVolumeMounts   | `[]`          | Additional volume mounts           |
+| additionalPorts          | `[]`          | Additional ports                   |
+| additionalEnv.variables  | `[]`          | Additional environment variables   |
+| additionalEnv.secrets    | `[]`          | Additional environment secrets     |
+| additionalEnv.configMaps | `[]`          | Additional environment config maps |
 
 #### Probes parameters
 

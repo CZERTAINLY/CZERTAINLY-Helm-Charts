@@ -1,3 +1,4 @@
+{{- $additionalPorts := (include "api-gateway-kong.customization.ports" $) }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -19,5 +20,8 @@ spec:
       {{- if (and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) (not (empty .Values.service.consumer.nodePort))) }}
       nodePort: {{ .Values.service.consumer.nodePort }}
       {{- end }}
+    {{- if $additionalPorts }}
+      {{- $additionalPorts | nindent 4 }}
+    {{- end }}
   selector:
     {{- include "api-gateway-kong.selectorLabels" . | nindent 4 }}

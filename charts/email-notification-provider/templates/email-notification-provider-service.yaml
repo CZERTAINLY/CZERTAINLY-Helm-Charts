@@ -1,0 +1,17 @@
+{{- $additionalPorts := (include "email-notification-provider.customization.ports" $) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: email-notification-provider-service
+  labels:
+    {{- include "email-notification-provider.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: "TCP"
+    {{- if $additionalPorts }}
+      {{- $additionalPorts | nindent 4 }}
+    {{- end }}
+  selector:
+    {{- include "email-notification-provider.selectorLabels" . | nindent 4 }}

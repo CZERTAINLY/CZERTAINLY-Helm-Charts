@@ -3,8 +3,11 @@
 # Declare variables to be passed into your templates.
 
 global:
+  config:
+    enabled: false
   image:
     registry: ""
+    repository: ""
     # array of secret names
     pullSecrets: []
   volumes:
@@ -21,13 +24,53 @@ global:
     clientSecret: ""
   utils:
     enabled: false
+  messaging:
+    remoteAccess: false
+  # additional init containers that will be added to each pod
+  # - name: some-image
+  #   image: some-image
+  #   imagePullPolicy: IfNotPresent
+  #   securityContext:
+  #     runAsNonRoot: true
+  #   ports:
+  #     - name: port
+  #       containerPort: "{{ $.Values.container.port }}"
+  initContainers: []
+  # additional sidecar containers that will be added to each pod
+  # see the sample of init containers above
+  sidecarContainers: []
+  # additional volumes that will be added to each pod
+  # - name: additional-volume
+  #   configMap:
+  #     name: additional-volume
+  additionalVolumes: []
+  # additional volume mounts that will be added to each pod
+  # - name: additional-volume
+  #   mountPath: /opt/app
+  #   readOnly: true
+  additionalVolumeMounts: []
+  # additional service ports that will be added to each pod
+  # - name: other-port
+  #   port: 8080
+  #   targetPort: 8080
+  additionalPorts: []
+  # additional environment variables that will be added to each pod
+  additionalEnv:
+    # - name: SOME_ENV
+    #   value: "some-value"
+    variables: []
+    # list of config maps to be added as environment variables
+    configMaps: []
+    # list of secrets to be added as environment variables
+    secrets: []
 
 replicaCount: 1
 
 image:
   # default registry name
   registry: docker.io
-  repository: revomatico/docker-kong-oidc
+  repository: revomatico
+  name: docker-kong-oidc
   tag: 3.0.0-6
   # the digest to be used instead of the tag
   digest: ""
@@ -79,6 +122,36 @@ image:
     #   memory: 1100M
     # limits: {}
 
+kubectl:
+  image:
+    # default registry name
+    registry: docker.io
+    repository: bitnami
+    name: kubectl
+    tag: 1.27.3
+    # the digest to be used instead of the tag
+    digest: ""
+    pullPolicy: IfNotPresent
+    # array of secret names
+    pullSecrets: []
+    # default security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      readOnlyRootFilesystem: true
+    # it does not make sense to have probes for kubectl
+
+# customization of the chart
+initContainers: []
+sidecarContainers: []
+additionalVolumes: []
+additionalVolumeMounts: []
+additionalPorts: []
+additionalEnv:
+  variables: []
+  configMaps: []
+  secrets: []
+
 volumes:
   ephemeral:
     # available types are: memory, storage, custom
@@ -92,6 +165,15 @@ volumes:
 
 nameOverride: ""
 fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "api-gateway-sa"
 
 podAnnotations: {}
 
