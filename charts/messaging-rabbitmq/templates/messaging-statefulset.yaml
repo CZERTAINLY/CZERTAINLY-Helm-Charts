@@ -254,7 +254,7 @@ spec:
     - metadata:
         name: data
         labels:
-          {{- include "messaging-rabbitmq.labels" . | nindent 10 }}
+          {{- include "messaging-rabbitmq.selectorLabels" . | nindent 10 }}
         {{- if .Values.persistence.annotations }}
         annotations: {{- .Values.persistence.annotations | toYaml | nindent 10 }}
         {{- end }}
