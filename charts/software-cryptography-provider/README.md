@@ -86,14 +86,14 @@ Global values are used to define common parameters for the chart and all its sub
 | global.httpProxy                          | `""`          | Proxy to be used to access external resources through http            |
 | global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https           |
 | global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings |
-| global.initContainers                     | `[]`          | Global init containers                                             |
-| global.sidecarContainers                  | `[]`          | Global sidecar containers                                          |
-| global.additionalVolumes                  | `[]`          | Global additional volumes                                          |
-| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                    |
-| global.additionalPorts                    | `[]`          | Global additional ports                                            |
-| global.additionalEnv.variables            | `[]`          | Global additional environment variables                            |
-| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                              |
-| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                          |
+| global.initContainers                     | `[]`          | Global init containers                                                |
+| global.sidecarContainers                  | `[]`          | Global sidecar containers                                             |
+| global.additionalVolumes                  | `[]`          | Global additional volumes                                             |
+| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                       |
+| global.additionalPorts                    | `[]`          | Global additional ports                                               |
+| global.additionalEnv.variables            | `[]`          | Global additional environment variables                               |
+| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                                 |
+| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                             |
 
 ### Local parameters
 
@@ -104,7 +104,7 @@ The following values may be configured:
 | image.registry                               | `docker.io`                                 | Docker registry name for the image                                    |
 | image.repository                             | `3keycompany`                               | Docker image repository name                                          |
 | image.name                                   | `czertainly-software-cryptography-provider` | Docker image name                                                     |
-| image.tag                                    | `1.2.0`                                     | Docker image tag                                                      |
+| image.tag                                    | `1.2.1`                                     | Docker image tag                                                      |
 | image.digest                                 | `""`                                        | Docker image digest, will override tag if specified                   |
 | image.pullPolicy                             | `IfNotPresent`                              | Image pull policy                                                     |
 | image.pullSecrets                            | `[]`                                        | Array of secret names for image pull                                  |

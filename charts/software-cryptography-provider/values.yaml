@@ -95,7 +95,7 @@ image:
   registry: docker.io
   repository: 3keycompany
   name: czertainly-software-cryptography-provider
-  tag: 1.2.0
+  tag: 1.2.1
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent

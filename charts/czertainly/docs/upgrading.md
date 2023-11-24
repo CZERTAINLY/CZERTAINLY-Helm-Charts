@@ -1,12 +1,12 @@
 # Upgrading
 
-:::caution Before upgrading
+:::warning[Before upgrading]
 Before upgrading, make sure you have backed up your configuration, trusted certificates and data to be able to restore the platform in case of any issues.
 
 Never downgrade the platform version, as it may cause data loss or other issues. Be sure that you are upgrading to higher version of the Helm chart.
 :::
 
-:::info Upgrade vs Install
+:::info[Upgrade vs Install]
 Platform can be installed from scratch anytime when you have a backup of your database and configuration. New installation through the Helm chart will deploy new environment connecting to the same database. You can install multiple instances of the platform in different clusters and infrastructures with the same database.
 :::
 
@@ -22,7 +22,7 @@ This version introduced requirement for the persistent volume provisioner suppor
 
 The list of components that need persistence can be found in the [Overview - Persistence](./overview.md#persistence) section.
 
-:::caution Persistent volume claim
+:::warning[Persistent volume claim]
 The provisioner of the persistent volume must be properly configured to upgrade the platform, in case the dynamic storage should be created. In case the dynamic provisioning is not enabled, the persistent volume claim must be created manually before upgrading the platform. Form more information see [Dynamic Volume Provisioning](https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/).
 :::
 
