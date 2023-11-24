@@ -4,13 +4,13 @@ dependencies:
   version: 1.0.0-3
 - name: common-credential-provider
   repository: file://../common-credential-provider
-  version: 1.3.1-2
+  version: 1.3.2-develop
 - name: ejbca-ng-connector
   repository: file://../ejbca-ng-connector
-  version: 1.6.0
+  version: 1.7.0-develop
 - name: ms-adcs-connector
   repository: file://../ms-adcs-connector
-  version: 1.5.0
+  version: 1.6.0-develop
 - name: x509-compliance-provider
   repository: file://../x509-compliance-provider
   version: 1.3.0-1
@@ -22,10 +22,10 @@ dependencies:
   version: 1.4.0
 - name: keystore-entity-provider
   repository: file://../keystore-entity-provider
-  version: 1.4.0-1
+  version: 1.4.1-develop
 - name: software-cryptography-provider
   repository: file://../software-cryptography-provider
-  version: 1.2.0-1
+  version: 1.2.1-develop
 - name: email-notification-provider
   repository: file://../email-notification-provider
   version: 1.0.0
@@ -40,7 +40,7 @@ dependencies:
   version: 3.0.0-6-6
 - name: fe-administrator
   repository: file://../fe-administrator
-  version: 2.9.0
+  version: 2.10.0-develop
 - name: auth-service
   repository: file://../auth-service
   version: 1.3.0
@@ -53,5 +53,5 @@ dependencies:
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.0
-digest: sha256:3e42fe1619da0c901432f89938e0e3e49f25c81134495ce724650f4dbf71b5c6
-generated: "2023-09-03T18:22:04.509635+02:00"
+digest: sha256:a337877b186320942279efb3ba5dde7f803a7bf03d5649c210d3ac833a15b7c2
+generated: "2023-11-24T08:29:56.537955+01:00"

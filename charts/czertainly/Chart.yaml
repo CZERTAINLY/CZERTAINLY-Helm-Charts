@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 2.9.0
+appVersion: 2.10.0
 name: czertainly
 description: A Helm chart for CZERTAINLY platform.
 home: https://github.com/3KeyCompany/CZERTAINLY
@@ -21,7 +21,7 @@ dependencies:
     repository: file://../common-credential-provider
     tags:
       - credential-provider
-    version: 1.3.1-2
+    version: 1.3.2-develop
     alias: commonCredentialProvider
   - condition: ejbcaNgConnector.enabled
     name: ejbca-ng-connector
@@ -30,7 +30,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.6.0
+    version: 1.7.0-develop
     alias: ejbcaNgConnector
   - condition: msAdcsConnector.enabled
     name: ms-adcs-connector
@@ -39,7 +39,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.5.0
+    version: 1.6.0-develop
     alias: msAdcsConnector
   - condition: x509ComplianceProvider.enabled
     name: x509-compliance-provider
@@ -71,7 +71,7 @@ dependencies:
     repository: file://../keystore-entity-provider
     tags:
       - entity-provider
-    version: 1.4.0-1
+    version: 1.4.1-develop
     alias: keystoreEntityProvider
   - condition: softwareCryptographyProvider.enabled
     name: software-cryptography-provider
@@ -79,7 +79,7 @@ dependencies:
     repository: file://../software-cryptography-provider
     tags:
       - cryptography-provider
-    version: 1.2.0-1
+    version: 1.2.1-develop
     alias: softwareCryptographyProvider
   - condition: emailNotificationProvider.enabled
     name: email-notification-provider
@@ -114,7 +114,7 @@ dependencies:
     repository: file://../fe-administrator
     tags:
       - fe
-    version: 2.9.0
+    version: 2.10.0-develop
     alias: feAdministrator
   - name: auth-service
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -161,4 +161,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.9.0
+version: 2.10.0-develop
