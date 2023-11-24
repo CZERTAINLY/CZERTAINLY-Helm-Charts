@@ -78,7 +78,7 @@ You can use the `helm uninstall` command to uninstall the CZERTAINLY:
 helm uninstall --namespace czertainly czertainly-tlm
 ```
 
-:::info Helm chart
+:::info[Helm chart]
 See [CZERTAINLY-Helm-Charts](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts) for description of all charts and sub-charts that are available for the platform.
 :::
 
