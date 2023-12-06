@@ -125,20 +125,20 @@ image:
       enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 60
+      initialDelaySeconds: 15
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
       failureThreshold: 3
     startup:
-      enabled: false
+      enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 60
+      initialDelaySeconds: 15
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
-      failureThreshold: 10
+      failureThreshold: 45
   resources: {}
     # We follow recommendations and general guidelines to manage resources from:
     # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
