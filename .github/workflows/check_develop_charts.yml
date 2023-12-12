@@ -1,14 +1,13 @@
 name: Check Charts for develop
 on:
   pull_request_target:
-    types: [assigned, opened, synchronize, reopened, edited]
   workflow_dispatch:
 
 jobs:
   check:
     # we want to trigger this workflow only if:
     # - the PR does not contain the skip-workflow label
-    
+
     name: Check
     runs-on: ubuntu-latest
 
