@@ -1,7 +1,9 @@
 name: Check Charts for develop
 on:
-  pull_request_target:
+  workflow_run:
     branches: [develop]
+    workflows: ["Prepare for workflow"]
+    types: [completed]
   workflow_dispatch:
 
 jobs:

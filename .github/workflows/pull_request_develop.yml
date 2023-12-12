@@ -1,0 +1,26 @@
+name: Prepare for workflow
+on:
+  pull_request:
+    branches: [develop]
+    types: [labeled]
+  workflow_dispatch:
+
+jobs:
+  prepare-for-workflow:
+    # we want to trigger this workflow only if:
+    # - there is a label workflow-approved
+    # - it does not contain the skip-workflow label
+    if: >-
+      ${{
+        ( !contains(github.event.pull_request.labels.*.name, 'skip-workflow') ) &&
+        ( contains(github.event.pull_request.labels.*.name, 'workflow-approved') )
+      }}
+    name: Prepare for workflow
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Result
+        id: result
+        run: |
+          echo "PR complies with the requirements to be processed by the workflow"
