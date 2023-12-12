@@ -17,3 +17,10 @@ jobs:
       }}
     name: Prepare for workflow
     runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Result
+        id: result
+        run: |
+          echo "PR complies with the requirements to be processed by the workflow"
