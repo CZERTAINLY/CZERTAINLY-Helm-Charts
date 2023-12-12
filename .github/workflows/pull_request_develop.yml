@@ -1,6 +1,6 @@
 name: Prepare for workflow
 on:
-  pull_request:
+  pull_request_target:
     branches: [develop]
     types: [labeled]
   workflow_dispatch:
@@ -24,3 +24,8 @@ jobs:
         id: result
         run: |
           echo "PR complies with the requirements to be processed by the workflow"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{github.event.pull_request.head.ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
