@@ -105,6 +105,13 @@ jobs:
             cosign sign --yes --key env://COSIGN_PRIVATE_KEY $HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY/$name@$digest
           
             echo "Chart $name-$version pushed"
+            
+            echo "Remove develop tag 0.0.0 if exists"
+            curl --user $HELM_USERNAME:$HELM_PASSWORD --request DELETE \
+              https://$HELM_OCI_REGISTRY/api/v2.0/projects/$HELM_OCI_REPOSITORY/repositories/$name/artifacts/sha256:$digest/tags/0.0.0
+            echo "Create develop tag 0.0.0"
+            curl --user $HELM_USERNAME:$HELM_PASSWORD --request POST --header "Content-Type: application/json" --data '{"name":"0.0.0"}' \
+              https://$HELM_OCI_REGISTRY/api/v2.0/projects/$HELM_OCI_REPOSITORY/repositories/$name/artifacts/sha256:$digest/tags
           }
           
           # we need to release the charts in the correct order because of dependencies
