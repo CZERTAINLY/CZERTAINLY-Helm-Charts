@@ -159,7 +159,7 @@ The following values may be configured:
 
 | Parameter                       | Default value | Description                                                                                                 |
 |---------------------------------|---------------|-------------------------------------------------------------------------------------------------------------|
-| keycloak.dbSchema               | `"keyclaok"`  | The database schema to be used                                                                              |
+| keycloak.dbSchema               | `"keycloak"`  | The database schema to be used                                                                              |
 | keycloak.admin.username         | `"admin"`     | Initial Keycloak master realm administrator username                                                        |
 | keycloak.admin.password         | `"admin"`     | Initial Keycloak master realm administrator password                                                        |
 | keycloak.args                   | `[]`          | Arguments passed to the entrypoint in the Keycloak container (`kc.sh`, for example `[start, --optimized]` ) |
@@ -204,13 +204,13 @@ For mode details about probes, see the [Kubernetes documentation](https://kubern
 | image.probes.readiness.periodSeconds       | `10`          | Period seconds for readiness probe                                                 |
 | image.probes.readiness.successThreshold    | `1`           | Success threshold for readiness probe                                              |
 | image.probes.readiness.failureThreshold    | `3`           | Failure threshold for readiness probe                                              |
-| image.probes.startup.enabled               | `false`       | Enable/disable startup probe                                                       |
+| image.probes.startup.enabled               | `true`        | Enable/disable startup probe                                                       |
 | image.probes.startup.custom                | `{}`          | Custom startup probe command. When defined, it will override the default command   |
-| image.probes.startup.initialDelaySeconds   | `30`          | Initial delay seconds for startup probe                                            |
+| image.probes.startup.initialDelaySeconds   | `15`          | Initial delay seconds for startup probe                                            |
 | image.probes.startup.timeoutSeconds        | `5`           | Timeout seconds for startup probe                                                  |
 | image.probes.startup.periodSeconds         | `10`          | Period seconds for startup probe                                                   |
 | image.probes.startup.successThreshold      | `1`           | Success threshold for startup probe                                                |
-| image.probes.startup.failureThreshold      | `10`          | Failure threshold for startup probe                                                |
+| image.probes.startup.failureThreshold      | `45`          | Failure threshold for startup probe                                                |
 
 ### Additional parameters
 
