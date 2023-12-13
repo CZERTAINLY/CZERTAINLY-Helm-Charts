@@ -159,7 +159,7 @@ The following values may be configured:
 
 | Parameter                       | Default value | Description                                                                                                 |
 |---------------------------------|---------------|-------------------------------------------------------------------------------------------------------------|
-| keycloak.dbSchema               | `"keyclaok"`  | The database schema to be used                                                                              |
+| keycloak.dbSchema               | `"keycloak"`  | The database schema to be used                                                                              |
 | keycloak.admin.username         | `"admin"`     | Initial Keycloak master realm administrator username                                                        |
 | keycloak.admin.password         | `"admin"`     | Initial Keycloak master realm administrator password                                                        |
 | keycloak.args                   | `[]`          | Arguments passed to the entrypoint in the Keycloak container (`kc.sh`, for example `[start, --optimized]` ) |
