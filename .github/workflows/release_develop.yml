@@ -106,12 +106,19 @@ jobs:
           
             echo "Chart $name-$version pushed"
             
-            echo "Remove develop tag 0.0.0 if exists"
-            curl --user $HELM_USERNAME:$HELM_PASSWORD --request DELETE \
-              https://$HELM_OCI_REGISTRY/api/v2.0/projects/$HELM_OCI_REPOSITORY/repositories/$name/artifacts/sha256:$digest/tags/0.0.0
-            echo "Create develop tag 0.0.0"
+            # SPECIFIC TO HARBOR
+            echo "Check if develop tag 0.0.0 exists and remove it"
+            pulled=$(helm pull oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY/$name --version 0.0.0 2>&1)
+            if [[ $pulled == *"Digest:"* ]]; then
+              removeFrom=$(echo "$pulled" | awk 'FNR == 2 {print $2}')
+              echo "Tag 0.0.0 exists, remove it from $removeFrom"
+              curl --user $HELM_USERNAME:$HELM_PASSWORD --request DELETE \
+                https://$HELM_OCI_REGISTRY/api/v2.0/projects/$HELM_OCI_REPOSITORY/repositories/$name/artifacts/$removeFrom/tags/0.0.0
+            fi
+          
+            echo "Create new develop tag 0.0.0"
             curl --user $HELM_USERNAME:$HELM_PASSWORD --request POST --header "Content-Type: application/json" --data '{"name":"0.0.0"}' \
-              https://$HELM_OCI_REGISTRY/api/v2.0/projects/$HELM_OCI_REPOSITORY/repositories/$name/artifacts/sha256:$digest/tags
+              https://$HELM_OCI_REGISTRY/api/v2.0/projects/$HELM_OCI_REPOSITORY/repositories/$name/artifacts/$digest/tags
           }
           
           # we need to release the charts in the correct order because of dependencies
