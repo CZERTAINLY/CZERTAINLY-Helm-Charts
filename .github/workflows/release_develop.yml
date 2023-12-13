@@ -1,6 +1,6 @@
 name: Release develop Charts
 on:
-  pull_request:
+  pull_request_target:
     branches: [develop]
     types: [closed]
   workflow_dispatch:
@@ -11,7 +11,12 @@ jobs:
     # - the PR is merged
     # - it does not contain the skip-workflow label
     # - the target branch is develop
-    if: ${{ (!contains(github.event.pull_request.labels.*.name, 'skip-workflow')) && (github.event.pull_request.merged) && (github.event.pull_request.base.ref == 'develop') }}
+    if: >-
+      ${{
+        ( !contains(github.event.pull_request.labels.*.name, 'skip-workflow') ) &&
+        ( contains(github.event.pull_request.labels.*.name, 'workflow-approved') )
+        ( github.event.pull_request.merged ) &&
+        ( github.event.pull_request.base.ref == 'develop' ) }}
     name: Check
     runs-on: ubuntu-latest
     steps:
