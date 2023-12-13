@@ -69,12 +69,13 @@ jobs:
             if [[ $pulled == *"Digest:"* ]]; then
               removeFrom=$(echo "$pulled" | awk 'FNR == 2 {print $2}')
               echo "Tag 0.0.0 exists, remove it from $removeFrom"
-              curl --user $HELM_USERNAME:$HELM_PASSWORD --request DELETE \
+              curl --user $HELM_USERNAME:$HELM_PASSWORD --request DELETE --silent --show-error \
                 https://$HELM_OCI_REGISTRY/api/v2.0/projects/$HELM_OCI_REPOSITORY/repositories/$name/artifacts/$removeFrom/tags/0.0.0
             fi
           
             echo "Create new develop tag 0.0.0"
-            curl --user $HELM_USERNAME:$HELM_PASSWORD --request POST --header "Content-Type: application/json" --data '{"name":"0.0.0"}' \
+            curl --user $HELM_USERNAME:$HELM_PASSWORD --request POST --header "Content-Type: application/json" \
+              --silent --show-error --data '{"name":"0.0.0"}' \
               https://$HELM_OCI_REGISTRY/api/v2.0/projects/$HELM_OCI_REPOSITORY/repositories/$name/artifacts/$digest/tags
           }
           
