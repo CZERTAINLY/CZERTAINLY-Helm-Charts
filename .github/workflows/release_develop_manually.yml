@@ -30,7 +30,6 @@ jobs:
           cosign-release: 'v2.0.0'
 
       - name: Push develop charts
-        if: env.changed == 'true'
         env:
           HELM_OCI_REGISTRY: ${{ secrets.HELM_OCI_REGISTRY }}
           HELM_OCI_REPOSITORY: ${{ secrets.HELM_OCI_REPOSITORY }}
