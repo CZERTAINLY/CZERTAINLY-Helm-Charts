@@ -1,4 +1,4 @@
-name: Release develop Charts
+name: Release all develop Charts manually
 on:
   workflow_dispatch:
     branches:
