@@ -1,29 +1,29 @@
 {{- $httpProxy := pluck "httpProxy" .Values.global .Values | compact | first }}
 {{- $httpsProxy := pluck "httpsProxy" .Values.global .Values | compact | first }}
 {{- $noProxy := pluck "noProxy" .Values.global .Values | compact | first }}
-{{- $additionalInitContainers := (include "auth-service.customization.initContainers" $) }}
-{{- $additionalSidecarContainers := (include "auth-service.customization.sidecarContainers" $) }}
-{{- $additionalVolumes := (include "auth-service.customization.volumes" $) }}
-{{- $additionalVolumeMounts := (include "auth-service.customization.volumeMounts" $) }}
-{{- $additionalEnv := (include "auth-service.customization.env" $) }}
-{{- $additionalEnvFrom := (include "auth-service.customization.envFrom" $) }}
+{{- $additionalInitContainers := (include "adcs-net-connector.customization.initContainers" $) }}
+{{- $additionalSidecarContainers := (include "adcs-net-connector.customization.sidecarContainers" $) }}
+{{- $additionalVolumes := (include "adcs-net-connector.customization.volumes" $) }}
+{{- $additionalVolumeMounts := (include "adcs-net-connector.customization.volumeMounts" $) }}
+{{- $additionalEnv := (include "adcs-net-connector.customization.env" $) }}
+{{- $additionalEnvFrom := (include "adcs-net-connector.customization.envFrom" $) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-deployment
+  name: adcs-net-connector-deployment
   labels:
-    {{- include "auth-service.labels" . | nindent 4 }}
+    {{- include "adcs-net-connector.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "auth-service.selectorLabels" . | nindent 6 }}
+      {{- include "adcs-net-connector.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "auth-service.selectorLabels" . | nindent 8 }}
+        {{- include "adcs-net-connector.selectorLabels" . | nindent 8 }}
       annotations:
         # when the list of the trusted certificates is changed, restart deployment
         checksum/config: {{ include (print $.Template.BasePath "/trusted-certificates-secret.yaml") . | sha256sum }}
@@ -36,7 +36,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- include "auth-service.imagePullSecrets" . | indent 6 }}
+      {{- include "adcs-net-connector.imagePullSecrets" . | indent 6 }}
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
@@ -45,18 +45,14 @@ spec:
         {{- $additionalInitContainers | nindent 8 }}
       {{- end }}
       containers:
-        - name: auth
-          image: {{ include "auth-service.image" . }}
+        - name: adcs-net-connector
+          image: {{ include "adcs-net-connector.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: AUTH_CREATE_UNKNOWN_USERS
-              value: {{ .Values.createUnknownUsers | quote }}
-            - name: AUTH_CREATE_UNKNOWN_ROLES
-              value: {{ .Values.createUnknownRoles | quote }}
             - name: AUTH_DB_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
-                  name: auth-secret
+                  name: adcs-net-connector-secret
                   key: connection-string
             - name: ASPNETCORE_URLS
               value: "http://+:{{ .Values.service.port }}"

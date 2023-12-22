@@ -34,7 +34,8 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 **Connectors**
 - [Common Credential Provider](charts/common-credential-provider)
 - [EJBCA NG Connector](charts/ejbca-ng-connector)
-- [MS ADCS Connector](charts/ms-adcs-connector)
+- [ADCS NET Connector](charts/adcs-net-connector)
+- [MS ADCS Connector](charts/ms-adcs-connector) (**deprecated**)
 - [X.509 Compliance Provider](charts/x509-compliance-provider)
 - [Network Discovery Provider](charts/network-discovery-provider)
 - [Cryptosense Discovery Provider](charts/cryptosense-discovery-provider)

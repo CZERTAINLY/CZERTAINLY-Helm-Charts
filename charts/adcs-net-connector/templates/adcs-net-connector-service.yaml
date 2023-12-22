@@ -1,0 +1,17 @@
+{{- $additionalPorts := (include "adcs-net-connector.customization.ports" $) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: adcs-net-connector-service
+  labels:
+    {{- include "adcs-net-connector.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: "TCP"
+    {{- if $additionalPorts }}
+      {{- $additionalPorts | nindent 4 }}
+    {{- end }}
+  selector:
+    {{- include "adcs-net-connector.selectorLabels" . | nindent 4 }}

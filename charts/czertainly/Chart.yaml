@@ -32,6 +32,15 @@ dependencies:
       - discovery-provider
     version: 1.7.0-1-develop
     alias: ejbcaNgConnector
+  - condition: adcsNetConnector.enabled
+    name: adcs-net-connector
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../adcs-net-connector
+    tags:
+      - authority-provider
+      - discovery-provider
+    version: 1.0.0-develop
+    alias: adcsNetConnector
   - condition: msAdcsConnector.enabled
     name: ms-adcs-connector
     # repository: oci://harbor.3key.company/czertainly-helm
