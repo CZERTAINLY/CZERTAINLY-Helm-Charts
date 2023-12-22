@@ -16,7 +16,8 @@ jobs:
         ( !contains(github.event.pull_request.labels.*.name, 'skip-workflow') ) &&
         ( contains(github.event.pull_request.labels.*.name, 'workflow-approved') )
         ( github.event.pull_request.merged ) &&
-        ( github.event.pull_request.base.ref == 'develop' ) }}
+        ( github.event.pull_request.base.ref == 'develop' )
+      }}
     name: Check
     runs-on: ubuntu-latest
     steps:
