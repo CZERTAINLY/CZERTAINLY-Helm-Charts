@@ -31,7 +31,7 @@ spec:
         checksum/config: {{ include ("czertainly-lib.trusted.certificates.secret.global") . | sha256sum }}
         {{- end }}
         # when connection string is changed, restart deployment
-        checksum/secret: {{ include (print $.Template.BasePath "/adcs-net-connector-secret.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/auth-secret.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
