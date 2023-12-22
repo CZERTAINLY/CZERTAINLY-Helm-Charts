@@ -8,6 +8,9 @@ dependencies:
 - name: ejbca-ng-connector
   repository: file://../ejbca-ng-connector
   version: 1.7.0-1-develop
+- name: adcs-net-connector
+  repository: file://../adcs-net-connector
+  version: 1.0.0-develop
 - name: ms-adcs-connector
   repository: file://../ms-adcs-connector
   version: 1.6.0-1-develop
@@ -53,5 +56,5 @@ dependencies:
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.0-1-develop
-digest: sha256:99fd70a4246768172e9a42d6cce521d7f9d45ea8608163b5e995d4cb3d94acd2
-generated: "2023-12-11T09:37:36.125942+01:00"
+digest: sha256:43888f11f9caff441a2935ee555dc5ffe67b83487e794495e81c3e91a12ff7e6
+generated: "2023-12-22T16:56:30.022194+01:00"

@@ -491,6 +491,10 @@ ejbcaNgConnector:
   nameOverride: ejbca-ng-connector
   enabled: false
 
+adcsNetConnector:
+  nameOverride: adcs-net-connector
+  enabled: false
+
 msAdcsConnector:
   nameOverride: ms-adcs-connector
   enabled: false
