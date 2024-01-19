@@ -105,7 +105,7 @@ image:
   # probes configuration
   probes:
     liveness:
-      enabled: true
+      enabled: false
       # custom probe command, will override the default one
       custom: {}
       initialDelaySeconds: 60

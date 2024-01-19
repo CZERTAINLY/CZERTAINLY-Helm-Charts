@@ -151,7 +151,7 @@ For mode details about probes, see the [Kubernetes documentation](https://kubern
 
 | Parameter                                  | Default value | Description                                                                        |
 |--------------------------------------------|---------------|------------------------------------------------------------------------------------|
-| image.probes.liveness.enabled              | `true`        | Enable/disable liveness probe                                                      |
+| image.probes.liveness.enabled              | `false`       | Enable/disable liveness probe                                                      |
 | image.probes.liveness.custom               | `{}`          | Custom liveness probe command. When defined, it will override the default command  |
 | image.probes.liveness.initialDelaySeconds  | `60`          | Initial delay seconds for liveness probe                                           |
 | image.probes.liveness.timeoutSeconds       | `5`           | Timeout seconds for liveness probe                                                 |
