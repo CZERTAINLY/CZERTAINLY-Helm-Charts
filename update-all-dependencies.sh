@@ -49,6 +49,9 @@ helm dependency update charts/ms-adcs-connector --skip-refresh
 echo "Updating dependencies for network-discovery-provider..."
 helm dependency update charts/network-discovery-provider --skip-refresh
 
+echo "Updating dependencies for pyadcs-connector..."
+helm dependency update charts/pyadcs-connector --skip-refresh
+
 echo "Updating dependencies for scheduler-service..."
 helm dependency update charts/scheduler-service --skip-refresh
 
