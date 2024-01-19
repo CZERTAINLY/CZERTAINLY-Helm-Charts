@@ -5,8 +5,6 @@ echo "Updating czertainly-lib dependencies..."
 helm dependency update charts/czertainly-lib --skip-refresh
 
 # next, we should update dependencies for all sub-charts
-echo "Updating dependencies for adcs-net-connector..."
-helm dependency update charts/adcs-net-connector --skip-refresh
 
 # helm dependency update charts/api-gateway-haproxy # this is deprecated
 
