@@ -1,0 +1,17 @@
+{{- $additionalPorts := (include "pyadcs-connector.customization.ports" $) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: pyadcs-connector-service
+  labels:
+    {{- include "pyadcs-connector.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: "TCP"
+    {{- if $additionalPorts }}
+      {{- $additionalPorts | nindent 4 }}
+    {{- end }}
+  selector:
+    {{- include "pyadcs-connector.selectorLabels" . | nindent 4 }}

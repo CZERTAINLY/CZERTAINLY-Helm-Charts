@@ -41,6 +41,15 @@ dependencies:
       - discovery-provider
     version: 1.0.0-develop
     alias: adcsNetConnector
+  - condition: pyAdcsConnector.enabled
+    name: pyadcs-connector
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../pyadcs-connector
+    tags:
+      - authority-provider
+      - discovery-provider
+    version: 1.0.0-develop
+    alias: pyAdcsConnector
   - condition: msAdcsConnector.enabled
     name: ms-adcs-connector
     # repository: oci://harbor.3key.company/czertainly-helm

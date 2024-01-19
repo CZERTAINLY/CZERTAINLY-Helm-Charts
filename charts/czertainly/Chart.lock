@@ -11,6 +11,9 @@ dependencies:
 - name: adcs-net-connector
   repository: file://../adcs-net-connector
   version: 1.0.0-develop
+- name: pyadcs-connector
+  repository: file://../pyadcs-connector
+  version: 1.0.0-develop
 - name: ms-adcs-connector
   repository: file://../ms-adcs-connector
   version: 1.6.0-1-develop
@@ -56,5 +59,5 @@ dependencies:
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.0-1-develop
-digest: sha256:43888f11f9caff441a2935ee555dc5ffe67b83487e794495e81c3e91a12ff7e6
-generated: "2023-12-22T16:56:30.022194+01:00"
+digest: sha256:1c5a036079ec1972f0bfae22451909b8eabf47a53320ea01148dd822e9c8e881
+generated: "2023-12-26T18:28:53.087634+01:00"

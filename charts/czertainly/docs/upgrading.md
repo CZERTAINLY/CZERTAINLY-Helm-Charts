@@ -27,6 +27,16 @@ adcsNetConnector:
   enabled: true
 ```
 
+### New PyADCS connector
+
+Alternative to the ADCS NET connector, the new PyADCS connector was introduced based on Python technology that is more suitable for Linux environments.
+
+When you enable PyADCS connector during upgrade, you need to register the connector manually in the platform:
+```yaml
+pyAdcsConnector:
+  enabled: true
+```
+
 See the [CZERTAINLY Helm chart 2.10.1 release notes](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.10.1) for more information.
 
 ## To 2.9.0
