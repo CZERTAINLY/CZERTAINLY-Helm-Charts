@@ -71,5 +71,10 @@ spec:
             -d '{"name": "Software-Cryptography-Provider","url": "http://software-cryptography-provider-service:{{ .Values.softwareCryptographyProvider.service.port }}","authType": "none"}' \
             http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
             {{- end }}
+            {{- if .Values.pyAdcsConnector.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "PyADCS-Connector","url": "http://pyadcs-connector-service:{{ .Values.pyAdcsConnector.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
             echo "all done"
 {{- end }}
