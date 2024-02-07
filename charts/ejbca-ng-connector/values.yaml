@@ -99,7 +99,7 @@ image:
   registry: docker.io
   repository: 3keycompany
   name: czertainly-ejbca-ng-connector
-  tag: 1.7.0
+  tag: 1.8.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
