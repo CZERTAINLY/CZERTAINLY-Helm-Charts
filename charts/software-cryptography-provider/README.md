@@ -151,7 +151,7 @@ For mode details about probes, see the [Kubernetes documentation](https://kubern
 
 | Parameter                                  | Default value | Description                                                                        |
 |--------------------------------------------|---------------|------------------------------------------------------------------------------------|
-| image.probes.liveness.enabled              | `true`        | Enable/disable liveness probe                                                      |
+| image.probes.liveness.enabled              | `false`       | Enable/disable liveness probe                                                      |
 | image.probes.liveness.custom               | `{}`          | Custom liveness probe command. When defined, it will override the default command  |
 | image.probes.liveness.initialDelaySeconds  | `60`          | Initial delay seconds for liveness probe                                           |
 | image.probes.liveness.timeoutSeconds       | `5`           | Timeout seconds for liveness probe                                                 |
@@ -165,13 +165,13 @@ For mode details about probes, see the [Kubernetes documentation](https://kubern
 | image.probes.readiness.periodSeconds       | `10`          | Period seconds for readiness probe                                                 |
 | image.probes.readiness.successThreshold    | `1`           | Success threshold for readiness probe                                              |
 | image.probes.readiness.failureThreshold    | `3`           | Failure threshold for readiness probe                                              |
-| image.probes.startup.enabled               | `false`       | Enable/disable startup probe                                                       |
+| image.probes.startup.enabled               | `true`        | Enable/disable startup probe                                                       |
 | image.probes.startup.custom                | `{}`          | Custom startup probe command. When defined, it will override the default command   |
-| image.probes.startup.initialDelaySeconds   | `60`          | Initial delay seconds for startup probe                                            |
+| image.probes.startup.initialDelaySeconds   | `15`          | Initial delay seconds for startup probe                                            |
 | image.probes.startup.timeoutSeconds        | `5`           | Timeout seconds for startup probe                                                  |
 | image.probes.startup.periodSeconds         | `10`          | Period seconds for startup probe                                                   |
 | image.probes.startup.successThreshold      | `1`           | Success threshold for startup probe                                                |
-| image.probes.startup.failureThreshold      | `10`          | Failure threshold for startup probe                                                |
+| image.probes.startup.failureThreshold      | `45`          | Failure threshold for startup probe                                                |
 
 ### Additional parameters
 

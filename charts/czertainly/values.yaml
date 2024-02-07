@@ -192,7 +192,7 @@ image:
   registry: docker.io
   repository: 3keycompany
   name: czertainly-core
-  tag: 2.10.0
+  tag: 2.11.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -206,7 +206,7 @@ image:
   # probes configuration
   probes:
     liveness:
-      enabled: true
+      enabled: false
       # custom probe command, will override the default one
       custom: {}
       initialDelaySeconds: 60
@@ -218,20 +218,20 @@ image:
       enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 60
+      initialDelaySeconds: 15
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
       failureThreshold: 3
     startup:
-      enabled: false
+      enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 60
+      initialDelaySeconds: 15
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
-      failureThreshold: 10
+      failureThreshold: 45
   resources: {}
     # We follow recommendations and general guidelines to manage resources from:
     # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
@@ -312,7 +312,7 @@ opa:
     # probes configuration
     probes:
       liveness:
-        enabled: true
+        enabled: false
         # custom probe command, will override the default one
         custom: {}
         initialDelaySeconds: 5
@@ -489,6 +489,10 @@ commonCredentialProvider:
 
 ejbcaNgConnector:
   nameOverride: ejbca-ng-connector
+  enabled: false
+
+pyAdcsConnector:
+  nameOverride: pyadcs-connector
   enabled: false
 
 msAdcsConnector:

@@ -86,14 +86,14 @@ Global values are used to define common parameters for the chart and all its sub
 | global.httpProxy                          | `""`          | Proxy to be used to access external resources through http            |
 | global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https           |
 | global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings |
-| global.initContainers                     | `[]`          | Global init containers                                             |
-| global.sidecarContainers                  | `[]`          | Global sidecar containers                                          |
-| global.additionalVolumes                  | `[]`          | Global additional volumes                                          |
-| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                    |
-| global.additionalPorts                    | `[]`          | Global additional ports                                            |
-| global.additionalEnv.variables            | `[]`          | Global additional environment variables                            |
-| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                              |
-| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                          |
+| global.initContainers                     | `[]`          | Global init containers                                                |
+| global.sidecarContainers                  | `[]`          | Global sidecar containers                                             |
+| global.additionalVolumes                  | `[]`          | Global additional volumes                                             |
+| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                       |
+| global.additionalPorts                    | `[]`          | Global additional ports                                               |
+| global.additionalEnv.variables            | `[]`          | Global additional environment variables                               |
+| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                                 |
+| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                             |
 
 ### Local parameters
 
@@ -150,7 +150,7 @@ For mode details about probes, see the [Kubernetes documentation](https://kubern
 
 | Parameter                                  | Default value | Description                                                                        |
 |--------------------------------------------|---------------|------------------------------------------------------------------------------------|
-| image.probes.liveness.enabled              | `true`        | Enable/disable liveness probe                                                      |
+| image.probes.liveness.enabled              | `false`       | Enable/disable liveness probe                                                      |
 | image.probes.liveness.custom               | `{}`          | Custom liveness probe command. When defined, it will override the default command  |
 | image.probes.liveness.initialDelaySeconds  | `60`          | Initial delay seconds for liveness probe                                           |
 | image.probes.liveness.timeoutSeconds       | `5`           | Timeout seconds for liveness probe                                                 |
@@ -159,18 +159,18 @@ For mode details about probes, see the [Kubernetes documentation](https://kubern
 | image.probes.liveness.failureThreshold     | `3`           | Failure threshold for liveness probe                                               |
 | image.probes.readiness.enabled             | `true`        | Enable/disable readiness probe                                                     |
 | image.probes.readiness.custom              | `{}`          | Custom readiness probe command. When defined, it will override the default command |
-| image.probes.readiness.initialDelaySeconds | `60`          | Initial delay seconds for readiness probe                                          |
+| image.probes.readiness.initialDelaySeconds | `15`          | Initial delay seconds for readiness probe                                          |
 | image.probes.readiness.timeoutSeconds      | `5`           | Timeout seconds for readiness probe                                                |
 | image.probes.readiness.periodSeconds       | `10`          | Period seconds for readiness probe                                                 |
 | image.probes.readiness.successThreshold    | `1`           | Success threshold for readiness probe                                              |
 | image.probes.readiness.failureThreshold    | `3`           | Failure threshold for readiness probe                                              |
-| image.probes.startup.enabled               | `false`       | Enable/disable startup probe                                                       |
+| image.probes.startup.enabled               | `true`        | Enable/disable startup probe                                                       |
 | image.probes.startup.custom                | `{}`          | Custom startup probe command. When defined, it will override the default command   |
-| image.probes.startup.initialDelaySeconds   | `60`          | Initial delay seconds for startup probe                                            |
+| image.probes.startup.initialDelaySeconds   | `15`          | Initial delay seconds for startup probe                                            |
 | image.probes.startup.timeoutSeconds        | `5`           | Timeout seconds for startup probe                                                  |
 | image.probes.startup.periodSeconds         | `10`          | Period seconds for startup probe                                                   |
 | image.probes.startup.successThreshold      | `1`           | Success threshold for startup probe                                                |
-| image.probes.startup.failureThreshold      | `10`          | Failure threshold for startup probe                                                |
+| image.probes.startup.failureThreshold      | `45`          | Failure threshold for startup probe                                                |
 
 ### Additional parameters
 

@@ -5,7 +5,7 @@ Helm chart simplifies the deployment of the platform using already pre-defined t
 ## Prerequisites
 - Kubernetes 1.19+
 - Helm 3.8.0+
-- PostgreSQL 11+
+- PostgreSQL 12+
 - PV provisioner support in the underlying infrastructure
 
 In case you want to enable Ingress you need to have installed Ingress Controller, for example:

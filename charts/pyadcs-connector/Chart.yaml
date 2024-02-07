@@ -1,0 +1,33 @@
+annotations:
+  category: trustLifecycleManagement
+apiVersion: v2
+appVersion: 1.0.0
+name: pyadcs-connector
+description: A Helm chart for PyADCS Connector for CZERTAINLY platform.
+home: https://github.com/3KeyCompany/CZERTAINLY-Kontron-VCD-Entity-Provider
+icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
+dependencies:
+  - name: czertainly-lib
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../czertainly-lib
+    version: 1.3.0
+keywords:
+  - czertainly
+  - trust
+  - management
+  - lifecycle
+  - platform
+  - pyadcs
+  - authority
+  - discovery
+  - provider
+maintainers:
+  - name: Kontron
+    email: info@kontron.hu
+    url: https://kontron.hu/
+type: application
+sources:
+  - https://github.com/3KeyCompany/CZERTAINLY
+  - https://www.czertainly.com
+  - https://docs.czertainly.com
+version: 1.0.0

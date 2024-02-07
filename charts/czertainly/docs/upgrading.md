@@ -14,6 +14,21 @@ The following contains important information and instructions about upgrading He
 
 Upgrading Helm chart is done by running the `helm upgrade` command. The command upgrades the platform to the specified version. The command can be used to upgrade the platform to the same version with changed parameters.
 
+## To 2.11.0
+
+### New PyADCS connector
+
+To resolve compatibility issues and improve performance of the ADCS certificate related operations and authentication, the new ADCS connector was introduced based on Python technology.
+MS ADCS connector is considered from this version as deprecated and will be removed in the future.
+
+When you enable PyADCS connector during upgrade, you need to register the connector manually in the platform:
+```yaml
+pyAdcsConnector:
+  enabled: true
+```
+
+See the [CZERTAINLY Helm chart 2.11.0 release notes](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.11.0) for more information.
+
 ## To 2.9.0
 
 ### Persistent volume provisioner
