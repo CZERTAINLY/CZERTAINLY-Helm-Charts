@@ -77,20 +77,47 @@ spec:
               value: {{ .Values.keycloak.proxyAddressForwarding | quote }}
             - name: KC_DB_SCHEMA
               value: {{ .Values.keycloak.dbSchema | quote }}
+            # KC_DB_* env variables are needed for Keycloak
             - name: KC_DB_URL
               value: {{ include "czertainly-lib.util.format.jdbcUrl" (list . "?characterEncoding=UTF-8") | quote }}
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: keycloak-internal-secret
-                  key: dbUsername
+                  key: database_user
             - name: KC_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: keycloak-internal-secret
-                  key: dbPassword
+                  key: database_password
             - name: KC_LOG_LEVEL
               value: {{ .Values.logging.level | quote }}
+            # PG* env variables are needed for psql command which is needed for postStart command
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-internal-secret
+                  key: database_host
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-internal-secret
+                  key: database_port
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-internal-secret
+                  key: database_name
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-internal-secret
+                  key: database_user
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-internal-secret
+                  key: database_password
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}
@@ -98,6 +125,13 @@ spec:
           envFrom:
             {{- $additionalEnvFrom | indent 12 }}
           {{- end }}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "psql"
+                  - "-c"
+                  - "CREATE SCHEMA IF NOT EXISTS {{ .Values.keycloak.dbSchema }};"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
