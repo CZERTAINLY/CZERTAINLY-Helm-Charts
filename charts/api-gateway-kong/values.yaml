@@ -71,7 +71,7 @@ image:
   registry: docker.io
   repository: revomatico
   name: docker-kong-oidc
-  tag: 3.0.0-6
+  tag: 3.4.0-2
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
