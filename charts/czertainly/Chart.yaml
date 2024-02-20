@@ -98,6 +98,15 @@ dependencies:
       - notification-provider
     version: 1.0.0-1
     alias: emailNotificationProvider
+  - condition: hashicorpVaultConnector.enabled
+    name: hashicorp-vault-connector
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../hashicorp-vault-connector
+    tags:
+      - authority-provider
+      - discovery-provider
+    version: 1.0.0-develop
+    alias: hashicorpVaultConnector
   - condition: global.utils.enabled
     name: utils-service
     # repository: oci://harbor.3key.company/czertainly-helm
