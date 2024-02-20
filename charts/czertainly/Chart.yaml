@@ -116,7 +116,7 @@ dependencies:
     repository: file://../api-gateway-kong
     tags:
       - api-gateway
-    version: 3.0.0-6-7
+    version: 3.4.0-2-develop
     alias: apiGateway
   - name: fe-administrator
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -170,4 +170,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.11.0
+version: 2.11.0-1-develop
