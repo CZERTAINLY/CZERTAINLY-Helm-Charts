@@ -154,6 +154,7 @@ The following values may be configured:
 | theme.image.securityContext.runAsNonRoot           | `true`                                  | Run the container as non-root user                  |
 | theme.image.securityContext.runAsUser              | `10001`                                 | User ID for the container                           |
 | theme.image.securityContext.readOnlyRootFilesystem | `true`                                  | Run the container with read-only root filesystem    |
+| theme.image.resources                              | {}                                      | Specify requests and limits for the image if needed |
 
 #### Keycloak associated parameters
 

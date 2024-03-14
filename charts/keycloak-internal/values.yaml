@@ -169,6 +169,8 @@ theme:
       runAsNonRoot: true
       runAsUser: 10001
       readOnlyRootFilesystem: true
+    # resources for theme image if needed
+    resources: {}
 
 # customization of the chart
 initContainers: []

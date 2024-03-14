@@ -160,6 +160,8 @@ curl:
       runAsUser: 100
       readOnlyRootFilesystem: true
     # it does not make sense to have probes for curl
+    # resources for curl if needed
+    resources: {}
 
 # customization of the chart
 initContainers: []
