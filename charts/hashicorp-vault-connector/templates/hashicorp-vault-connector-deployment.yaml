@@ -149,7 +149,8 @@ spec:
           volumeMounts:
             {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
             - name: trusted-certificates-volume
-              mountPath: /etc/ssl/certs
+              mountPath: /etc/ssl/certs/ca.crt
+              subPath: ca.crt
               readOnly: true
             {{- end }}
             {{- if $additionalVolumeMounts }}
