@@ -1,5 +1,2 @@
-database:
-  host: "172.17.0.1"
-
 image:
   tag: develop-latest
