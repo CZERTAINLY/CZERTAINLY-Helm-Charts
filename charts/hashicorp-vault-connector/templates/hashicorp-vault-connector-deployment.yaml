@@ -85,9 +85,6 @@ spec:
             - name: NO_PROXY
               value: {{ $noProxy }}
             {{- end }}
-            {{- if $additionalEnv }}
-              {{- $additionalEnv | nindent 12 }}
-            {{- end }}
             # PG* env variables are needed for psql command which is needed for postStart command
             - name: PGHOST
               valueFrom:
@@ -116,6 +113,7 @@ spec:
                   key: database_password
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
+            {{- end }}
           {{- if $additionalEnvFrom }}
           envFrom:
             {{- $additionalEnvFrom | indent 12 }}
