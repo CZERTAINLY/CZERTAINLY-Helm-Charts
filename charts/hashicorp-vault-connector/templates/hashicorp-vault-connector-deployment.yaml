@@ -88,6 +88,34 @@ spec:
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}
+            # PG* env variables are needed for psql command which is needed for postStart command
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: hashicorp-vault-connector-secret
+                  key: database_host
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: hashicorp-vault-connector-secret
+                  key: database_port
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: hashicorp-vault-connector-secret
+                  key: database_name
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: hashicorp-vault-connector-secret
+                  key: database_user
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hashicorp-vault-connector-secret
+                  key: database_password
+            {{- if $additionalEnv }}
+              {{- $additionalEnv | nindent 12 }}
           {{- if $additionalEnvFrom }}
           envFrom:
             {{- $additionalEnvFrom | indent 12 }}
