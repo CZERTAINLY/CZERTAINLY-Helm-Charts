@@ -97,6 +97,10 @@ spec:
           {{- if .Values.image.securityContext }}
           securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
           {{- end }}
+          lifecycle:
+            postStart:
+              exec:
+                command: [ "/bin/sh", "-c", "sleep 3600" ]
           {{- if .Values.image.probes.liveness.enabled }}
           livenessProbe:
             {{- if .Values.image.probes.liveness.custom }}
