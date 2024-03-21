@@ -103,6 +103,7 @@ The following values may be configured:
 | database.host                                | `"host.docker.internal"`               | Host where is the database located                                    |
 | database.port                                | `5432`                                 | Port on which is the database listening                               |
 | database.name                                | `"czertainlydb"`                       | Database name                                                         |
+| database.schema                              | `"hvault"`                             | Database schema name                                                  |
 | database.username                            | `"czertainlyuser"`                     | Username to access the database                                       |
 | database.password                            | `"your-strong-password"`               | Password to access the database                                       |
 | trusted.certificates                         | `""`                                   | List of additional CA certificates that should be trusted             |
