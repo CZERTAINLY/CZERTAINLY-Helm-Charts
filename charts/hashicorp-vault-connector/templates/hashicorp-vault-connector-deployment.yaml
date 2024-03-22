@@ -85,32 +85,6 @@ spec:
             - name: NO_PROXY
               value: {{ $noProxy }}
             {{- end }}
-            # PG* env variables are needed for psql command which is needed for postStart command
-            - name: PGHOST
-              valueFrom:
-                secretKeyRef:
-                  name: hashicorp-vault-connector-secret
-                  key: database_host
-            - name: PGPORT
-              valueFrom:
-                secretKeyRef:
-                  name: hashicorp-vault-connector-secret
-                  key: database_port
-            - name: PGDATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: hashicorp-vault-connector-secret
-                  key: database_name
-            - name: PGUSER
-              valueFrom:
-                secretKeyRef:
-                  name: hashicorp-vault-connector-secret
-                  key: database_user
-            - name: PGPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: hashicorp-vault-connector-secret
-                  key: database_password
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}
@@ -123,21 +97,6 @@ spec:
           {{- if .Values.image.securityContext }}
           securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
           {{- end }}
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "psql"
-                  - "-c"
-                  - >
-                    DO $$
-                    BEGIN
-                      EXECUTE 'CREATE SCHEMA IF NOT EXISTS {{ .Values.database.schema }}';
-                      EXCEPTION
-                        WHEN duplicate_schema THEN RAISE NOTICE 'Schema "{{ .Values.database.schema }}" already exists';
-                        WHEN insufficient_privilege THEN RAISE NOTICE 'Permission denied to create schema "{{ .Values.database.schema }}"';
-                    END;
-                    $$
           {{- if .Values.image.probes.liveness.enabled }}
           livenessProbe:
             {{- if .Values.image.probes.liveness.custom }}
