@@ -33,59 +33,10 @@ spec:
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
+      {{- if $additionalInitContainers }}
       initContainers:
-        - name: create-db-schema
-          image: {{ include "hashicorp-vault-connector.tools.image" . }}
-          imagePullPolicy: {{ .Values.tools.image.pullPolicy }}
-          env:
-            # PG* env variables are needed for psql command which is needed for postStart command
-            - name: PGHOST
-              valueFrom:
-                secretKeyRef:
-                  name: hashicorp-vault-connector-secret
-                  key: database_host
-            - name: PGPORT
-              valueFrom:
-                secretKeyRef:
-                  name: hashicorp-vault-connector-secret
-                  key: database_port
-            - name: PGDATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: hashicorp-vault-connector-secret
-                  key: database_name
-            - name: PGUSER
-              valueFrom:
-                secretKeyRef:
-                  name: hashicorp-vault-connector-secret
-                  key: database_user
-            - name: PGPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: hashicorp-vault-connector-secret
-                  key: database_password
-            {{- if $httpProxy }}
-            - name: HTTP_PROXY
-              value: {{ $httpProxy }}
-            {{- end }}
-            {{- if $httpsProxy }}
-            - name: HTTPS_PROXY
-              value: {{ $httpsProxy }}
-            {{- end }}
-            {{- if $noProxy }}
-            - name: NO_PROXY
-              value: {{ $noProxy }}
-            {{- end }}
-          {{- if .Values.tools.image.securityContext }}
-          securityContext: {{- .Values.tools.image.securityContext | toYaml | nindent 12 }}
-          {{- end }}
-          command:
-            - "psql"
-            - "-c"
-            - "CREATE SCHEMA IF NOT EXISTS {{ .Values.database.schema }}"
-        {{- if $additionalInitContainers }}
-          {{- $additionalInitContainers | nindent 8 }}
-        {{- end }}
+        {{- $additionalInitContainers | nindent 8 }}
+      {{- end }}
       containers:
         - name: hashicorp-vault-connector
           image: {{ include "hashicorp-vault-connector.image" . }}
@@ -134,6 +85,32 @@ spec:
             - name: NO_PROXY
               value: {{ $noProxy }}
             {{- end }}
+            # PG* env variables are needed for psql command which is needed for postStart command
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: hashicorp-vault-connector-secret
+                  key: database_host
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: hashicorp-vault-connector-secret
+                  key: database_port
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: hashicorp-vault-connector-secret
+                  key: database_name
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: hashicorp-vault-connector-secret
+                  key: database_user
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hashicorp-vault-connector-secret
+                  key: database_password
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}
@@ -146,6 +123,21 @@ spec:
           {{- if .Values.image.securityContext }}
           securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
           {{- end }}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "psql"
+                  - "-c"
+                  - >
+                    DO $$
+                    BEGIN
+                      EXECUTE 'CREATE SCHEMA IF NOT EXISTS {{ .Values.database.schema }}';
+                      EXCEPTION
+                        WHEN duplicate_schema THEN RAISE NOTICE 'Schema "{{ .Values.database.schema }}" already exists';
+                        WHEN insufficient_privilege THEN RAISE NOTICE 'Permission denied to create schema "{{ .Values.database.schema }}"';
+                    END;
+                    $$
           {{- if .Values.image.probes.liveness.enabled }}
           livenessProbe:
             {{- if .Values.image.probes.liveness.custom }}

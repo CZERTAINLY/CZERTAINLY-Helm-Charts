@@ -133,23 +133,6 @@ image:
     #   memory: 40M
     # limits: {}
 
-tools:
-  image:
-    registry: docker.io
-    repository: 3keycompany
-    name: czertainly-tools
-    tag: 0.0.1
-    # the digest to be used instead of the tag
-    digest: ""
-    pullPolicy: IfNotPresent
-    # array of secret names
-    pullSecrets: []
-    # default security context
-    securityContext:
-      runAsNonRoot: true
-      runAsUser: 10001
-      readOnlyRootFilesystem: true
-
 # customization of the chart
 initContainers: []
 sidecarContainers: []

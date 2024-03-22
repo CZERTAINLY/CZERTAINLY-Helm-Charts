@@ -68,10 +68,6 @@ Return the image name
 {{ include "czertainly-lib.images.image" (dict "image" .Values.image "global" .Values.global) }}
 {{- end -}}
 
-{{- define "hashicorp-vault-connector.tools.image" -}}
-{{ include "czertainly-lib.images.image" (dict "image" .Values.tools.image "global" .Values.global) }}
-{{- end -}}
-
 {{/*
 Return the image pull secret names
 */}}
