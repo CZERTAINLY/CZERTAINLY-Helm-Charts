@@ -32,6 +32,9 @@ dependencies:
 - name: email-notification-provider
   repository: file://../email-notification-provider
   version: 1.0.0-1
+- name: hashicorp-vault-connector
+  repository: file://../hashicorp-vault-connector
+  version: 1.0.0-develop
 - name: utils-service
   repository: file://../utils-service
   version: 1.0.0-4
@@ -56,5 +59,5 @@ dependencies:
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.0-1
-digest: sha256:a3cc39b7c59ef7b5e1843f6be93006b41c2f9707241b36ebe5e76b83d30fc3e7
-generated: "2024-02-20T12:01:32.419319+01:00"
+digest: sha256:9d8369054f9ebed021e3d80934d3ccf3fc22886fa8f68ebfe30431e63a83c8c7
+generated: "2024-02-20T14:16:16.839125+01:00"

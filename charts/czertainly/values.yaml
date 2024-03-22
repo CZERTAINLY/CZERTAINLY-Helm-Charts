@@ -499,6 +499,10 @@ msAdcsConnector:
   nameOverride: ms-adcs-connector
   enabled: false
 
+hashicorpVaultConnector:
+  nameOverride: hashicorp-vault-connector
+  enabled: false
+
 x509ComplianceProvider:
   nameOverride: x509-compliance-provider
   enabled: false

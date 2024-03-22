@@ -46,6 +46,11 @@ image:
   tag: develop-latest
   pullPolicy: Always
 
+additionalEnv:
+  variables:
+    - name: OTEL_SDK_DISABLED
+      value: "false"
+
 authService:
   image:
     tag: develop-latest

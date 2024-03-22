@@ -1,0 +1,17 @@
+{{- $additionalPorts := (include "hashicorp-vault-connector.customization.ports" $) }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{- include "hashicorp-vault-connector.labels" . | nindent 4 }}
+  name: hashicorp-vault-connector-service
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: "TCP"
+    {{- if $additionalPorts }}
+      {{- $additionalPorts | nindent 4 }}
+    {{- end }}
+  selector:
+    {{- include "hashicorp-vault-connector.selectorLabels" . | nindent 4 }}
