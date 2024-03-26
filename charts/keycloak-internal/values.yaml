@@ -22,6 +22,8 @@ global:
     name: ""
     username: ""
     password: ""
+  trusted:
+    certificates: ""
   hostName: ""
   keycloak:
     clientSecret: ""
@@ -81,6 +83,9 @@ httpProxy: ""
 httpsProxy: ""
 noProxy: ""
 
+trusted:
+  certificates: ""
+
 nameOverride: ""
 fullnameOverride: ""
 
@@ -101,7 +106,7 @@ image:
   registry: docker.io
   repository: 3keycompany
   name: czertainly-keycloak-optimized
-  tag: 1.0.1
+  tag: 24.0.2-0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -250,7 +255,7 @@ czertainly:
   hostName: "czertainly.local"
   # OIDC client secret, it should be also configured for the client in Kong
   # it is 32 bytes long value, base64 encoded, for example s0qKH5qItTWoxpBt7Zrj348ZhZ7woAbk
-  clientSecret: ""
+  clientSecret: "secret"
   redirectUri:
     login: "/login/"
     postLogout: "/administrator/"

@@ -83,6 +83,7 @@ Global values are used to define common parameters for the chart and all its sub
 | global.database.name                      | `""`          | Database name                                                      |
 | global.database.username                  | `""`          | Username to access the database                                    |
 | global.database.password                  | `""`          | Password to access the database                                    |
+| global.trusted.certificates               | `""`          | List of additional CA certificates that should be trusted          |
 | global.hostName                           | `""`          | Global hostname of the running instance                            |
 | global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used for CZERTAINLY              |
 | global.admin.username                     | `""`          | Initial administrator username                                     |
@@ -105,10 +106,11 @@ The following values may be configured:
 
 | Parameter                                    | Default value                   | Description                                                                            |
 |----------------------------------------------|---------------------------------|----------------------------------------------------------------------------------------|
+| trusted.certificates                         | `""`                            | List of additional CA certificates that should be trusted                              |
 | image.registry                               | `docker.io`                     | Docker registry name for the image                                                     |
 | image.repository                             | `3keycompany`                   | Docker image repository name                                                           |
 | image.name                                   | `czertainly-keycloak-optimized` | Docker image name                                                                      |
-| image.tag                                    | `1.0.1`                         | Docker image tag                                                                       |
+| image.tag                                    | `24.0.2-0`                      | Docker image tag                                                                       |
 | image.digest                                 | `""`                            | Docker image digest, will override tag if specified                                    |
 | image.pullPolicy                             | `IfNotPresent`                  | Image pull policy                                                                      |
 | image.pullSecrets                            | `[]`                            | Array of secret names for image pull                                                   |
