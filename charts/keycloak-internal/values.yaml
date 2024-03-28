@@ -174,8 +174,6 @@ theme:
       runAsNonRoot: true
       runAsUser: 10001
       readOnlyRootFilesystem: true
-    # resources for theme image if needed
-    #
     # We follow recommendations and general guidelines to manage resources from:
     # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
     # We recommend default requests for CPU and Memory, leaving the limits as a conscious
