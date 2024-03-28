@@ -49,7 +49,7 @@ spec:
         - name: keycloak-internal
           image: {{ include "keycloak-internal.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args: {{ .Values.keycloak.args }}
+          args: {{- toYaml .Values.keycloak.args | nindent 12 }}
           env:
             - name: KEYCLOAK_ADMIN
               valueFrom:
@@ -196,6 +196,8 @@ spec:
           resources: {{- toYaml .Values.image.resources | nindent 12 }}
           {{- end }}
           volumeMounts:
+            - mountPath: /opt/keycloak/data
+              name: ephemeral
             - name: import-realm-volume
               mountPath: /opt/keycloak/data/import
             - mountPath: /opt/keycloak/themes
@@ -204,6 +206,12 @@ spec:
               name: ephemeral
             - mountPath: /tmp
               name: ephemeral
+            {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
+            - name: trusted-certificates-volume
+              mountPath: /opt/keycloak/conf/truststores/trusted_cas.pem
+              subPath: ca.crt
+              readOnly: true
+            {{- end }}
             {{- if $additionalVolumeMounts }}
               {{- $additionalVolumeMounts | nindent 12 }}
             {{- end }}
@@ -219,6 +227,17 @@ spec:
                 path: czertainly_realm.json
         - name: ephemeral
           {{- include "keycloak-internal.ephemeralVolume" . | indent 10 }}
+        {{- if .Values.global.trusted.certificates }}
+        - name: trusted-certificates-volume
+          secret:
+            defaultMode: 420
+            secretName: trusted-certificates
+        {{- else if .Values.trusted.certificates }}
+        - name: trusted-certificates-volume
+          secret:
+            defaultMode: 420
+            secretName: trusted-certificates-{{ .Chart.Name | lower }}
+        {{- end }}
         {{- if $additionalVolumes }}
           {{- $additionalVolumes | nindent 8 }}
         {{- end }}
