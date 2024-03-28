@@ -1,20 +1,13 @@
-# Default values for keycloak-internal.
+# Default values for hashicorp-vault-connector.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# Global parameters that will overwrite local parameters
 global:
   image:
     registry: ""
     repository: ""
     # array of secret names
     pullSecrets: []
-  volumes:
-    ephemeral:
-      type: ""
-      sizeLimit: ""
-      storageClassName: ""
-      custom: {}
   database:
     type: ""
     host: ""
@@ -24,15 +17,9 @@ global:
     password: ""
   trusted:
     certificates: ""
-  hostName: ""
-  keycloak:
-    clientSecret: ""
-  admin:
-    username: ""
-    password: ""
-    name: ""
-    surname: ""
-    email: ""
+  httpProxy: ""
+  httpsProxy: ""
+  noProxy: ""
   # additional init containers that will be added to each pod
   # - name: some-image
   #   image: some-image
@@ -77,36 +64,25 @@ database:
   host: "host.docker.internal"
   port: 5432
   name: "czertainlydb"
+  schema: "hvault"
   username: "czertainlyuser"
   password: "your-strong-password"
-httpProxy: ""
-httpsProxy: ""
-noProxy: ""
 
 trusted:
   certificates: ""
 
-nameOverride: ""
-fullnameOverride: ""
+httpProxy: ""
+httpsProxy: ""
+noProxy: ""
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 replicaCount: 1
-
-service:
-  type: "ClusterIP"
-  port: 8080
 
 image:
   # default registry name
   registry: docker.io
   repository: 3keycompany
-  name: czertainly-keycloak-optimized
-  tag: 24.0.2-0
+  name: czertainly-hashicorp-vault-connector
+  tag: 1.0.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -115,7 +91,7 @@ image:
   # default security context
   securityContext:
     runAsNonRoot: true
-    runAsUser: 1000
+    runAsUser: 10001
     readOnlyRootFilesystem: true
   # probes configuration
   probes:
@@ -123,7 +99,7 @@ image:
       enabled: false
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 30
+      initialDelaySeconds: 20
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
@@ -132,7 +108,7 @@ image:
       enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 30
+      initialDelaySeconds: 20
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
@@ -153,29 +129,9 @@ image:
     # choice for the user. If you do want to specify your own resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources'.
     # requests:
-    #   cpu: 100m
-    #   memory: 600M
+    #   cpu: 30m
+    #   memory: 40M
     # limits: {}
-
-theme:
-  image:
-    # default registry name
-    registry: docker.io
-    repository: 3keycompany
-    name: czertainly-keycloak-theme
-    tag: 0.1.1
-    # the digest to be used instead of the tag
-    digest: ""
-    pullPolicy: IfNotPresent
-    # array of secret names
-    pullSecrets: []
-    # default security context
-    securityContext:
-      runAsNonRoot: true
-      runAsUser: 10001
-      readOnlyRootFilesystem: true
-    # resources for theme image if needed
-    resources: {}
 
 # customization of the chart
 initContainers: []
@@ -188,20 +144,12 @@ additionalEnv:
   configMaps: []
   secrets: []
 
-volumes:
-  ephemeral:
-    # available types are: memory, storage, custom
-    type: memory
-    sizeLimit: "10Mi"
-    storageClassName: ""
-    custom: {}
-    #  emptyDir:
-    #    sizeLimit: "10Mi"
-    #    medium: "Memory"
-
-# see https://www.keycloak.org/server/logging
 logging:
+  # possible values are: INFO, DEBUG, WARN, ERROR, PANIC, FATAL
   level: "INFO"
+
+nameOverride: ""
+fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -210,54 +158,26 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "keycloak-internal-sa"
+  name: ""
 
 podAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
 
+service:
+  type: ClusterIP
+  port: 8080
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
-
-# https://www.keycloak.org/server/all-config
-keycloak:
-  dbSchema: "keycloak"
-  # this is admin user for the Keycloak instance master realm
-  admin:
-    username: "admin"
-    password: "admin"
-  # the arguments passed to the entrypoint in the Keycloak container
-  args: [start, --optimized, --import-realm]
-  hostnameStrict: false
-  hostnameStrictHttps: false
-  # cacheStack is set by the optimized build to kubernetes
-  # cacheStack: "kubernetes"
-  # relative path is important to run behind a reverse proxy
-  # it is set to "/kc" by the optimized build
-  # do not change this value if you are using the optimized build
-  httpRelativePath: "/kc"
-  httpEnabled: true
-  # none, edge, reencrypt, passthrough
-  proxy: "edge"
-  proxyAddressForwarding: true
-
-# configuration of the CZERTAINLY realm including kong as client for OIDC
-czertainly:
-  admin:
-    username: "czertainly-admin"
-    password: "your-strong-password"
-    name: "admin"
-    surname: "czertainly"
-    email: "admin@czertainly.local"
-  # hostname is used as the Root URL for the OIDC configuration
-  hostName: "czertainly.local"
-  # OIDC client secret, it should be also configured for the client in Kong
-  # it is 32 bytes long value, base64 encoded, for example s0qKH5qItTWoxpBt7Zrj348ZhZ7woAbk
-  clientSecret: "secret"
-  redirectUri:
-    login: "/login/"
-    postLogout: "/administrator/"

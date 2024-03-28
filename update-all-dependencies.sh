@@ -32,6 +32,9 @@ helm dependency update charts/email-notification-provider --skip-refresh
 echo "Updating dependencies for fe-administrator..."
 helm dependency update charts/fe-administrator --skip-refresh
 
+echo "Updating dependencies for hashicorp-vault-connector..."
+helm dependency update charts/hashicorp-vault-connector --skip-refresh
+
 echo "Updating dependencies for keycloak-internal..."
 helm dependency update charts/keycloak-internal --skip-refresh
 
