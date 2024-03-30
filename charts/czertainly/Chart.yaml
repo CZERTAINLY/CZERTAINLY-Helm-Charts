@@ -154,14 +154,14 @@ dependencies:
     repository: file://../messaging-rabbitmq
     tags:
       - messaging
-    version: 3.12.1-1
+    version: 3.12.1-2-develop
     alias: messagingService
   - name: scheduler-service
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../scheduler-service
     tags:
       - scheduler
-    version: 1.0.0-1
+    version: 1.0.0-2-develop
     alias: schedulerService
 keywords:
   - czertainly
