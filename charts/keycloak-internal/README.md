@@ -83,6 +83,7 @@ Global values are used to define common parameters for the chart and all its sub
 | global.database.name                      | `""`          | Database name                                                      |
 | global.database.username                  | `""`          | Username to access the database                                    |
 | global.database.password                  | `""`          | Password to access the database                                    |
+| global.trusted.certificates               | `""`          | List of additional CA certificates that should be trusted          |
 | global.hostName                           | `""`          | Global hostname of the running instance                            |
 | global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used for CZERTAINLY              |
 | global.admin.username                     | `""`          | Initial administrator username                                     |
@@ -103,27 +104,28 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                    | Default value                               | Description                                                                            |
-|----------------------------------------------|---------------------------------------------|----------------------------------------------------------------------------------------|
-| image.registry                               | `docker.io`                                 | Docker registry name for the image                                                     |
-| image.repository                             | `3keycompany`                               | Docker image repository name                                                           |
-| image.name                                   | `czertainly-keycloak-optimized`             | Docker image name                                                                      |
-| image.tag                                    | `1.0.0`                                     | Docker image tag                                                                       |
-| image.digest                                 | `""`                                        | Docker image digest, will override tag if specified                                    |
-| image.pullPolicy                             | `IfNotPresent`                              | Image pull policy                                                                      |
-| image.pullSecrets                            | `[]`                                        | Array of secret names for image pull                                                   |
-| image.securityContext.runAsNonRoot           | `true`                                      | Run the container as non-root user                                                     |
-| image.securityContext.runAsUser              | `1000`                                      | User ID for the container                                                              |
-| image.securityContext.readOnlyRootFilesystem | `true`                                      | Run the container with read-only root filesystem                                       |
-| image.resources                              | `{}`                                        | The resources for the container                                                        |
-| podSecurityContext                           | `{}`                                        | Pod security context                                                                   |
-| volumes.ephemeral.type                       | `memory`                                    | Ephemeral volume type to be used                                                       |
-| volumes.ephemeral.sizeLimit                  | `"1Mi"`                                     | Ephemeral volume size limit                                                            |
-| volumes.ephemeral.storageClassName           | `""`                                        | Ephemeral volume storage class name for `storage` type                                 |
-| volumes.ephemeral.custom                     | `{}`                                        | Custom definition of the ephemeral volume for `custom` type                            |
-| logging.level                                | `"info"`                                    | Allowed values are `fatal`, `error`, `warn`, `info`, `debug`, `trace`, `all`, or `off` |
-| service.type                                 | `"ClusterIP"`                               | Type of the service that is exposed                                                    |
-| service.port                                 | `8080`                                      | Port number of the exposed service                                                     |
+| Parameter                                    | Default value                   | Description                                                                            |
+|----------------------------------------------|---------------------------------|----------------------------------------------------------------------------------------|
+| trusted.certificates                         | `""`                            | List of additional CA certificates that should be trusted                              |
+| image.registry                               | `docker.io`                     | Docker registry name for the image                                                     |
+| image.repository                             | `3keycompany`                   | Docker image repository name                                                           |
+| image.name                                   | `czertainly-keycloak-optimized` | Docker image name                                                                      |
+| image.tag                                    | `24.0.2-0`                      | Docker image tag                                                                       |
+| image.digest                                 | `""`                            | Docker image digest, will override tag if specified                                    |
+| image.pullPolicy                             | `IfNotPresent`                  | Image pull policy                                                                      |
+| image.pullSecrets                            | `[]`                            | Array of secret names for image pull                                                   |
+| image.securityContext.runAsNonRoot           | `true`                          | Run the container as non-root user                                                     |
+| image.securityContext.runAsUser              | `1000`                          | User ID for the container                                                              |
+| image.securityContext.readOnlyRootFilesystem | `true`                          | Run the container with read-only root filesystem                                       |
+| image.resources                              | `{}`                            | The resources for the container                                                        |
+| podSecurityContext                           | `{}`                            | Pod security context                                                                   |
+| volumes.ephemeral.type                       | `memory`                        | Ephemeral volume type to be used                                                       |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`                         | Ephemeral volume size limit                                                            |
+| volumes.ephemeral.storageClassName           | `""`                            | Ephemeral volume storage class name for `storage` type                                 |
+| volumes.ephemeral.custom                     | `{}`                            | Custom definition of the ephemeral volume for `custom` type                            |
+| logging.level                                | `"info"`                        | Allowed values are `fatal`, `error`, `warn`, `info`, `debug`, `trace`, `all`, or `off` |
+| service.type                                 | `"ClusterIP"`                   | Type of the service that is exposed                                                    |
+| service.port                                 | `8080`                          | Port number of the exposed service                                                     |
 
 #### Customization parameters
 
@@ -154,6 +156,7 @@ The following values may be configured:
 | theme.image.securityContext.runAsNonRoot           | `true`                                  | Run the container as non-root user                  |
 | theme.image.securityContext.runAsUser              | `10001`                                 | User ID for the container                           |
 | theme.image.securityContext.readOnlyRootFilesystem | `true`                                  | Run the container with read-only root filesystem    |
+| theme.image.resources                              | {}                                      | Specify requests and limits for the image if needed |
 
 #### Keycloak associated parameters
 

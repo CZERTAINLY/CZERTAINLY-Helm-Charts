@@ -13,7 +13,7 @@ dependencies:
     repository: file://../keycloak-internal
     tags:
       - keycloak-internal
-    version: 1.0.0-4
+    version: 24.0.2-0
     alias: keycloakInternal
   - condition: commonCredentialProvider.enabled
     name: common-credential-provider
@@ -39,7 +39,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.0.0
+    version: 1.0.1
     alias: pyAdcsConnector
   - condition: msAdcsConnector.enabled
     name: ms-adcs-connector
@@ -98,6 +98,15 @@ dependencies:
       - notification-provider
     version: 1.0.0-1
     alias: emailNotificationProvider
+  - condition: hashicorpVaultConnector.enabled
+    name: hashicorp-vault-connector
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../hashicorp-vault-connector
+    tags:
+      - authority-provider
+      - discovery-provider
+    version: 1.0.0
+    alias: hashicorpVaultConnector
   - condition: global.utils.enabled
     name: utils-service
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -116,7 +125,7 @@ dependencies:
     repository: file://../api-gateway-kong
     tags:
       - api-gateway
-    version: 3.0.0-6-7
+    version: 3.4.0-2
     alias: apiGateway
   - name: fe-administrator
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -145,14 +154,14 @@ dependencies:
     repository: file://../messaging-rabbitmq
     tags:
       - messaging
-    version: 3.12.1-1
+    version: 3.12.1-2
     alias: messagingService
   - name: scheduler-service
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../scheduler-service
     tags:
       - scheduler
-    version: 1.0.0-1
+    version: 1.0.0-2
     alias: schedulerService
 keywords:
   - czertainly
@@ -170,4 +179,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.11.0
+version: 2.11.0-1

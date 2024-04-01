@@ -14,6 +14,21 @@ The following contains important information and instructions about upgrading He
 
 Upgrading Helm chart is done by running the `helm upgrade` command. The command upgrades the platform to the specified version. The command can be used to upgrade the platform to the same version with changed parameters.
 
+## To 2.11.1
+
+### Additional connector sub-charts
+
+The following sub-charts were added to support additional connectors as optional components:
+- HashiCorp Vault Connector
+
+When you enable new connector during upgrade, you need to register the connector manually in the platform:
+```yaml
+hashicorpVaultConnector:
+  enabled: false
+```
+
+See the [CZERTAINLY Helm chart 2.11.1 release notes](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.11.1) for more information.
+
 ## To 2.11.0
 
 ### New PyADCS connector

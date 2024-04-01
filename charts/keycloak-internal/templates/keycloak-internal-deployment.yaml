@@ -34,6 +34,9 @@ spec:
         - name: init-theme
           image: {{ include "keycloak-internal.theme.image" . }}
           imagePullPolicy: {{ .Values.theme.image.pullPolicy }}
+          {{- if .Values.theme.image.resources }}
+          resources: {{- toYaml .Values.theme.image.resources | nindent 12 }}
+          {{- end }}
           command:
             - /bin/sh
             - -c
@@ -49,7 +52,7 @@ spec:
         - name: keycloak-internal
           image: {{ include "keycloak-internal.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args: {{ .Values.keycloak.args }}
+          args: {{- toYaml .Values.keycloak.args | nindent 12 }}
           env:
             - name: KEYCLOAK_ADMIN
               valueFrom:
@@ -77,20 +80,47 @@ spec:
               value: {{ .Values.keycloak.proxyAddressForwarding | quote }}
             - name: KC_DB_SCHEMA
               value: {{ .Values.keycloak.dbSchema | quote }}
+            # KC_DB_* env variables are needed for Keycloak
             - name: KC_DB_URL
               value: {{ include "czertainly-lib.util.format.jdbcUrl" (list . "?characterEncoding=UTF-8") | quote }}
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: keycloak-internal-secret
-                  key: dbUsername
+                  key: database_user
             - name: KC_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: keycloak-internal-secret
-                  key: dbPassword
+                  key: database_password
             - name: KC_LOG_LEVEL
               value: {{ .Values.logging.level | quote }}
+            # PG* env variables are needed for psql command which is needed for postStart command
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-internal-secret
+                  key: database_host
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-internal-secret
+                  key: database_port
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-internal-secret
+                  key: database_name
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-internal-secret
+                  key: database_user
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-internal-secret
+                  key: database_password
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}
@@ -98,6 +128,21 @@ spec:
           envFrom:
             {{- $additionalEnvFrom | indent 12 }}
           {{- end }}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "psql"
+                  - "-c"
+                  - >
+                    DO $$
+                    BEGIN
+                      EXECUTE 'CREATE SCHEMA IF NOT EXISTS {{ .Values.keycloak.dbSchema }}';
+                      EXCEPTION
+                        WHEN duplicate_schema THEN RAISE NOTICE 'Schema "{{ .Values.keycloak.dbSchema }}" already exists';
+                        WHEN insufficient_privilege THEN RAISE NOTICE 'Permission denied to create schema "{{ .Values.keycloak.dbSchema }}"';
+                    END;
+                    $$
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -154,6 +199,8 @@ spec:
           resources: {{- toYaml .Values.image.resources | nindent 12 }}
           {{- end }}
           volumeMounts:
+            - mountPath: /opt/keycloak/data
+              name: ephemeral
             - name: import-realm-volume
               mountPath: /opt/keycloak/data/import
             - mountPath: /opt/keycloak/themes
@@ -162,6 +209,12 @@ spec:
               name: ephemeral
             - mountPath: /tmp
               name: ephemeral
+            {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
+            - name: trusted-certificates-volume
+              mountPath: /opt/keycloak/conf/truststores/trusted_cas.pem
+              subPath: ca.crt
+              readOnly: true
+            {{- end }}
             {{- if $additionalVolumeMounts }}
               {{- $additionalVolumeMounts | nindent 12 }}
             {{- end }}
@@ -177,6 +230,17 @@ spec:
                 path: czertainly_realm.json
         - name: ephemeral
           {{- include "keycloak-internal.ephemeralVolume" . | indent 10 }}
+        {{- if .Values.global.trusted.certificates }}
+        - name: trusted-certificates-volume
+          secret:
+            defaultMode: 420
+            secretName: trusted-certificates
+        {{- else if .Values.trusted.certificates }}
+        - name: trusted-certificates-volume
+          secret:
+            defaultMode: 420
+            secretName: trusted-certificates-{{ .Chart.Name | lower }}
+        {{- end }}
         {{- if $additionalVolumes }}
           {{- $additionalVolumes | nindent 8 }}
         {{- end }}
