@@ -39,6 +39,10 @@ spec:
           image: {{ include "fe-administrator.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if $additionalEnv }}
+          command:
+            - /bin/sh
+            - '-c'
+            - date && set && /docker-entrypoint.sh nginx -g 'daemon off;'
           env:
             {{- $additionalEnv | nindent 12 }}
           {{- end }}
