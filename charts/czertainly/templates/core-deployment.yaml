@@ -26,6 +26,7 @@ spec:
       labels:
         {{- include "czertainly.selectorLabels" . | nindent 8 }}
       annotations:
+        # annotation for vault-agent
         # when the list of the trusted certificates is changed, restart deployment
         checksum/config: {{ include (print $.Template.BasePath "/trusted-certificates-secret.yaml") . | sha256sum }}
         # when the messaging secrets are changed, restart deployment
