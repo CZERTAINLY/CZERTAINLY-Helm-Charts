@@ -38,6 +38,12 @@ spec:
         - name: auth-opa-policies
           image: {{ include "auth-opa-policies.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.command }}
+          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- end }}
+          {{- if .Values.args }}
+          args: {{- toYaml .Values.args | nindent 12 }}
+          {{- end }}
           {{- if $additionalEnv }}
           env:
             {{- $additionalEnv | nindent 12 }}

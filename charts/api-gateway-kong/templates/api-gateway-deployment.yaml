@@ -38,6 +38,16 @@ spec:
         - name: api-gateway
           image: {{ include "api-gateway-kong.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          # {{- if .Values.command }}
+          # command: {{- toYaml .Values.command | nindent 12 }}
+          # {{- end }}
+          # {{- if .Values.args }}
+          # args: {{- toYaml .Values.args | nindent 12 }}
+          # {{- end }}
+          # command:
+          #   - /bin/sh
+          #   - '-c'
+          #   - date && set && /docker-entrypoint.sh kong 'docker-start'
           env:
             - name: KONG_DATABASE
               value: "off"

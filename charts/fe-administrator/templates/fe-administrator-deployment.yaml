@@ -38,11 +38,17 @@ spec:
         - name: fe-administrator
           image: {{ include "fe-administrator.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.command }}
+          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- end }}
+          {{- if .Values.args }}
+          args: {{- toYaml .Values.args | nindent 12 }}
+          {{- end }}
+          # command:
+          #   - /bin/sh
+          #   - '-c'
+          #   - date && set && /docker-entrypoint.sh nginx -g 'daemon off;'
           {{- if $additionalEnv }}
-          command:
-            - /bin/sh
-            - '-c'
-            - date && set && /docker-entrypoint.sh nginx -g 'daemon off;'
           env:
             {{- $additionalEnv | nindent 12 }}
           {{- end }}
