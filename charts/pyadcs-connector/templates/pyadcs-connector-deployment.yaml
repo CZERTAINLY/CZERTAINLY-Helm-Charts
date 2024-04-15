@@ -46,6 +46,12 @@ spec:
         - name: pyadcs-connector
           image: {{ include "pyadcs-connector.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.command }}
+          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- end }}
+          {{- if .Values.args }}
+          args: {{- toYaml .Values.args | nindent 12 }}
+          {{- end }}
           env:
             - name: DATABASE_HOST
               valueFrom:

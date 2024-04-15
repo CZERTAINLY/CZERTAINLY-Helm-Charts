@@ -52,6 +52,12 @@ spec:
         - name: keycloak-internal
           image: {{ include "keycloak-internal.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.command }}
+          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- end }}
+          # {{- if .Values.args }}
+          # args: {{- toYaml .Values.args | nindent 12 }}
+          # {{- end }}
           args: {{- toYaml .Values.keycloak.args | nindent 12 }}
           env:
             - name: KEYCLOAK_ADMIN
