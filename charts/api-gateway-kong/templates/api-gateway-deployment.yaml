@@ -44,10 +44,10 @@ spec:
           {{- if .Values.args }}
           args: {{- toYaml .Values.args | nindent 12 }}
           {{- end }}
-          command:
-            - /bin/sh
-            - '-c'
-            - date && set && /docker-entrypoint.sh kong 'docker-start'
+          # command:
+          #   - /bin/sh
+          #   - '-c'
+          #   - date && set && /docker-entrypoint.sh kong 'docker-start'
           env:
             - name: KONG_DATABASE
               value: "off"
