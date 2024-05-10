@@ -90,7 +90,7 @@ spec:
             {{- end }}
             {{- if or .Values.global.trusted.certificates .Values.trusted.certificates $additionalVolumes }}
             - name: REQUESTS_CA_BUNDLE
-              value: /etc/ssl/certs
+              value: /etc/ssl/certs/pyadcs-trusted-cas.crt
             {{- end }}
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
@@ -157,8 +157,9 @@ spec:
               name: ephemeral
             {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
             - name: trusted-certificates-volume
-              mountPath: /etc/ssl/certs
+              mountPath: /etc/ssl/certs/pyadcs-trusted-cas.crt
               readOnly: true
+              subPath: ca.crt
             {{- end }}
             {{- if $additionalVolumeMounts }}
               {{- $additionalVolumeMounts | nindent 12 }}
