@@ -44,10 +44,6 @@ spec:
           {{- if .Values.args }}
           args: {{- toYaml .Values.args | nindent 12 }}
           {{- end }}
-          # command:
-          #   - /bin/sh
-          #   - '-c'
-          #   - date && set && /docker-entrypoint.sh nginx -g 'daemon off;'
           {{- if $additionalEnv }}
           env:
             {{- $additionalEnv | nindent 12 }}
