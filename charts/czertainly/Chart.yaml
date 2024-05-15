@@ -39,7 +39,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.0.1
+    version: 1.0.1-1-develop
     alias: pyAdcsConnector
   - condition: msAdcsConnector.enabled
     name: ms-adcs-connector
