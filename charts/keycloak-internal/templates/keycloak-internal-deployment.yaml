@@ -134,31 +134,31 @@ spec:
           envFrom:
             {{- $additionalEnvFrom | indent 12 }}
           {{- end }}
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "/bin/sh"
-                  - "-c"
-                  - |
-                    # Test if PGPASSWORD is defined and if not exit with success error code
-                    # to allow Keycloak start anyway. If PGPASSWORD is not set, like in situation
-                    # when using InitContainer for loading secrets from Vault, following psql command
-                    # fails and prevent container from starting. In this type of deployment it is
-                    # necessary to prepare schema for Keycloak manualy.
-                    if [ -z "$PGPASSWORD" ]; then
-                      echo "PGPASSWORD is not set. Exiting."
-                      exit 0
-                    fi
+          # lifecycle:
+          #   postStart:
+          #     exec:
+          #       command:
+          #         - "/bin/sh"
+          #         - "-c"
+          #         - |
+          #           # Test if PGPASSWORD is defined and if not exit with success error code
+          #           # to allow Keycloak start anyway. If PGPASSWORD is not set, like in situation
+          #           # when using InitContainer for loading secrets from Vault, following psql command
+          #           # fails and prevent container from starting. In this type of deployment it is
+          #           # necessary to prepare schema for Keycloak manualy.
+          #           if [ -z "$PGPASSWORD" ]; then
+          #             echo "PGPASSWORD is not set. Exiting."
+          #             exit 0
+          #           fi
 
-                    psql -c "DO \$\$
-                    BEGIN
-                      EXECUTE 'CREATE SCHEMA IF NOT EXISTS {{ .Values.keycloak.dbSchema }}';
-                    EXCEPTION
-                      WHEN duplicate_schema THEN RAISE NOTICE 'Schema \"{{ .Values.keycloak.dbSchema }}\" already exists';
-                      WHEN insufficient_privilege THEN RAISE NOTICE 'Permission denied to create schema \"{{ .Values.keycloak.dbSchema }}\"';
-                    END;
-                    \$\$"
+          #           psql -c "DO \$\$
+          #           BEGIN
+          #             EXECUTE 'CREATE SCHEMA IF NOT EXISTS {{ .Values.keycloak.dbSchema }}';
+          #           EXCEPTION
+          #             WHEN duplicate_schema THEN RAISE NOTICE 'Schema \"{{ .Values.keycloak.dbSchema }}\" already exists';
+          #             WHEN insufficient_privilege THEN RAISE NOTICE 'Permission denied to create schema \"{{ .Values.keycloak.dbSchema }}\"';
+          #           END;
+          #           \$\$"
           # lifecycle:
           #   postStart:
           #     exec:
