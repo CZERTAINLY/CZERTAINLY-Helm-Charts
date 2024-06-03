@@ -105,7 +105,7 @@ The following values may be configured:
 | image.registry                               | `docker.io`                     | Docker registry name for the image                                    |
 | image.repository                             | `3keycompany`                   | Docker image repository name                                          |
 | image.name                                   | `czertainly-ejbca-ng-connector` | Docker image name                                                     |
-| image.tag                                    | `1.8.0`                         | Docker image tag                                                      |
+| image.tag                                    | `1.9.0`                         | Docker image tag                                                      |
 | image.digest                                 | `""`                            | Docker image digest, will override tag if specified                   |
 | image.pullPolicy                             | `IfNotPresent`                  | Image pull policy                                                     |
 | image.pullSecrets                            | `[]`                            | Array of secret names for image pull                                  |
