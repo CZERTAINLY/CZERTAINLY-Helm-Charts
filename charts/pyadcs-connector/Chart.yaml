@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 1.0.1
+appVersion: 1.1.0
 name: pyadcs-connector
 description: A Helm chart for PyADCS Connector for CZERTAINLY platform.
 home: https://github.com/3KeyCompany/CZERTAINLY-Kontron-VCD-Entity-Provider
@@ -30,4 +30,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 1.0.1-1-develop
+version: 1.1.0
