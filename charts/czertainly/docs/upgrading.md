@@ -14,7 +14,7 @@ The following contains important information and instructions about upgrading He
 
 Upgrading Helm chart is done by running the `helm upgrade` command. The command upgrades the platform to the specified version. The command can be used to upgrade the platform to the same version with changed parameters.
 
-## To 2.11.1
+## To 2.11.0-1
 
 ### Additional connector sub-charts
 
@@ -27,7 +27,7 @@ hashicorpVaultConnector:
   enabled: false
 ```
 
-See the [CZERTAINLY Helm chart 2.11.1 release notes](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.11.1) for more information.
+See the [CZERTAINLY Helm chart 2.11.0-1 release notes](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts/releases/tag/2.11.0-1) for more information.
 
 ## To 2.11.0
 
