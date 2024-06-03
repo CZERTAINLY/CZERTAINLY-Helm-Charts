@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 1.0.0
+appVersion: 1.1.0
 name: hashicorp-vault-connector
 description: A Helm chart for HashiCorp Vault Connector for CZERTAINLY platform.
 home: https://github.com/CZERTAINLY/CZERTAINLY-HashiCorp-Vault-Connector
@@ -30,4 +30,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 1.0.0
+version: 1.1.0
