@@ -531,7 +531,7 @@
     "clientId" : "kong",
     "name" : "kong",
     "description" : "",
-    "rootUrl" : "https://{{ required "Hostname must be provided: .Values.czertainly.hostName" $hostName }}",
+    "rootUrl" : "",
     "adminUrl" : "",
     "baseUrl" : "",
     "surrogateAuthRequired" : false,
