@@ -197,11 +197,9 @@ spec:
             - name: keycloak-internal-configmap-volume
               mountPath: /opt/keycloak/data/import/czertainly_realm.json
               subPath: czertainly_realm.json
-            {{- if .Values.createDbSchema }}
             - name: keycloak-internal-configmap-volume
               mountPath: /opt/keycloak/create_schema.sh
               subPath: create_schema.sh
-            {{- end }}
             - mountPath: /opt/keycloak/themes
               name: ephemeral
             - mountPath: /opt/keycloak/data/tmp
@@ -227,10 +225,8 @@ spec:
             items:
               - key: czertainly_realm.json
                 path: czertainly_realm.json
-              {{- if .Values.createDbSchema }}
               - key: create_schema.sh
                 path: create_schema.sh
-              {{- end }}
         - name: ephemeral
           {{- include "keycloak-internal.ephemeralVolume" . | indent 10 }}
         {{- if .Values.global.trusted.certificates }}
