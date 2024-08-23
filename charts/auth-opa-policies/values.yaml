@@ -60,7 +60,7 @@ image:
   registry: docker.io
   repository: 3keycompany
   name: czertainly-auth-opa-policies
-  tag: 1.1.0
+  tag: 1.2.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
