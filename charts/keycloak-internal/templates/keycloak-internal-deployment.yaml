@@ -128,24 +128,14 @@ spec:
           envFrom:
             {{- $additionalEnvFrom | indent 12 }}
           {{- end }}
+          {{- if .Values.createDbSchema }}
           lifecycle:
             postStart:
               exec:
                 command:
                   - "/bin/sh"
-                  - "-c"
-                  - |
-                    psql -c "DO \$\$
-                    BEGIN
-                      EXECUTE 'CREATE SCHEMA IF NOT EXISTS {{ .Values.keycloak.dbSchema }}';
-                    EXCEPTION
-                      WHEN duplicate_schema THEN RAISE NOTICE 'Schema \"{{ .Values.keycloak.dbSchema }}\" already exists';
-                      WHEN insufficient_privilege THEN RAISE NOTICE 'Permission denied to create schema \"{{ .Values.keycloak.dbSchema }}\"';
-                    END;
-                    \$\$"
-
-                    # never fail in postStart
-                    exit 0
+                  - "/opt/keycloak/create_schema.sh"
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -204,8 +194,14 @@ spec:
           volumeMounts:
             - mountPath: /opt/keycloak/data
               name: ephemeral
-            - name: import-realm-volume
-              mountPath: /opt/keycloak/data/import
+            - name: keycloak-internal-configmap-volume
+              mountPath: /opt/keycloak/data/import/czertainly_realm.json
+              subPath: czertainly_realm.json
+            {{- if .Values.createDbSchema }}
+            - name: keycloak-internal-configmap-volume
+              mountPath: /opt/keycloak/create_schema.sh
+              subPath: create_schema.sh
+            {{- end }}
             - mountPath: /opt/keycloak/themes
               name: ephemeral
             - mountPath: /opt/keycloak/data/tmp
@@ -225,12 +221,16 @@ spec:
           {{- $additionalSidecarContainers | nindent 8 }}
         {{- end }}
       volumes:
-        - name: import-realm-volume
+        - name: keycloak-internal-configmap-volume
           configMap:
             name: keycloak-internal-configmap
             items:
               - key: czertainly_realm.json
                 path: czertainly_realm.json
+              {{- if .Values.createDbSchema }}
+              - key: create_schema.sh
+                path: create_schema.sh
+              {{- end }}
         - name: ephemeral
           {{- include "keycloak-internal.ephemeralVolume" . | indent 10 }}
         {{- if .Values.global.trusted.certificates }}

@@ -126,6 +126,7 @@ The following values may be configured:
 | logging.level                                | `"info"`                        | Allowed values are `fatal`, `error`, `warn`, `info`, `debug`, `trace`, `all`, or `off` |
 | service.type                                 | `"ClusterIP"`                   | Type of the service that is exposed                                                    |
 | service.port                                 | `8080`                          | Port number of the exposed service                                                     |
+| createDbSchema                               | true                            | Deploy simple startupHook to create schema for Keycloak in database                    |
 
 #### Customization parameters
 
