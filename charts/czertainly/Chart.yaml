@@ -66,6 +66,14 @@ dependencies:
       - cryptosense-discovery-provider
     version: 1.4.0-1
     alias: cryptosenseDiscoveryProvider
+  - condition: ctLogsDiscoveryProvider.enabled
+    name: ct-logs-discovery-provider
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../ct-logs-discovery-provider
+    tags:
+      - ct-logs-discovery-provider
+    version: 1.0.0-develop
+    alias: ctLogsDiscoveryProvider
   - condition: networkDiscoveryProvider.enabled
     name: network-discovery-provider
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -179,4 +187,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.12.0
+version: 2.12.0-1-develop

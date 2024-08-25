@@ -40,6 +40,7 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 - [X.509 Compliance Provider](charts/x509-compliance-provider)
 - [Network Discovery Provider](charts/network-discovery-provider)
 - [Cryptosense Discovery Provider](charts/cryptosense-discovery-provider)
+- [CT Logs Discovery Provider](charts/ct-logs-discovery-provider)
 - [Keystore Entity Provider](charts/keystore-entity-provider)
 - [Software Cryptography Provider](charts/software-cryptography-provider)
 
