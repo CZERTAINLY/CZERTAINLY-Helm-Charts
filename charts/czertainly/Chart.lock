@@ -20,6 +20,9 @@ dependencies:
 - name: cryptosense-discovery-provider
   repository: file://../cryptosense-discovery-provider
   version: 1.4.0-1
+- name: ct-logs-discovery-provider
+  repository: file://../ct-logs-discovery-provider
+  version: 1.0.0-develop
 - name: network-discovery-provider
   repository: file://../network-discovery-provider
   version: 1.4.0-1
@@ -59,5 +62,5 @@ dependencies:
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.0-2
-digest: sha256:49e973499d1fe575117803a7426f1fca5df0225fbb976343278029c73312835a
-generated: "2024-06-03T16:50:03.498351+02:00"
+digest: sha256:e0227adc83d53ee1c752fa2db3bb61b1683e5d53fb8bb337985fcc24574b57dc
+generated: "2024-08-25T18:09:14.61172+02:00"
