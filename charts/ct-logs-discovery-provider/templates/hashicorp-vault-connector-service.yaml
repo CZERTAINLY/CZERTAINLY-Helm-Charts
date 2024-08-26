@@ -1,0 +1,17 @@
+{{- $additionalPorts := (include "ct-logs-discovery-provider.customization.ports" $) }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{- include "ct-logs-discovery-provider.labels" . | nindent 4 }}
+  name: ct-logs-discovery-provider-service
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: "TCP"
+    {{- if $additionalPorts }}
+      {{- $additionalPorts | nindent 4 }}
+    {{- end }}
+  selector:
+    {{- include "ct-logs-discovery-provider.selectorLabels" . | nindent 4 }}

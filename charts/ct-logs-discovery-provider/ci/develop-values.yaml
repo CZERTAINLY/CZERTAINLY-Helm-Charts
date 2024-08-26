@@ -1,0 +1,10 @@
+database:
+  host: "172.17.0.1"
+
+image:
+  tag: develop-latest
+
+additionalEnv:
+  variables:
+    - name: DATABASE_SSL_MODE
+      value: "disable"
