@@ -88,7 +88,7 @@ spec:
             {{- end }}
             {{- if .Values.ctLogsDiscoveryProvider.enabled }}
             curl -X POST -k -H 'content-type: application/json' \
-            -d '{"name": "CT-Logs-Discovery-Provider","url": "http://ct-logs-discovery-provider-service:{{ .Values.emailNotificationProvider.service.port }}","authType": "none"}' \
+            -d '{"name": "CT-Logs-Discovery-Provider","url": "http://ct-logs-discovery-provider-service:{{ .Values.ctLogsDiscoveryProvider.service.port }}","authType": "none"}' \
             http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
             {{- end }}
             echo "all done"
