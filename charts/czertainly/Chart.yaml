@@ -13,7 +13,7 @@ dependencies:
     repository: file://../keycloak-internal
     tags:
       - keycloak-internal
-    version: 24.0.2-0
+    version: 24.0.2-0-1-develop
     alias: keycloakInternal
   - condition: commonCredentialProvider.enabled
     name: common-credential-provider
