@@ -13,7 +13,7 @@ dependencies:
     repository: file://../keycloak-internal
     tags:
       - keycloak-internal
-    version: 24.0.2-0
+    version: 24.0.2-0-1-develop
     alias: keycloakInternal
   - condition: commonCredentialProvider.enabled
     name: common-credential-provider
@@ -66,6 +66,14 @@ dependencies:
       - cryptosense-discovery-provider
     version: 1.4.0-1
     alias: cryptosenseDiscoveryProvider
+  - condition: ctLogsDiscoveryProvider.enabled
+    name: ct-logs-discovery-provider
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../ct-logs-discovery-provider
+    tags:
+      - ct-logs-discovery-provider
+    version: 1.0.0-develop
+    alias: ctLogsDiscoveryProvider
   - condition: networkDiscoveryProvider.enabled
     name: network-discovery-provider
     # repository: oci://harbor.3key.company/czertainly-helm
