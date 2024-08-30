@@ -397,6 +397,7 @@ letsEncrypt:
 
 ingress:
   enabled: false
+  redirect2administrator: false
   certificate:
     # options: internal, external, letsencrypt
     source: internal
