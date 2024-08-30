@@ -46,7 +46,7 @@ dependencies:
   version: 1.3.0
 - name: api-gateway-kong
   repository: file://../api-gateway-kong
-  version: 3.4.0-2
+  version: 3.4.0-2-1-develop
 - name: fe-administrator
   repository: file://../fe-administrator
   version: 2.12.0
@@ -62,5 +62,5 @@ dependencies:
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.0-2
-digest: sha256:6e32762af9427cac9c5fc2a347f8a8f20a357c13676a54267da48d73c9041163
-generated: "2024-08-26T11:11:47.199695+02:00"
+digest: sha256:ce59856ff567fc193171dcb990737a78470552ed77e169c53e1bea7824440546
+generated: "2024-08-26T11:28:03.357801+02:00"
