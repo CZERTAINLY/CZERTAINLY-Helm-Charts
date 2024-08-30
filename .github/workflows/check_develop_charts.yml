@@ -40,7 +40,7 @@ jobs:
           - ${{ github.workspace }}/initdb:/docker-entrypoint-initdb.d
 
       mail:
-        image: mailserver/docker-mailserver:13.3.1
+        image: mailserver/docker-mailserver:14.0.0
         ports:
           - 25:25
         env:
