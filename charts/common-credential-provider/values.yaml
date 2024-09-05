@@ -70,9 +70,9 @@ service:
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany
+  repository: czertainly
   name: czertainly-common-credential-provider
-  tag: 1.3.2
+  tag: 1.3.3
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent

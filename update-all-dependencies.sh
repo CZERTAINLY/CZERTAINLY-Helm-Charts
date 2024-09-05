@@ -23,6 +23,9 @@ helm dependency update charts/common-credential-provider --skip-refresh
 echo "Updating dependencies for cryptosense-discovery-provider..."
 helm dependency update charts/cryptosense-discovery-provider --skip-refresh
 
+echo "Updating dependencies for cryptosense-discovery-provider..."
+helm dependency update charts/ct-logs-discovery-provider --skip-refresh
+
 echo "Updating dependencies for ejbca-ng-connector..."
 helm dependency update charts/ejbca-ng-connector --skip-refresh
 

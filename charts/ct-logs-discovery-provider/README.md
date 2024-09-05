@@ -1,4 +1,4 @@
-# HashiCorp Vault Connector - CZERTAINLY
+# CT Logs Discovery Provider - CZERTAINLY
 
 > This repository is part of the open-source project CZERTAINLY. You can find more information about the project at [CZERTAINLY](https://github.com/CZERTAINLY/CZERTAINLY) repository, including the contribution guide.
 
@@ -28,7 +28,7 @@ kubectl create namespace czertainly
 
 Copy the default `values.yaml` from the Helm chart and modify the values accordingly:
 ```bash
-helm show values oci://harbor.3key.company/czertainly-helm/hashicorp-vault-connector > values.yaml
+helm show values oci://harbor.3key.company/czertainly-helm/ct-logs-discovery-provider > values.yaml
 ```
 Now edit the `values.yaml` according to your desired stated, see [Configurable parameters](#configurable-parameters) for more information.
 
@@ -36,7 +36,7 @@ Now edit the `values.yaml` according to your desired stated, see [Configurable p
 
 For the basic installation, run:
 ```bash
-helm install --namespace czertainly -f values.yaml czertainly-hashicorp-vault-connector oci://harbor.3key.company/czertainly-helm/hashicorp-vault-connector
+helm install --namespace czertainly -f values.yaml czertainly-ct-logs-discovery-provider oci://harbor.3key.company/czertainly-helm/ct-logs-discovery-provider
 ```
 
 **Save your configuration**
@@ -50,14 +50,14 @@ Always make sure you save the `values.yaml` and all `--set` and `--set-file` opt
 
 For upgrading the installation, update your configuration and run:
 ```bash
-helm upgrade --namespace czertainly -f values.yaml czertainly-hashicorp-vault-connector oci://harbor.3key.company/czertainly-helm/hashicorp-vault-connector
+helm upgrade --namespace czertainly -f values.yaml czertainly-ct-logs-discovery-provider oci://harbor.3key.company/czertainly-helm/ct-logs-discovery-provider
 ```
 
 ### Uninstall
 
 You can use the `helm uninstall` command to uninstall the application:
 ```bash
-helm uninstall --namespace czertainly czertainly-hashicorp-vault-connector
+helm uninstall --namespace czertainly czertainly-ct-logs-discovery-provider
 ```
 
 ## Configurable parameters
@@ -97,34 +97,34 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                    | Default value                          | Description                                                           |
-|----------------------------------------------|----------------------------------------|-----------------------------------------------------------------------|
-| database.type                                | `"postgresql"`                         | Type of the database, currently only `postgresql` is supported        |
-| database.host                                | `"host.docker.internal"`               | Host where is the database located                                    |
-| database.port                                | `5432`                                 | Port on which is the database listening                               |
-| database.name                                | `"czertainlydb"`                       | Database name                                                         |
-| database.schema                              | `"hvault"`                             | Database schema name                                                  |
-| database.username                            | `"czertainlyuser"`                     | Username to access the database                                       |
-| database.password                            | `"your-strong-password"`               | Password to access the database                                       |
-| trusted.certificates                         | `""`                                   | List of additional CA certificates that should be trusted             |
-| httpProxy                                    | `""`                                   | Proxy to be used to access external resources through http            |
-| httpsProxy                                   | `""`                                   | Proxy to be used to access external resources through https           |
-| httpProxy                                    | `""`                                   | Defines list of external resources that should not use proxy settings |
-| image.registry                               | `docker.io`                            | Docker registry name for the image                                    |
-| image.repository                             | `czertainly`                           | Docker image repository name                                          |
-| image.name                                   | `czertainly-hashicorp-vault-connector` | Docker image name                                                     |
-| image.tag                                    | `1.1.1`                                | Docker image tag                                                      |
-| image.digest                                 | `""`                                   | Docker image digest, will override tag if specified                   |
-| image.pullPolicy                             | `IfNotPresent`                         | Image pull policy                                                     |
-| image.pullSecrets                            | `[]`                                   | Array of secret names for image pull                                  |
-| image.securityContext.runAsNonRoot           | `true`                                 | Run the container as non-root user                                    |
-| image.securityContext.runAsUser              | `10001`                                | User ID for the container                                             |
-| image.securityContext.readOnlyRootFilesystem | `true`                                 | Run the container with read-only root filesystem                      |
-| image.resources                              | `{}`                                   | The resources for the container                                       |
-| podSecurityContext                           | `{}`                                   | Pod security context                                                  |
-| logging.level                                | `"INFO"`                               | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
-| service.type                                 | `"ClusterIP"`                          | Type of the service that is exposed                                   |
-| service.port                                 | `8080`                                 | Port number of the exposed service                                    |
+| Parameter                                    | Default value                           | Description                                                           |
+|----------------------------------------------|-----------------------------------------|-----------------------------------------------------------------------|
+| database.type                                | `"postgresql"`                          | Type of the database, currently only `postgresql` is supported        |
+| database.host                                | `"host.docker.internal"`                | Host where is the database located                                    |
+| database.port                                | `5432`                                  | Port on which is the database listening                               |
+| database.name                                | `"czertainlydb"`                        | Database name                                                         |
+| database.schema                              | `"ctlogs"`                              | Database schema name                                                  |
+| database.username                            | `"czertainlyuser"`                      | Username to access the database                                       |
+| database.password                            | `"your-strong-password"`                | Password to access the database                                       |
+| trusted.certificates                         | `""`                                    | List of additional CA certificates that should be trusted             |
+| httpProxy                                    | `""`                                    | Proxy to be used to access external resources through http            |
+| httpsProxy                                   | `""`                                    | Proxy to be used to access external resources through https           |
+| httpProxy                                    | `""`                                    | Defines list of external resources that should not use proxy settings |
+| image.registry                               | `docker.io`                             | Docker registry name for the image                                    |
+| image.repository                             | `czertainly`                            | Docker image repository name                                          |
+| image.name                                   | `czertainly-ct-logs-discovery-provider` | Docker image name                                                     |
+| image.tag                                    | `1.0.0`                                 | Docker image tag                                                      |
+| image.digest                                 | `""`                                    | Docker image digest, will override tag if specified                   |
+| image.pullPolicy                             | `IfNotPresent`                          | Image pull policy                                                     |
+| image.pullSecrets                            | `[]`                                    | Array of secret names for image pull                                  |
+| image.securityContext.runAsNonRoot           | `true`                                  | Run the container as non-root user                                    |
+| image.securityContext.runAsUser              | `10001`                                 | User ID for the container                                             |
+| image.securityContext.readOnlyRootFilesystem | `true`                                  | Run the container with read-only root filesystem                      |
+| image.resources                              | `{}`                                    | The resources for the container                                       |
+| podSecurityContext                           | `{}`                                    | Pod security context                                                  |
+| logging.level                                | `"INFO"`                                | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
+| service.type                                 | `"ClusterIP"`                           | Type of the service that is exposed                                   |
+| service.port                                 | `8080`                                  | Port number of the exposed service                                    |
 
 #### Customization parameters
 

@@ -1,4 +1,4 @@
-# Default values for hashicorp-vault-connector.
+# Default values for ct-logs-discovery-provider.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -64,7 +64,7 @@ database:
   host: "host.docker.internal"
   port: 5432
   name: "czertainlydb"
-  schema: "hvault"
+  schema: "ctlogs"
   username: "czertainlyuser"
   password: "your-strong-password"
 
@@ -81,8 +81,8 @@ image:
   # default registry name
   registry: docker.io
   repository: czertainly
-  name: czertainly-hashicorp-vault-connector
-  tag: 1.1.1
+  name: czertainly-ct-logs-discovery-provider
+  tag: 1.0.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
