@@ -4,8 +4,8 @@ apiVersion: v2
 appVersion: 3.4.0-2
 name: api-gateway-kong
 description: A Helm chart for API Gateway based on the revomatico/kong-oidc for CZERTAINLY platform.
-home: https://github.com/3KeyCompany/CZERTAINLY
-icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
+home: https://github.com/CZERTAINLY/CZERTAINLY
+icon: https://github.com/CZERTAINLY/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 dependencies:
   - name: czertainly-lib
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -22,12 +22,12 @@ keywords:
 maintainers:
   - name: CZERTAINLY
     email: info@czertainly.com
-    url: https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts
+    url: https://github.com/CZERTAINLY/CZERTAINLY-Helm-Charts
 type: application
 sources:
-  - https://github.com/3KeyCompany/CZERTAINLY
+  - https://github.com/CZERTAINLY/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
   - https://github.com/revomatico/docker-kong-oidc
   - https://github.com/revomatico/kong-oidc
-version: 3.4.0-2-1-develop
+version: 3.4.0-2-1

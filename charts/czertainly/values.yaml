@@ -190,9 +190,9 @@ service:
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany
+  repository: czertainly
   name: czertainly-core
-  tag: 2.12.0
+  tag: 2.13.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent

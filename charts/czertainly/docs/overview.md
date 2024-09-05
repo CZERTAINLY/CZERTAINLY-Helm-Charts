@@ -79,7 +79,7 @@ helm uninstall --namespace czertainly czertainly-tlm
 ```
 
 :::info[Helm chart]
-See [CZERTAINLY-Helm-Charts](https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts) for description of all charts and sub-charts that are available for the platform.
+See [CZERTAINLY-Helm-Charts](https://github.com/CZERTAINLY/CZERTAINLY-Helm-Charts) for description of all charts and sub-charts that are available for the platform.
 :::
 
 ## Persistence

@@ -1,6 +1,6 @@
 # Internal Keycloak Authorization - CZERTAINLY
 
-> This repository is part of the commercial open-source project CZERTAINLY. You can find more information about the project at [CZERTAINLY](https://github.com/3KeyCompany/CZERTAINLY) repository, including the contribution guide.
+> This repository is part of the commercial open-source project CZERTAINLY. You can find more information about the project at [CZERTAINLY](https://github.com/CZERTAINLY/CZERTAINLY) repository, including the contribution guide.
 
 This repository contains [Helm](https://helm.sh/) charts as part of the CZERTAINLY platform.
 
@@ -145,19 +145,19 @@ The following values may be configured:
 
 **CZERTAINLY Keycloak theme**
 
-| Parameter                                          | Default value                           | Description                                         |
-|----------------------------------------------------|-----------------------------------------|-----------------------------------------------------|
-| theme.image.registry                               | `docker.io`                             | Docker registry name for the image                  |
-| theme.image.repository                             | `3keycompany`                           | Docker image repository name                        |
-| theme.image.name                                   | `czertainly-keycloak-theme`             | Docker image name                                   |
-| theme.image.tag                                    | `0.1.1`                                 | Docker image tag                                    |
-| theme.image.digest                                 | `""`                                    | Docker image digest, will override tag if specified |
-| theme.image.pullPolicy                             | `IfNotPresent`                          | Image pull policy                                   |
-| theme.image.pullSecrets                            | `[]`                                    | Array of secret names for image pull                |
-| theme.image.securityContext.runAsNonRoot           | `true`                                  | Run the container as non-root user                  |
-| theme.image.securityContext.runAsUser              | `10001`                                 | User ID for the container                           |
-| theme.image.securityContext.readOnlyRootFilesystem | `true`                                  | Run the container with read-only root filesystem    |
-| theme.image.resources                              | {}                                      | Specify requests and limits for the image if needed |
+| Parameter                                          | Default value               | Description                                         |
+|----------------------------------------------------|-----------------------------|-----------------------------------------------------|
+| theme.image.registry                               | `docker.io`                 | Docker registry name for the image                  |
+| theme.image.repository                             | `czertainly`                | Docker image repository name                        |
+| theme.image.name                                   | `czertainly-keycloak-theme` | Docker image name                                   |
+| theme.image.tag                                    | `0.1.2`                     | Docker image tag                                    |
+| theme.image.digest                                 | `""`                        | Docker image digest, will override tag if specified |
+| theme.image.pullPolicy                             | `IfNotPresent`              | Image pull policy                                   |
+| theme.image.pullSecrets                            | `[]`                        | Array of secret names for image pull                |
+| theme.image.securityContext.runAsNonRoot           | `true`                      | Run the container as non-root user                  |
+| theme.image.securityContext.runAsUser              | `10001`                     | User ID for the container                           |
+| theme.image.securityContext.readOnlyRootFilesystem | `true`                      | Run the container with read-only root filesystem    |
+| theme.image.resources                              | {}                          | Specify requests and limits for the image if needed |
 
 #### Keycloak associated parameters
 
