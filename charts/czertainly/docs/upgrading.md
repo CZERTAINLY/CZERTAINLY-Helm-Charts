@@ -14,6 +14,19 @@ The following contains important information and instructions about upgrading He
 
 Upgrading Helm chart is done by running the `helm upgrade` command. The command upgrades the platform to the specified version. The command can be used to upgrade the platform to the same version with changed parameters.
 
+## To 2.13.0
+
+### Additional connector sub-charts
+
+The following sub-charts were added to support additional connectors as optional components:
+- CT Logs Discovery Provider
+
+When you enable new connector during upgrade, you need to register the connector manually in the platform:
+```yaml
+ctLogsDiscoveryProvider:
+  enabled: false
+```
+
 ## To 2.11.0-1
 
 ### Additional connector sub-charts
