@@ -21,6 +21,12 @@ metadata:
     {{- include "czertainly.labels" . | nindent 4 }}
   annotations:
     kubernetes.io/ingress.class: {{ .Values.ingress.class }}
+  {{- if .Values.ingress.redirect2administrator}}
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($request_uri = /) {
+        return 302 /administrator/;
+      }
+  {{- end }}
   {{- if or (eq .Values.ingress.certificate.source "internal") (eq .Values.ingress.certificate.source "letsencrypt") }}
     {{- $certmanagerVer :=  split "." .Values.certManager.version -}}
     {{- if or (.Capabilities.APIVersions.Has "certmanager.k8s.io/v1alpha1") (and (gt (len $certmanagerVer._0) 0) (eq (int $certmanagerVer._0) 0) (lt (int $certmanagerVer._1) 11)) }}
