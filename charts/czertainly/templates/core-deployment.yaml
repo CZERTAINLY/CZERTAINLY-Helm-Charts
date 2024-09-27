@@ -122,7 +122,7 @@ spec:
             - "run"
             - "--server"
             - "--log-format=json-pretty"
-            - "--set=decision_logs.console=true"
+            - "--set=decision_logs.console=false"
             - "--set=services.nginx.url=http://auth-opa-policies-service:{{ .Values.authOpaPolicies.service.port }}"
             - "--set=bundles.nginx.service=nginx"
             - "--set=bundles.nginx.resource=bundles/bundle.tar.gz"
