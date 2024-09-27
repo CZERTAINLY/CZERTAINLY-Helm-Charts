@@ -96,7 +96,7 @@ spec:
             {{- end }}
             {{- if or .Values.global.trusted.certificates .Values.trusted.certificates $additionalVolumes }}
             - name: REQUESTS_CA_BUNDLE
-              value: /etc/ssl/certs/ca.crt
+              value: /etc/ssl/certs
             {{- end }}
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
