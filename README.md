@@ -1,6 +1,6 @@
 # CZERTAINLY-Helm-Charts
 
-> This repository is part of the commercial open-source project CZERTAINLY. You can find more information about the project at [CZERTAINLY](https://github.com/3KeyCompany/CZERTAINLY) repository, including the contribution guide.
+> This repository is part of the commercial open-source project CZERTAINLY. You can find more information about the project at [CZERTAINLY](https://github.com/CZERTAINLY/CZERTAINLY) repository, including the contribution guide.
 
 This repository contains [Helm](https://helm.sh/) charts as part of the CZERTAINLY platform.
 
@@ -40,6 +40,7 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 - [X.509 Compliance Provider](charts/x509-compliance-provider)
 - [Network Discovery Provider](charts/network-discovery-provider)
 - [Cryptosense Discovery Provider](charts/cryptosense-discovery-provider)
+- [CT Logs Discovery Provider](charts/ct-logs-discovery-provider)
 - [Keystore Entity Provider](charts/keystore-entity-provider)
 - [Software Cryptography Provider](charts/software-cryptography-provider)
 

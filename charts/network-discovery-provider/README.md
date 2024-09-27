@@ -1,6 +1,6 @@
 # Network Discovery Provider - CZERTAINLY
 
-> This repository is part of the commercial open-source project CZERTAINLY. You can find more information about the project at [CZERTAINLY](https://github.com/3KeyCompany/CZERTAINLY) repository, including the contribution guide.
+> This repository is part of the commercial open-source project CZERTAINLY. You can find more information about the project at [CZERTAINLY](https://github.com/CZERTAINLY/CZERTAINLY) repository, including the contribution guide.
 
 This repository contains [Helm](https://helm.sh/) charts as part of the CZERTAINLY platform.
 
@@ -99,37 +99,37 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                    | Default value                                  | Description                                                           |
-|----------------------------------------------|------------------------------------------------|-----------------------------------------------------------------------|
-| image.registry                               | `docker.io`                                    | Docker registry name for the image                                    |
-| image.repository                             | `3keycompany`                                  | Docker image repository name                                          |
-| image.name                                   | `czertainly-ip-discovery-provider`             | Docker image name                                                     |
-| image.tag                                    | `1.4.0`                                        | Docker image tag                                                      |
-| image.digest                                 | `""`                                           | Docker image digest, will override tag if specified                   |
-| image.pullPolicy                             | `IfNotPresent`                                 | Image pull policy                                                     |
-| image.pullSecrets                            | `[]`                                           | Array of secret names for image pull                                  |
-| image.securityContext.runAsNonRoot           | `true`                                         | Run the container as non-root user                                    |
-| image.securityContext.runAsUser              | `10001`                                        | User ID for the container                                             |
-| image.securityContext.readOnlyRootFilesystem | `true`                                         | Run the container with read-only root filesystem                      |
-| image.resources                              | `{}`                                           | The resources for the container                                       |
-| podSecurityContext                           | `{}`                                           | Pod security context                                                  |
-| volumes.ephemeral.type                       | `memory`                                       | Ephemeral volume type to be used                                      |
-| volumes.ephemeral.sizeLimit                  | `"1Mi"`                                        | Ephemeral volume size limit                                           |
-| volumes.ephemeral.storageClassName           | `""`                                           | Ephemeral volume storage class name for `storage` type                |
-| volumes.ephemeral.custom                     | `{}`                                           | Custom definition of the ephemeral volume for `custom` type           |
-| database.type                                | `"postgresql"`                                 | Type of the database, currently only `postgresql` is supported        |
-| database.host                                | `"host.docker.internal"`                       | Host where is the database located                                    |
-| database.port                                | `5432`                                         | Port on which is the database listening                               |
-| database.name                                | `"czertainlydb"`                               | Database name                                                         |
-| database.username                            | `"czertainlyuser"`                             | Username to access the database                                       |
-| database.password                            | `"your-strong-password"`                       | Password to access the database                                       |
-| httpProxy                                    | `""`                                           | Proxy to be used to access external resources through http            |
-| httpsProxy                                   | `""`                                           | Proxy to be used to access external resources through https           |
-| httpProxy                                    | `""`                                           | Defines list of external resources that should not use proxy settings |
-| logging.level                                | `"INFO"`                                       | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
-| service.type                                 | `"ClusterIP"`                                  | Type of the service that is exposed                                   |
-| service.port                                 | `8080`                                         | Port number of the exposed service                                    |
-| javaOpts                                     | `""`                                           | Customize Java system properties                                      |
+| Parameter                                    | Default value                      | Description                                                           |
+|----------------------------------------------|------------------------------------|-----------------------------------------------------------------------|
+| image.registry                               | `docker.io`                        | Docker registry name for the image                                    |
+| image.repository                             | `czertainly`                       | Docker image repository name                                          |
+| image.name                                   | `czertainly-ip-discovery-provider` | Docker image name                                                     |
+| image.tag                                    | `1.5.0`                            | Docker image tag                                                      |
+| image.digest                                 | `""`                               | Docker image digest, will override tag if specified                   |
+| image.pullPolicy                             | `IfNotPresent`                     | Image pull policy                                                     |
+| image.pullSecrets                            | `[]`                               | Array of secret names for image pull                                  |
+| image.securityContext.runAsNonRoot           | `true`                             | Run the container as non-root user                                    |
+| image.securityContext.runAsUser              | `10001`                            | User ID for the container                                             |
+| image.securityContext.readOnlyRootFilesystem | `true`                             | Run the container with read-only root filesystem                      |
+| image.resources                              | `{}`                               | The resources for the container                                       |
+| podSecurityContext                           | `{}`                               | Pod security context                                                  |
+| volumes.ephemeral.type                       | `memory`                           | Ephemeral volume type to be used                                      |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`                            | Ephemeral volume size limit                                           |
+| volumes.ephemeral.storageClassName           | `""`                               | Ephemeral volume storage class name for `storage` type                |
+| volumes.ephemeral.custom                     | `{}`                               | Custom definition of the ephemeral volume for `custom` type           |
+| database.type                                | `"postgresql"`                     | Type of the database, currently only `postgresql` is supported        |
+| database.host                                | `"host.docker.internal"`           | Host where is the database located                                    |
+| database.port                                | `5432`                             | Port on which is the database listening                               |
+| database.name                                | `"czertainlydb"`                   | Database name                                                         |
+| database.username                            | `"czertainlyuser"`                 | Username to access the database                                       |
+| database.password                            | `"your-strong-password"`           | Password to access the database                                       |
+| httpProxy                                    | `""`                               | Proxy to be used to access external resources through http            |
+| httpsProxy                                   | `""`                               | Proxy to be used to access external resources through https           |
+| httpProxy                                    | `""`                               | Defines list of external resources that should not use proxy settings |
+| logging.level                                | `"INFO"`                           | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
+| service.type                                 | `"ClusterIP"`                      | Type of the service that is exposed                                   |
+| service.port                                 | `8080`                             | Port number of the exposed service                                    |
+| javaOpts                                     | `""`                               | Customize Java system properties                                      |
 
 #### Customization parameters
 

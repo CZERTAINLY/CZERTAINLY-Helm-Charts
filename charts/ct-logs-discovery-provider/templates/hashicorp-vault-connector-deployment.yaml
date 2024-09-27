@@ -1,40 +1,35 @@
 {{- $httpProxy := pluck "httpProxy" .Values.global .Values | compact | first }}
 {{- $httpsProxy := pluck "httpsProxy" .Values.global .Values | compact | first }}
 {{- $noProxy := pluck "noProxy" .Values.global .Values | compact | first }}
-{{- $additionalInitContainers := (include "pyadcs-connector.customization.initContainers" $) }}
-{{- $additionalSidecarContainers := (include "pyadcs-connector.customization.sidecarContainers" $) }}
-{{- $additionalVolumes := (include "pyadcs-connector.customization.volumes" $) }}
-{{- $additionalVolumeMounts := (include "pyadcs-connector.customization.volumeMounts" $) }}
-{{- $additionalEnv := (include "pyadcs-connector.customization.env" $) }}
-{{- $additionalEnvFrom := (include "pyadcs-connector.customization.envFrom" $) }}
+{{- $additionalInitContainers := (include "ct-logs-discovery-provider.customization.initContainers" $) }}
+{{- $additionalSidecarContainers := (include "ct-logs-discovery-provider.customization.sidecarContainers" $) }}
+{{- $additionalVolumes := (include "ct-logs-discovery-provider.customization.volumes" $) }}
+{{- $additionalVolumeMounts := (include "ct-logs-discovery-provider.customization.volumeMounts" $) }}
+{{- $additionalEnv := (include "ct-logs-discovery-provider.customization.env" $) }}
+{{- $additionalEnvFrom := (include "ct-logs-discovery-provider.customization.envFrom" $) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pyadcs-connector-deployment
+  name: ct-logs-discovery-provider-deployment
   labels:
-    {{- include "pyadcs-connector.labels" . | nindent 4 }}
+    {{- include "ct-logs-discovery-provider.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "pyadcs-connector.selectorLabels" . | nindent 6 }}
+      {{- include "ct-logs-discovery-provider.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "pyadcs-connector.selectorLabels" . | nindent 8 }}
-      annotations:
-        # when the list of the trusted certificates is changed, restart deployment
-        checksum/config: {{ include (print $.Template.BasePath "/trusted-certificates-secret.yaml") . | sha256sum }}
-        {{- if .Values.global.trusted.certificates }}
-        checksum/config: {{ include ("czertainly-lib.trusted.certificates.secret.global") . | sha256sum }}
-        {{- end }}
+        {{- include "ct-logs-discovery-provider.selectorLabels" . | nindent 8 }}
       {{- with .Values.podAnnotations }}
+      annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- include "pyadcs-connector.imagePullSecrets" . | indent 6 }}
+      {{- include "ct-logs-discovery-provider.imagePullSecrets" . | indent 6 }}
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
@@ -43,43 +38,39 @@ spec:
         {{- $additionalInitContainers | nindent 8 }}
       {{- end }}
       containers:
-        - name: pyadcs-connector
-          image: {{ include "pyadcs-connector.image" . }}
+        - name: ct-logs-discovery-provider
+          image: {{ include "ct-logs-discovery-provider.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.command }}
-          command: {{- toYaml .Values.command | nindent 12 }}
-          {{- end }}
-          {{- if .Values.args }}
-          args: {{- toYaml .Values.args | nindent 12 }}
-          {{- end }}
           env:
             - name: DATABASE_HOST
               valueFrom:
                 secretKeyRef:
-                  name: pyadcs-connector-secret
+                  name: ct-logs-discovery-provider-secret
                   key: database_host
             - name: DATABASE_PORT
               valueFrom:
                 secretKeyRef:
-                  name: pyadcs-connector-secret
+                  name: ct-logs-discovery-provider-secret
                   key: database_port
             - name: DATABASE_NAME
               valueFrom:
                 secretKeyRef:
-                  name: pyadcs-connector-secret
+                  name: ct-logs-discovery-provider-secret
                   key: database_name
             - name: DATABASE_SCHEMA
               value: {{ .Values.database.schema | quote }}
             - name: DATABASE_USER
               valueFrom:
                 secretKeyRef:
-                  name: pyadcs-connector-secret
+                  name: ct-logs-discovery-provider-secret
                   key: database_user
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pyadcs-connector-secret
+                  name: ct-logs-discovery-provider-secret
                   key: database_password
+            - name: SERVER_PORT
+              value: {{ .Values.service.port | quote }}
             - name: LOG_LEVEL
               value: {{ .Values.logging.level | quote }}
             {{- if $httpProxy }}
@@ -93,10 +84,6 @@ spec:
             {{- if $noProxy }}
             - name: NO_PROXY
               value: {{ $noProxy }}
-            {{- end }}
-            {{- if or .Values.global.trusted.certificates .Values.trusted.certificates $additionalVolumes }}
-            - name: REQUESTS_CA_BUNDLE
-              value: /etc/ssl/certs/pyadcs-trusted-cas.crt
             {{- end }}
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
@@ -116,7 +103,7 @@ spec:
             {{- toYaml .Values.image.probes.liveness.custom | nindent 12 }}
             {{- else }}
             httpGet:
-              path: /v1
+              path: /v1/health
               port: {{ .Values.service.port }}
             {{- end }}
             initialDelaySeconds: {{ .Values.image.probes.liveness.initialDelaySeconds }}
@@ -131,7 +118,7 @@ spec:
             {{- toYaml .Values.image.probes.readiness.custom | nindent 12 }}
             {{- else }}
             httpGet:
-              path: /v1
+              path: /v1/health
               port: {{ .Values.service.port }}
             {{- end }}
             initialDelaySeconds: {{ .Values.image.probes.readiness.initialDelaySeconds }}
@@ -146,7 +133,7 @@ spec:
             {{- toYaml .Values.image.probes.startup.custom | nindent 12 }}
             {{- else }}
             httpGet:
-              path: /v1
+              path: /v1/health
               port: {{ .Values.service.port }}
             {{- end }}
             initialDelaySeconds: {{ .Values.image.probes.startup.initialDelaySeconds }}
@@ -158,25 +145,23 @@ spec:
           {{- if .Values.image.resources }}
           resources: {{- toYaml .Values.image.resources | nindent 12 }}
           {{- end }}
+          {{- if or .Values.global.trusted.certificates .Values.trusted.certificates $additionalVolumeMounts }}
           volumeMounts:
-            - mountPath: /tmp
-              name: ephemeral
             {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
             - name: trusted-certificates-volume
-              mountPath: /etc/ssl/certs/pyadcs-trusted-cas.crt
-              readOnly: true
+              mountPath: /etc/ssl/certs/ca.crt
               subPath: ca.crt
+              readOnly: true
             {{- end }}
             {{- if $additionalVolumeMounts }}
               {{- $additionalVolumeMounts | nindent 12 }}
             {{- end }}
+          {{- end }}
         {{- if $additionalSidecarContainers }}
           {{- $additionalSidecarContainers | nindent 8 }}
         {{- end }}
+      {{- if or .Values.global.trusted.certificates .Values.trusted.certificates $additionalVolumes }}
       volumes:
-        - name: ephemeral
-          {{- include "pyadcs-connector.ephemeralVolume" . | indent 10 }}
-        {{- if or .Values.global.trusted.certificates .Values.trusted.certificates $additionalVolumes }}
         {{- if .Values.global.trusted.certificates }}
         - name: trusted-certificates-volume
           secret:
@@ -188,7 +173,7 @@ spec:
             defaultMode: 420
             secretName: trusted-certificates-{{ .Chart.Name | lower }}
         {{- end }}
-        {{- end }}
         {{- if $additionalVolumes }}
           {{- $additionalVolumes | nindent 8 }}
         {{- end }}
+      {{- end }}

@@ -200,8 +200,12 @@ spec:
           volumeMounts:
             - mountPath: /opt/keycloak/data
               name: ephemeral
-            - name: import-realm-volume
-              mountPath: /opt/keycloak/data/import
+            - name: keycloak-internal-configmap-volume
+              mountPath: /opt/keycloak/data/import/czertainly_realm.json
+              subPath: czertainly_realm.json
+            - name: keycloak-internal-configmap-volume
+              mountPath: /opt/keycloak/create_schema.sh
+              subPath: create_schema.sh
             - mountPath: /opt/keycloak/themes
               name: ephemeral
             - mountPath: /opt/keycloak/data/tmp
@@ -221,12 +225,14 @@ spec:
           {{- $additionalSidecarContainers | nindent 8 }}
         {{- end }}
       volumes:
-        - name: import-realm-volume
+        - name: keycloak-internal-configmap-volume
           configMap:
             name: keycloak-internal-configmap
             items:
               - key: czertainly_realm.json
                 path: czertainly_realm.json
+              - key: create_schema.sh
+                path: create_schema.sh
         - name: ephemeral
           {{- include "keycloak-internal.ephemeralVolume" . | indent 10 }}
         {{- if .Values.global.trusted.certificates }}

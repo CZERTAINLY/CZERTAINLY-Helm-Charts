@@ -1,11 +1,11 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 1.0.0
+appVersion: 1.0.1
 name: scheduler-service
 description: A Helm chart for CZERTAINLY platform Scheduler service.
-home: https://github.com/3KeyCompany/CZERTAINLY-Scheduler
-icon: https://github.com/3KeyCompany/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
+home: https://github.com/CZERTAINLY/CZERTAINLY-Scheduler
+icon: https://github.com/CZERTAINLY/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 dependencies:
   - name: czertainly-lib
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -29,10 +29,10 @@ keywords:
 maintainers:
   - name: CZERTAINLY
     email: info@czertainly.com
-    url: https://github.com/3KeyCompany/CZERTAINLY-Helm-Charts
+    url: https://github.com/CZERTAINLY/CZERTAINLY-Helm-Charts
 type: application
 sources:
-  - https://github.com/3KeyCompany/CZERTAINLY
+  - https://github.com/CZERTAINLY/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 1.0.0-2
+version: 1.0.1

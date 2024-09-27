@@ -58,9 +58,9 @@ replicaCount: 1
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany
+  repository: czertainly
   name: czertainly-auth-opa-policies
-  tag: 1.1.0
+  tag: 1.2.1
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent

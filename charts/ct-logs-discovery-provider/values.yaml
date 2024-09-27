@@ -1,23 +1,13 @@
-# Default values for keystore-entity-provider.
+# Default values for ct-logs-discovery-provider.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-nameOverride: ""
-fullnameOverride: ""
-
-# Global parameters that will overwrite local parameters
 global:
   image:
     registry: ""
     repository: ""
     # array of secret names
     pullSecrets: []
-  volumes:
-    ephemeral:
-      type: ""
-      sizeLimit: ""
-      storageClassName: ""
-      custom: {}
   database:
     type: ""
     host: ""
@@ -25,6 +15,8 @@ global:
     name: ""
     username: ""
     password: ""
+  trusted:
+    certificates: ""
   httpProxy: ""
   httpsProxy: ""
   noProxy: ""
@@ -72,30 +64,25 @@ database:
   host: "host.docker.internal"
   port: 5432
   name: "czertainlydb"
+  schema: "ctlogs"
   username: "czertainlyuser"
   password: "your-strong-password"
+
+trusted:
+  certificates: ""
+
 httpProxy: ""
 httpsProxy: ""
 noProxy: ""
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 replicaCount: 1
-
-service:
-  type: "ClusterIP"
-  port: 8080
 
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany
-  name: czertainly-software-cryptography-provider
-  tag: 1.2.2
+  repository: czertainly
+  name: czertainly-ct-logs-discovery-provider
+  tag: 1.0.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -112,7 +99,7 @@ image:
       enabled: false
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 60
+      initialDelaySeconds: 20
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
@@ -121,7 +108,7 @@ image:
       enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 15
+      initialDelaySeconds: 20
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
@@ -142,8 +129,8 @@ image:
     # choice for the user. If you do want to specify your own resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources'.
     # requests:
-    #   cpu: 100m
-    #   memory: 450M
+    #   cpu: 30m
+    #   memory: 40M
     # limits: {}
 
 # customization of the chart
@@ -157,24 +144,40 @@ additionalEnv:
   configMaps: []
   secrets: []
 
-volumes:
-  ephemeral:
-    # available types are: memory, storage, custom
-    type: memory
-    sizeLimit: "1Mi"
-    storageClassName: ""
-    custom: {}
-    #  emptyDir:
-    #    sizeLimit: "10Mi"
-    #    medium: "Memory"
-
 logging:
+  # possible values are: INFO, DEBUG, WARN, ERROR, PANIC, FATAL
   level: "INFO"
 
-tokenDelete: "false"
-javaOpts: ""
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
 
 podAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
+
+service:
+  type: ClusterIP
+  port: 8080
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -22,11 +22,13 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     spec:
+      {{- include "api-gateway-kong.imagePullSecrets" . | indent 6 }}
       serviceAccountName: {{ include "api-gateway-kong.serviceAccountName" . }}
       restartPolicy: Never
       containers:
         - name: {{ $jobName }}
           image: {{ include "api-gateway-kong.kubectl.image" . }}
+          imagePullPolicy: {{ .Values.kubectl.image.pullPolicy }}
           {{- if .Values.kubectl.image.securityContext }}
           securityContext: {{- .Values.kubectl.image.securityContext | toYaml | nindent 12 }}
           {{- end }}

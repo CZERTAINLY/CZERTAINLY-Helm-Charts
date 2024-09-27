@@ -190,9 +190,9 @@ service:
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany
+  repository: czertainly
   name: czertainly-core
-  tag: 2.11.0
+  tag: 2.13.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -509,6 +509,10 @@ x509ComplianceProvider:
 
 cryptosenseDiscoveryProvider:
   nameOverride: cryptosense-discovery-provider
+  enabled: false
+
+ctLogsDiscoveryProvider:
+  nameOverride: ct-logs-discovery-provider
   enabled: false
 
 networkDiscoveryProvider:

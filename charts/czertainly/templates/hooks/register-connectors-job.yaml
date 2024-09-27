@@ -22,10 +22,12 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     spec:
+      {{- include "czertainly.imagePullSecrets" . | indent 6 }}
       restartPolicy: Never
       containers:
         - name: {{ $jobName }}
           image: {{ include "czertainly.curl.image" . }}
+          imagePullPolicy: {{ .Values.curl.image.pullPolicy }}
           command:
           - /bin/sh
           - -c
@@ -79,6 +81,16 @@ spec:
             {{- if .Values.hashicorpVaultConnector.enabled }}
             curl -X POST -k -H 'content-type: application/json' \
             -d '{"name": "HashiCorp-Vault-Connector","url": "http://hashicorp-vault-connector-service:{{ .Values.hashicorpVaultConnector.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
+            {{- if .Values.emailNotificationProvider.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "Email-Notification-Provider","url": "http://email-notification-provider-service:{{ .Values.emailNotificationProvider.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
+            {{- if .Values.ctLogsDiscoveryProvider.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "CT-Logs-Discovery-Provider","url": "http://ct-logs-discovery-provider-service:{{ .Values.ctLogsDiscoveryProvider.service.port }}","authType": "none"}' \
             http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
             {{- end }}
             echo "all done"
