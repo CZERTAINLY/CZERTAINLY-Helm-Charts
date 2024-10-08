@@ -38,11 +38,11 @@ spec:
         - name: api-gateway
           image: {{ include "api-gateway-kong.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.command }}
-          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- if .Values.image.command }}
+          command: {{- include "api-gateway-kong.image.command" . | nindent 12 }}
           {{- end }}
-          {{- if .Values.args }}
-          args: {{- toYaml .Values.args | nindent 12 }}
+          {{- if .Values.image.args }}
+          args: {{- include "api-gateway-kong.image.args" . | nindent 12 }}
           {{- end }}
           env:
             - name: KONG_DATABASE

@@ -37,11 +37,18 @@ spec:
           {{- if .Values.theme.image.resources }}
           resources: {{- toYaml .Values.theme.image.resources | nindent 12 }}
           {{- end }}
+          {{- if .Values.theme.image.command }}
+          command: {{- include "keycloak-internal.theme.image.command" . | nindent 12 }}
+          {{- else }}
           command:
             - /bin/sh
             - -c
             - |
               cp -a /themes/. /data/
+          {{- end }}
+          {{- if .Values.theme.image.args }}
+          args: {{- include "keycloak-internal.theme.image.args" . | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - mountPath: /data
               name: ephemeral
@@ -52,13 +59,12 @@ spec:
         - name: keycloak-internal
           image: {{ include "keycloak-internal.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.command }}
-          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- if .Values.image.command }}
+          command: {{- include "keycloak-internal.image.command" . | nindent 12 }}
           {{- end }}
-          {{- if .Values.args }}
-          args: {{- toYaml .Values.args | nindent 12 }}
+          {{- if .Values.image.args }}
+          args: {{- include "keycloak-internal.image.args" . | nindent 12 }}
           {{- end }}
-          # args: {{- toYaml .Values.keycloak.args | nindent 12 }}
           env:
             - name: KEYCLOAK_ADMIN
               valueFrom:
