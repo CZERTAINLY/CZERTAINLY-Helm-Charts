@@ -48,11 +48,11 @@ spec:
         - name: auth
           image: {{ include "auth-service.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.command }}
-          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- if .Values.image.command }}
+          command: {{- include "auth-service.image.command" . | nindent 12 }}
           {{- end }}
-          {{- if .Values.args }}
-          args: {{- toYaml .Values.args | nindent 12 }}
+          {{- if .Values.image.args }}
+          args: {{- include "auth-service.image.args" . | nindent 12 }}
           {{- end }}
           env:
             - name: AUTH_CREATE_UNKNOWN_USERS

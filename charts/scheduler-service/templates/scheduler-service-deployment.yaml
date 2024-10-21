@@ -43,12 +43,19 @@ spec:
           {{- if .Values.curl.image.resources }}
           resources: {{- toYaml .Values.curl.image.resources | nindent 12 }}
           {{- end }}
+          {{- if .Values.curl.image.command }}
+          command: {{- include "scheduler-service.curl.image.command" . | nindent 12 }}
+          {{- else }}
           command:
             - /bin/sh
             - -c
             - |
               while ! nc -z messaging-service {{ $messagingAmqpPort }}; do sleep 1; done &&
               echo "messaging service seems to be started"
+          {{- end }}
+          {{- if .Values.curl.image.args }}
+          args: {{- include "scheduler-service.curl.image.args" . | nindent 12 }}
+          {{- end }}
         {{- if $additionalInitContainers }}
           {{- $additionalInitContainers | nindent 8 }}
         {{- end }}
@@ -56,11 +63,11 @@ spec:
         - name: scheduler-service
           image: {{ include "scheduler-service.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.command }}
-          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- if .Values.image.command }}
+          command: {{- include "scheduler-service.image.command" . | nindent 12 }}
           {{- end }}
-          {{- if .Values.args }}
-          args: {{- toYaml .Values.args | nindent 12 }}
+          {{- if .Values.image.args }}
+          args: {{- include "scheduler-service.image.args" . | nindent 12 }}
           {{- end }}
           env:
             - name: PORT

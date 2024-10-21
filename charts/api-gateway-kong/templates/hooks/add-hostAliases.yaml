@@ -29,6 +29,12 @@ spec:
         - name: {{ $jobName }}
           image: {{ include "api-gateway-kong.kubectl.image" . }}
           imagePullPolicy: {{ .Values.kubectl.image.pullPolicy }}
+          {{- if .Values.kubectl.image.command }}
+          command: {{- include "api-gateway-kong.kubectl.image.command" . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.kubectl.image.args }}
+          args: {{- include "api-gateway-kong.kubectl.image.args" . | nindent 12 }}
+          {{- end }}
           {{- if .Values.kubectl.image.securityContext }}
           securityContext: {{- .Values.kubectl.image.securityContext | toYaml | nindent 12 }}
           {{- end }}

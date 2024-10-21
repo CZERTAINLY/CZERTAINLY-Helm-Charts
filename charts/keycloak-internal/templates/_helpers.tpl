@@ -58,7 +58,7 @@ Return the image name
 {{- end -}}
 
 {{/*
-Return the image name of the auth-service
+Return the image name of the theme container
 */}}
 {{- define "keycloak-internal.theme.image" -}}
 {{ include "czertainly-lib.images.image" (dict "image" .Values.theme.image "global" .Values.global) }}
@@ -128,6 +128,9 @@ Render customized environment variables from configmaps and secrets, if any
 {{- include "czertainly-lib.customizations.render.secretEnv" ( dict "parts" (list .Values.global.additionalEnv.secrets .Values.additionalEnv.secrets) "context" $ ) }}
 {{- end -}}
 
+{{/*
+Render customized command and arguments, if any
+*/}}
 {{- define "keycloak-internal.image.command" -}}
 {{- include "czertainly-lib.tplvalues.render" (dict "value" .Values.image.command "context" $) }}
 {{- end -}}

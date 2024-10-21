@@ -46,11 +46,11 @@ spec:
         - name: ejbca-ng-connector
           image: {{ include "ejbca-ng-connector.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.command }}
-          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- if .Values.image.command }}
+          command: {{- include "ejbca-ng-connector.image.command" . | nindent 12 }}
           {{- end }}
-          {{- if .Values.args }}
-          args: {{- toYaml .Values.args | nindent 12 }}
+          {{- if .Values.image.args }}
+          args: {{- include "ejbca-ng-connector.image.args" . | nindent 12 }}
           {{- end }}
           env:
             - name: PORT

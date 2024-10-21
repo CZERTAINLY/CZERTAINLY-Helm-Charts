@@ -97,6 +97,9 @@ image:
   pullPolicy: IfNotPresent
   # array of secret names
   pullSecrets: []
+  # custom command and args
+  command: []
+  args: []
   # default security context
   securityContext:
     runAsNonRoot: true
@@ -154,6 +157,9 @@ curl:
     pullPolicy: IfNotPresent
     # array of secret names
     pullSecrets: []
+    # custom command and args
+    command: []
+    args: []
     # default security context
     securityContext:
       runAsNonRoot: true

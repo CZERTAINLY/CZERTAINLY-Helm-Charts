@@ -124,3 +124,14 @@ Render customized environment variables from configmaps and secrets, if any
 {{- include "czertainly-lib.customizations.render.configMapEnv" ( dict "parts" (list .Values.global.additionalEnv.configMaps .Values.additionalEnv.configMaps) "context" $ ) }}
 {{- include "czertainly-lib.customizations.render.secretEnv" ( dict "parts" (list .Values.global.additionalEnv.secrets .Values.additionalEnv.secrets) "context" $ ) }}
 {{- end -}}
+
+{{/*
+Render customized command and arguments, if any
+*/}}
+{{- define "x509-compliance-provider.image.command" -}}
+{{- include "czertainly-lib.tplvalues.render" (dict "value" .Values.image.command "context" $) }}
+{{- end -}}
+
+{{- define "x509-compliance-provider.image.args" -}}
+{{- include "czertainly-lib.tplvalues.render" (dict "value" .Values.image.args "context" $) }}
+{{- end -}}

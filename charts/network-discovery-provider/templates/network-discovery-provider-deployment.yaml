@@ -41,11 +41,11 @@ spec:
         - name: network-discovery-provider
           image: {{ include "network-discovery-provider.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.command }}
-          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- if .Values.image.command }}
+          command: {{- include "network-discovery-provider.image.command" . | nindent 12 }}
           {{- end }}
-          {{- if .Values.args }}
-          args: {{- toYaml .Values.args | nindent 12 }}
+          {{- if .Values.image.args }}
+          args: {{- include "network-discovery-provider.image.args" . | nindent 12 }}
           {{- end }}
           env:
             - name: PORT

@@ -46,11 +46,11 @@ spec:
         - name: ms-adcs-connector
           image: {{ include "ms-adcs-connector.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.command }}
-          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- if .Values.image.command }}
+          command: {{- include "ms-adcs-connector.image.command" . | nindent 12 }}
           {{- end }}
-          {{- if .Values.args }}
-          args: {{- toYaml .Values.args | nindent 12 }}
+          {{- if .Values.image.args }}
+          args: {{- include "ms-adcs-connector.image.args" . | nindent 12 }}
           {{- end }}
           env:
             - name: PORT

@@ -139,10 +139,21 @@ Render customized environment variables from configmaps and secrets, if any
 {{- include "czertainly-lib.customizations.render.secretEnv" ( dict "parts" (list .Values.global.additionalEnv.secrets .Values.additionalEnv.secrets) "context" $ ) }}
 {{- end -}}
 
+{{/*
+Render customized command and arguments, if any
+*/}}
 {{- define "api-gateway-kong.image.command" -}}
 {{- include "czertainly-lib.tplvalues.render" (dict "value" .Values.image.command "context" $) }}
 {{- end -}}
 
 {{- define "api-gateway-kong.image.args" -}}
 {{- include "czertainly-lib.tplvalues.render" (dict "value" .Values.image.args "context" $) }}
+{{- end -}}
+
+{{- define "api-gateway-kong.kubectl.image.command" -}}
+{{- include "czertainly-lib.tplvalues.render" (dict "value" .Values.kubectl.image.command "context" $) }}
+{{- end -}}
+
+{{- define "api-gateway-kong.kubectl.image.args" -}}
+{{- include "czertainly-lib.tplvalues.render" (dict "value" .Values.kubectl.image.args "context" $) }}
 {{- end -}}

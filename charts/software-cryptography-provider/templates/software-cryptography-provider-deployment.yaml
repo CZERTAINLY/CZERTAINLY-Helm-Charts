@@ -41,11 +41,11 @@ spec:
         - name: software-cryptography-provider
           image: {{ include "software-cryptography-provider.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.command }}
-          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- if .Values.image.command }}
+          command: {{- include "software-cryptography-provider.image.command" . | nindent 12 }}
           {{- end }}
-          {{- if .Values.args }}
-          args: {{- toYaml .Values.args | nindent 12 }}
+          {{- if .Values.image.args }}
+          args: {{- include "software-cryptography-provider.image.args" . | nindent 12 }}
           {{- end }}
           env:
             - name: PORT
