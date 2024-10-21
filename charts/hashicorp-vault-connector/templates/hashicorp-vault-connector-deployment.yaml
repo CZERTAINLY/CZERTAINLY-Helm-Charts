@@ -41,6 +41,12 @@ spec:
         - name: hashicorp-vault-connector
           image: {{ include "hashicorp-vault-connector.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.image.command }}
+          command: {{- include "hashicorp-vault-connector.image.command" . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.image.args }}
+          args: {{- include "hashicorp-vault-connector.image.args" . | nindent 12 }}
+          {{- end }}
           env:
             - name: DATABASE_HOST
               valueFrom:

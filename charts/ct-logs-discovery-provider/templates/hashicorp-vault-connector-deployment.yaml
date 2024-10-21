@@ -41,6 +41,12 @@ spec:
         - name: ct-logs-discovery-provider
           image: {{ include "ct-logs-discovery-provider.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.image.command }}
+          command: {{- include "ct-logs-discovery-provider.image.command" . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.image.args }}
+          args: {{- include "ct-logs-discovery-provider.image.args" . | nindent 12 }}
+          {{- end }}
           env:
             - name: DATABASE_HOST
               valueFrom:

@@ -98,6 +98,8 @@ The following values may be configured:
 | image.digest                                 | `""`                                | Docker image digest, will override tag if specified         |
 | image.pullPolicy                             | `IfNotPresent`                      | Image pull policy                                           |
 | image.pullSecrets                            | `[]`                                | Array of secret names for image pull                        |
+| image.command                                | `[]`                                | Override the default command                                |
+| image.args                                   | `[]`                                | Override the default args                                   |
 | image.securityContext.runAsNonRoot           | `true`                              | Run the container as non-root user                          |
 | image.securityContext.runAsUser              | `101`                               | User ID for the container                                   |
 | image.securityContext.readOnlyRootFilesystem | `true`                              | Run the container with read-only root filesystem            |

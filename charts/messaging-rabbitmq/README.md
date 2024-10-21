@@ -68,28 +68,28 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                                 | Default value | Description                                                                   |
-|-------------------------------------------|---------------|-------------------------------------------------------------------------------|
-| global.config.enabled                     | `false`       | Enables global configuration                                                  |
-| global.image.registry                     | `""`          | Global docker registry name                                                   |
-| global.image.repository                   | `""`          | Global docker image repository name                                           |
-| global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                                   |
-| global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                                       |
-| global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                            |
-| global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type                 |
-| global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type            |
-| global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                                     |
-| global.httpProxy                          | `""`          | Proxy to be used to access external resources through http                    |
-| global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https                   |
-| global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings         |
-| global.initContainers                     | `[]`          | Global init containers                                             |
-| global.sidecarContainers                  | `[]`          | Global sidecar containers                                          |
-| global.additionalVolumes                  | `[]`          | Global additional volumes                                          |
-| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                    |
-| global.additionalPorts                    | `[]`          | Global additional ports                                            |
-| global.additionalEnv.variables            | `[]`          | Global additional environment variables                            |
-| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                              |
-| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                          |
+| Parameter                                 | Default value | Description                                                           |
+|-------------------------------------------|---------------|-----------------------------------------------------------------------|
+| global.config.enabled                     | `false`       | Enables global configuration                                          |
+| global.image.registry                     | `""`          | Global docker registry name                                           |
+| global.image.repository                   | `""`          | Global docker image repository name                                   |
+| global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                           |
+| global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                               |
+| global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                    |
+| global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type         |
+| global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type    |
+| global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                             |
+| global.httpProxy                          | `""`          | Proxy to be used to access external resources through http            |
+| global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https           |
+| global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings |
+| global.initContainers                     | `[]`          | Global init containers                                                |
+| global.sidecarContainers                  | `[]`          | Global sidecar containers                                             |
+| global.additionalVolumes                  | `[]`          | Global additional volumes                                             |
+| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                       |
+| global.additionalPorts                    | `[]`          | Global additional ports                                               |
+| global.additionalEnv.variables            | `[]`          | Global additional environment variables                               |
+| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                                 |
+| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                             |
 
 ### Local parameters
 
@@ -104,6 +104,8 @@ The following values may be configured:
 | image.digest                                 | `""`           | Docker image digest, will override tag if specified         |
 | image.pullPolicy                             | `IfNotPresent` | Image pull policy                                           |
 | image.pullSecrets                            | `[]`           | Array of secret names for image pull                        |
+| image.command                                | `[]`           | Override the default command                                |
+| image.args                                   | `[]`           | Override the default args                                   |
 | image.securityContext.runAsNonRoot           | `true`         | Run the container as non-root user                          |
 | image.securityContext.runAsUser              | `999`          | User ID for the container                                   |
 | image.securityContext.readOnlyRootFilesystem | `true`         | Run the container with read-only root filesystem            |
