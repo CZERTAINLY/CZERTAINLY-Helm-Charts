@@ -32,19 +32,26 @@ spec:
           {{- if .Values.kubectl.image.securityContext }}
           securityContext: {{- .Values.kubectl.image.securityContext | toYaml | nindent 12 }}
           {{- end }}
+          {{- if .Values.kubectl.image.command }}
+          command: {{- include "czertainly.kubectl.image.command" . | nindent 12 }}
+          {{- else }}
           command:
-          - /bin/sh
-          - -c
-          - |
-            cat /opt/trusted-certs/cert-admin-ca.pem >> /tmp/new-trust.pem &&
-            cat /opt/czertainly/trusted-certificates.pem >> /tmp/new-trust.pem &&
-            kubectl patch secret trusted-certificates -p='{"data":{"ca.crt": "'$( cat /tmp/new-trust.pem | base64 -w 0 )'"}}' &&
-            kubectl rollout restart deployment core-deployment &&
+            - /bin/sh
+            - -c
+            - |
+              cat /opt/trusted-certs/cert-admin-ca.pem >> /tmp/new-trust.pem &&
+              cat /opt/czertainly/trusted-certificates.pem >> /tmp/new-trust.pem &&
+              kubectl patch secret trusted-certificates -p='{"data":{"ca.crt": "'$( cat /tmp/new-trust.pem | base64 -w 0 )'"}}' &&
+              kubectl rollout restart deployment core-deployment &&
             {{- if not (lookup "v1" "Secret" .Release.Namespace "admin-secret") }}
-            PASS={{ randAlphaNum 20 }} &&
-            openssl pkcs12 -export -out /tmp/admin.p12 -in /opt/admin-certificate/tls.crt -inkey /opt/admin-certificate/tls.key -passout pass:$PASS &&
-            kubectl create secret generic admin-secret --from-file=pkcs12=/tmp/admin.p12 --from-literal=password=$PASS
+              PASS={{ randAlphaNum 20 }} &&
+              openssl pkcs12 -export -out /tmp/admin.p12 -in /opt/admin-certificate/tls.crt -inkey /opt/admin-certificate/tls.key -passout pass:$PASS &&
+              kubectl create secret generic admin-secret --from-file=pkcs12=/tmp/admin.p12 --from-literal=password=$PASS
             {{- end }}
+          {{- end }}
+          {{- if .Values.kubectl.image.args }}
+          args: {{- include "czertainly.kubectl.image.args" . | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - name: trusted-certificates-volume
               mountPath: /opt/czertainly/

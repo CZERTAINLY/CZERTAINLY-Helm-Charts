@@ -38,6 +38,12 @@ spec:
         - name: email-notification-provider
           image: {{ include "email-notification-provider.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.image.command }}
+          command: {{- include "email-notification-provider.image.command" . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.image.args }}
+          args: {{- include "email-notification-provider.image.args" . | nindent 12 }}
+          {{- end }}
           env:
             - name: PORT
               value: {{ .Values.service.port | quote }}

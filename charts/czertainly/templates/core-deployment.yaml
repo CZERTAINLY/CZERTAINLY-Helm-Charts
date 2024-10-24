@@ -26,6 +26,7 @@ spec:
       labels:
         {{- include "czertainly.selectorLabels" . | nindent 8 }}
       annotations:
+        # annotation for vault-agent
         # when the list of the trusted certificates is changed, restart deployment
         checksum/config: {{ include (print $.Template.BasePath "/trusted-certificates-secret.yaml") . | sha256sum }}
         # when the messaging secrets are changed, restart deployment
@@ -117,17 +118,28 @@ spec:
           {{- if .Values.opa.image.resources }}
           resources: {{- toYaml .Values.opa.image.resources | nindent 12 }}
           {{- end }}
+          {{- if .Values.opa.image.command }}
+          command: {{- include "czertainly.opa.image.command" . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.opa.image.args }}
+          args: {{- include "czertainly.opa.image.args" . | nindent 12 }}
+          {{- else }}
           args:
             - "run"
             - "--server"
-            - "--log-format=json-pretty"
-            - "--set=decision_logs.console=true"
             - "--set=services.nginx.url=http://auth-opa-policies-service:{{ .Values.authOpaPolicies.service.port }}"
             - "--set=bundles.nginx.service=nginx"
             - "--set=bundles.nginx.resource=bundles/bundle.tar.gz"
+          {{- end }}
         - name: czertainly-core
           image: {{ include "czertainly.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.image.command }}
+          command: {{- include "czertainly.image.command" . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.image.args }}
+          args: {{- include "czertainly.image.args" . | nindent 12 }}
+          {{- end }}
           env:
             - name: AUDITLOG_ENABLED
               value: {{ .Values.logging.audit.enabled | quote }}

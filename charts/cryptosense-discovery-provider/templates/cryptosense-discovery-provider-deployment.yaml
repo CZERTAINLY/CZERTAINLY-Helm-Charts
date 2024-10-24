@@ -41,6 +41,12 @@ spec:
         - name: cryptosense-discovery-provider
           image: {{ include "cryptosense-discovery-provider.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.image.command }}
+          command: {{- include "cryptosense-discovery-provider.image.command" . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.image.args }}
+          args: {{- include "cryptosense-discovery-provider.image.args" . | nindent 12 }}
+          {{- end }}
           env:
             - name: PORT
               value: {{ .Values.service.port | quote }}

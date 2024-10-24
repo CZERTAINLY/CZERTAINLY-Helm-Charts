@@ -38,6 +38,12 @@ spec:
         - name: x509-compliance-provider
           image: {{ include "x509-compliance-provider.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.image.command }}
+          command: {{- include "x509-compliance-provider.image.command" . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.image.args }}
+          args: {{- include "x509-compliance-provider.image.args" . | nindent 12 }}
+          {{- end }}
           env:
             - name: SERVER_PORT
               value: {{ .Values.service.port | quote }}
