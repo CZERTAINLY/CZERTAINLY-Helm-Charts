@@ -507,10 +507,6 @@ pyAdcsConnector:
   nameOverride: pyadcs-connector
   enabled: false
 
-msAdcsConnector:
-  nameOverride: ms-adcs-connector
-  enabled: false
-
 hashicorpVaultConnector:
   nameOverride: hashicorp-vault-connector
   enabled: false
