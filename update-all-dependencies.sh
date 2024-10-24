@@ -6,8 +6,6 @@ helm dependency update charts/czertainly-lib --skip-refresh
 
 # next, we should update dependencies for all sub-charts
 
-# helm dependency update charts/api-gateway-haproxy # this is deprecated
-
 echo "Updating dependencies for api-gateway-kong..."
 helm dependency update charts/api-gateway-kong --skip-refresh
 
