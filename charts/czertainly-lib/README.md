@@ -97,3 +97,13 @@ The following helper templates are used to render customizations (YAML templates
 | `czertainly-lib.customizations.render.yaml`         | Render template based on the YAML manifests           |
 | `czertainly-lib.customizations.render.configMapEnv` | Render `configMapRef` based on the list of configMaps |
 | `czertainly-lib.customizations.render.secretEnv`    | Render `secretRef` based on the list of secrets       |
+
+### Templates
+
+The following helper templates are used to render templates:
+
+| Identifier                                 | Description                                                                                |
+|--------------------------------------------|--------------------------------------------------------------------------------------------|
+| `czertainly-lib.tplvalues.render`          | Renders a value that contains template perhaps with scope if the scope is present          |
+| `czertainly-lib.tplvalues.merge`           | Merge a list of values that contains template after rendering them                         |
+| `czertainly-lib.tplvalues.merge-overwrite` | Merge a list of values that contains template after rendering them (with `mergeOverwrite`) |
