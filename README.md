@@ -25,7 +25,6 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 - [Messaging RabbitMQ](charts/messaging-rabbitmq)
 
 **API Gateways**
-- [API Gateway HAProxy](charts/api-gateway-haproxy) (**deprecated**)
 - [API Gateway Kong](charts/api-gateway-kong)
 
 **Front ends**
@@ -36,7 +35,6 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 - [EJBCA NG Connector](charts/ejbca-ng-connector)
 - [PyADCS Connector](charts/pyadcs-connector)
 - [HashiCorp Vault Connector](charts/hashicorp-vault-connector)
-- [MS ADCS Connector](charts/ms-adcs-connector) (**deprecated**)
 - [X.509 Compliance Provider](charts/x509-compliance-provider)
 - [Network Discovery Provider](charts/network-discovery-provider)
 - [Cryptosense Discovery Provider](charts/cryptosense-discovery-provider)

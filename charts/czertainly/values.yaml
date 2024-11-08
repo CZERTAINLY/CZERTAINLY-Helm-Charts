@@ -192,12 +192,15 @@ image:
   registry: docker.io
   repository: czertainly
   name: czertainly-core
-  tag: 2.13.0
+  tag: 2.13.1
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
   # array of secret names
   pullSecrets: []
+  # custom command and args
+  command: []
+  args: []
   # default security context
   securityContext:
     runAsNonRoot: true
@@ -266,6 +269,9 @@ curl:
     pullPolicy: IfNotPresent
     # array of secret names
     pullSecrets: []
+    # custom command and args
+    command: []
+    args: []
     # default security context
     securityContext:
       runAsNonRoot: true
@@ -285,6 +291,9 @@ kubectl:
     pullPolicy: IfNotPresent
     # array of secret names
     pullSecrets: []
+    # custom command and args
+    command: []
+    args: []
     # default security context
     securityContext:
       runAsNonRoot: true
@@ -304,6 +313,9 @@ opa:
     pullPolicy: IfNotPresent
     # array of secret names
     pullSecrets: []
+    # custom command and args
+    command: []
+    args: []
     # default security context
     securityContext:
       runAsNonRoot: true
@@ -493,10 +505,6 @@ ejbcaNgConnector:
 
 pyAdcsConnector:
   nameOverride: pyadcs-connector
-  enabled: false
-
-msAdcsConnector:
-  nameOverride: ms-adcs-connector
   enabled: false
 
 hashicorpVaultConnector:

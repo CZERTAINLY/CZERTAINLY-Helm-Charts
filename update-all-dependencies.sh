@@ -6,8 +6,6 @@ helm dependency update charts/czertainly-lib --skip-refresh
 
 # next, we should update dependencies for all sub-charts
 
-# helm dependency update charts/api-gateway-haproxy # this is deprecated
-
 echo "Updating dependencies for api-gateway-kong..."
 helm dependency update charts/api-gateway-kong --skip-refresh
 
@@ -46,9 +44,6 @@ helm dependency update charts/keystore-entity-provider --skip-refresh
 
 echo "Updating dependencies for messaging-rabbitmq..."
 helm dependency update charts/messaging-rabbitmq --skip-refresh
-
-echo "Updating dependencies for ms-adcs-connector..."
-helm dependency update charts/ms-adcs-connector --skip-refresh
 
 echo "Updating dependencies for network-discovery-provider..."
 helm dependency update charts/network-discovery-provider --skip-refresh

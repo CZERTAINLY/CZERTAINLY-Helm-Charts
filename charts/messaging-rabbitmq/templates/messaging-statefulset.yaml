@@ -64,6 +64,12 @@ spec:
         - name: rabbitmq
           image: {{ include "messaging-rabbitmq.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.image.command }}
+          command: {{- include "messaging-rabbitmq.image.command" . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.image.args }}
+          args: {{- include "messaging-rabbitmq.image.args" . | nindent 12 }}
+          {{- end }}
           env:
             - name: RABBITMQ_DEFAULT_PASS
               valueFrom:

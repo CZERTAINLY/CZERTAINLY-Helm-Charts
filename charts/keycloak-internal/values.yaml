@@ -112,6 +112,9 @@ image:
   pullPolicy: IfNotPresent
   # array of secret names
   pullSecrets: []
+  # custom command and args
+  command: []
+  args: [start, --optimized, --import-realm]
   # default security context
   securityContext:
     runAsNonRoot: true
@@ -169,6 +172,9 @@ theme:
     pullPolicy: IfNotPresent
     # array of secret names
     pullSecrets: []
+    # custom command and args
+    command: []
+    args: []
     # default security context
     securityContext:
       runAsNonRoot: true
@@ -238,8 +244,6 @@ keycloak:
   admin:
     username: "admin"
     password: "admin"
-  # the arguments passed to the entrypoint in the Keycloak container
-  args: [start, --optimized, --import-realm]
   hostnameStrict: false
   hostnameStrictHttps: false
   # cacheStack is set by the optimized build to kubernetes

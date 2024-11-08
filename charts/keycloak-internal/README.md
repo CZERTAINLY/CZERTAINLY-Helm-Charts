@@ -104,29 +104,31 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                    | Default value                   | Description                                                                            |
-|----------------------------------------------|---------------------------------|----------------------------------------------------------------------------------------|
-| trusted.certificates                         | `""`                            | List of additional CA certificates that should be trusted                              |
-| image.registry                               | `docker.io`                     | Docker registry name for the image                                                     |
-| image.repository                             | `3keycompany`                   | Docker image repository name                                                           |
-| image.name                                   | `czertainly-keycloak-optimized` | Docker image name                                                                      |
-| image.tag                                    | `24.0.2-0`                      | Docker image tag                                                                       |
-| image.digest                                 | `""`                            | Docker image digest, will override tag if specified                                    |
-| image.pullPolicy                             | `IfNotPresent`                  | Image pull policy                                                                      |
-| image.pullSecrets                            | `[]`                            | Array of secret names for image pull                                                   |
-| image.securityContext.runAsNonRoot           | `true`                          | Run the container as non-root user                                                     |
-| image.securityContext.runAsUser              | `1000`                          | User ID for the container                                                              |
-| image.securityContext.readOnlyRootFilesystem | `true`                          | Run the container with read-only root filesystem                                       |
-| image.resources                              | `{}`                            | The resources for the container                                                        |
-| podSecurityContext                           | `{}`                            | Pod security context                                                                   |
-| volumes.ephemeral.type                       | `memory`                        | Ephemeral volume type to be used                                                       |
-| volumes.ephemeral.sizeLimit                  | `"1Mi"`                         | Ephemeral volume size limit                                                            |
-| volumes.ephemeral.storageClassName           | `""`                            | Ephemeral volume storage class name for `storage` type                                 |
-| volumes.ephemeral.custom                     | `{}`                            | Custom definition of the ephemeral volume for `custom` type                            |
-| logging.level                                | `"info"`                        | Allowed values are `fatal`, `error`, `warn`, `info`, `debug`, `trace`, `all`, or `off` |
-| service.type                                 | `"ClusterIP"`                   | Type of the service that is exposed                                                    |
-| service.port                                 | `8080`                          | Port number of the exposed service                                                     |
-| createDbSchema                               | true                            | Deploy simple startupHook to create schema for Keycloak in database                    |
+| Parameter                                    | Default value                          | Description                                                                            |
+|----------------------------------------------|----------------------------------------|----------------------------------------------------------------------------------------|
+| trusted.certificates                         | `""`                                   | List of additional CA certificates that should be trusted                              |
+| image.registry                               | `docker.io`                            | Docker registry name for the image                                                     |
+| image.repository                             | `3keycompany`                          | Docker image repository name                                                           |
+| image.name                                   | `czertainly-keycloak-optimized`        | Docker image name                                                                      |
+| image.tag                                    | `24.0.2-0`                             | Docker image tag                                                                       |
+| image.digest                                 | `""`                                   | Docker image digest, will override tag if specified                                    |
+| image.pullPolicy                             | `IfNotPresent`                         | Image pull policy                                                                      |
+| image.pullSecrets                            | `[]`                                   | Array of secret names for image pull                                                   |
+| image.command                                | `[]`                                   | Override the default command                                                           |
+| image.args                                   | `[start, --optimized, --import-realm]` | Override the default args                                                              |
+| image.securityContext.runAsNonRoot           | `true`                                 | Run the container as non-root user                                                     |
+| image.securityContext.runAsUser              | `1000`                                 | User ID for the container                                                              |
+| image.securityContext.readOnlyRootFilesystem | `true`                                 | Run the container with read-only root filesystem                                       |
+| image.resources                              | `{}`                                   | The resources for the container                                                        |
+| podSecurityContext                           | `{}`                                   | Pod security context                                                                   |
+| volumes.ephemeral.type                       | `memory`                               | Ephemeral volume type to be used                                                       |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`                                | Ephemeral volume size limit                                                            |
+| volumes.ephemeral.storageClassName           | `""`                                   | Ephemeral volume storage class name for `storage` type                                 |
+| volumes.ephemeral.custom                     | `{}`                                   | Custom definition of the ephemeral volume for `custom` type                            |
+| logging.level                                | `"info"`                               | Allowed values are `fatal`, `error`, `warn`, `info`, `debug`, `trace`, `all`, or `off` |
+| service.type                                 | `"ClusterIP"`                          | Type of the service that is exposed                                                    |
+| service.port                                 | `8080`                                 | Port number of the exposed service                                                     |
+| createDbSchema                               | true                                   | Deploy simple startupHook to create schema for Keycloak in database                    |
 
 #### Customization parameters
 
@@ -154,6 +156,8 @@ The following values may be configured:
 | theme.image.digest                                 | `""`                        | Docker image digest, will override tag if specified |
 | theme.image.pullPolicy                             | `IfNotPresent`              | Image pull policy                                   |
 | theme.image.pullSecrets                            | `[]`                        | Array of secret names for image pull                |
+| theme.image.command                                | `[]`                        | Override the default command for the container      |
+| theme.image.args                                   | `[]`                        | Arguments passed to the entrypoint in the container |
 | theme.image.securityContext.runAsNonRoot           | `true`                      | Run the container as non-root user                  |
 | theme.image.securityContext.runAsUser              | `10001`                     | User ID for the container                           |
 | theme.image.securityContext.readOnlyRootFilesystem | `true`                      | Run the container with read-only root filesystem    |
@@ -166,7 +170,6 @@ The following values may be configured:
 | keycloak.dbSchema               | `"keycloak"`  | The database schema to be used                                                                              |
 | keycloak.admin.username         | `"admin"`     | Initial Keycloak master realm administrator username                                                        |
 | keycloak.admin.password         | `"admin"`     | Initial Keycloak master realm administrator password                                                        |
-| keycloak.args                   | `[]`          | Arguments passed to the entrypoint in the Keycloak container (`kc.sh`, for example `[start, --optimized]` ) |
 | keycloak.hostnameStrict         | `false`       | Disables dynamically resolving the hostname from http request headers                                       |
 | keycloak.hostnameStrictHttps    | `false`       | Disables dynamically resolving the hostname from https request headers                                      |
 | keycloak.httpRelativePath       | `/kc`         | Set the path relative to `/` for serving resources. **Change only if you know what you are doing!**         |

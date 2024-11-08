@@ -72,12 +72,15 @@ image:
   registry: docker.io
   repository: czertainly
   name: czertainly-frontend-administrator
-  tag: 2.13.0
+  tag: 2.13.1
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
   # array of secret names
   pullSecrets: []
+  # custom command and args
+  command: []
+  args: []
   # default security context
   securityContext:
     runAsNonRoot: true
