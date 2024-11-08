@@ -14,6 +14,28 @@ The following contains important information and instructions about upgrading He
 
 Upgrading Helm chart is done by running the `helm upgrade` command. The command upgrades the platform to the specified version. The command can be used to upgrade the platform to the same version with changed parameters.
 
+## To 2.13.1
+
+Added support for custom command and args for the containers. The following parameters were added to the umbrella chart and all sub-charts:
+```yaml
+# custom command and args
+command: []
+args: []
+```
+
+### Removed deprecated sub-charts
+
+Deprecated sub-charts were removed:
+- MS ADCS Connector
+- API Gateway HAProxy
+
+You can remove the deprecated dependencies from the umbrella chart, if they are still used (they will not be applied anymore):
+```yaml
+msAdcsConnector:
+  nameOverride: ms-adcs-connector
+  enabled: false
+```
+
 ## To 2.13.0
 
 ### Additional connector sub-charts
