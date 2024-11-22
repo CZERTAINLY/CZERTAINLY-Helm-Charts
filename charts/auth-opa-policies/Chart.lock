@@ -1,6 +1,6 @@
 dependencies:
 - name: czertainly-lib
   repository: file://../czertainly-lib
-  version: 1.4.0-develop
-digest: sha256:99c2fd7336724d9570f24dd9acd939a61b1a9fce5fd312e11d38ea99cd5910e4
-generated: "2024-10-21T15:52:00.345131+02:00"
+  version: 1.4.0
+digest: sha256:1ec08a9df0e77f593ca787486bf5cf1310a9c1d2d4692e84a43ede3dd4680927
+generated: "2024-11-08T16:33:52.627313+01:00"
