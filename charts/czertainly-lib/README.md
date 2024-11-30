@@ -38,12 +38,6 @@ The following templates are available:
 | `czertainly-lib.trusted.certificates.secret.local.tpl` | Template for the secret containing local additional trusted CA certificates applied for all sub-charts                                                    |
 | `czertainly-lib.trusted.certificates.secret.global`    | Static template for the secret containing trusted certificates                                                                                            |
 
-### API Gateway
-
-| Identifier                             | Description                                                         |
-|----------------------------------------|---------------------------------------------------------------------|
-| `czertainly-lib.api-gateway.kong.yaml` | Return the kong api gateway configuration for the given environment |
-
 ### Messaging Service
 
 | Identifier                           | Description                                        |

@@ -226,21 +226,11 @@ auth:
 
 logging:
   level: "info"
+  request: false
 
-# kong-oidc plugin: https://github.com/revomatico/kong-oidc
-# this plugin inserts user data into X-USERINFO header
 oidc:
-  # if oidc is enabled, all client values must be present
+  # if oidc is enabled
   enabled: false
-  client:
-    # oidc client id
-    id: czertainly
-    # oidc client secret
-    secret: s0qKH5qItTWoxpBt7Zrj348ZhZ7woAbk
-    # realm used in www-authenticate response header
-    realm: czertainly
-    # oidc discovery endpoint
-    discovery: https://server.com/.well-known/openid-configuration
 
 # kong cors plugin: https://docs.konghq.com/hub/kong-inc/cors
 cors:
@@ -271,3 +261,9 @@ affinity: {}
 
 hostAliases:
   resolveInternalKeycloak: false
+
+config:
+  # Custom declarative configuration for Kong
+  custom: ""
+  default: |-
+    {{ .Files.Get "config/kong.yml" | indent 4 }}

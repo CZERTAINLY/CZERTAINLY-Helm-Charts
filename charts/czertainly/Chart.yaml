@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 2.13.0
+appVersion: 2.13.1
 name: czertainly
 description: A Helm chart for CZERTAINLY platform.
 home: https://github.com/3KeyCompany/CZERTAINLY
@@ -13,7 +13,7 @@ dependencies:
     repository: file://../keycloak-internal
     tags:
       - keycloak-internal
-    version: 24.0.2-0-2-develop
+    version: 24.0.2-0-2
     alias: keycloakInternal
   - condition: commonCredentialProvider.enabled
     name: common-credential-provider
@@ -21,7 +21,7 @@ dependencies:
     repository: file://../common-credential-provider
     tags:
       - credential-provider
-    version: 1.3.3-1-develop
+    version: 1.3.3-1
     alias: commonCredentialProvider
   - condition: ejbcaNgConnector.enabled
     name: ejbca-ng-connector
@@ -30,7 +30,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.10.0-1-develop
+    version: 1.11.0
     alias: ejbcaNgConnector
   - condition: pyAdcsConnector.enabled
     name: pyadcs-connector
@@ -39,7 +39,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.1.2-1-develop
+    version: 1.1.2-1
     alias: pyAdcsConnector
   - condition: x509ComplianceProvider.enabled
     name: x509-compliance-provider
@@ -47,7 +47,7 @@ dependencies:
     repository: file://../x509-compliance-provider
     tags:
       - compliance-provider
-    version: 1.3.0-3-develop
+    version: 1.3.0-3
     alias: x509ComplianceProvider
   - condition: cryptosenseDiscoveryProvider.enabled
     name: cryptosense-discovery-provider
@@ -55,7 +55,7 @@ dependencies:
     repository: file://../cryptosense-discovery-provider
     tags:
       - cryptosense-discovery-provider
-    version: 1.4.0-2-develop
+    version: 1.4.0-2
     alias: cryptosenseDiscoveryProvider
   - condition: ctLogsDiscoveryProvider.enabled
     name: ct-logs-discovery-provider
@@ -63,7 +63,7 @@ dependencies:
     repository: file://../ct-logs-discovery-provider
     tags:
       - ct-logs-discovery-provider
-    version: 1.0.0-1-develop
+    version: 1.0.0-1
     alias: ctLogsDiscoveryProvider
   - condition: networkDiscoveryProvider.enabled
     name: network-discovery-provider
@@ -71,7 +71,7 @@ dependencies:
     repository: file://../network-discovery-provider
     tags:
       - discovery-provider
-    version: 1.5.0-1-develop
+    version: 1.5.0-1
     alias: networkDiscoveryProvider
   - condition: keystoreEntityProvider.enabled
     name: keystore-entity-provider
@@ -79,7 +79,7 @@ dependencies:
     repository: file://../keystore-entity-provider
     tags:
       - entity-provider
-    version: 1.4.1-2-develop
+    version: 1.4.1-2
     alias: keystoreEntityProvider
   - condition: softwareCryptographyProvider.enabled
     name: software-cryptography-provider
@@ -87,7 +87,7 @@ dependencies:
     repository: file://../software-cryptography-provider
     tags:
       - cryptography-provider
-    version: 1.2.2-1-develop
+    version: 1.2.2-1
     alias: softwareCryptographyProvider
   - condition: emailNotificationProvider.enabled
     name: email-notification-provider
@@ -95,7 +95,7 @@ dependencies:
     repository: file://../email-notification-provider
     tags:
       - notification-provider
-    version: 1.1.0-1-develop
+    version: 1.1.0-1
     alias: emailNotificationProvider
   - condition: hashicorpVaultConnector.enabled
     name: hashicorp-vault-connector
@@ -104,7 +104,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.1.1-1-develop
+    version: 1.1.1-1
     alias: hashicorpVaultConnector
   - condition: global.utils.enabled
     name: utils-service
@@ -112,13 +112,13 @@ dependencies:
     repository: file://../utils-service
     tags:
       - utils-service
-    version: 1.0.0-5-develop
+    version: 1.0.0-5
     alias: utilsService
   # the following are mandatory dependencies
   - name: czertainly-lib
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../czertainly-lib
-    version: 1.4.0-develop
+    version: 1.4.1-develop
   - name: api-gateway-kong
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../api-gateway-kong
@@ -131,14 +131,14 @@ dependencies:
     repository: file://../fe-administrator
     tags:
       - fe
-    version: 2.13.0-1-develop
+    version: 2.13.1
     alias: feAdministrator
   - name: auth-service
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../auth-service
     tags:
       - auth
-    version: 1.5.0-1-develop
+    version: 1.5.0-1
     alias: authService
   - name: auth-opa-policies
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -146,21 +146,21 @@ dependencies:
     tags:
       - auth
       - opa
-    version: 1.2.1-1-develop
+    version: 1.2.1-1
     alias: authOpaPolicies
   - name: messaging-rabbitmq
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../messaging-rabbitmq
     tags:
       - messaging
-    version: 3.12.1-3-develop
+    version: 3.12.1-3
     alias: messagingService
   - name: scheduler-service
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../scheduler-service
     tags:
       - scheduler
-    version: 1.0.1-1-develop
+    version: 1.0.1-1
     alias: schedulerService
 keywords:
   - czertainly
@@ -178,4 +178,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.13.0-1-develop
+version: 2.13.1-1-develop

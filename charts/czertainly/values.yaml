@@ -451,6 +451,8 @@ affinity: {}
 #
 apiGateway:
   nameOverride: api-gateway
+  config:
+    default: "charts/api-gateway-kong/config/kong.yml"
   autoscaling:
     enabled: false
     minReplicas: 1

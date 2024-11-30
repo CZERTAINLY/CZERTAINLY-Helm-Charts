@@ -79,7 +79,6 @@ Global values are used to define common parameters for the chart and all its sub
 | global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type |
 | global.hostName                           | `""`          | Global hostname of the running instance                            |
 | global.keycloak.enabled                   | `false`       | Enables internal Keycloak for authentication                       |
-| global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used internally                  |
 | global.utils.enabled                      | `false`       | Enables external access to Utils Service                           |
 | global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                          |
 | global.initContainers                     | `[]`          | Global init containers                                             |
@@ -95,53 +94,51 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                    | Default value                                         | Description                                                                                |
-|----------------------------------------------|-------------------------------------------------------|--------------------------------------------------------------------------------------------|
-| image.registry                               | `docker.io`                                           | Docker registry name for the image                                                         |
-| image.repository                             | `revomatico`                                          | Docker image repository name                                                               |
-| image.name                                   | `docker-kong-oidc`                                    | Docker image name                                                                          |
-| image.tag                                    | `3.4.0-2`                                             | Docker image tag                                                                           |
-| image.digest                                 | `""`                                                  | Docker image digest, will override tag if specified                                        |
-| image.pullPolicy                             | `IfNotPresent`                                        | Image pull policy                                                                          |
-| image.pullSecrets                            | `[]`                                                  | Array of secret names for image pull                                                       |
-| image.command                                | `[]`                                                  | Override the default command                                                               |
-| image.args                                   | `[]`                                                  | Override the default args                                                                  |
-| image.securityContext.runAsNonRoot           | `true`                                                | Run the container as non-root user                                                         |
-| image.securityContext.runAsUser              | `100`                                                 | User ID for the container                                                                  |
-| image.securityContext.readOnlyRootFilesystem | `true`                                                | Run the container with read-only root filesystem                                           |
-| image.resources                              | `{}`                                                  | The resources for the container                                                            |
-| podSecurityContext                           | `{}`                                                  | Pod security context                                                                       |
-| volumes.ephemeral.type                       | `memory`                                              | Ephemeral volume type to be used                                                           |
-| volumes.ephemeral.sizeLimit                  | `"1Mi"`                                               | Ephemeral volume size limit                                                                |
-| volumes.ephemeral.storageClassName           | `""`                                                  | Ephemeral volume storage class name for `storage` type                                     |
-| volumes.ephemeral.custom                     | `{}`                                                  | Custom definition of the ephemeral volume for `custom` type                                |
-| logging.level                                | `"info"`                                              | Allowed values are `debug`, `info`, `notice`, `warn`, `error`, `crit`, `alert`, or `emerg` |
-| service.type                                 | `"ClusterIP"`                                         | Type of the service that is exposed                                                        |
-| service.admin.port                           | `8001`                                                | Port number of the exposed admin service                                                   |
-| service.admin.nodePort                       | `""`                                                  | Node port to be exposed for admin service (only works with `service.type: NodePort`)       |
-| service.consumer.port                        | `8000`                                                | Port number of the exposed consumer service                                                |
-| service.consumer.nodePort                    | `""`                                                  | Node port to be exposed for consumer service (only works with `service.type: NodePort`)    |
-| backend.core.service.name                    | `"core-service"`                                      | Name of the Core service                                                                   |
-| backend.core.service.port                    | `8080`                                                | Port number of the Core service                                                            |
-| backend.core.service.apiUrl                  | `"/api"`                                              | Base URL of the API requests                                                               |
-| backend.fe.service.name                      | `"fe-administrator-service"`                          | Name of the front end service                                                              |
-| backend.fe.service.port                      | `80`                                                  | Port number of the front end service                                                       |
-| backend.fe.service.baseUrl                   | `"/administrator"`                                    | URL of the frontend application                                                            |
-| backend.fe.service.apiUrl                    | `"/api"`                                              | URL of the API requests                                                                    |
-| backend.fe.service.loginUrl                  | `"/login"`                                            | URL of the login page                                                                      |
-| backend.fe.service.logoutUrl                 | `"/logout"`                                           | URL of the logout page                                                                     |
-| auth.header.cert.downstream                  | `"ssl-client-cert"`                                   | Downstream header name containing certificate                                              |
-| auth.header.cert.upstream                    | `"X-APP-CERTIFICATE"`                                 | Upstream header name to forward certificate                                                |
-| oidc.enabled                                 | `false`                                               | Whether the OIDC plugin should be enabled for external authentication                      |
-| oidc.client.id                               | `czertainly`                                          | OIDC client ID                                                                             |
-| oidc.client.secret                           | `s0qKH5qItTWoxpBt7Zrj348Zha7woAbk`                    | OIDC client secret                                                                         |
-| oidc.client.realm                            | `czertainly`                                          | Realm used in WWW-Authenticate response header                                             |
-| oidc.client.discovery                        | `https://server.com/.well-known/openid-configuration` | OIDC discovery endpoint                                                                    |
-| cors.enabled                                 | `false`                                               | Whether CORS plugin should be enabled                                                      |
-| cors.origins                                 | `['*']`                                               | List of allowed domains for the Access-Control-Allow-Origin header                         |
-| cors.exposedHeaders                          | `[X-Auth-Token]`                                      | List of values for the Access-Control-Expose-Headers header                                |
-| trustedIps                                   | `""`                                                  | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
-| hostAliases.resolveInternalKeycloak          | `false`                                               | Resolves internal Keycloak services as hostname for the OIDC client                        |
+| Parameter                                    | Default value                | Description                                                                                |
+|----------------------------------------------|------------------------------|--------------------------------------------------------------------------------------------|
+| image.registry                               | `docker.io`                  | Docker registry name for the image                                                         |
+| image.repository                             | `revomatico`                 | Docker image repository name                                                               |
+| image.name                                   | `docker-kong-oidc`           | Docker image name                                                                          |
+| image.tag                                    | `3.4.0-2`                    | Docker image tag                                                                           |
+| image.digest                                 | `""`                         | Docker image digest, will override tag if specified                                        |
+| image.pullPolicy                             | `IfNotPresent`               | Image pull policy                                                                          |
+| image.pullSecrets                            | `[]`                         | Array of secret names for image pull                                                       |
+| image.command                                | `[]`                         | Override the default command                                                               |
+| image.args                                   | `[]`                         | Override the default args                                                                  |
+| image.securityContext.runAsNonRoot           | `true`                       | Run the container as non-root user                                                         |
+| image.securityContext.runAsUser              | `100`                        | User ID for the container                                                                  |
+| image.securityContext.readOnlyRootFilesystem | `true`                       | Run the container with read-only root filesystem                                           |
+| image.resources                              | `{}`                         | The resources for the container                                                            |
+| podSecurityContext                           | `{}`                         | Pod security context                                                                       |
+| volumes.ephemeral.type                       | `memory`                     | Ephemeral volume type to be used                                                           |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`                      | Ephemeral volume size limit                                                                |
+| volumes.ephemeral.storageClassName           | `""`                         | Ephemeral volume storage class name for `storage` type                                     |
+| volumes.ephemeral.custom                     | `{}`                         | Custom definition of the ephemeral volume for `custom` type                                |
+| logging.level                                | `"info"`                     | Allowed values are `debug`, `info`, `notice`, `warn`, `error`, `crit`, `alert`, or `emerg` |
+| logging.request                              | `false`                      | Enable logging of request and response body for debugging                                  |
+| service.type                                 | `"ClusterIP"`                | Type of the service that is exposed                                                        |
+| service.admin.port                           | `8001`                       | Port number of the exposed admin service                                                   |
+| service.admin.nodePort                       | `""`                         | Node port to be exposed for admin service (only works with `service.type: NodePort`)       |
+| service.consumer.port                        | `8000`                       | Port number of the exposed consumer service                                                |
+| service.consumer.nodePort                    | `""`                         | Node port to be exposed for consumer service (only works with `service.type: NodePort`)    |
+| backend.core.service.name                    | `"core-service"`             | Name of the Core service                                                                   |
+| backend.core.service.port                    | `8080`                       | Port number of the Core service                                                            |
+| backend.core.service.apiUrl                  | `"/api"`                     | Base URL of the API requests                                                               |
+| backend.fe.service.name                      | `"fe-administrator-service"` | Name of the front end service                                                              |
+| backend.fe.service.port                      | `80`                         | Port number of the front end service                                                       |
+| backend.fe.service.baseUrl                   | `"/administrator"`           | URL of the frontend application                                                            |
+| backend.fe.service.apiUrl                    | `"/api"`                     | URL of the API requests                                                                    |
+| backend.fe.service.loginUrl                  | `"/login"`                   | URL of the login page                                                                      |
+| backend.fe.service.logoutUrl                 | `"/logout"`                  | URL of the logout page                                                                     |
+| auth.header.cert.downstream                  | `"ssl-client-cert"`          | Downstream header name containing certificate                                              |
+| auth.header.cert.upstream                    | `"X-APP-CERTIFICATE"`        | Upstream header name to forward certificate                                                |
+| oidc.enabled                                 | `false`                      | Whether the auth routes should be enabled for external authentication                      |
+| cors.enabled                                 | `false`                      | Whether CORS plugin should be enabled                                                      |
+| cors.origins                                 | `['*']`                      | List of allowed domains for the Access-Control-Allow-Origin header                         |
+| cors.exposedHeaders                          | `[X-Auth-Token]`             | List of values for the Access-Control-Expose-Headers header                                |
+| trustedIps                                   | `""`                         | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
+| hostAliases.resolveInternalKeycloak          | `false`                      | Resolves internal Keycloak services as hostname for the OIDC client                        |
+| config.custom                                | `""`                         | Custom declarative configuration for the Kong                                              |
 
 #### Customization parameters
 
