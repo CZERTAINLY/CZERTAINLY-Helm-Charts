@@ -257,7 +257,7 @@ keycloak:
   proxy: "edge"
   proxyAddressForwarding: true
 
-# configuration of the CZERTAINLY realm including kong as client for OIDC
+# configuration of the CZERTAINLY realm
 czertainly:
   admin:
     username: "czertainly-admin"
@@ -267,11 +267,11 @@ czertainly:
     email: "admin@czertainly.local"
   # hostname is used as the Root URL for the OIDC configuration
   hostName: "czertainly.local"
-  # OIDC client secret, it should be also configured for the client in Kong
+  # OIDC client secret, it should be also configured for the client
   # it is 32 bytes long value, base64 encoded, for example s0qKH5qItTWoxpBt7Zrj348ZhZ7woAbk
   clientSecret: "secret"
   redirectUri:
-    login: "/login/"
+    login: "/api/login/oauth2/code/internal"
     postLogout: "/administrator/"
 
 # deploy simple postStart hook to create keycloak schema in database

@@ -10,7 +10,7 @@ dependencies:
   - name: czertainly-lib
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../czertainly-lib
-    version: 1.4.0
+    version: 1.4.1-develop
 keywords:
   - czertainly
   - trust
@@ -28,4 +28,4 @@ sources:
   - https://github.com/CZERTAINLY/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.13.1
+version: 2.13.1-1-develop

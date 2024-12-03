@@ -21,8 +21,10 @@ spec:
     metadata:
       labels:
         {{- include "api-gateway-kong.selectorLabels" . | nindent 8 }}
-      {{- with .Values.podAnnotations }}
       annotations:
+        # when the kong declarative config map is changed, restart deployment
+        checksum/config: {{ include "api-gateway-kong.config.yml" (dict "global" .Values.global "apiGateway" .Values) | sha256sum }}
+      {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
@@ -62,13 +64,9 @@ spec:
             - name: KONG_DECLARATIVE_CONFIG
               value: "/kong/declarative/kong.yml"
             - name: KONG_PLUGINS
-              value: "oidc,request-transformer,cors,file-log,response-transformer,post-function"
+              value: "request-transformer,cors,file-log,response-transformer,post-function"
             - name: KONG_LOG_LEVEL
               value: {{ .Values.logging.level | quote }}
-            - name: JWT_KEYCLOAK_PRIORITY
-              value: "950"
-            - name: KONG_X_SESSION_COMPRESSOR
-              value: "zlib"
             {{- if .Values.trustedIps }}
             - name: KONG_TRUSTED_IPS
               value: {{ .Values.trustedIps | quote }}

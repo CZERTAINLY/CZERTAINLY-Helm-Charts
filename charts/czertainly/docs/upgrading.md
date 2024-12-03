@@ -14,6 +14,19 @@ The following contains important information and instructions about upgrading He
 
 Upgrading Helm chart is done by running the `helm upgrade` command. The command upgrades the platform to the specified version. The command can be used to upgrade the platform to the same version with changed parameters.
 
+## To 2.14.0
+
+:::warning[Breaking changes]
+This version introduced breaking changes in the configuration of OAuth2 providers that need your attention.
+:::
+
+The platform now supports multiple configurations of OAuth2 providers. If you are using the internal Keycloak for authentication (`global.keycloak.enabled=true`), a different approach must be applied depending on whether you are deploying the platform for the first time or upgrading from a previous version:
+
+| Deployment                    | Configuration                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Fresh installation            | The OAuth2 `internal` provider is automatically configured. No manual changes are required.                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| Upgrade from previous version | The OAuth2 `internal` provider is automatically configured. However, changes to the OAuth2 Keycloak client configuration must be applied manually. For a convenient upgrade, use the provided Python script [update_realm_from_2.7.0_to_2.14.0.py](https://github.com/CZERTAINLY/CZERTAINLY-Helm-Charts/tree/master/charts/keycloak-internal/scripts/update_realm_from_2.7.0_to_2.14.0.py). The script will prompt you for the required parameters and update the Keycloak client configuration. It also serves as a guide and documentation for the necessary changes. |
+
 ## To 2.13.1
 
 Added support for custom command and args for the containers. The following parameters were added to the umbrella chart and all sub-charts:

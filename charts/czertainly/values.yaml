@@ -381,8 +381,7 @@ javaOpts: ""
 
 auth:
   header:
-    token: "X-USERINFO"
-    certificate: "X-APP-CERTIFICATE"
+    certificate: "ssl-client-cert"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -451,6 +450,8 @@ affinity: {}
 #
 apiGateway:
   nameOverride: api-gateway
+  config:
+    default: "charts/api-gateway-kong/config/kong.yml"
   autoscaling:
     enabled: false
     minReplicas: 1
