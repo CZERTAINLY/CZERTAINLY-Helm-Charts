@@ -381,8 +381,7 @@ javaOpts: ""
 
 auth:
   header:
-    token: "X-USERINFO"
-    certificate: "X-APP-CERTIFICATE"
+    certificate: "ssl-client-cert"
 
 serviceAccount:
   # Specifies whether a service account should be created

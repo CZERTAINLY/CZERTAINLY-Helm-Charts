@@ -107,4 +107,3 @@ if __name__ == "__main__":
         update_client_config(access_token, keycloak_url)
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
-l

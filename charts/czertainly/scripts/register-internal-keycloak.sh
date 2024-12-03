@@ -1,4 +1,5 @@
 {{- $hostName := pluck "hostName" .Values.global .Values | compact | first }}
+{{- $internalKeycloakHttpPort := .Values.keycloakInternal.service.port }}
 #!/bin/sh
 
 # Check if the client secret is provided
@@ -23,9 +24,9 @@ curl -X PUT \
     "clientId": "czertainly",
     "clientSecret": "'"$CLIENT_SECRET"'",
     "authorizationUrl": "https://{{ $hostName }}/kc/realms/CZERTAINLY/protocol/openid-connect/auth",
-    "tokenUrl": "https://{{ $hostName }}/kc/realms/CZERTAINLY/protocol/openid-connect/token",
+    "tokenUrl": "http://keycloak-internal-service:{{ $internalKeycloakHttpPort }}/kc/realms/CZERTAINLY/protocol/openid-connect/token",
     "logoutUrl": "https://{{ $hostName }}/kc/realms/CZERTAINLY/protocol/openid-connect/logout",
-    "jwkSetUrl": "https://{{ $hostName }}/kc/realms/CZERTAINLY/protocol/openid-connect/certs",
+    "jwkSetUrl": "http://keycloak-internal-service:{{ $internalKeycloakHttpPort }}/kc/realms/CZERTAINLY/protocol/openid-connect/certs",
     "scope": ["openid"],
     "audiences": ["czertainly"],
     "postLogoutUrl": "https://{{ $hostName }}/administrator/",

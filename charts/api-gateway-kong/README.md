@@ -130,14 +130,11 @@ The following values may be configured:
 | backend.fe.service.apiUrl                    | `"/api"`                     | URL of the API requests                                                                    |
 | backend.fe.service.loginUrl                  | `"/login"`                   | URL of the login page                                                                      |
 | backend.fe.service.logoutUrl                 | `"/logout"`                  | URL of the logout page                                                                     |
-| auth.header.cert.downstream                  | `"ssl-client-cert"`          | Downstream header name containing certificate                                              |
-| auth.header.cert.upstream                    | `"X-APP-CERTIFICATE"`        | Upstream header name to forward certificate                                                |
 | oidc.enabled                                 | `false`                      | Whether the auth routes should be enabled for external authentication                      |
 | cors.enabled                                 | `false`                      | Whether CORS plugin should be enabled                                                      |
 | cors.origins                                 | `['*']`                      | List of allowed domains for the Access-Control-Allow-Origin header                         |
 | cors.exposedHeaders                          | `[X-Auth-Token]`             | List of values for the Access-Control-Expose-Headers header                                |
 | trustedIps                                   | `""`                         | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
-| hostAliases.resolveInternalKeycloak          | `false`                      | Resolves internal Keycloak services as hostname for the OIDC client                        |
 | config.custom                                | `""`                         | Custom declarative configuration for the Kong                                              |
 
 #### Customization parameters

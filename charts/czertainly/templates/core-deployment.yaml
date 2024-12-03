@@ -148,8 +148,6 @@ spec:
               value: "true"
             - name: HEADER_NAME
               value: {{ .Values.auth.header.certificate | quote }}
-            - name: AUTH_TOKEN_HEADER_NAME
-              value: {{ .Values.auth.header.token | quote }}
             {{- if .Values.global.httpProxy }}
             - name: HTTP_PROXY
               value: {{ .Values.global.httpProxy }}

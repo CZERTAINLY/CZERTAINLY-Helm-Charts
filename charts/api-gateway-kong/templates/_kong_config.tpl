@@ -11,8 +11,8 @@ Example:
 _format_version: '2.1'
 _transform: true
 services:
-  # Protocol requests are forwarded to the upstream, where the request is handled
-  - name: protocols
+  # Core service for the backend API
+  - name: core
     host: {{ .apiGateway.backend.core.service.name }}
     port: {{ .apiGateway.backend.core.service.port }}
     protocol: http
@@ -21,44 +21,7 @@ services:
         strip_path: false
         preserve_host: true
         paths:
-          - {{ .apiGateway.backend.core.service.apiUrl}}/v1/protocols
-  # Requests to the core service are forwarded to the upstream only if the request contains a valid certificate,
-  # cookie or JWT token to prove the user's identity
-  - name: core
-    host: {{ .apiGateway.backend.core.service.name }}
-    port: {{ .apiGateway.backend.core.service.port }}
-    protocol: http
-    routes:
-      - name: core_route-cert
-        strip_path: false
-        preserve_host: true
-        paths:
           - {{ .apiGateway.backend.core.service.apiUrl}}
-        headers:
-          {{ .apiGateway.auth.header.cert.downstream }}:
-            - ~*(.*?)
-        plugins:
-          - name: request-transformer
-            config:
-              rename:
-                headers:
-                  - '{{ .apiGateway.auth.header.cert.downstream }}:{{ .apiGateway.auth.header.cert.upstream }}'
-      - name: core_route-oauth2
-        strip_path: false
-        preserve_host: true
-        paths:
-          - {{ .apiGateway.backend.core.service.apiUrl}}
-        headers:
-          cookie:
-            - ~*(.*?)czertainly-session=(.*?)
-      - name: core_route-jwt
-        strip_path: false
-        preserve_host: true
-        paths:
-          - {{ .apiGateway.backend.core.service.apiUrl}}
-        headers:
-          authorization:
-            - ~Bearer (.*?)
   # OAuth2 authentication handlers for the login and logout routes
   - name: core-login-logout
     host: {{ .apiGateway.backend.core.service.name }}
