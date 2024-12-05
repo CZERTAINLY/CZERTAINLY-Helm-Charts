@@ -374,8 +374,6 @@ additionalEnv:
 
 logging:
   level: "INFO"
-  audit:
-    enabled: "false"
 
 javaOpts: ""
 

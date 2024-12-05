@@ -142,8 +142,6 @@ spec:
           args: {{- include "czertainly.image.args" . | nindent 12 }}
           {{- end }}
           env:
-            - name: AUDITLOG_ENABLED
-              value: {{ .Values.logging.audit.enabled | quote }}
             - name: HEADER_ENABLED
               value: "true"
             - name: HEADER_NAME
