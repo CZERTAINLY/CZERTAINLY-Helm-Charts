@@ -216,6 +216,8 @@ spec:
               name: ephemeral
             - mountPath: /opt/keycloak/data/tmp
               name: ephemeral
+            - mountPath: /opt/keycloak/.keycloak
+              name: ephemeral
             - mountPath: /tmp
               name: ephemeral
             {{- if or .Values.global.trusted.certificates .Values.trusted.certificates }}
@@ -255,4 +257,3 @@ spec:
         {{- if $additionalVolumes }}
           {{- $additionalVolumes | nindent 8 }}
         {{- end }}
-
