@@ -99,7 +99,7 @@ service:
 
 image:
   # default registry name
-  registry: harbor.3key.company
+  registry: docker.io
   repository: czertainly
   name: czertainly-pyadcs-connector
   tag: 1.1.2
