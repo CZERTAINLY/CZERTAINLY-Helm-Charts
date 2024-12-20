@@ -8,6 +8,7 @@
 {{- $additionalVolumeMounts := (include "czertainly.customization.volumeMounts" $) }}
 {{- $additionalEnv := (include "czertainly.customization.env" $) }}
 {{- $additionalEnvFrom := (include "czertainly.customization.envFrom" $) }}
+{{- $scripts := or .Values.global.keycloak.enabled .Values.registerAdmin.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -141,14 +142,10 @@ spec:
           args: {{- include "czertainly.image.args" . | nindent 12 }}
           {{- end }}
           env:
-            - name: AUDITLOG_ENABLED
-              value: {{ .Values.logging.audit.enabled | quote }}
             - name: HEADER_ENABLED
               value: "true"
             - name: HEADER_NAME
               value: {{ .Values.auth.header.certificate | quote }}
-            - name: AUTH_TOKEN_HEADER_NAME
-              value: {{ .Values.auth.header.token | quote }}
             {{- if .Values.global.httpProxy }}
             - name: HTTP_PROXY
               value: {{ .Values.global.httpProxy }}
@@ -217,6 +214,10 @@ spec:
                   key: messaging.password
             - name: SCHEDULER_BASE_URL
               value: "http://scheduler-service-service:{{ .Values.schedulerService.service.port }}"
+            {{- if .Values.global.keycloak.enabled }}
+            - name: INTERNAL_OAUTH_SECRET
+              value: {{ .Values.global.keycloak.clientSecret | quote }}
+            {{- end }}
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}
@@ -280,10 +281,14 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: ephemeral
+            {{- if $scripts }}
+            - mountPath: /opt/czertainly/scripts
+              name: core-scripts
+            {{- end }}
             {{- if $additionalVolumeMounts }}
               {{- $additionalVolumeMounts | nindent 12 }}
             {{- end }}
-          {{- if .Values.registerAdmin.enabled }}
+          {{- if $scripts }}
           lifecycle:
             postStart:
               exec:
@@ -291,25 +296,12 @@ spec:
                   - "sh"
                   - "-c"
                   - |
-                    while ! nc -z localhost {{ .Values.service.port }}; do sleep 1; done &&
-                    while ! nc -z localhost 8181; do sleep 1; done &&
-                    ADMIN_CERT=$( echo $ADMIN_CERT | awk '{gsub(/[[:blank:]]/,""); print}' ) &&
-                    ADMIN_CERT=$( echo $ADMIN_CERT | awk '{gsub(/-----BEGINCERTIFICATE-----/,""); print}' ) &&
-                    ADMIN_CERT=$( echo $ADMIN_CERT | awk '{gsub(/-----ENDCERTIFICATE-----/,""); print}' ) &&
-                    curl -X POST \
-                    -H 'content-type: application/json' \
-                    -d '
-                     {
-                        "username": {{ $username }},
-                        "description": {{ .Values.registerAdmin.admin.description | quote}},
-                        "firstName": {{ $name }},
-                        "lastName": {{ $surname }},
-                        "email": {{ $email }},
-                        "enabled": "true",
-                        "certificateData": "'$ADMIN_CERT'",
-                        "certificateUuid": ""
-                     }' \
-                     http://localhost:{{ .Values.service.port }}/api/v1/local/admins
+                    {{- if .Values.registerAdmin.enabled }}
+                    /opt/czertainly/scripts/register-admin.sh;
+                    {{- end }}
+                    {{- if .Values.global.keycloak.enabled }}
+                    /opt/czertainly/scripts/register-internal-keycloak.sh $INTERNAL_OAUTH_SECRET;
+                    {{- end }}
           {{- end }}
         {{- if $additionalSidecarContainers }}
           {{- $additionalSidecarContainers | nindent 8 }}
@@ -317,6 +309,12 @@ spec:
       volumes:
         - name: ephemeral
           {{- include "czertainly.ephemeralVolume" . | indent 10 }}
+        {{- if $scripts }}
+        - name: core-scripts
+          configMap:
+            name: core-scripts-configmap
+            defaultMode: 0777
+        {{- end }}
         {{- if $additionalVolumes }}
           {{- $additionalVolumes | nindent 8 }}
         {{- end }}

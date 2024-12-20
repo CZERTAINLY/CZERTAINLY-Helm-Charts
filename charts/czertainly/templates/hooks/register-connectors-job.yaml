@@ -94,6 +94,6 @@ spec:
             echo "all done"
           {{- end }}
           {{- if .Values.kubectl.image.args }}
-          args: {{- include "czertainly.kubectl.image.args" . | nindent 12 }}
+          args: {{- include "czertainly.curl.image.args" . | nindent 12 }}
           {{- end }}
 {{- end }}

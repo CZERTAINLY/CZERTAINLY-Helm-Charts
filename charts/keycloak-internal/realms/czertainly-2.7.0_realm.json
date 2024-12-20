@@ -330,7 +330,7 @@
         "containerId" : "5de42a1c-165c-421a-ada3-91023884af74",
         "attributes" : { }
       } ],
-      "kong" : [ ]
+      "czertainly" : [ ]
     }
   },
   "groups" : [ ],
@@ -528,8 +528,8 @@
     "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
   }, {
     "id" : "b7235af6-8c98-4d96-a1c3-94b94ed8d131",
-    "clientId" : "kong",
-    "name" : "kong",
+    "clientId" : "czertainly",
+    "name" : "czertainly",
     "description" : "",
     "rootUrl" : "https://{{ required "Hostname must be provided: .Values.czertainly.hostName" $hostName }}",
     "adminUrl" : "",
@@ -577,6 +577,23 @@
         "id.token.claim" : "true",
         "access.token.claim" : "true",
         "claim.name" : "roles"
+      }
+    },
+    {
+      "id": "1ff9248b-c05e-48e8-b8db-0dc57e455620",
+      "name": "Username",
+      "protocol": "openid-connect",
+      "protocolMapper": "oidc-usermodel-property-mapper",
+      "consentRequired": false,
+      "config": {
+        "introspection.token.claim": "true",
+        "userinfo.token.claim": "true",
+        "user.attribute": "username",
+        "id.token.claim": "true",
+        "lightweight.claim": "false",
+        "access.token.claim": "true",
+        "claim.name": "username",
+        "jsonType.label": "String"
       }
     } ],
     "defaultClientScopes" : [ "web-origins", "acr", "profile", "roles", "email" ],

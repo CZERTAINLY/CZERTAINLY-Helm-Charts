@@ -14,6 +14,39 @@ The following contains important information and instructions about upgrading He
 
 Upgrading Helm chart is done by running the `helm upgrade` command. The command upgrades the platform to the specified version. The command can be used to upgrade the platform to the same version with changed parameters.
 
+## To 2.14.0
+
+:::warning[Breaking changes]
+This version introduced breaking changes in the configuration of OAuth2 providers and logging that need your attention.
+:::
+
+### OAuth2 provider configuration
+
+The platform now supports multiple configurations of OAuth2 providers. If you are using the internal Keycloak for authentication (`global.keycloak.enabled=true`), a different approach must be applied depending on whether you are deploying the platform for the first time or upgrading from a previous version:
+
+| Deployment                    | Configuration                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Fresh installation            | The OAuth2 `internal` provider is automatically configured. No manual changes are required.                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| Upgrade from previous version | The OAuth2 `internal` provider is automatically configured. However, changes to the OAuth2 Keycloak client configuration must be applied manually. For a convenient upgrade, use the provided Python script [update_realm_from_2.7.0_to_2.14.0.py](https://github.com/CZERTAINLY/CZERTAINLY-Helm-Charts/tree/master/charts/keycloak-internal/scripts/update_realm_from_2.7.0_to_2.14.0.py). The script will prompt you for the required parameters and update the Keycloak client configuration. It also serves as a guide and documentation for the necessary changes. |
+
+### Logging configuration
+
+The logging was updated to support structured records and better integration with the logging infrastructure. The previous implementation of audit logs was removed and replaced with the new implementation.
+
+:::danger[Audit logs]
+It is recommended to create a backup or export of all audit logs you want to keep before upgrading to this version. The audit logs are reset during the upgrade.
+:::
+
+The `logging.audit.enabled` parameter was removed. The audit logs are now configured in the platform.
+For more information on logging and how to configure it, see the [Logging](https://docs.czertainly.com/docs/certificate-key/logging/overview) section in the documentation.
+
+### Changed parameters
+
+The following parameters were changed or removed. Please update your configuration accordingly:
+
+- Configuration of header names and OIDC for API gateway is removed in favor of the new OAuth2 provider configuration. Particularly, the `auth`, `oidc`, and `hostAliases` parameters were removed from the `apiGateway` section and are not supported anymore.
+- The certification authentication header name was changed from default `X-APP-CERTIFICATE` to `ssl-client-cert` in the `auth.header.certificate` parameter. Be sure to update your configuration if you are using the certificate-based authentication and terminate the SSL connection outside the platform.
+
 ## To 2.13.1
 
 Added support for custom command and args for the containers. The following parameters were added to the umbrella chart and all sub-charts:

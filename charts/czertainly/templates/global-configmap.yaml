@@ -3,5 +3,6 @@ kind: ConfigMap
 metadata:
   name: global-configmap
 data:
-  {{- include "czertainly-lib.api-gateway.kong.yaml" (dict "global" .Values.global "apiGateway" .Values.apiGateway) | indent 2 }}
+  kong.yml: |-
+    {{- include "api-gateway-kong.config.yml" (dict "global" .Values.global "apiGateway" .Values.apiGateway) | indent 4 }}
   {{- include "czertainly-lib.messaging.configmap" (dict "global" .Values.global "messagingService" .Values.messagingService) | nindent 2 }}

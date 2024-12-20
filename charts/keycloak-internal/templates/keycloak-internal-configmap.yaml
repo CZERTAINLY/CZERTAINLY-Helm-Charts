@@ -4,6 +4,6 @@ metadata:
   name: keycloak-internal-configmap
 data:
   czertainly_realm.json: |-
-{{- tpl (.Files.Get "czertainly_realm.json") . | indent 4 }}
+    {{- tpl (.Files.Get "realms/czertainly-2.14.0_realm.json") . | indent 4 }}
   create_schema.sh: |-
-{{- tpl (.Files.Get "create_schema.sh") . | indent 4 }}
+    {{- tpl (.Files.Get "create_schema.sh") . | indent 4 }}
