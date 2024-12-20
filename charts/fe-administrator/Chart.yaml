@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 2.13.1
+appVersion: 2.14.0
 name: fe-administrator
 description: A Helm chart for Administrator Web for CZERTAINLY platform.
 home: https://github.com/CZERTAINLY/CZERTAINLY-FE-Administrator
@@ -10,7 +10,7 @@ dependencies:
   - name: czertainly-lib
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../czertainly-lib
-    version: 1.4.1-develop
+    version: 1.4.1
 keywords:
   - czertainly
   - trust
@@ -28,4 +28,4 @@ sources:
   - https://github.com/CZERTAINLY/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.13.1-1-develop
+version: 2.14.0
