@@ -40,6 +40,13 @@ It is recommended to create a backup or export of all audit logs you want to kee
 The `logging.audit.enabled` parameter was removed. The audit logs are now configured in the platform.
 For more information on logging and how to configure it, see the [Logging](https://docs.czertainly.com/docs/certificate-key/logging/overview) section in the documentation.
 
+### Changed parameters
+
+The following parameters were changed or removed. Please update your configuration accordingly:
+
+- Configuration of header names and OIDC for API gateway is removed in favor of the new OAuth2 provider configuration. Particularly, the `auth`, `oidc`, and `hostAliases` parameters were removed from the `apiGateway` section and are not supported anymore.
+- The certification authentication header name was changed from default `X-APP-CERTIFICATE` to `ssl-client-cert` in the `auth.header.certificate` parameter. Be sure to update your configuration if you are using the certificate-based authentication and terminate the SSL connection outside the platform.
+
 ## To 2.13.1
 
 Added support for custom command and args for the containers. The following parameters were added to the umbrella chart and all sub-charts:

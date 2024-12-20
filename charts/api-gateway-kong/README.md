@@ -130,7 +130,6 @@ The following values may be configured:
 | backend.fe.service.apiUrl                    | `"/api"`                     | URL of the API requests                                                                    |
 | backend.fe.service.loginUrl                  | `"/login"`                   | URL of the login page                                                                      |
 | backend.fe.service.logoutUrl                 | `"/logout"`                  | URL of the logout page                                                                     |
-| oidc.enabled                                 | `false`                      | Whether the auth routes should be enabled for external authentication                      |
 | cors.enabled                                 | `false`                      | Whether CORS plugin should be enabled                                                      |
 | cors.origins                                 | `['*']`                      | List of allowed domains for the Access-Control-Allow-Origin header                         |
 | cors.exposedHeaders                          | `[X-Auth-Token]`             | List of values for the Access-Control-Expose-Headers header                                |
