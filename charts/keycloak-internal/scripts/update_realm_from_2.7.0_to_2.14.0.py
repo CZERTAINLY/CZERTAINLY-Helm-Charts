@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # This script was tested on Keycloak 24.0.2-0
 import requests
 import getpass
