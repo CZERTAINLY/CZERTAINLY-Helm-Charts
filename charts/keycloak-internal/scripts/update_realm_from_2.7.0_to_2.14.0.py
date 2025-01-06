@@ -1,9 +1,13 @@
 #!/usr/bin/python3
 
 # This script was tested on Keycloak 24.0.2-0
-import requests
 import getpass
+import argparse
+import requests
+from requests.exceptions import SSLError
+import urllib3
 
+verify_tls = True
 
 def authenticate(username, password, keycloak_url):
     """Authenticate and get an access token from Keycloak."""
@@ -14,7 +18,7 @@ def authenticate(username, password, keycloak_url):
         "password": password,
         "grant_type": "password",
     }
-    response = requests.post(url, data=payload)
+    response = requests.post(url, data=payload, verify=verify_tls)
     response.raise_for_status()
     return response.json()["access_token"]
 
@@ -87,12 +91,23 @@ def update_client_config(access_token, keycloak_url):
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json",
     }
-    response = requests.put(url, headers=headers, json=payload)
+    response = requests.put(url, headers=headers, json=payload, verify=verify_tls)
     response.raise_for_status()
     print(f"Client configuration updated successfully. Status code: {response.status_code}")
 
 
 if __name__ == "__main__":
+    # If used with --insecure switch script can ignore TLS certificates problems, use with caution
+    parser = argparse.ArgumentParser(
+        description="upgrade_realm_from_2.7.0_to_2.14.0.py: script to upgrade realm CZERTAINLY in Keycloak for version 2.14.0")
+    parser.add_argument('--insecure', action='store_true', default=False,
+                        help='disable certificate validation (default: %(default)s)')
+    args = parser.parse_args()
+
+    if args.insecure:
+        urllib3.disable_warnings()
+        verify_tls = False
+
     # Get the base URL of Keycloak
     keycloak_url = input("Enter the URL of the Keycloak (e.g., https://my.czertainly.com/kc): ")
 
@@ -107,5 +122,7 @@ if __name__ == "__main__":
 
         # Update the client configuration
         update_client_config(access_token, keycloak_url)
+    except SSLError as e:
+        print(f"An SSL error occurred, maybe try --insecure option? Exception: {e}")
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
