@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 24.0.2-0
+appVersion: 26.1.0-0
 name: keycloak-internal
 description: A Helm chart for internal Keycloak auth in CZERTAINLY platform.
 home: https://github.com/3KeyCompany/CZERTAINLY
@@ -29,4 +29,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 24.0.2-0-3
+version: 26.1.0-develop

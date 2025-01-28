@@ -76,20 +76,24 @@ spec:
                 secretKeyRef:
                   name: keycloak-internal-secret
                   key: password
-            - name: KC_HOSTNAME_STRICT
-              value: {{ .Values.keycloak.hostnameStrict | quote }}
-            - name: KC_HOSTNAME_STRICT_HTTPS
-              value: {{ .Values.keycloak.hostnameStrictHttps | quote }}
             - name: JAVA_OPTS_APPEND
               value: "-Djgroups.dns.query=keycloak-service-internal-headless"
-            - name: KC_PROXY
-              value: {{ .Values.keycloak.proxy | quote }}
-            - name: KC_HTTP_PORT
-              value: {{ .Values.service.port | quote }}
+            - name: KC_HOSTNAME
+              value: https://{{ .Values.global.hostName }}{{ .Values.keycloak.httpRelativePath }}
             - name: KC_HTTP_ENABLED
               value: {{ .Values.keycloak.httpEnabled | quote }}
-            - name: PROXY_ADDRESS_FORWARDING
-              value: {{ .Values.keycloak.proxyAddressForwarding | quote }}
+            - name: KC_PROXY_HEADERS
+              value: {{ .Values.keycloak.proxyHeaders }}
+            # Following three variables KC_DB, KC_HTTP_RELATIVE_PATH and
+            # KC_HEALTH_ENABLED are needed when you need to run kc.sh in the
+            # image. They needs to be inline with valuses used to buld our
+            # optimized image: https://github.com/CZERTAINLY/CZERTAINLY-Keycloak-Optimized/
+            - name: KC_DB
+              value: postgres
+            - name: KC_HTTP_RELATIVE_PATH
+              value: {{ .Values.keycloak.httpRelativePath }}
+            - name: KC_HEALTH_ENABLED
+              value: "true"
             - name: KC_DB_SCHEMA
               value: {{ .Values.keycloak.dbSchema | quote }}
             # KC_DB_* env variables are needed for Keycloak
