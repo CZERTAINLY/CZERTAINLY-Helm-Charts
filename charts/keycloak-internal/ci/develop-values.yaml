@@ -3,7 +3,7 @@ global:
     host: "172.17.0.1"
 
 image:
-  tag: master-latest
+  tag: develop-latest
 
 keycloak:
   dbSchema: "public"

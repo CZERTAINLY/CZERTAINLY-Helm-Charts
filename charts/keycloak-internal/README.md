@@ -108,9 +108,9 @@ The following values may be configured:
 |----------------------------------------------|----------------------------------------|----------------------------------------------------------------------------------------|
 | trusted.certificates                         | `""`                                   | List of additional CA certificates that should be trusted                              |
 | image.registry                               | `docker.io`                            | Docker registry name for the image                                                     |
-| image.repository                             | `3keycompany`                          | Docker image repository name                                                           |
+| image.repository                             | `czertainly`                           | Docker image repository name                                                           |
 | image.name                                   | `czertainly-keycloak-optimized`        | Docker image name                                                                      |
-| image.tag                                    | `24.0.2-0`                             | Docker image tag                                                                       |
+| image.tag                                    | `26.1.0-0`                             | Docker image tag                                                                       |
 | image.digest                                 | `""`                                   | Docker image digest, will override tag if specified                                    |
 | image.pullPolicy                             | `IfNotPresent`                         | Image pull policy                                                                      |
 | image.pullSecrets                            | `[]`                                   | Array of secret names for image pull                                                   |
@@ -170,12 +170,9 @@ The following values may be configured:
 | keycloak.dbSchema               | `"keycloak"`  | The database schema to be used                                                                              |
 | keycloak.admin.username         | `"admin"`     | Initial Keycloak master realm administrator username                                                        |
 | keycloak.admin.password         | `"admin"`     | Initial Keycloak master realm administrator password                                                        |
-| keycloak.hostnameStrict         | `false`       | Disables dynamically resolving the hostname from http request headers                                       |
-| keycloak.hostnameStrictHttps    | `false`       | Disables dynamically resolving the hostname from https request headers                                      |
-| keycloak.httpRelativePath       | `/kc`         | Set the path relative to `/` for serving resources. **Change only if you know what you are doing!**         |
+| keycloak.httpRelativePath       | `/kc`         | Set the path relative to `/` for serving resources. **Hardcoded in keycloak-optimized image, change only if you know what you are doing!**         |
 | keycloak.httpEnabled            | `true`        | Enables the HTTP listener                                                                                   |
-| keycloak.proxy                  | `"edge"`      | The proxy address forwarding mode, can be one of `none`, `edge`, `reencrypt`, `passthrough`                 |
-| keycloak.proxyAddressForwarding | `true`        | Enables proxy address forwarding                                                                            |
+| keycloak.proxyHeaders           | `forward`     | Should server accept `forward` or `xforward` values? See [officical documentation](https://www.keycloak.org/server/all-config#category-proxy) |
 
 #### CZERTAINLY realm parameters
 
