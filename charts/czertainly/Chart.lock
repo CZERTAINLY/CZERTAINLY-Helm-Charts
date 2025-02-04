@@ -1,7 +1,7 @@
 dependencies:
 - name: keycloak-internal
   repository: file://../keycloak-internal
-  version: 26.1.0-develop
+  version: 26.1.0-0-develop
 - name: common-credential-provider
   repository: file://../common-credential-provider
   version: 1.3.3-2
@@ -59,5 +59,5 @@ dependencies:
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.1-2
-digest: sha256:a5f45f229bba9e26fe7b76013ed1a46c5ce51f2d523b912fc9a61c52cd9f2968
-generated: "2025-01-28T13:49:31.662206997+01:00"
+digest: sha256:bdbc2b8ac526a6fc3e5c4bf1ddc64b7d00cdf435ab136125071db5ef68fdb1cd
+generated: "2025-02-04T10:07:56.500908+01:00"
