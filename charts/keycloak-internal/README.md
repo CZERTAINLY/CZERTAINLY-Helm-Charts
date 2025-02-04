@@ -108,9 +108,9 @@ The following values may be configured:
 |----------------------------------------------|----------------------------------------|----------------------------------------------------------------------------------------|
 | trusted.certificates                         | `""`                                   | List of additional CA certificates that should be trusted                              |
 | image.registry                               | `docker.io`                            | Docker registry name for the image                                                     |
-| image.repository                             | `3keycompany`                          | Docker image repository name                                                           |
+| image.repository                             | `czertainly`                           | Docker image repository name                                                           |
 | image.name                                   | `czertainly-keycloak-optimized`        | Docker image name                                                                      |
-| image.tag                                    | `24.0.2-0`                             | Docker image tag                                                                       |
+| image.tag                                    | `26.1.0-0`                             | Docker image tag                                                                       |
 | image.digest                                 | `""`                                   | Docker image digest, will override tag if specified                                    |
 | image.pullPolicy                             | `IfNotPresent`                         | Image pull policy                                                                      |
 | image.pullSecrets                            | `[]`                                   | Array of secret names for image pull                                                   |

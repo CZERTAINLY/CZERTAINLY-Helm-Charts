@@ -104,7 +104,7 @@ service:
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany
+  repository: czertainly
   name: czertainly-keycloak-optimized
   tag: 26.1.0-0
   # the digest to be used instead of the tag
