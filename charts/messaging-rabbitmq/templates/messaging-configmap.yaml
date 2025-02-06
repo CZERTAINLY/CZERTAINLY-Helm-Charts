@@ -6,8 +6,8 @@ metadata:
 data:
   messaging.host: "messaging-service"
   messaging.amqp.port: {{ .Values.service.client.amqp.port | quote }}
-  messaging.enabled_plugins: |
+  messaging.enabled_plugins: |-
     {{ .Values.messaging.plugins.enabled }}
-  messaging.rabbitmq.conf: |
+  messaging.rabbitmq.conf: |-
     {{- include "messaging-rabbitmq.rabbitmq.conf" (dict "global" .Values.global "messagingService" .Values) | nindent 4 }}
 {{- end }}

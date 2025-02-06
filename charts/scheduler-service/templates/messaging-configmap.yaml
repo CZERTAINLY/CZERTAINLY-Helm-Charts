@@ -7,9 +7,9 @@ data:
   {{- $externalMessaging := pluck "enabled" .Values.global.messaging.external .Values.messaging.external | compact | first }}
   {{- if $externalMessaging }}
   messaging.host: {{ pluck "host" .Values.global.messaging.external .Values.messaging.external | compact | first | quote }}
-  messaging.amqp.port: {{ pluck "port" .Values.global.messaging.external.amqp .Values.messaging.external.amqp | compact | first }}
+  messaging.amqp.port: {{ pluck "port" .Values.global.messaging.external.amqp .Values.messaging.external.amqp | compact | first | quote }}
   {{- else }}
-  messaging.host: {{ .Values.messaging.host }}
-  messaging.amqp.port: {{ .Values.messaging.amqp.port }}
+  messaging.host: {{ .Values.messaging.host | quote }}
+  messaging.amqp.port: {{ .Values.messaging.amqp.port | quote }}
   {{- end }}
 {{- end }}
