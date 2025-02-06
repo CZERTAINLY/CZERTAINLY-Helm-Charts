@@ -74,17 +74,29 @@ spec:
             - name: RABBITMQ_DEFAULT_PASS
               valueFrom:
                 secretKeyRef:
+                  {{- if .Values.global.config.enabled }}
                   name: messaging-secret
+                  {{- else }}
+                  name: messaging-secret-{{ .Chart.Name | lower }}
+                  {{- end }}
                   key: messaging.password
             - name: RABBITMQ_DEFAULT_USER
               valueFrom:
                 secretKeyRef:
+                  {{- if .Values.global.config.enabled }}
                   name: messaging-secret
+                  {{- else }}
+                  name: messaging-secret-{{ .Chart.Name | lower }}
+                  {{- end }}
                   key: messaging.username
             - name: RABBITMQ_ERLANG_COOKIE
               valueFrom:
                 secretKeyRef:
+                  {{- if .Values.global.config.enabled }}
                   name: messaging-secret
+                  {{- else }}
+                  name: messaging-secret-{{ .Chart.Name | lower }}
+                  {{- end }}
                   key: messaging.cookie
             - name: RABBITMQ_LOGS
               value: "-"
@@ -208,7 +220,11 @@ spec:
       volumes:
         - name: configuration
           configMap:
+            {{- if .Values.global.config.enabled }}
             name: messaging-configmap
+            {{- else }}
+            name: messaging-configmap-{{ .Chart.Name | lower }}
+            {{- end }}
             optional: false
             items:
               - key: messaging.rabbitmq.conf
@@ -217,7 +233,11 @@ spec:
                 path: "enabled_plugins"
         - name: definitions
           secret:
+            {{- if .Values.global.config.enabled }}
             secretName: messaging-secret
+            {{- else }}
+            secretName: messaging-secret-{{ .Chart.Name | lower }}
+            {{- end }}
             optional: false
             items:
               - key: messaging.definitions.json

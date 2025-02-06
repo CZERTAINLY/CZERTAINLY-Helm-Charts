@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: messaging-configmap
+  name: messaging-configmap-{{ .Chart.Name | lower }}
 data:
   messaging.host: "messaging-service"
   messaging.amqp.port: {{ .Values.service.client.amqp.port | quote }}

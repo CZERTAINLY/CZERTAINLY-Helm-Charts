@@ -97,22 +97,38 @@ spec:
             - name: RABBITMQ_HOST
               valueFrom:
                 configMapKeyRef:
+                  {{- if .Values.global.config.enabled }}
                   name: messaging-configmap
+                  {{- else }}
+                  name: messaging-configmap-{{ .Chart.Name | lower }}
+                  {{- end }}
                   key: messaging.host
             - name: RABBITMQ_PORT
               valueFrom:
                 configMapKeyRef:
+                  {{- if .Values.global.config.enabled }}
                   name: messaging-configmap
+                  {{- else }}
+                  name: messaging-configmap-{{ .Chart.Name | lower }}
+                  {{- end }}
                   key: messaging.amqp.port
             - name: RABBITMQ_USERNAME
               valueFrom:
                 secretKeyRef:
+                  {{- if .Values.global.config.enabled }}
                   name: messaging-secret
+                  {{- else }}
+                  name: messaging-secret-{{ .Chart.Name | lower }}
+                  {{- end }}
                   key: messaging.username
             - name: RABBITMQ_PASSWORD
               valueFrom:
                 secretKeyRef:
+                  {{- if .Values.global.config.enabled }}
                   name: messaging-secret
+                  {{- else }}
+                  name: messaging-secret-{{ .Chart.Name | lower }}
+                  {{- end }}
                   key: messaging.password
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}

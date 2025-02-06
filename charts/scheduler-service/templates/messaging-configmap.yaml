@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: messaging-configmap
+  name: messaging-configmap-{{ .Chart.Name | lower }}
 data:
   {{- $externalMessaging := pluck "enabled" .Values.global.messaging.external .Values.messaging.external | compact | first }}
   {{- if $externalMessaging }}
