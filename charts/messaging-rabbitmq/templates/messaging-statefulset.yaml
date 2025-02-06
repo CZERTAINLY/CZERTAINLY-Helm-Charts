@@ -27,9 +27,9 @@ spec:
         {{- include "messaging-rabbitmq.selectorLabels" . | nindent 8 }}
       annotations:
         # when the messaging config map is changed, restart deployment
-        checksum/config: {{ include "czertainly-lib.messaging.configmap" (dict "global" .Values.global "messagingService" .Values) | sha256sum }}
+        checksum/config: {{ include "messaging-rabbitmq.rabbitmq.conf" (dict "global" .Values.global "messagingService" .Values) | sha256sum }}
         # when the messaging secret is changed, restart deployment
-        checksum/secret: {{ include "czertainly-lib.messaging.secrets" (dict "global" .Values.global "messagingService" .Values "release" .Release) | sha256sum }}
+        checksum/secret: {{ include "messaging-rabbitmq.definitions.json" (dict "global" .Values.global "messagingService" .Values) | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -75,27 +75,27 @@ spec:
               valueFrom:
                 secretKeyRef:
                   {{- if .Values.global.config.enabled }}
-                  name: global-secret
-                  {{- else }}
                   name: messaging-secret
+                  {{- else }}
+                  name: messaging-secret-{{ .Chart.Name | lower }}
                   {{- end }}
                   key: messaging.password
             - name: RABBITMQ_DEFAULT_USER
               valueFrom:
                 secretKeyRef:
                   {{- if .Values.global.config.enabled }}
-                  name: global-secret
-                  {{- else }}
                   name: messaging-secret
+                  {{- else }}
+                  name: messaging-secret-{{ .Chart.Name | lower }}
                   {{- end }}
                   key: messaging.username
             - name: RABBITMQ_ERLANG_COOKIE
               valueFrom:
                 secretKeyRef:
                   {{- if .Values.global.config.enabled }}
-                  name: global-secret
-                  {{- else }}
                   name: messaging-secret
+                  {{- else }}
+                  name: messaging-secret-{{ .Chart.Name | lower }}
                   {{- end }}
                   key: messaging.cookie
             - name: RABBITMQ_LOGS
@@ -202,6 +202,8 @@ spec:
             - name: configuration
               mountPath: "/etc/rabbitmq"
             #   # mountPath: "/etc/rabbitmq/conf.d/"
+            - name: rabbitmq-erlang-cookie
+              mountPath: "/var/lib/rabbitmq"
             # rabbitmq data directory
             - name: data
               mountPath: "/var/lib/rabbitmq/mnesia"
@@ -221,9 +223,9 @@ spec:
         - name: configuration
           configMap:
             {{- if .Values.global.config.enabled }}
-            name: global-configmap
-            {{- else }}
             name: messaging-configmap
+            {{- else }}
+            name: messaging-configmap-{{ .Chart.Name | lower }}
             {{- end }}
             optional: false
             items:
@@ -234,9 +236,9 @@ spec:
         - name: definitions
           secret:
             {{- if .Values.global.config.enabled }}
-            secretName: global-secret
-            {{- else }}
             secretName: messaging-secret
+            {{- else }}
+            secretName: messaging-secret-{{ .Chart.Name | lower }}
             {{- end }}
             optional: false
             items:
@@ -244,8 +246,10 @@ spec:
                 path: "definitions.json"
         - name: ephemeral
           {{- include "messaging-rabbitmq.ephemeralVolume" . | indent 10 }}
-        #- name: rabbitmq-config-rw
-        #  emptyDir: { }
+        - name: rabbitmq-erlang-cookie
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Mi
         {{- if $additionalVolumes }}
           {{- $additionalVolumes | nindent 8 }}
         {{- end }}

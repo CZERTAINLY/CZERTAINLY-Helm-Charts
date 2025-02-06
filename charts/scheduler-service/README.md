@@ -84,6 +84,11 @@ Global values are used to define common parameters for the chart and all its sub
 | global.database.name                      | `""`          | Database name                                                      |
 | global.database.username                  | `""`          | Username to access the database                                    |
 | global.database.password                  | `""`          | Password to access the database                                    |
+| global.messaging.external.enabled         | `false`       | Enable external messaging                                          |
+| global.messaging.external.host            | `""`          | Host where is the external messaging located                       |
+| global.messaging.external.amqp.port       | `""`          | Port on which is the external messaging listening                  |
+| global.messaging.username                 | `""`          | Username to access the messaging                                   |
+| global.messaging.password                 | `""`          | Password to access the messaging                                   |
 | global.initContainers                     | `[]`          | Global init containers                                             |
 | global.sidecarContainers                  | `[]`          | Global sidecar containers                                          |
 | global.additionalVolumes                  | `[]`          | Global additional volumes                                          |
@@ -97,36 +102,44 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                    | Default value            | Description                                                    |
-|----------------------------------------------|--------------------------|----------------------------------------------------------------|
-| image.registry                               | `docker.io`              | Docker registry name for the image                             |
-| image.repository                             | `czertainly`             | Docker image repository name                                   |
-| image.name                                   | `czertainly-scheduler`   | Docker image name                                              |
-| image.tag                                    | `1.0.1`                  | Docker image tag                                               |
-| image.digest                                 | `""`                     | Docker image digest, will override tag if specified            |
-| image.pullPolicy                             | `IfNotPresent`           | Image pull policy                                              |
-| image.pullSecrets                            | `[]`                     | Array of secret names for image pull                           |
-| image.command                                | `[]`                     | Override the default command                                   |
-| image.args                                   | `[]`                     | Override the default args                                      |
-| image.securityContext.runAsNonRoot           | `true`                   | Run the container as non-root user                             |
-| image.securityContext.runAsUser              | `10001`                  | User ID for the container                                      |
-| image.securityContext.readOnlyRootFilesystem | `true`                   | Run the container with read-only root filesystem               |
-| image.resources                              | `{}`                     | The resources for the container                                |
-| podSecurityContext                           | `{}`                     | Pod security context                                           |
-| volumes.ephemeral.type                       | `memory`                 | Ephemeral volume type to be used                               |
-| volumes.ephemeral.sizeLimit                  | `"1Mi"`                  | Ephemeral volume size limit                                    |
-| volumes.ephemeral.storageClassName           | `""`                     | Ephemeral volume storage class name for `storage` type         |
-| volumes.ephemeral.custom                     | `{}`                     | Custom definition of the ephemeral volume for `custom` type    |
-| database.type                                | `"postgresql"`           | Type of the database, currently only `postgresql` is supported |
-| database.host                                | `"host.docker.internal"` | Host where is the database located                             |
-| database.port                                | `5432`                   | Port on which is the database listening                        |
-| database.name                                | `"czertainlydb"`         | Database name                                                  |
-| database.username                            | `"czertainlyuser"`       | Username to access the database                                |
-| database.password                            | `"your-strong-password"` | Password to access the database                                |
-| logging.level                                | `"INFO"`                 | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`    |
-| service.type                                 | `"ClusterIP"`            | Type of the service that is exposed                            |
-| service.port                                 | `8080`                   | Port number of the exposed service                             |
-| javaOpts                                     | `""`                     | Customize Java system properties                               |
+| Parameter                                    | Default value            | Description                                                                                                             |
+|----------------------------------------------|--------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| image.registry                               | `docker.io`              | Docker registry name for the image                                                                                      |
+| image.repository                             | `czertainly`             | Docker image repository name                                                                                            |
+| image.name                                   | `czertainly-scheduler`   | Docker image name                                                                                                       |
+| image.tag                                    | `1.0.1`                  | Docker image tag                                                                                                        |
+| image.digest                                 | `""`                     | Docker image digest, will override tag if specified                                                                     |
+| image.pullPolicy                             | `IfNotPresent`           | Image pull policy                                                                                                       |
+| image.pullSecrets                            | `[]`                     | Array of secret names for image pull                                                                                    |
+| image.command                                | `[]`                     | Override the default command                                                                                            |
+| image.args                                   | `[]`                     | Override the default args                                                                                               |
+| image.securityContext.runAsNonRoot           | `true`                   | Run the container as non-root user                                                                                      |
+| image.securityContext.runAsUser              | `10001`                  | User ID for the container                                                                                               |
+| image.securityContext.readOnlyRootFilesystem | `true`                   | Run the container with read-only root filesystem                                                                        |
+| image.resources                              | `{}`                     | The resources for the container                                                                                         |
+| podSecurityContext                           | `{}`                     | Pod security context                                                                                                    |
+| volumes.ephemeral.type                       | `memory`                 | Ephemeral volume type to be used                                                                                        |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`                  | Ephemeral volume size limit                                                                                             |
+| volumes.ephemeral.storageClassName           | `""`                     | Ephemeral volume storage class name for `storage` type                                                                  |
+| volumes.ephemeral.custom                     | `{}`                     | Custom definition of the ephemeral volume for `custom` type                                                             |
+| database.type                                | `"postgresql"`           | Type of the database, currently only `postgresql` is supported                                                          |
+| database.host                                | `"host.docker.internal"` | Host where is the database located                                                                                      |
+| database.port                                | `5432`                   | Port on which is the database listening                                                                                 |
+| database.name                                | `"czertainlydb"`         | Database name                                                                                                           |
+| database.username                            | `"czertainlyuser"`       | Username to access the database                                                                                         |
+| database.password                            | `"your-strong-password"` | Password to access the database                                                                                         |
+| logging.level                                | `"INFO"`                 | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`                                                             |
+| service.type                                 | `"ClusterIP"`            | Type of the service that is exposed                                                                                     |
+| service.port                                 | `8080`                   | Port number of the exposed service                                                                                      |
+| javaOpts                                     | `""`                     | Customize Java system properties                                                                                        |
+| messaging.local.enabled                      | `false`                  | Enable local messaging during testing                                                                                   |
+| messaging.external.enabled                   | `false`                  | Enable external messaging                                                                                               |
+| messaging.external.host                      | `""`                     | Host where is the external messaging located                                                                            |
+| messaging.external.amqp.port                 | `""`                     | Port on which is the external messaging listening                                                                       |
+| messaging.username                           | `"admin"`                | Username to access the messaging                                                                                        |
+| messaging.password                           | `"admin"`                | Password to access the messaging                                                                                        |
+| messaging.host                               | `"messaging-service"`    | Host where is the messaging located when using internal messaging. **Change only if you know what you are doing!**      |
+| messaging.amqp.port                          | `5672`                   | Port on which is the messaging listening when using internal messaging. **Change only if you know what you are doing!** |
 
 #### Customization parameters
 

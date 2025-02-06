@@ -14,6 +14,35 @@ The following contains important information and instructions about upgrading He
 
 Upgrading Helm chart is done by running the `helm upgrade` command. The command upgrades the platform to the specified version. The command can be used to upgrade the platform to the same version with changed parameters.
 
+## To 2.14.1
+
+### External messaging support
+
+The platform now supports external messaging services. The messaging service can be configured to use external RabbitMQ. The internal RabbitMQ service is still supported and considered as default option.
+
+In order to use external messaging service, the following parameters must be set in the values:
+```yaml
+global:
+  messaging:
+    external:
+      # Enable external messaging service
+      enabled: true
+      # Hostname of the external messaging service
+      host: "my.messaging.com"
+      amqp:
+        # AMQP port of the external messaging service
+        port: 5672
+    # Username for the external messaging service
+    username: "messaging-user"
+    # Password for the external messaging service
+    password: "your-strong-password"
+
+# Disable internal messaging service, as external messaging service is going to be used
+# If it is not disabled, the internal messaging service will be deployed, but not used
+messagingService:
+  enabled: false
+```
+
 ## To 2.14.0
 
 :::warning[Breaking changes]

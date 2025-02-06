@@ -2,7 +2,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: messaging-configmap
+  name: messaging-configmap-{{ .Chart.Name | lower }}
 data:
-  {{- include "czertainly-lib.messaging.configmap" (dict "global" .Values.global "messagingService" .Values) | nindent 2 }}
+  messaging.host: "messaging-service"
+  messaging.amqp.port: {{ .Values.service.client.amqp.port | quote }}
+  messaging.enabled_plugins: |-
+    {{ .Values.messaging.plugins.enabled }}
+  messaging.rabbitmq.conf: |-
+    {{- include "messaging-rabbitmq.rabbitmq.conf" (dict "global" .Values.global "messagingService" .Values) | nindent 4 }}
 {{- end }}

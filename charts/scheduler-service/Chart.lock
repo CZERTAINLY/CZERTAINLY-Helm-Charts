@@ -1,9 +1,9 @@
 dependencies:
 - name: czertainly-lib
   repository: file://../czertainly-lib
-  version: 1.4.1
+  version: 1.4.2-develop
 - name: messaging-rabbitmq
   repository: file://../messaging-rabbitmq
-  version: 3.12.1-4
-digest: sha256:dfed5301cdcc761ec97df8a0272ea040694914c038d0f1212d30c8d4984b064d
-generated: "2024-12-20T16:45:16.463739+01:00"
+  version: 3.13.7-develop
+digest: sha256:6f6e829b627abeeb84468059bf6b55471ef0d72276952929497debff29656d2e
+generated: "2025-02-06T14:28:20.975223+01:00"
