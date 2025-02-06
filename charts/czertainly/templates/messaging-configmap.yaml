@@ -6,12 +6,12 @@ data:
   {{- $externalMessaging := pluck "enabled" .Values.global.messaging.external .Values.messaging.external | compact | first }}
   {{- if $externalMessaging }}
   messaging.host: {{ pluck "host" .Values.global.messaging.external .Values.messaging.external | compact | first | quote }}
-  messaging.amqp.port: {{ pluck "port" .Values.global.messaging.external.amqp .Values.messaging.external.amqp | compact | first }}
+  messaging.amqp.port: {{ pluck "port" .Values.global.messaging.external.amqp .Values.messaging.external.amqp | compact | first | quote}}
   {{- else }}
   messaging.host: "messaging-service"
-  messaging.amqp.port: {{ .Values.messagingService.service.client.amqp.port }}
-  messaging.enabled_plugins: |
+  messaging.amqp.port: {{ .Values.messagingService.service.client.amqp.port | quote }}
+  messaging.enabled_plugins: |-
     {{ .Values.messagingService.messaging.plugins.enabled }}
-  messaging.rabbitmq.conf: |
+  messaging.rabbitmq.conf: |-
     {{- include "messaging-rabbitmq.rabbitmq.conf" (dict "global" .Values.global "messagingService" .Values.messagingService) | nindent 4 }}
   {{- end }}
