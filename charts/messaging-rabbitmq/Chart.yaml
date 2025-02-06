@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 3.12.1
+appVersion: 3.13.7
 name: messaging-rabbitmq
 description: A Helm chart for RabbitMQ messaging for CZERTAINLY platform.
 home: https://github.com/3KeyCompany/CZERTAINLY
@@ -28,4 +28,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 3.12.1-5-develop
+version: 3.13.7-develop

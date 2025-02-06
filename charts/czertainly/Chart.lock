@@ -55,9 +55,9 @@ dependencies:
   version: 1.2.1-3-develop
 - name: messaging-rabbitmq
   repository: file://../messaging-rabbitmq
-  version: 3.12.1-5-develop
+  version: 3.13.7-develop
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.1-3-develop
-digest: sha256:addb3063dcdef1f49c5d307cda0121540e55b5de47df7fdf3f7e178cd429f2cf
-generated: "2025-02-06T12:40:42.827221+01:00"
+digest: sha256:e4cae16f812c79f8c9d579f3cd10e0d61f20cd778c9ce5cc2aa4c6c9192da933
+generated: "2025-02-06T14:28:37.521248+01:00"

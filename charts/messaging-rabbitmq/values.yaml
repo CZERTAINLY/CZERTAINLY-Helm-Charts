@@ -100,7 +100,7 @@ image:
   registry: docker.io
   repository: ""
   name: rabbitmq
-  tag: 3.12.1
+  tag: 3.13.7
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
