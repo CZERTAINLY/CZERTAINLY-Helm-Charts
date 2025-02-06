@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: messaging-configmap
+data:
+  {{- $externalMessaging := pluck "enabled" .Values.global.messaging.external .Values.messaging.external | compact | first }}
+  {{- if $externalMessaging }}
+  messaging.host: {{ pluck "host" .Values.global.messaging.external .Values.messaging.external | compact | first | quote }}
+  messaging.amqp.port: {{ pluck "port" .Values.global.messaging.external.amqp .Values.messaging.external.amqp | compact | first }}
+  {{- else }}
+  messaging.host: "messaging-service"
+  messaging.amqp.port: {{ .Values.messagingService.service.client.amqp.port }}
+  messaging.enabled_plugins: |
+    {{ .Values.messagingService.messaging.plugins.enabled }}
+  messaging.rabbitmq.conf: |
+    {{- include "messaging-rabbitmq.rabbitmq.conf" (dict "global" .Values.global "messagingService" .Values.messagingService) | nindent 4 }}
+  {{- end }}

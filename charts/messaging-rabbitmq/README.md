@@ -79,6 +79,8 @@ Global values are used to define common parameters for the chart and all its sub
 | global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type         |
 | global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type    |
 | global.messaging.remoteAccess             | `false`       | Enable remote access to messaging service                             |
+| global.messaging.username                 | `""`          | Username to access the messaging                                      |
+| global.messaging.password                 | `""`          | Password to access the messaging                                      |
 | global.httpProxy                          | `""`          | Proxy to be used to access external resources through http            |
 | global.httpsProxy                         | `""`          | Proxy to be used to access external resources through https           |
 | global.noProxy                            | `""`          | Defines list of external resources that should not use proxy settings |
@@ -137,19 +139,22 @@ The following values may be configured:
 
 #### RabbitMQ associated parameters
 
-| Parameter                         | Default value       | Description                                               |
-|-----------------------------------|---------------------|-----------------------------------------------------------|
-| service.headless.epmd.port        | `4369`              | EPMD Discovery service port                               |
-| service.headless.clusterRpc.port  | `25672`             | Cluster RPC service port                                  |
-| persistence.enabled               | `true`              | Enable persistence for RabbitMQ                           |
-| persistence.storageClassName      | `""`                | Storage class name for RabbitMQ persistence               |
-| persistence.selector              | `{}`                | Selector for dynamic provisioning of RabbitMQ persistence |
-| persistence.accessModes           | `["ReadWriteOnce"]` | Access mode for RabbitMQ persistence                      |
-| persistence.existingClaim         | `""`                | Existing claim name for RabbitMQ persistence              |
-| persistence.size                  | `100Mi`             | Size for RabbitMQ persistence                             |
-| persistence.annotations           | `{}`                | Annotations for RabbitMQ persistence                      |
-| secret.username                   | `"czertainly"`      | Username for RabbitMQ                                     |
-| plugins.management.accessRemotely | `false`             | Enable/disable remote access to RabbitMQ management       |
+| Parameter                        | Default value                                           | Description                                               |
+|----------------------------------|---------------------------------------------------------|-----------------------------------------------------------|
+| service.headless.epmd.port       | `4369`                                                  | EPMD Discovery service port                               |
+| service.headless.clusterRpc.port | `25672`                                                 | Cluster RPC service port                                  |
+| persistence.enabled              | `true`                                                  | Enable persistence for RabbitMQ                           |
+| persistence.storageClassName     | `""`                                                    | Storage class name for RabbitMQ persistence               |
+| persistence.selector             | `{}`                                                    | Selector for dynamic provisioning of RabbitMQ persistence |
+| persistence.accessModes          | `["ReadWriteOnce"]`                                     | Access mode for RabbitMQ persistence                      |
+| persistence.existingClaim        | `""`                                                    | Existing claim name for RabbitMQ persistence              |
+| persistence.size                 | `100Mi`                                                 | Size for RabbitMQ persistence                             |
+| persistence.annotations          | `{}`                                                    | Annotations for RabbitMQ persistence                      |
+| messaging.remoteAccess           | `false`                                                 | Enable remote access to messaging service                 |
+| messaging.username               | `"admin"`                                               | Username to access the messaging                          |
+| messaging.password               | `"admin"`                                               | Password to access the messaging                          |
+| messaging.erlang.cookie          | `"c4eGHK4gM3v+5BHTFkGaRzqNQu0JcokVJkFK7CmJ"`            | Erlang cookie for RabbitMQ cluster communication          |
+| messaging.plugins.enabled        | `"[rabbitmq_peer_discovery_k8s, rabbitmq_management]."` | Enabled plugins for RabbitMQ cluster                      |
 
 #### Probes parameters
 

@@ -1,3 +1,5 @@
+{{- $username := pluck "username" .Values.global.messaging .Values.messaging | compact | first | quote }}
+{{- $password := pluck "password" .Values.global.messaging .Values.messaging | compact | first | quote }}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -14,5 +16,5 @@ spec:
         - /bin/sh
         - -c
         - |
-          curl -u {{ .Values.secret.username }}:{{ .Values.secret.password }} --retry 10 --retry-delay 5 --retry-all-errors messaging-service:{{ .Values.service.client.http.port }}/api
+          curl -u {{ $username }}:{{ $password }} --retry 10 --retry-delay 5 --retry-all-errors messaging-service:{{ .Values.service.client.http.port }}/api
   restartPolicy: Never

@@ -36,7 +36,14 @@ global:
     # client secret must be set if keycloak is enabled
     clientSecret: ""
   messaging:
+    external:
+      enabled: false
+      host: ""
+      amqp:
+        port: ""
     remoteAccess: false
+    username: ""
+    password: ""
   utils:
     enabled: false
   admin:
@@ -381,6 +388,19 @@ auth:
   header:
     certificate: "ssl-client-cert"
 
+messaging:
+  external:
+    enabled: false
+    host: ""
+    amqp:
+      port: ""
+  remoteAccess: false
+  username: "admin"
+  password: "admin"
+  host: "messaging-service"
+  amqp:
+    port: 5672
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -485,6 +505,7 @@ authOpaPolicies:
 
 messagingService:
   nameOverride: messaging-service
+  enabled: true
 
 schedulerService:
   nameOverride: scheduler-service

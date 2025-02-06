@@ -1,0 +1,1299 @@
+---
+# Source: czertainly/charts/apiGateway/templates/rbac/service-account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: api-gateway-sa
+  labels:
+    helm.sh/chart: apiGateway-3.8.0-1-develop
+    app.kubernetes.io/name: api-gateway
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "3.8.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: czertainly/templates/rbac/service-account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: czertainly-sa
+  labels:
+    helm.sh/chart: czertainly-2.14.0-1-develop
+    app.kubernetes.io/name: czertainly
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "2.14.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: czertainly/charts/authService/templates/auth-secret.yaml
+apiVersion: v1
+data:
+  # if the global values are defined, use it, otherwise use local values
+  connection-string: SG9zdD1ob3N0LmRvY2tlci5pbnRlcm5hbDtQb3J0PTU0MzI7VXNlcm5hbWU9dG9kZWxldGU7UGFzc3dvcmQ9cGFzc3dvcmQ7RGF0YWJhc2U9dG9kZWxldGU7UG9vbGluZz10cnVl
+kind: Secret
+metadata:
+  name: auth-secret
+---
+# Source: czertainly/charts/schedulerService/templates/scheduler-service-secret.yaml
+apiVersion: v1
+data:
+  # if the global values are defined, use it, otherwise use local values
+  dbPassword: "cGFzc3dvcmQ="
+  dbUsername: "dG9kZWxldGU="
+kind: Secret
+metadata:
+  name: scheduler-service-secret
+---
+# Source: czertainly/templates/admin/admin-certificate-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: admin-certificate-secret
+type: kubernetes.io/tls
+data:
+  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUV0RENDQXB5Z0F3SUJBZ0lWQVAxNWtWdDYybThhNHA1MnhtYkNjTkNpU3g4cU1BMEdDU3FHU0liM0RRRUIKRFFVQU1DTXhJVEFmQmdOVkJBTU1HRU5hUlZKVVFVbE9URmtnUkhWdGJYa2dVbTl2ZENCRFFUQWVGdzB5TWpBNApNRFF3T0RFek16RmFGdzAwTWpBM016QXdPREV6TXpGYU1DTXhJVEFmQmdOVkJBTU1HRU5hUlZKVVFVbE9URmtnClFXUnRhVzVwYzNSeVlYUnZjakNDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFML1AKV29KTjJpZURaa3AxSmdnclhqaERtL3hycVg2YWNBbXlxekJRdWpDVXJiakZGOGwxcWR0STBmWnlGclpCTGVWSApDd3FRVXowQWZqemo3RkJNTlAybGpWTHJRYk1meWpKRzEwTnZ1UE9hOWRQL1ZvbGdGNENSUmcwRWJnNUNDZDBzCjN5WlIvZ0ljNmNsOXgwUnVrOHVSQ3BNNGpaN1krLzdqaGY0K2M4bUJscDJhUmxBSnRWM0pPWVFsdXgxN0lwSmQKSnJuZ1gvbEtvWmNwNHpVOWtRd3VuVnh6NUdCV2hYR3FNRWNWNmI3bEdGNW9jU2xuclIzY1VLWmJkR2JYY2ZLNwo1K1c0L0xCNnY2eTliUjQwUitJVWQvbU91QnlRdnFXeVRDazVkMllXQm1nL2RkUFZGeW5iNWEyK3hqaEp4QkkrCjI4aUdYcTZpcm9RclBvdWFjdjhDQXdFQUFhT0IzakNCMnpBTUJnTlZIUk1CQWY4RUFqQUFNQTRHQTFVZER3RUIKL3dRRUF3SUY0REFUQmdOVkhTVUVEREFLQmdnckJnRUZCUWNEQWpBZEJnTlZIUTRFRmdRVXJVT3oydjBFdkJTSAp5ZW1HWFBudDdIYWdoQmd3SHdZRFZSMGpCQmd3Rm9BVTAvQk5WanJtb0Q4WFcvTlZYZW94VElrRDU5WXdaZ1lEClZSMGdCRjh3WFRCYkJnUlZIU0FBTUZNd1VRWUlLd1lCQlFVSEFnSXdSUnBEVlZSR09EcFVhR2x6SUdseklHRWcKWkhWdGJYa2dZV1J0YVc1cGMzUnlZWFJ2Y2lCalpYSjBhV1pwWTJGMFpTQm1iM0lnZEdWemRHbHVaeUJ3ZFhKdwpiM05sY3pBTkJna3Foa2lHOXcwQkFRMEZBQU9DQWdFQVdZbHBFSThTQ09uaEtZcGNwM24rQnRhQW9VcmN3SWNrCnB6UFB4TmYrOUxTS2hQcDRORXMrRUdzZmZsejMzSWVFb2pjayt4L3dCcWdnSmRwN1dyVXNIei8wc0F3Q2tyVmoKYmgzTHg3NW1zQXFWcUZVYVgwZ1licXN0bWJuSHhxZ2Ntc2VWa1dtRUhFT21kejArL0IwWHJHYWd6UU5XOEVHVwozUEV2NHlPQ2VxZGdSdDlOeWgrR1V0VmthdnkrQ2tZUmFJRUhER2p0eEpUTWFrWE9hRVUwdE5tRG9NQkRRekxzCnFjNzVBWUVlcWxLdlFzNnZaSUNmK1JsdERhRGdyaVNlbEUwNFB0am5JcjZhS21XaXBGTjJXdThaZ2kzcXQ3U1MKaU13azBPSXZHNE5Ha09LY2tmNWtSV2xBNmFMdGtZMkFCSE9ia25JbEpoZnBVL3NOTi81bWEwYytyU1hLMitQeQpEU3R4QUxNek01NEdWZkdwWG1kUjNma0VROG1TMzVCVTJsOEdwMG1BL1hpNTVlcVdWWGd4RURYcGg0ODdPMjBICmpHaCt4SGNJNDBaT2JCSUt2ZkQwa0NpMXNRY0lOcEs2Q0dtMEpiMW9qVSt4RndncTJJaGRKUHJDN3F1RVczd0UKSENSUUtHYVRiU202Q2ZNZGYzWU9LZ3BJVXJYNURhMndKTjA0UlRPTHhVdnBRc3MvcnVwNDlVcTJwTUdCUHRBdgp0VHpYeVRKcncyMmJnQmpKVitqdDYwWkIwUFZxUmJhUGE1MmhVTWw3ZXdDR3BWTzJCeUFjeG9RMStFbmIyOC9TCndEblczcmdzYUNIT0IwQXpxemFRQXdFYmdBZVVLREJ4S3dtMEdxTElnTXRHczdDYUc1OC9LcVpzTWo4QURxcUkKdFkzWFhBbGhqYjQ9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  tls.key: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUV0RENDQXB5Z0F3SUJBZ0lWQVAxNWtWdDYybThhNHA1MnhtYkNjTkNpU3g4cU1BMEdDU3FHU0liM0RRRUIKRFFVQU1DTXhJVEFmQmdOVkJBTU1HRU5hUlZKVVFVbE9URmtnUkhWdGJYa2dVbTl2ZENCRFFUQWVGdzB5TWpBNApNRFF3T0RFek16RmFGdzAwTWpBM016QXdPREV6TXpGYU1DTXhJVEFmQmdOVkJBTU1HRU5hUlZKVVFVbE9URmtnClFXUnRhVzVwYzNSeVlYUnZjakNDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFML1AKV29KTjJpZURaa3AxSmdnclhqaERtL3hycVg2YWNBbXlxekJRdWpDVXJiakZGOGwxcWR0STBmWnlGclpCTGVWSApDd3FRVXowQWZqemo3RkJNTlAybGpWTHJRYk1meWpKRzEwTnZ1UE9hOWRQL1ZvbGdGNENSUmcwRWJnNUNDZDBzCjN5WlIvZ0ljNmNsOXgwUnVrOHVSQ3BNNGpaN1krLzdqaGY0K2M4bUJscDJhUmxBSnRWM0pPWVFsdXgxN0lwSmQKSnJuZ1gvbEtvWmNwNHpVOWtRd3VuVnh6NUdCV2hYR3FNRWNWNmI3bEdGNW9jU2xuclIzY1VLWmJkR2JYY2ZLNwo1K1c0L0xCNnY2eTliUjQwUitJVWQvbU91QnlRdnFXeVRDazVkMllXQm1nL2RkUFZGeW5iNWEyK3hqaEp4QkkrCjI4aUdYcTZpcm9RclBvdWFjdjhDQXdFQUFhT0IzakNCMnpBTUJnTlZIUk1CQWY4RUFqQUFNQTRHQTFVZER3RUIKL3dRRUF3SUY0REFUQmdOVkhTVUVEREFLQmdnckJnRUZCUWNEQWpBZEJnTlZIUTRFRmdRVXJVT3oydjBFdkJTSAp5ZW1HWFBudDdIYWdoQmd3SHdZRFZSMGpCQmd3Rm9BVTAvQk5WanJtb0Q4WFcvTlZYZW94VElrRDU5WXdaZ1lEClZSMGdCRjh3WFRCYkJnUlZIU0FBTUZNd1VRWUlLd1lCQlFVSEFnSXdSUnBEVlZSR09EcFVhR2x6SUdseklHRWcKWkhWdGJYa2dZV1J0YVc1cGMzUnlZWFJ2Y2lCalpYSjBhV1pwWTJGMFpTQm1iM0lnZEdWemRHbHVaeUJ3ZFhKdwpiM05sY3pBTkJna3Foa2lHOXcwQkFRMEZBQU9DQWdFQVdZbHBFSThTQ09uaEtZcGNwM24rQnRhQW9VcmN3SWNrCnB6UFB4TmYrOUxTS2hQcDRORXMrRUdzZmZsejMzSWVFb2pjayt4L3dCcWdnSmRwN1dyVXNIei8wc0F3Q2tyVmoKYmgzTHg3NW1zQXFWcUZVYVgwZ1licXN0bWJuSHhxZ2Ntc2VWa1dtRUhFT21kejArL0IwWHJHYWd6UU5XOEVHVwozUEV2NHlPQ2VxZGdSdDlOeWgrR1V0VmthdnkrQ2tZUmFJRUhER2p0eEpUTWFrWE9hRVUwdE5tRG9NQkRRekxzCnFjNzVBWUVlcWxLdlFzNnZaSUNmK1JsdERhRGdyaVNlbEUwNFB0am5JcjZhS21XaXBGTjJXdThaZ2kzcXQ3U1MKaU13azBPSXZHNE5Ha09LY2tmNWtSV2xBNmFMdGtZMkFCSE9ia25JbEpoZnBVL3NOTi81bWEwYytyU1hLMitQeQpEU3R4QUxNek01NEdWZkdwWG1kUjNma0VROG1TMzVCVTJsOEdwMG1BL1hpNTVlcVdWWGd4RURYcGg0ODdPMjBICmpHaCt4SGNJNDBaT2JCSUt2ZkQwa0NpMXNRY0lOcEs2Q0dtMEpiMW9qVSt4RndncTJJaGRKUHJDN3F1RVczd0UKSENSUUtHYVRiU202Q2ZNZGYzWU9LZ3BJVXJYNURhMndKTjA0UlRPTHhVdnBRc3MvcnVwNDlVcTJwTUdCUHRBdgp0VHpYeVRKcncyMmJnQmpKVitqdDYwWkIwUFZxUmJhUGE1MmhVTWw3ZXdDR3BWTzJCeUFjeG9RMStFbmIyOC9TCndEblczcmdzYUNIT0IwQXpxemFRQXdFYmdBZVVLREJ4S3dtMEdxTElnTXRHczdDYUc1OC9LcVpzTWo4QURxcUkKdFkzWFhBbGhqYjQ9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+---
+# Source: czertainly/templates/core-secret.yaml
+apiVersion: v1
+data:
+  jdbcPassword: "cGFzc3dvcmQ="
+  jdbcUsername: "dG9kZWxldGU="
+kind: Secret
+metadata:
+  name: core-secret
+---
+# Source: czertainly/templates/messaging-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: messaging-secret
+stringData:
+  messaging.username: test
+  messaging.password: password
+---
+# Source: czertainly/templates/trusted-certificates-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: trusted-certificates
+type: Opaque
+data:
+  ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUZrRENDQTNpZ0F3SUJBZ0lWQVAxNWtWdDYybThhNHA1MnhtYkNjTkNpU3g4cE1BMEdDU3FHU0liM0RRRUIKRFFVQU1DTXhJVEFmQmdOVkJBTU1HRU5hUlZKVVFVbE9URmtnUkhWdGJYa2dVbTl2ZENCRFFUQWVGdzB5TWpBNApNRFF3TnpVeE5URmFGdzAwTnpBM01qa3dOelV4TlRGYU1DTXhJVEFmQmdOVkJBTU1HRU5hUlZKVVFVbE9URmtnClJIVnRiWGtnVW05dmRDQkRRVENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFMLzAKYlJlVVpuSW9lNEtCUkVEQzh3Zi92ZWFFZzZ6dThRY3hSZEJka1U5ejE5Y01rQlFOOXRaaHVxUFV6UkpuRUVCTQpqd2pEV2ZtaHFFRjA1bCtOckRadkl5K0MxcURSNE1VRG9hbmlyUEZMNEh6eUx6bXdGTUpjRkU2a2Y5NDhaSm04CkI2R2R6VkJvL0NhTGFhakdqNW9tMC9XcTNJL3FZbHFnTzlQMitDRlI0QkQ3K2JzM3hxeXRlUmNPSTYwSzdhbncKSnoyT1R0VlJMZHZtUEFTdGtKeVhSVGtGTEIwR1lwRWNrZ3Zna09BTkxzcXdhMVI3bDdwRllXb2R0bFczVG9xWAp3eVZndlQrRGx0MTJvQnZzTGRiS3VUSFlINnVTMWRDN1E2R0RpNXBoOWdwNFBpUUhOWHp6bHlwank0aXNqS3VtCjFQUW1CQllkZ2ZYTGpscG9HUlA4ODNKRDVlT2ZvMXlYT0VLR09HRG53TVF4SGdtQWlhRGxROFZMK3NCbTNtNkwKS3JwOXdZVmdxSUNacnY1dFZaeXpRQ0tUeC95KzJXUkVYNkU4REhLdDcxMHZkaGhvNGlOM1hIU1Rma2lqSitEcQpUT1l1T3JGK0RxVEQvdnJBU05MUnpSV0k0Y3JsVVUweWJuM0FXOU1abVlsVFRMd3FoVG1ISldVZmlSY0JTMmJUCnUxYXJoTkZzTlQzRzJ1T3Uxb2hRVWJKeVJqUmxiRFJLZWwzcEZZRmg5ZlREckFzRlpJZFFoYkJJWGNjVGxNYngKNzdaV1ZhNEZ5OFh5aFpQTklwYVpyUkpNM3ZHNVVyZXNMazR1VmpXc2Vmc1djenhjdDgzZ1lEQlU3WERndnhzRQpyMXlBd3dHZ3lFQnhiOVBEd3kzVmRLWnFpTFBEWm5Ba0VkLzVYOGJGQWdNQkFBR2pnYm93Z2Jjd0R3WURWUjBUCkFRSC9CQVV3QXdFQi96QU9CZ05WSFE4QkFmOEVCQU1DQVFZd0hRWURWUjBPQkJZRUZOUHdUVlk2NXFBL0YxdnoKVlYzcU1VeUpBK2ZXTUI4R0ExVWRJd1FZTUJhQUZOUHdUVlk2NXFBL0YxdnpWVjNxTVV5SkErZldNRlFHQTFVZApJQVJOTUVzd1NRWUVWUjBnQURCQk1EOEdDQ3NHQVFVRkJ3SUNNRE1hTVZWVVJqZzZWR2hwY3lCcGN5QmhJR1IxCmJXMTVJRkp2YjNRZ1EwRWdabTl5SUhSbGMzUnBibWNnY0hWeWNHOXpaWE13RFFZSktvWklodmNOQVFFTkJRQUQKZ2dJQkFFSFd1WjcxWmMwR2RWYlFBMU5LUERhOXJWa2tEbW9SZGs2Wnd4NEtaODJjNURJNkZlUUl2bGRRRGJUcwpHWmYxSi83NGRKN1o0NUdHWHBlcEtrZi9lS0RDcDZYMnZTY0ZHNE9IYTFyanFDeHRKVHR0Wmxrc3NKbTI4Q1d5Ck1BMnRCVVl2US8rY282M3lCUWRPZ25ZNW04eWFuVFhqZkhIQS9QNXUzRkhxeVNyZ3BjV1M1cmNnRk9lLzlNRDQKeDFoTWJ1UlRBOHVwenIzT1JWV1NrWGVSOGx4WTJsNFJHZUZFWXJGeGQ3dUJCS1hKQW93U0tGQ29MdnU4T1lpbApxUG43bUVBUlEvLzAzVTdlSW4xOHRhdGVDUDRLTEwyei9iOG1yWFRpUWFkWGVNUm5mRDJZUGhWd3IzQk5tN0gyCjlPOHUxSlFBMkM1VWVCT3psM2JDc1VUR1RscnNxaG1pUkVYa0ZLUVRaY2pKbUZlcmxZVFA0SzJHZC9WOHREMk0KMzhsNEY1VkNqK2dWS2NZb1VGZ0dBaFNKZ09IQzdBUkpuLzZDdXFvbkNTa0RxMjMyVGpScTQvWDBIRXN3ZjVNWQp3SFZUREM2dm9iZVFFWGZka25qazdRQ1daaFIvSHhmbHlEOUZqY2hsdCtXMkdIRHdVTWVIcmJPRGdSNXBrV0oyCm9jWG9lZjRFU0p0ZktmeWx5Z2JObTk4ODhSbkQxaEhIRERRSExhTDd0SEtCSjU3azRYOEhKeXFlbzcrVkxxRXoKRWNFd21hNm5YOGFTcWtIUEgzZDJhSW50RmxBLzJRb21BNHRiVENkTG5SbldSbUNUY1BQSTkrVXk5bzBsWEtzcgoxdVE0VTgyRERJblQ2WUE0LzlYK1hsaE0vb3l1ZFA4TkU3MVoyYUh4cjE3a0lOclIKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+---
+# Source: czertainly/charts/feAdministrator/templates/fe-administrator-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fe-administrator-configmap
+  labels:
+    helm.sh/chart: feAdministrator-2.14.0-1-develop
+    app.kubernetes.io/name: fe-administrator
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "2.14.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.js: |
+    window.__ENV__ =
+    {
+        "API_URL": "/api",
+        "LOGIN_URL": "/login",
+        "LOGOUT_URL": "/logout"
+    }
+---
+# Source: czertainly/templates/core-scripts-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: core-scripts-configmap
+data:
+  register-admin.sh: |    
+    #!/bin/sh
+    
+    while ! nc -z localhost 8080; do sleep 1; done
+    while ! nc -z localhost 8181; do sleep 1; done
+    
+    ADMIN_CERT=$( echo $ADMIN_CERT | awk '{gsub(/[[:blank:]]/,""); print}' )
+    ADMIN_CERT=$( echo $ADMIN_CERT | awk '{gsub(/-----BEGINCERTIFICATE-----/,""); print}' )
+    ADMIN_CERT=$( echo $ADMIN_CERT | awk '{gsub(/-----ENDCERTIFICATE-----/,""); print}' )
+    
+    curl -X POST \
+      -H 'content-type: application/json' \
+      -d '
+      {
+        "username": "czertainly-admin",
+        "description": "CZERTAINLY Admin",
+        "firstName": "admin",
+        "lastName": "admin",
+        "email": "admin@czertainly.local",
+        "enabled": "true",
+        "certificateData": "'$ADMIN_CERT'",
+        "certificateUuid": ""
+      }' \
+      http://localhost:8080/api/v1/local/admins
+---
+# Source: czertainly/templates/global-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: global-configmap
+data:
+  kong.yml: |-    
+    _format_version: '2.1'
+    _transform: true
+    services:
+      # Core service for the backend API
+      - name: core
+        host: core-service
+        port: 8080
+        protocol: http
+        routes:
+          - name: protocols_route
+            strip_path: false
+            preserve_host: true
+            paths:
+              - /api
+      # OAuth2 authentication handlers for the login and logout routes
+      - name: core-login-logout
+        host: core-service
+        port: 8080
+        protocol: http
+        path: /api
+        routes:
+          - name: core-oauth2_route
+            strip_path: false
+            preserve_host: true
+            paths:
+              - /login
+              - /logout
+      # Frontend service for the administrator interface
+      - name: fe-administrator
+        host: fe-administrator-service
+        port: 8080
+        protocol: http
+        routes:
+          - name: fe-administrator_route-cert
+            preserve_host: true
+            strip_path: true
+            paths:
+              - /administrator
+---
+# Source: czertainly/templates/messaging-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: messaging-configmap
+data:
+  messaging.host: "test.messaging.com"
+  messaging.amqp.port: 7896
+---
+# Source: czertainly/charts/apiGateway/templates/rbac/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: api-gateway-role
+  namespace: "czertainly"
+  labels:
+    helm.sh/chart: apiGateway-3.8.0-1-develop
+    app.kubernetes.io/name: api-gateway
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "3.8.0"
+    app.kubernetes.io/managed-by: Helm
+rules:
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get"]
+  - apiGroups: [ "apps" ]
+    resources: [ "deployments" ]
+    verbs: [ "get", "patch" ]
+---
+# Source: czertainly/templates/rbac/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: czertainly-role
+  namespace: "czertainly"
+  labels:
+    helm.sh/chart: czertainly-2.14.0-1-develop
+    app.kubernetes.io/name: czertainly
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "2.14.0"
+    app.kubernetes.io/managed-by: Helm
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "delete"]
+  - apiGroups: [ "" ]
+    resources: [ "secrets" ]
+    verbs: [ "create", "get", "list", "delete", "patch" ]
+  - apiGroups: [ "apps" ]
+    resources: [ "deployments" ]
+    verbs: [ "get", "list", "delete", "patch" ]
+---
+# Source: czertainly/charts/apiGateway/templates/rbac/role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: api-gateway-role-binding
+  namespace: "czertainly"
+  labels:
+    helm.sh/chart: apiGateway-3.8.0-1-develop
+    app.kubernetes.io/name: api-gateway
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "3.8.0"
+    app.kubernetes.io/managed-by: Helm
+subjects:
+  - kind: ServiceAccount
+    name: api-gateway-sa
+roleRef:
+  kind: Role
+  name: api-gateway-role
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: czertainly/templates/rbac/role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: czertainly-role-binding
+  namespace: "czertainly"
+  labels:
+    helm.sh/chart: czertainly-2.14.0-1-develop
+    app.kubernetes.io/name: czertainly
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "2.14.0"
+    app.kubernetes.io/managed-by: Helm
+subjects:
+  - kind: ServiceAccount
+    name: czertainly-sa
+roleRef:
+  kind: Role
+  name: czertainly-role
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: czertainly/charts/apiGateway/templates/api-gateway-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway-service
+  labels:
+    helm.sh/chart: apiGateway-3.8.0-1-develop
+    app.kubernetes.io/name: api-gateway
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "3.8.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8001
+      protocol: "TCP"
+      name: admin
+    - port: 8000
+      protocol: "TCP"
+      name: consumer
+  selector:
+    app.kubernetes.io/name: api-gateway
+    app.kubernetes.io/instance: czertainly-tlm
+---
+# Source: czertainly/charts/authOpaPolicies/templates/auth-opa-policies-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-opa-policies-service
+  labels:
+    helm.sh/chart: authOpaPolicies-1.2.1-3-develop
+    app.kubernetes.io/name: auth-opa-policies
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "1.2.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: auth-opa-policies
+    app.kubernetes.io/instance: czertainly-tlm
+---
+# Source: czertainly/charts/authService/templates/auth-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  labels:
+    helm.sh/chart: authService-1.6.0-1-develop
+    app.kubernetes.io/name: auth-service
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "1.6.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      protocol: "TCP"
+  selector:
+    app.kubernetes.io/name: auth-service
+    app.kubernetes.io/instance: czertainly-tlm
+---
+# Source: czertainly/charts/commonCredentialProvider/templates/common-credential-provider-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    helm.sh/chart: commonCredentialProvider-1.3.3-3-develop
+    app.kubernetes.io/name: common-credential-provider
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "1.3.3"
+    app.kubernetes.io/managed-by: Helm
+  name: common-credential-provider-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      protocol: "TCP"
+  selector:
+    app.kubernetes.io/name: common-credential-provider
+    app.kubernetes.io/instance: czertainly-tlm
+---
+# Source: czertainly/charts/feAdministrator/templates/fe-administrator-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fe-administrator-service
+  labels:
+    helm.sh/chart: feAdministrator-2.14.0-1-develop
+    app.kubernetes.io/name: fe-administrator
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "2.14.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      protocol: "TCP"
+  selector:
+    app.kubernetes.io/name: fe-administrator
+    app.kubernetes.io/instance: czertainly-tlm
+---
+# Source: czertainly/charts/schedulerService/templates/scheduler-service-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: scheduler-service-service
+  labels:
+    helm.sh/chart: schedulerService-1.0.1-3-develop
+    app.kubernetes.io/name: scheduler-service
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "1.0.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      protocol: "TCP"
+  selector:
+    app.kubernetes.io/name: scheduler-service
+    app.kubernetes.io/instance: czertainly-tlm
+---
+# Source: czertainly/templates/core-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: core-service
+  labels:
+    helm.sh/chart: czertainly-2.14.0-1-develop
+    app.kubernetes.io/name: czertainly
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "2.14.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      protocol: "TCP"
+  selector:
+    app.kubernetes.io/name: czertainly
+    app.kubernetes.io/instance: czertainly-tlm
+---
+# Source: czertainly/charts/apiGateway/templates/api-gateway-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway-deployment
+  labels:
+    helm.sh/chart: apiGateway-3.8.0-1-develop
+    app.kubernetes.io/name: api-gateway
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "3.8.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: api-gateway
+      app.kubernetes.io/instance: czertainly-tlm
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: api-gateway
+        app.kubernetes.io/instance: czertainly-tlm
+      annotations:
+        # when the kong declarative config map is changed, restart deployment
+        checksum/config: 29d6c18982da0b620f710038b259c26785e7ed5174486f3cb523ec9b8910c202
+    spec:      
+      containers:
+        - name: api-gateway
+          image: docker.io/kong:3.8.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: KONG_DATABASE
+              value: "off"
+            - name: KONG_PREFIX
+              value: "/tmp/"
+            - name: KONG_PROXY_ACCESS_LOG
+              value: "/dev/stdout"
+            - name: KONG_ADMIN_ACCESS_LOG
+              value: "/dev/stdout"
+            - name: KONG_PROXY_ERROR_LOG
+              value: "/dev/stderr"
+            - name: KONG_ADMIN_ERROR_LOG
+              value: "/dev/stderr"
+            - name: KONG_ADMIN_LISTEN
+              value: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
+            - name: KONG_DECLARATIVE_CONFIG
+              value: "/kong/declarative/kong.yml"
+            - name: KONG_PLUGINS
+              value: "request-transformer,cors,file-log,response-transformer,post-function"
+            - name: KONG_LOG_LEVEL
+              value: "info"
+          ports:
+            - containerPort: 8000
+              name: consumer-http
+            - containerPort: 8001
+              name: admin-http
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 100
+          readinessProbe:
+            exec:
+              command:
+                - kong
+                - health
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          startupProbe:
+            exec:
+              command:
+                - kong
+                - health
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 45
+          volumeMounts:
+            - name: api-gateway-config-volume
+              mountPath: /kong/declarative
+            - mountPath: /tmp
+              name: ephemeral
+      volumes:
+        - name: api-gateway-config-volume
+          configMap:
+            name: global-configmap
+            items:
+              - key: kong.yml
+                path: kong.yml
+        - name: ephemeral          
+          emptyDir:
+            medium: "Memory"
+            sizeLimit: "10Mi"
+---
+# Source: czertainly/charts/authOpaPolicies/templates/auth-opa-policies-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-opa-policies-deployment
+  labels:
+    helm.sh/chart: authOpaPolicies-1.2.1-3-develop
+    app.kubernetes.io/name: auth-opa-policies
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "1.2.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: auth-opa-policies
+      app.kubernetes.io/instance: czertainly-tlm
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: auth-opa-policies
+        app.kubernetes.io/instance: czertainly-tlm
+    spec:      
+      containers:
+        - name: auth-opa-policies
+          image: docker.io/czertainly/czertainly-auth-opa-policies:develop-latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 101
+          readinessProbe:
+            httpGet:
+              path: /index.html
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /index.html
+              port: 8080
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 45
+          volumeMounts:
+            - mountPath: /var/cache/nginx
+              name: ephemeral
+            - mountPath: /tmp
+              name: ephemeral
+      volumes:
+        - name: ephemeral          
+          emptyDir:
+            medium: "Memory"
+            sizeLimit: "1Mi"
+---
+# Source: czertainly/charts/authService/templates/auth-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+  labels:
+    helm.sh/chart: authService-1.6.0-1-develop
+    app.kubernetes.io/name: auth-service
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "1.6.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: auth-service
+      app.kubernetes.io/instance: czertainly-tlm
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: auth-service
+        app.kubernetes.io/instance: czertainly-tlm
+      annotations:
+        # when the list of the trusted certificates is changed, restart deployment
+        checksum/config: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        checksum/config: 85b720163c5129a5c57920170a63e90d41b5dbd3d59b56f0d1fcb6ecc83d35a6
+        # when connection string is changed, restart deployment
+        checksum/secret: 8e1da00cd48a95bf2c161df593f94abe7114a0a7ef7c02114cf6a49ca076ba6b
+    spec:      
+      containers:
+        - name: auth
+          image: docker.io/czertainly/czertainly-auth:develop-latest
+          imagePullPolicy: Always
+          env:
+            - name: AUTH_CREATE_UNKNOWN_USERS
+              value: "false"
+            - name: AUTH_CREATE_UNKNOWN_ROLES
+              value: "false"
+            - name: AUTH_DB_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secret
+                  key: connection-string
+            - name: ASPNETCORE_URLS
+              value: "http://+:8080"
+          ports:
+            - containerPort: 8080
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 10001
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 45
+          volumeMounts:
+            - name: trusted-certificates-volume
+              mountPath: /etc/ssl/certs
+              readOnly: true
+      volumes:
+        - name: trusted-certificates-volume
+          secret:
+            defaultMode: 420
+            secretName: trusted-certificates
+---
+# Source: czertainly/charts/commonCredentialProvider/templates/common-credential-provider-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: common-credential-provider-deployment
+  labels:
+    helm.sh/chart: commonCredentialProvider-1.3.3-3-develop
+    app.kubernetes.io/name: common-credential-provider
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "1.3.3"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: common-credential-provider
+      app.kubernetes.io/instance: czertainly-tlm
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: common-credential-provider
+        app.kubernetes.io/instance: czertainly-tlm
+    spec:      
+      containers:
+        - name: common-credential-provider
+          image: docker.io/czertainly/czertainly-common-credential-provider:develop-latest
+          imagePullPolicy: Always
+          env:
+            - name: PORT
+              value: "8080"
+            - name: INCLUDE_ERROR
+              value: "always"
+            - name: LOGGING_LEVEL_COM_CZERTAINLY
+              value: "INFO"
+            - name: JAVA_OPTS
+              value: ""
+          ports:
+            - containerPort: 8080
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 10001
+          readinessProbe:
+            httpGet:
+              path: /health/readiness
+              port: 8080
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /health/liveness
+              port: 8080
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 45
+          volumeMounts:
+            - mountPath: /tmp
+              name: ephemeral
+      volumes:
+        - name: ephemeral          
+          emptyDir:
+            medium: "Memory"
+            sizeLimit: "1Mi"
+---
+# Source: czertainly/charts/feAdministrator/templates/fe-administrator-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fe-administrator-deployment
+  labels:
+    helm.sh/chart: feAdministrator-2.14.0-1-develop
+    app.kubernetes.io/name: fe-administrator
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "2.14.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: fe-administrator
+      app.kubernetes.io/instance: czertainly-tlm
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: fe-administrator
+        app.kubernetes.io/instance: czertainly-tlm
+    spec:      
+      containers:
+        - name: fe-administrator
+          image: docker.io/czertainly/czertainly-frontend-administrator:develop-latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 101
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 45
+          volumeMounts:
+            - name: fe-administrator-config-volume
+              mountPath: /usr/share/nginx/html/config.js
+              subPath: config.js
+            - mountPath: /var/cache/nginx
+              name: ephemeral
+            - mountPath: /tmp
+              name: ephemeral
+      volumes:
+        - name: fe-administrator-config-volume
+          configMap:
+            name: fe-administrator-configmap
+            items:
+              - key: config.js
+                path: config.js
+        - name: ephemeral          
+          emptyDir:
+            medium: "Memory"
+            sizeLimit: "1Mi"
+---
+# Source: czertainly/charts/schedulerService/templates/scheduler-service-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scheduler-service-deployment
+  labels:
+    helm.sh/chart: schedulerService-1.0.1-3-develop
+    app.kubernetes.io/name: scheduler-service
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "1.0.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: scheduler-service
+      app.kubernetes.io/instance: czertainly-tlm
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: scheduler-service
+        app.kubernetes.io/instance: czertainly-tlm
+      annotations:
+        checksum/config: 3c62fc88c4550e9109d90fb69990a07ccf9181bdcd63ebc2306e992b8e30377e
+    spec:      
+      initContainers:
+        - name: wait-for-messaging-service
+          image: docker.io/curlimages/curl:8.1.1
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 100
+          command:
+            - /bin/sh
+            - -c
+            - |
+              while ! nc -z test.messaging.com 7896; do sleep 1; done &&
+              echo "messaging service seems to be started"
+      containers:
+        - name: scheduler-service
+          image: docker.io/czertainly/czertainly-scheduler:develop-latest
+          imagePullPolicy: Always
+          env:
+            - name: PORT
+              value: "8080"
+            - name: LOGGING_LEVEL_COM_CZERTAINLY
+              value: "INFO"
+            - name: JDBC_URL
+              value: "jdbc:postgresql://host.docker.internal:5432/todelete?characterEncoding=UTF-8"
+            - name: JDBC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: scheduler-service-secret
+                  key: dbUsername
+            - name: JDBC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: scheduler-service-secret
+                  key: dbPassword
+            - name: JAVA_OPTS
+              value: ""
+            - name: RABBITMQ_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: messaging-configmap
+                  key: messaging.host
+            - name: RABBITMQ_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: messaging-configmap
+                  key: messaging.amqp.port
+            - name: RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: messaging-secret
+                  key: messaging.username
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: messaging-secret
+                  key: messaging.password
+          ports:
+            - containerPort: 8080
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 10001
+          readinessProbe:
+            httpGet:
+              path: /health/readiness
+              port: 8080
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /health/liveness
+              port: 8080
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 45
+          volumeMounts:
+            - mountPath: /tmp
+              name: ephemeral
+      volumes:
+        - name: ephemeral          
+          emptyDir:
+            medium: "Memory"
+            sizeLimit: "1Mi"
+---
+# Source: czertainly/templates/core-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-deployment
+  labels:
+    helm.sh/chart: czertainly-2.14.0-1-develop
+    app.kubernetes.io/name: czertainly
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "2.14.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: czertainly
+      app.kubernetes.io/instance: czertainly-tlm
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: czertainly
+        app.kubernetes.io/instance: czertainly-tlm
+      annotations:
+        # annotation for vault-agent
+        # when the list of the trusted certificates is changed, restart deployment
+        checksum/config: e1276200cc948f381a1c57400051822629bdba1ceb1a1c3fea1d65dc32fb0c60
+        # when the messaging secrets are changed, restart deployment
+        checksum/mq-secret: 774c39f3d3daef229dd76092a79b94e5f1a51ed8e8805466ff7a80e6467a6c30
+
+    spec:      
+      initContainers:
+        - name: wait-for-auth-service
+          image: docker.io/curlimages/curl:8.1.1
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 100
+          command:
+            - /bin/sh
+            - -c
+            - |
+              while ! nc -z auth-service 8080; do sleep 1; done &&
+              while ! nc -z auth-opa-policies-service 8080; do sleep 1; done &&
+              echo "auth service seems to be started" &&
+              while ! nc -z test.messaging.com 7896; do sleep 1; done &&
+              while ! nc -z scheduler-service-service 8080; do sleep 1; done &&
+              echo "messaging and scheduler service seems to be started"
+      containers:
+        - name: czertainly-auth-opa
+          image: docker.io/openpolicyagent/opa:0.53.0-rootless
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8181
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          readinessProbe:
+            httpGet:
+              path: /health?bundle=true
+              scheme: HTTP
+              port: 8181
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          args:
+            - "run"
+            - "--server"
+            - "--set=services.nginx.url=http://auth-opa-policies-service:8080"
+            - "--set=bundles.nginx.service=nginx"
+            - "--set=bundles.nginx.resource=bundles/bundle.tar.gz"
+        - name: czertainly-core
+          image: docker.io/czertainly/czertainly-core:develop-latest
+          imagePullPolicy: Always
+          env:
+            - name: HEADER_ENABLED
+              value: "true"
+            - name: HEADER_NAME
+              value: "ssl-client-cert"
+            - name: JDBC_URL
+              value: "jdbc:postgresql://host.docker.internal:5432/todelete?characterEncoding=UTF-8"
+            - name: JDBC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: core-secret
+                  key: jdbcUsername
+            - name: JDBC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: core-secret
+                  key: jdbcPassword
+            - name: LOGGING_LEVEL_COM_CZERTAINLY
+              value: "INFO"
+            - name: ADMIN_CERT
+              valueFrom:
+                secretKeyRef:
+                  name: admin-certificate-secret
+                  key: tls.crt
+            - name: OPA_BASE_URL
+              value: "http://localhost:8181"
+            - name: AUTH_SERVICE_BASE_URL
+              value: "http://auth-service:8080"
+            - name: TRUSTED_CERTIFICATES
+              valueFrom:
+                secretKeyRef:
+                  name: trusted-certificates
+                  key: ca.crt
+            - name: JAVA_OPTS
+              value: ""
+            - name: RABBITMQ_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: messaging-configmap
+                  key: messaging.host
+            - name: RABBITMQ_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: messaging-configmap
+                  key: messaging.amqp.port
+            - name: RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: messaging-secret
+                  key: messaging.username
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: messaging-secret
+                  key: messaging.password
+            - name: SCHEDULER_BASE_URL
+              value: "http://scheduler-service-service:8080"
+            - name: OTEL_SDK_DISABLED
+              value: "false"
+          ports:
+            - containerPort: 8080
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 10001
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health/readiness
+              port: 8080
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /api/v1/health/liveness
+              port: 8080
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 45
+          volumeMounts:
+            - mountPath: /tmp
+              name: ephemeral
+            - mountPath: /opt/czertainly/scripts
+              name: core-scripts
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "sh"
+                  - "-c"
+                  - |
+                    /opt/czertainly/scripts/register-admin.sh;
+      volumes:
+        - name: ephemeral          
+          emptyDir:
+            medium: "Memory"
+            sizeLimit: "1Mi"
+        - name: core-scripts
+          configMap:
+            name: core-scripts-configmap
+            defaultMode: 0777
+---
+# Source: czertainly/charts/apiGateway/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "czertainly-tlm-api-gateway-test-connection"
+  labels:
+    helm.sh/chart: apiGateway-3.8.0-1-develop
+    app.kubernetes.io/name: api-gateway
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "3.8.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: curlimages/curl:8.1.1
+      command:
+        - /bin/sh
+        - -c
+        - |
+          curl --silent --retry 5 --retry-delay 5 --retry-all-errors api-gateway-service:8001
+  restartPolicy: Never
+---
+# Source: czertainly/charts/authOpaPolicies/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "czertainly-tlm-auth-opa-policies-test-connection"
+  labels:
+    helm.sh/chart: authOpaPolicies-1.2.1-3-develop
+    app.kubernetes.io/name: auth-opa-policies
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "1.2.1"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: curlimages/curl:8.1.1
+      command:
+        - /bin/sh
+        - -c
+        - |
+          curl --silent --retry 5 --retry-delay 5 --retry-all-errors auth-opa-policies-service:8080
+  restartPolicy: Never
+---
+# Source: czertainly/charts/authService/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "czertainly-tlm-auth-service-test-connection"
+  labels:
+    helm.sh/chart: authService-1.6.0-1-develop
+    app.kubernetes.io/name: auth-service
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "1.6.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: curlimages/curl:8.1.1
+      command:
+        - /bin/sh
+        - -c
+        - |
+          curl --silent --retry 5 --retry-delay 5 --retry-all-errors auth-service:8080/health
+  restartPolicy: Never
+---
+# Source: czertainly/charts/commonCredentialProvider/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "czertainly-tlm-common-credential-provider-test-connection"
+  labels:
+    helm.sh/chart: commonCredentialProvider-1.3.3-3-develop
+    app.kubernetes.io/name: common-credential-provider
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "1.3.3"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: curlimages/curl:8.1.1
+      command:
+        - /bin/sh
+        - -c
+        - |
+          curl --silent --retry 5 --retry-delay 5 --retry-all-errors common-credential-provider-service:8080/v1
+  restartPolicy: Never
+---
+# Source: czertainly/charts/feAdministrator/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "czertainly-tlm-fe-administrator-test-connection"
+  labels:
+    helm.sh/chart: feAdministrator-2.14.0-1-develop
+    app.kubernetes.io/name: fe-administrator
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "2.14.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: curlimages/curl:8.1.1
+      command:
+        - /bin/sh
+        - -c
+        - |
+          curl --silent --retry 5 --retry-delay 5 --retry-all-errors fe-administrator-service:8080/index.html
+  restartPolicy: Never
+---
+# Source: czertainly/charts/schedulerService/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "czertainly-tlm-scheduler-service-test-connection"
+  labels:
+    helm.sh/chart: schedulerService-1.0.1-3-develop
+    app.kubernetes.io/name: scheduler-service
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "1.0.1"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: curlimages/curl:8.1.1
+      command:
+        - /bin/sh
+        - -c
+        - |
+          curl --silent --retry 5 --retry-delay 5 --retry-all-errors scheduler-service-service:8080/health/liveness
+  restartPolicy: Never
+---
+# Source: czertainly/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "czertainly-tlm-test-connection"
+  labels:
+    helm.sh/chart: czertainly-2.14.0-1-develop
+    app.kubernetes.io/name: czertainly
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "2.14.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: curlimages/curl:8.1.1
+      command:
+        - /bin/sh
+        - -c
+        - |
+          curl --silent --retry 10 --retry-delay 5 --retry-all-errors core-service:8080/api/v1/health/liveness
+  restartPolicy: Never
+---
+# Source: czertainly/templates/hooks/register-connectors-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "czertainly-tlm-register-admin-job"
+  labels:
+    helm.sh/chart: czertainly-2.14.0-1-develop
+    app.kubernetes.io/name: czertainly
+    app.kubernetes.io/instance: czertainly-tlm
+    app.kubernetes.io/version: "2.14.0"
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: "czertainly-2.14.0-1-develop"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "czertainly-tlm-register-admin-job"
+      labels:
+        app.kubernetes.io/managed-by: "Helm"
+        app.kubernetes.io/instance: "czertainly-tlm"
+        helm.sh/chart: "czertainly-2.14.0-1-develop"
+    spec:      
+      restartPolicy: Never
+      containers:
+        - name: register-admin-job
+          image: docker.io/curlimages/curl:8.1.1
+          imagePullPolicy: IfNotPresent
+          command:
+          - /bin/sh
+          - -c
+          - |
+            while ! nc -z core-service 8080; do sleep 1; done &&
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "Common-Credential-Connector","url": "http://common-credential-provider-service:8080","authType": "none"}' \
+            http://core-service:8080/api/v1/connector/register &&
+            echo "all done"

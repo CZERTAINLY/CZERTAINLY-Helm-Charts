@@ -27,9 +27,9 @@ spec:
         {{- include "messaging-rabbitmq.selectorLabels" . | nindent 8 }}
       annotations:
         # when the messaging config map is changed, restart deployment
-        checksum/config: {{ include "czertainly-lib.messaging.configmap" (dict "global" .Values.global "messagingService" .Values) | sha256sum }}
+        checksum/config: {{ include "messaging-rabbitmq.rabbitmq.conf" (dict "global" .Values.global "messagingService" .Values) | sha256sum }}
         # when the messaging secret is changed, restart deployment
-        checksum/secret: {{ include "czertainly-lib.messaging.secrets" (dict "global" .Values.global "messagingService" .Values "release" .Release) | sha256sum }}
+        checksum/secret: {{ include "messaging-rabbitmq.definitions.json" (dict "global" .Values.global "messagingService" .Values) | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -74,29 +74,17 @@ spec:
             - name: RABBITMQ_DEFAULT_PASS
               valueFrom:
                 secretKeyRef:
-                  {{- if .Values.global.config.enabled }}
-                  name: global-secret
-                  {{- else }}
                   name: messaging-secret
-                  {{- end }}
                   key: messaging.password
             - name: RABBITMQ_DEFAULT_USER
               valueFrom:
                 secretKeyRef:
-                  {{- if .Values.global.config.enabled }}
-                  name: global-secret
-                  {{- else }}
                   name: messaging-secret
-                  {{- end }}
                   key: messaging.username
             - name: RABBITMQ_ERLANG_COOKIE
               valueFrom:
                 secretKeyRef:
-                  {{- if .Values.global.config.enabled }}
-                  name: global-secret
-                  {{- else }}
                   name: messaging-secret
-                  {{- end }}
                   key: messaging.cookie
             - name: RABBITMQ_LOGS
               value: "-"
@@ -220,11 +208,7 @@ spec:
       volumes:
         - name: configuration
           configMap:
-            {{- if .Values.global.config.enabled }}
-            name: global-configmap
-            {{- else }}
             name: messaging-configmap
-            {{- end }}
             optional: false
             items:
               - key: messaging.rabbitmq.conf
@@ -233,11 +217,7 @@ spec:
                 path: "enabled_plugins"
         - name: definitions
           secret:
-            {{- if .Values.global.config.enabled }}
-            secretName: global-secret
-            {{- else }}
             secretName: messaging-secret
-            {{- end }}
             optional: false
             items:
               - key: messaging.definitions.json

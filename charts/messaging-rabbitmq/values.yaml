@@ -19,6 +19,8 @@ global:
       custom: {}
   messaging:
     remoteAccess: false
+    username: ""
+    password: ""
   httpProxy: ""
   httpsProxy: ""
   noProxy: ""
@@ -210,5 +212,11 @@ persistence:
   size: 100Mi
   annotations: {}
 
-secret:
-  username: "czertainly"
+messaging:
+  remoteAccess: false
+  username: "admin"
+  password: "admin"
+  erlang:
+    cookie: "c4eGHK4gM3v+5BHTFkGaRzqNQu0JcokVJkFK7CmJ"
+  plugins:
+    enabled: "[rabbitmq_peer_discovery_k8s, rabbitmq_management]."
