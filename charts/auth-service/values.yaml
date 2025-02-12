@@ -163,6 +163,9 @@ logging:
 
 createUnknownUsers: "false"
 createUnknownRoles: "false"
+# create-only (default) - create users and roles based on previous variables, changes in token not reflected in already existing user
+# sync-data - user's properties and roles are synced with the user data present in token
+syncPolicy: "create-only"
 
 serviceAccount:
   # Specifies whether a service account should be created

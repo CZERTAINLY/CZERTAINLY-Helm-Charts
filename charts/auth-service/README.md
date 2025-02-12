@@ -127,6 +127,7 @@ The following values may be configured:
 | service.port                                 | `8080`                   | Port number of the exposed service                                    |
 | createUnknownUsers                           | `false`                  | Whether user should be automatically created when not exists          |
 | createUnknownRoles                           | `false`                  | Whether roles should be automatically create when not exist           |
+| syncPolicy                                   | `"create-only"`          | Sync policy for the user and roles                                    |
 
 #### Customization parameters
 
