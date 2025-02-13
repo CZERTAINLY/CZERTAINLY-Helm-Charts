@@ -19,6 +19,10 @@ global:
     name: ""
     username: ""
     password: ""
+    pgBouncer:
+      enabled: true
+      host: "pg-bouncer-service"
+      port: 5432
   trusted:
     certificates: ""
   httpProxy: ""

@@ -163,6 +163,15 @@ dependencies:
       - scheduler
     version: 1.0.1-3-develop
     alias: schedulerService
+  - condition: global.database.pgBouncer.enabled
+    name: pg-bouncer
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../pg-bouncer
+    tags:
+      - database
+      - pgbouncer
+    version: 1.24.0-p0-develop
+    alias: pgBouncer
 keywords:
   - czertainly
   - certificate

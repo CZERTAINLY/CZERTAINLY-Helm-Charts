@@ -43,6 +43,18 @@ messagingService:
   enabled: false
 ```
 
+## Database connection pooling using PgBouncer
+
+The platform now supports database connection pooling using PgBouncer. The PgBouncer service is enabled by default and can be configured using the following parameters:
+```yaml
+global:
+  database:
+    pgBouncer:
+      enabled: true
+      host: "pg-bouncer-service"
+      port: 5432
+```
+
 ## To 2.14.0
 
 :::warning[Breaking changes]

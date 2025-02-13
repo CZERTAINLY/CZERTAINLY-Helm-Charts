@@ -1,7 +1,11 @@
-# Default values for ct-logs-discovery-provider.
+# Default values for pg-bouncer.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+nameOverride: ""
+fullnameOverride: ""
+
+# Global parameters that will overwrite local parameters
 global:
   image:
     registry: ""
@@ -9,18 +13,11 @@ global:
     # array of secret names
     pullSecrets: []
   database:
-    type: ""
     host: ""
     port: ""
     name: ""
     username: ""
     password: ""
-    pgBouncer:
-      enabled: true
-      host: "pg-bouncer-service"
-      port: 5432
-  trusted:
-    certificates: ""
   httpProxy: ""
   httpsProxy: ""
   noProxy: ""
@@ -63,30 +60,35 @@ global:
     secrets: []
 
 database:
-  # currently only postgresql is supported
-  type: "postgresql"
   host: "host.docker.internal"
   port: 5432
   name: "czertainlydb"
-  schema: "ctlogs"
   username: "czertainlyuser"
   password: "your-strong-password"
-
-trusted:
-  certificates: ""
-
+  # see https://www.pgbouncer.org/config.html#auth_type for more information
+  authType: "plain"
 httpProxy: ""
 httpsProxy: ""
 noProxy: ""
 
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
 replicaCount: 1
+
+service:
+  type: "ClusterIP"
+  port: 5432
 
 image:
   # default registry name
   registry: docker.io
-  repository: czertainly
-  name: czertainly-ct-logs-discovery-provider
-  tag: 1.0.0
+  repository: edoburu
+  name: pgbouncer
+  tag: v1.24.0-p0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -98,37 +100,40 @@ image:
   # default security context
   securityContext:
     runAsNonRoot: true
-    runAsUser: 10001
+    runAsUser: 70
     readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop: ['all']
   # probes configuration
   probes:
     liveness:
       enabled: false
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 20
+      initialDelaySeconds: 5
       timeoutSeconds: 5
-      periodSeconds: 10
+      periodSeconds: 60
       successThreshold: 1
       failureThreshold: 3
     readiness:
       enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 20
+      initialDelaySeconds: 5
       timeoutSeconds: 5
-      periodSeconds: 10
+      periodSeconds: 60
       successThreshold: 1
       failureThreshold: 3
     startup:
       enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 15
+      initialDelaySeconds: 5
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
-      failureThreshold: 45
+      failureThreshold: 10
   resources: {}
     # We follow recommendations and general guidelines to manage resources from:
     # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
@@ -151,13 +156,6 @@ additionalEnv:
   configMaps: []
   secrets: []
 
-logging:
-  # possible values are: INFO, DEBUG, WARN, ERROR, PANIC, FATAL
-  level: "INFO"
-
-nameOverride: ""
-fullnameOverride: ""
-
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -172,19 +170,17 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
-service:
-  type: ClusterIP
-  port: 8080
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
+section:
+  pgbouncer:
+    auth_type: "plain"
+    auth_file: "/etc/pgbouncer/userlist.txt"
+    pool_mode: "transaction"
+    server_reset_query: "DISCARD ALL"
+    max_prepared_statements: "10"
+    max_client_conn: "1000"
+    listen_addr: "0.0.0.0"
+    listen_port: "5432"
+    unix_socket_dir: ""
+    user: "postgres"
+    admin_users: "postgres"
+    ignore_startup_parameters: "extra_float_digits"

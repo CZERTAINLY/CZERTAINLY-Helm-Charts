@@ -1,0 +1,18 @@
+{{- $additionalPorts := (include "pg-bouncer.customization.ports" $) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: pg-bouncer-service
+  labels:
+    {{- include "pg-bouncer.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: "TCP"
+      name: postgres
+    {{- if $additionalPorts }}
+      {{- $additionalPorts | nindent 4 }}
+    {{- end }}
+  selector:
+    {{- include "pg-bouncer.selectorLabels" . | nindent 4 }}
