@@ -68,35 +68,38 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                                 | Default value | Description                                                        |
-|-------------------------------------------|---------------|--------------------------------------------------------------------|
-| global.config.enabled                     | `false`       | Enables global configuration                                       |
-| global.image.registry                     | `""`          | Global docker registry name                                        |
-| global.image.repository                   | `""`          | Global docker image repository name                                |
-| global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                        |
-| global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                            |
-| global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                 |
-| global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type      |
-| global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type |
-| global.database.type                      | `""`          | Type of the database, currently only `postgresql` is supported     |
-| global.database.host                      | `""`          | Host where is the database located                                 |
-| global.database.port                      | `""`          | Port on which is the database listening                            |
-| global.database.name                      | `""`          | Database name                                                      |
-| global.database.username                  | `""`          | Username to access the database                                    |
-| global.database.password                  | `""`          | Password to access the database                                    |
-| global.messaging.external.enabled         | `false`       | Enable external messaging                                          |
-| global.messaging.external.host            | `""`          | Host where is the external messaging located                       |
-| global.messaging.external.amqp.port       | `""`          | Port on which is the external messaging listening                  |
-| global.messaging.username                 | `""`          | Username to access the messaging                                   |
-| global.messaging.password                 | `""`          | Password to access the messaging                                   |
-| global.initContainers                     | `[]`          | Global init containers                                             |
-| global.sidecarContainers                  | `[]`          | Global sidecar containers                                          |
-| global.additionalVolumes                  | `[]`          | Global additional volumes                                          |
-| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                    |
-| global.additionalPorts                    | `[]`          | Global additional ports                                            |
-| global.additionalEnv.variables            | `[]`          | Global additional environment variables                            |
-| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                              |
-| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                          |
+| Parameter                                 | Default value          | Description                                                        |
+|-------------------------------------------|------------------------|--------------------------------------------------------------------|
+| global.config.enabled                     | `false`                | Enables global configuration                                       |
+| global.image.registry                     | `""`                   | Global docker registry name                                        |
+| global.image.repository                   | `""`                   | Global docker image repository name                                |
+| global.image.pullSecrets                  | `[]`                   | Global array of secret names for image pull                        |
+| global.volumes.ephemeral.type             | `""`                   | Global ephemeral volume type to be used                            |
+| global.volumes.ephemeral.sizeLimit        | `""`                   | Global ephemeral volume size limit                                 |
+| global.volumes.ephemeral.storageClassName | `""`                   | Global ephemeral volume storage class name for `storage` type      |
+| global.volumes.ephemeral.custom           | `{}`                   | Global custom definition of the ephemeral volume for `custom` type |
+| global.database.type                      | `""`                   | Type of the database, currently only `postgresql` is supported     |
+| global.database.host                      | `""`                   | Host where is the database located                                 |
+| global.database.port                      | `""`                   | Port on which is the database listening                            |
+| global.database.name                      | `""`                   | Database name                                                      |
+| global.database.username                  | `""`                   | Username to access the database                                    |
+| global.database.password                  | `""`                   | Password to access the database                                    |
+| global.database.pgBouncer.enabled         | `true`                 | Enable pgBouncer for database connection pooling and management    |
+| global.database.pgBouncer.host            | `"pg-bouncer-service"` | Host where is the pgBouncer located                                |
+| global.database.pgBouncer.port            | `5432`                 | Port on which is the pgBouncer listening                           |
+| global.messaging.external.enabled         | `false`                | Enable external messaging                                          |
+| global.messaging.external.host            | `""`                   | Host where is the external messaging located                       |
+| global.messaging.external.amqp.port       | `""`                   | Port on which is the external messaging listening                  |
+| global.messaging.username                 | `""`                   | Username to access the messaging                                   |
+| global.messaging.password                 | `""`                   | Password to access the messaging                                   |
+| global.initContainers                     | `[]`                   | Global init containers                                             |
+| global.sidecarContainers                  | `[]`                   | Global sidecar containers                                          |
+| global.additionalVolumes                  | `[]`                   | Global additional volumes                                          |
+| global.additionalVolumeMounts             | `[]`                   | Global additional volume mounts                                    |
+| global.additionalPorts                    | `[]`                   | Global additional ports                                            |
+| global.additionalEnv.variables            | `[]`                   | Global additional environment variables                            |
+| global.additionalEnv.secrets              | `[]`                   | Global additional environment secrets                              |
+| global.additionalEnv.configMaps           | `[]`                   | Global additional environment config maps                          |
 
 ### Local parameters
 
