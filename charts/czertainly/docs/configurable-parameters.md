@@ -157,7 +157,7 @@ The following values may be configured for the CZERTAINLY core service:
 
 **cURL**
 
-| Parameter                                         | Default value  | Description                                         |
+| Parameter   ddd                                      | Default value  | Description                                         |
 |---------------------------------------------------|----------------|-----------------------------------------------------|
 | curl.image.registry                               | `docker.io`    | Docker registry name for the image                  |
 | curl.image.repository                             | `curlimages`   | Docker image repository name                        |
@@ -171,6 +171,7 @@ The following values may be configured for the CZERTAINLY core service:
 | curl.image.securityContext.runAsNonRoot           | `true`         | Run the container as non-root user                  |
 | curl.image.securityContext.runAsUser              | `100`          | User ID for the container                           |
 | curl.image.securityContext.readOnlyRootFilesystem | `true`         | Run the container with read-only root filesystem    |
+| curl.image.resources                              | `{}`           | The resources for the container                     |
 
 **kubectl**
 
