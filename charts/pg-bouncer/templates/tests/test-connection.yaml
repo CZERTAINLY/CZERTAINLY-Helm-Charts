@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "pg-bouncer.fullname" . }}-test-connection"
+  labels:
+    {{- include "pg-bouncer.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: netcat
+      image: busybox:1.37.0
+      command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Attempting to connect to pg-bouncer-service on port 5432..."
+          if nc -zvw5 pg-bouncer-service 5432; then
+            echo "Connection succeeded!"
+            exit 0
+          else
+            echo "Connection failed!"
+            exit 1
+          fi
+  restartPolicy: Never

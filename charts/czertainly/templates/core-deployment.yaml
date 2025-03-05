@@ -9,6 +9,13 @@
 {{- $additionalEnv := (include "czertainly.customization.env" $) }}
 {{- $additionalEnvFrom := (include "czertainly.customization.envFrom" $) }}
 {{- $scripts := or .Values.global.keycloak.enabled .Values.registerAdmin.enabled }}
+{{- $messagingHost := .Values.messaging.host }}
+{{- $messagingAmqpPort := .Values.messaging.amqp.port }}
+{{- $externalMessaging := pluck "enabled" .Values.global.messaging.external .Values.messaging.external | compact | first }}
+{{- if $externalMessaging }}
+{{- $messagingHost = pluck "host" .Values.global.messaging.external .Values.messaging.external | compact | first }}
+{{- $messagingAmqpPort = pluck "port" .Values.global.messaging.external.amqp .Values.messaging.external.amqp | compact | first }}
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -31,7 +38,8 @@ spec:
         # when the list of the trusted certificates is changed, restart deployment
         checksum/config: {{ include (print $.Template.BasePath "/trusted-certificates-secret.yaml") . | sha256sum }}
         # when the messaging secrets are changed, restart deployment
-        checksum/mq-secret: {{ include "czertainly-lib.messaging.secrets" (dict "global" .Values.global "messagingService" .Values.messagingService "release" .Release) | sha256sum }}
+        checksum/mq-secret: {{ include (print $.Template.BasePath "/messaging-secret.yaml") . | sha256sum }}
+{{/*        checksum/mq-secret: {{ include "messaging-rabbitmq.definitions.json" (dict "global" .Values.global "messagingService" .Values.messagingService) | sha256sum }}*/}}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -44,6 +52,9 @@ spec:
         - name: wait-for-auth-service
           image: {{ include "czertainly.curl.image" . }}
           imagePullPolicy: {{ .Values.curl.image.pullPolicy }}
+          {{- if .Values.curl.image.resources }}
+          resources: {{- toYaml .Values.curl.image.resources | nindent 12 }}
+          {{- end }}
           {{- if .Values.curl.image.securityContext }}
           securityContext: {{- .Values.curl.image.securityContext | toYaml | nindent 12 }}
           {{- end }}
@@ -54,7 +65,7 @@ spec:
               while ! nc -z auth-service {{ .Values.authService.service.port }}; do sleep 1; done &&
               while ! nc -z auth-opa-policies-service {{ .Values.authOpaPolicies.service.port }}; do sleep 1; done &&
               echo "auth service seems to be started" &&
-              while ! nc -z messaging-service {{ .Values.messagingService.service.client.amqp.port }}; do sleep 1; done &&
+              while ! nc -z {{ $messagingHost }} {{ $messagingAmqpPort }}; do sleep 1; done &&
               while ! nc -z scheduler-service-service {{ .Values.schedulerService.service.port }}; do sleep 1; done &&
               echo "messaging and scheduler service seems to be started"
         {{- if $additionalInitContainers }}
@@ -195,22 +206,22 @@ spec:
             - name: RABBITMQ_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: global-configmap
+                  name: messaging-configmap
                   key: messaging.host
             - name: RABBITMQ_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: global-configmap
+                  name: messaging-configmap
                   key: messaging.amqp.port
             - name: RABBITMQ_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: global-secret
+                  name: messaging-secret
                   key: messaging.username
             - name: RABBITMQ_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: global-secret
+                  name: messaging-secret
                   key: messaging.password
             - name: SCHEDULER_BASE_URL
               value: "http://scheduler-service-service:{{ .Values.schedulerService.service.port }}"

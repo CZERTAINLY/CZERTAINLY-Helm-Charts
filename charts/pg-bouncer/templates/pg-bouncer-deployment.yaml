@@ -1,0 +1,147 @@
+{{- $httpProxy := pluck "httpProxy" .Values.global .Values | compact | first }}
+{{- $httpsProxy := pluck "httpsProxy" .Values.global .Values | compact | first }}
+{{- $noProxy := pluck "noProxy" .Values.global .Values | compact | first }}
+{{- $additionalInitContainers := (include "pg-bouncer.customization.initContainers" $) }}
+{{- $additionalSidecarContainers := (include "pg-bouncer.customization.sidecarContainers" $) }}
+{{- $additionalVolumes := (include "pg-bouncer.customization.volumes" $) }}
+{{- $additionalVolumeMounts := (include "pg-bouncer.customization.volumeMounts" $) }}
+{{- $additionalEnv := (include "pg-bouncer.customization.env" $) }}
+{{- $additionalEnvFrom := (include "pg-bouncer.customization.envFrom" $) }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pg-bouncer-deployment
+  labels:
+    {{- include "pg-bouncer.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "pg-bouncer.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "pg-bouncer.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/pg-bouncer-configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/pg-bouncer-secret.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- include "pg-bouncer.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.podSecurityContext }}
+      securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- end }}
+      {{- if $additionalInitContainers }}
+      initContainers:
+        {{- $additionalInitContainers | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: pg-bouncer
+          image: {{ include "pg-bouncer.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.image.command }}
+          command: {{- include "pg-bouncer.image.command" . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.image.args }}
+          args: {{- include "pg-bouncer.image.args" . | nindent 12 }}
+          {{- end }}
+          {{- if or $httpProxy $httpsProxy $noProxy $additionalEnv }}
+          env:
+            {{- if $httpProxy }}
+            - name: HTTP_PROXY
+              value: {{ $httpProxy }}
+            {{- end }}
+            {{- if $httpsProxy }}
+            - name: HTTPS_PROXY
+              value: {{ $httpsProxy }}
+            {{- end }}
+            {{- if $noProxy }}
+            - name: NO_PROXY
+              value: {{ $noProxy }}
+            {{- end }}
+            {{- if $additionalEnv }}
+              {{- $additionalEnv | nindent 12 }}
+            {{- end }}
+          {{- end }}
+          {{- if $additionalEnvFrom }}
+          envFrom:
+            {{- $additionalEnvFrom | indent 12 }}
+          {{- end }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          {{- if .Values.image.securityContext }}
+          securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
+          {{- if .Values.image.probes.liveness.enabled }}
+          livenessProbe:
+            {{- if .Values.image.probes.liveness.custom }}
+            {{- toYaml .Values.image.probes.liveness.custom | nindent 12 }}
+            {{- else }}
+            tcpSocket:
+              port: {{ .Values.service.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.liveness.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.liveness.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.liveness.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.liveness.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.liveness.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.probes.readiness.enabled }}
+          readinessProbe:
+            {{- if .Values.image.probes.readiness.custom }}
+            {{- toYaml .Values.image.probes.readiness.custom | nindent 12 }}
+            {{- else }}
+            tcpSocket:
+              port: {{ .Values.service.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.readiness.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.readiness.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.readiness.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.readiness.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.readiness.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.probes.startup.enabled }}
+          startupProbe:
+            {{- if .Values.image.probes.startup.custom }}
+            {{- toYaml .Values.image.probes.startup.custom | nindent 12 }}
+            {{- else }}
+            tcpSocket:
+              port: {{ .Values.service.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.image.probes.startup.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.image.probes.startup.timeoutSeconds }}
+            periodSeconds: {{ .Values.image.probes.startup.periodSeconds }}
+            successThreshold: {{ .Values.image.probes.startup.successThreshold }}
+            failureThreshold: {{ .Values.image.probes.startup.failureThreshold }}
+          {{- end }}
+          {{- if .Values.image.resources }}
+          resources: {{- toYaml .Values.image.resources | nindent 12 }}
+          {{- end }}
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "killall -INT pgbouncer && sleep infinity"]
+          volumeMounts:
+            - mountPath: /etc/pgbouncer
+              name: config
+            {{- if $additionalVolumeMounts }}
+              {{- $additionalVolumeMounts | nindent 12 }}
+            {{- end }}
+        {{- if $additionalSidecarContainers }}
+          {{- $additionalSidecarContainers | nindent 8 }}
+        {{- end }}
+      volumes:
+        - name: config
+          projected:
+            sources:
+              - configMap:
+                  name: pg-bouncer-configmap
+              - secret:
+                  name: pg-bouncer-secret
+        {{- if $additionalVolumes }}
+          {{- $additionalVolumes | nindent 8 }}
+        {{- end }}

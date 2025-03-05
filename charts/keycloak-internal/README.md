@@ -68,37 +68,40 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                                 | Default value | Description                                                        |
-|-------------------------------------------|---------------|--------------------------------------------------------------------|
-| global.image.registry                     | `""`          | Global docker registry name                                        |
-| global.image.repository                   | `""`          | Global docker image repository name                                |
-| global.image.pullSecrets                  | `[]`          | Global array of secret names for image pull                        |
-| global.volumes.ephemeral.type             | `""`          | Global ephemeral volume type to be used                            |
-| global.volumes.ephemeral.sizeLimit        | `""`          | Global ephemeral volume size limit                                 |
-| global.volumes.ephemeral.storageClassName | `""`          | Global ephemeral volume storage class name for `storage` type      |
-| global.volumes.ephemeral.custom           | `{}`          | Global custom definition of the ephemeral volume for `custom` type |
-| global.database.type                      | `""`          | Type of the database, currently only `postgresql` is supported     |
-| global.database.host                      | `""`          | Host where is the database located                                 |
-| global.database.port                      | `""`          | Port on which is the database listening                            |
-| global.database.name                      | `""`          | Database name                                                      |
-| global.database.username                  | `""`          | Username to access the database                                    |
-| global.database.password                  | `""`          | Password to access the database                                    |
-| global.trusted.certificates               | `""`          | List of additional CA certificates that should be trusted          |
-| global.hostName                           | `""`          | Global hostname of the running instance                            |
-| global.keycloak.clientSecret              | `""`          | Keycloak OIDC client secret to be used for CZERTAINLY              |
-| global.admin.username                     | `""`          | Initial administrator username                                     |
-| global.admin.password                     | `""`          | Initial administrator password                                     |
-| global.admin.name                         | `""`          | Initial administrator first name                                   |
-| global.admin.surname                      | `""`          | Initial administrator last name                                    |
-| global.admin.email                        | `""`          | Initial administrator email                                        |
-| global.initContainers                     | `[]`          | Global init containers                                             |
-| global.sidecarContainers                  | `[]`          | Global sidecar containers                                          |
-| global.additionalVolumes                  | `[]`          | Global additional volumes                                          |
-| global.additionalVolumeMounts             | `[]`          | Global additional volume mounts                                    |
-| global.additionalPorts                    | `[]`          | Global additional ports                                            |
-| global.additionalEnv.variables            | `[]`          | Global additional environment variables                            |
-| global.additionalEnv.secrets              | `[]`          | Global additional environment secrets                              |
-| global.additionalEnv.configMaps           | `[]`          | Global additional environment config maps                          |
+| Parameter                                 | Default value          | Description                                                        |
+|-------------------------------------------|------------------------|--------------------------------------------------------------------|
+| global.image.registry                     | `""`                   | Global docker registry name                                        |
+| global.image.repository                   | `""`                   | Global docker image repository name                                |
+| global.image.pullSecrets                  | `[]`                   | Global array of secret names for image pull                        |
+| global.volumes.ephemeral.type             | `""`                   | Global ephemeral volume type to be used                            |
+| global.volumes.ephemeral.sizeLimit        | `""`                   | Global ephemeral volume size limit                                 |
+| global.volumes.ephemeral.storageClassName | `""`                   | Global ephemeral volume storage class name for `storage` type      |
+| global.volumes.ephemeral.custom           | `{}`                   | Global custom definition of the ephemeral volume for `custom` type |
+| global.database.type                      | `""`                   | Type of the database, currently only `postgresql` is supported     |
+| global.database.host                      | `""`                   | Host where is the database located                                 |
+| global.database.port                      | `""`                   | Port on which is the database listening                            |
+| global.database.name                      | `""`                   | Database name                                                      |
+| global.database.username                  | `""`                   | Username to access the database                                    |
+| global.database.password                  | `""`                   | Password to access the database                                    |
+| global.database.pgBouncer.enabled         | `true`                 | Enable pgBouncer for database connection pooling and management    |
+| global.database.pgBouncer.host            | `"pg-bouncer-service"` | Host where is the pgBouncer located                                |
+| global.database.pgBouncer.port            | `5432`                 | Port on which is the pgBouncer listening                           |
+| global.trusted.certificates               | `""`                   | List of additional CA certificates that should be trusted          |
+| global.hostName                           | `""`                   | Global hostname of the running instance                            |
+| global.keycloak.clientSecret              | `""`                   | Keycloak OIDC client secret to be used for CZERTAINLY              |
+| global.admin.username                     | `""`                   | Initial administrator username                                     |
+| global.admin.password                     | `""`                   | Initial administrator password                                     |
+| global.admin.name                         | `""`                   | Initial administrator first name                                   |
+| global.admin.surname                      | `""`                   | Initial administrator last name                                    |
+| global.admin.email                        | `""`                   | Initial administrator email                                        |
+| global.initContainers                     | `[]`                   | Global init containers                                             |
+| global.sidecarContainers                  | `[]`                   | Global sidecar containers                                          |
+| global.additionalVolumes                  | `[]`                   | Global additional volumes                                          |
+| global.additionalVolumeMounts             | `[]`                   | Global additional volume mounts                                    |
+| global.additionalPorts                    | `[]`                   | Global additional ports                                            |
+| global.additionalEnv.variables            | `[]`                   | Global additional environment variables                            |
+| global.additionalEnv.secrets              | `[]`                   | Global additional environment secrets                              |
+| global.additionalEnv.configMaps           | `[]`                   | Global additional environment config maps                          |
 
 ### Local parameters
 
@@ -108,9 +111,9 @@ The following values may be configured:
 |----------------------------------------------|----------------------------------------|----------------------------------------------------------------------------------------|
 | trusted.certificates                         | `""`                                   | List of additional CA certificates that should be trusted                              |
 | image.registry                               | `docker.io`                            | Docker registry name for the image                                                     |
-| image.repository                             | `3keycompany`                          | Docker image repository name                                                           |
+| image.repository                             | `czertainly`                           | Docker image repository name                                                           |
 | image.name                                   | `czertainly-keycloak-optimized`        | Docker image name                                                                      |
-| image.tag                                    | `24.0.2-0`                             | Docker image tag                                                                       |
+| image.tag                                    | `26.1.0-0`                             | Docker image tag                                                                       |
 | image.digest                                 | `""`                                   | Docker image digest, will override tag if specified                                    |
 | image.pullPolicy                             | `IfNotPresent`                         | Image pull policy                                                                      |
 | image.pullSecrets                            | `[]`                                   | Array of secret names for image pull                                                   |
@@ -170,12 +173,9 @@ The following values may be configured:
 | keycloak.dbSchema               | `"keycloak"`  | The database schema to be used                                                                              |
 | keycloak.admin.username         | `"admin"`     | Initial Keycloak master realm administrator username                                                        |
 | keycloak.admin.password         | `"admin"`     | Initial Keycloak master realm administrator password                                                        |
-| keycloak.hostnameStrict         | `false`       | Disables dynamically resolving the hostname from http request headers                                       |
-| keycloak.hostnameStrictHttps    | `false`       | Disables dynamically resolving the hostname from https request headers                                      |
-| keycloak.httpRelativePath       | `/kc`         | Set the path relative to `/` for serving resources. **Change only if you know what you are doing!**         |
+| keycloak.httpRelativePath       | `/kc`         | Set the path relative to `/` for serving resources. **Hardcoded in keycloak-optimized image, change only if you know what you are doing!**         |
 | keycloak.httpEnabled            | `true`        | Enables the HTTP listener                                                                                   |
-| keycloak.proxy                  | `"edge"`      | The proxy address forwarding mode, can be one of `none`, `edge`, `reencrypt`, `passthrough`                 |
-| keycloak.proxyAddressForwarding | `true`        | Enables proxy address forwarding                                                                            |
+| keycloak.proxyHeaders           | `forward`     | Should server accept `forward` or `xforward` values? See [officical documentation](https://www.keycloak.org/server/all-config#category-proxy) |
 
 #### CZERTAINLY realm parameters
 

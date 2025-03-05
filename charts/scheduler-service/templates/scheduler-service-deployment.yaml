@@ -1,5 +1,11 @@
 {{- $imagePullSecrets := pluck "imagePullSecrets" .Values.global .Values | compact | first }}
+{{- $messagingHost := .Values.messaging.host }}
 {{- $messagingAmqpPort := .Values.messaging.amqp.port }}
+{{- $externalMessaging := pluck "enabled" .Values.global.messaging.external .Values.messaging.external | compact | first }}
+{{- if $externalMessaging }}
+{{- $messagingHost = pluck "host" .Values.global.messaging.external .Values.messaging.external | compact | first }}
+{{- $messagingAmqpPort = pluck "port" .Values.global.messaging.external.amqp .Values.messaging.external.amqp | compact | first }}
+{{- end }}
 {{- $additionalInitContainers := (include "scheduler-service.customization.initContainers" $) }}
 {{- $additionalSidecarContainers := (include "scheduler-service.customization.sidecarContainers" $) }}
 {{- $additionalVolumes := (include "scheduler-service.customization.volumes" $) }}
@@ -50,7 +56,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              while ! nc -z messaging-service {{ $messagingAmqpPort }}; do sleep 1; done &&
+              while ! nc -z {{ $messagingHost }} {{ $messagingAmqpPort }}; do sleep 1; done &&
               echo "messaging service seems to be started"
           {{- end }}
           {{- if .Values.curl.image.args }}
@@ -89,19 +95,41 @@ spec:
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
             - name: RABBITMQ_HOST
-              value: "messaging-service"
+              valueFrom:
+                configMapKeyRef:
+                  {{- if .Values.global.config.enabled }}
+                  name: messaging-configmap
+                  {{- else }}
+                  name: messaging-configmap-{{ .Chart.Name | lower }}
+                  {{- end }}
+                  key: messaging.host
             - name: RABBITMQ_PORT
-              value: {{ $messagingAmqpPort | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  {{- if .Values.global.config.enabled }}
+                  name: messaging-configmap
+                  {{- else }}
+                  name: messaging-configmap-{{ .Chart.Name | lower }}
+                  {{- end }}
+                  key: messaging.amqp.port
             - name: RABBITMQ_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: scheduler-service-secret
-                  key: messagingUsername
+                  {{- if .Values.global.config.enabled }}
+                  name: messaging-secret
+                  {{- else }}
+                  name: messaging-secret-{{ .Chart.Name | lower }}
+                  {{- end }}
+                  key: messaging.username
             - name: RABBITMQ_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: scheduler-service-secret
-                  key: messagingPassword
+                  {{- if .Values.global.config.enabled }}
+                  name: messaging-secret
+                  {{- else }}
+                  name: messaging-secret-{{ .Chart.Name | lower }}
+                  {{- end }}
+                  key: messaging.password
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}

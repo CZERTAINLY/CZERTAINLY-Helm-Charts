@@ -19,6 +19,10 @@ global:
     name: ""
     username: ""
     password: ""
+    pgBouncer:
+      enabled: true
+      host: "pg-bouncer-service"
+      port: 5432
   trusted:
     certificates: ""
   httpProxy: ""
@@ -93,7 +97,7 @@ image:
   registry: docker.io
   repository: czertainly
   name: czertainly-auth
-  tag: 1.6.0
+  tag: 1.6.1
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -163,6 +167,9 @@ logging:
 
 createUnknownUsers: "false"
 createUnknownRoles: "false"
+# create-only (default) - create users and roles based on previous variables, changes in token not reflected in already existing user
+# sync-data - user's properties and roles are synced with the user data present in token
+syncPolicy: "create-only"
 
 serviceAccount:
   # Specifies whether a service account should be created

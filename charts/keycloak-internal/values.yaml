@@ -22,6 +22,10 @@ global:
     name: ""
     username: ""
     password: ""
+    pgBouncer:
+      enabled: true
+      host: "pg-bouncer-service"
+      port: 5432
   trusted:
     certificates: ""
   hostName: ""
@@ -104,9 +108,9 @@ service:
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany
+  repository: czertainly
   name: czertainly-keycloak-optimized
-  tag: 24.0.2-0
+  tag: 26.1.0-0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -244,8 +248,6 @@ keycloak:
   admin:
     username: "admin"
     password: "admin"
-  hostnameStrict: false
-  hostnameStrictHttps: false
   # cacheStack is set by the optimized build to kubernetes
   # cacheStack: "kubernetes"
   # relative path is important to run behind a reverse proxy
@@ -253,9 +255,8 @@ keycloak:
   # do not change this value if you are using the optimized build
   httpRelativePath: "/kc"
   httpEnabled: true
-  # none, edge, reencrypt, passthrough
-  proxy: "edge"
-  proxyAddressForwarding: true
+  # Use forwarded or xforwarded headers (more info: https://www.keycloak.org/server/all-config#category-proxy)
+  proxyHeaders: forwarded
 
 # configuration of the CZERTAINLY realm
 czertainly:

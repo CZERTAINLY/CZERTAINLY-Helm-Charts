@@ -59,6 +59,8 @@ spec:
               value: {{ .Values.createUnknownUsers | quote }}
             - name: AUTH_CREATE_UNKNOWN_ROLES
               value: {{ .Values.createUnknownRoles | quote }}
+            - name: SYNC_POLICY
+              value: {{ .Values.syncPolicy | quote }}
             - name: AUTH_DB_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:

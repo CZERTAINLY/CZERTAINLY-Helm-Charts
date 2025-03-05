@@ -1,9 +1,11 @@
 global:
   database:
     host: "172.17.0.1"
+    pgBouncer:
+      enabled: false
 
 image:
-  tag: master-latest
+  tag: develop-latest
 
 keycloak:
   dbSchema: "public"

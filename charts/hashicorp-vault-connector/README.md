@@ -69,29 +69,32 @@ You can also Specify each parameter using the `--set` or `--set-file` argument t
 
 Global values are used to define common parameters for the chart and all its sub-charts by exactly the same name.
 
-| Parameter                       | Default value | Description                                                           |
-|---------------------------------|---------------|-----------------------------------------------------------------------|
-| global.image.registry           | `""`          | Global docker registry name                                           |
-| global.image.repository         | `""`          | Global docker image repository name                                   |
-| global.image.pullSecrets        | `[]`          | Global array of secret names for image pull                           |
-| global.database.type            | `""`          | Type of the database, currently only `postgresql` is supported        |
-| global.database.host            | `""`          | Host where is the database located                                    |
-| global.database.port            | `""`          | Port on which is the database listening                               |
-| global.database.name            | `""`          | Database name                                                         |
-| global.database.username        | `""`          | Username to access the database                                       |
-| global.database.password        | `""`          | Password to access the database                                       |
-| global.trusted.certificates     | `""`          | List of additional CA certificates that should be trusted             |
-| global.httpProxy                | `""`          | Proxy to be used to access external resources through http            |
-| global.httpsProxy               | `""`          | Proxy to be used to access external resources through https           |
-| global.noProxy                  | `""`          | Defines list of external resources that should not use proxy settings |
-| global.initContainers           | `[]`          | Global init containers                                                |
-| global.sidecarContainers        | `[]`          | Global sidecar containers                                             |
-| global.additionalVolumes        | `[]`          | Global additional volumes                                             |
-| global.additionalVolumeMounts   | `[]`          | Global additional volume mounts                                       |
-| global.additionalPorts          | `[]`          | Global additional ports                                               |
-| global.additionalEnv.variables  | `[]`          | Global additional environment variables                               |
-| global.additionalEnv.secrets    | `[]`          | Global additional environment secrets                                 |
-| global.additionalEnv.configMaps | `[]`          | Global additional environment config maps                             |
+| Parameter                         | Default value          | Description                                                           |
+|-----------------------------------|------------------------|-----------------------------------------------------------------------|
+| global.image.registry             | `""`                   | Global docker registry name                                           |
+| global.image.repository           | `""`                   | Global docker image repository name                                   |
+| global.image.pullSecrets          | `[]`                   | Global array of secret names for image pull                           |
+| global.database.type              | `""`                   | Type of the database, currently only `postgresql` is supported        |
+| global.database.host              | `""`                   | Host where is the database located                                    |
+| global.database.port              | `""`                   | Port on which is the database listening                               |
+| global.database.name              | `""`                   | Database name                                                         |
+| global.database.username          | `""`                   | Username to access the database                                       |
+| global.database.password          | `""`                   | Password to access the database                                       |
+| global.database.pgBouncer.enabled | `true`                 | Enable pgBouncer for database connection pooling and management       |
+| global.database.pgBouncer.host    | `"pg-bouncer-service"` | Host where is the pgBouncer located                                   |
+| global.database.pgBouncer.port    | `5432`                 | Port on which is the pgBouncer listening                              |
+| global.trusted.certificates       | `""`                   | List of additional CA certificates that should be trusted             |
+| global.httpProxy                  | `""`                   | Proxy to be used to access external resources through http            |
+| global.httpsProxy                 | `""`                   | Proxy to be used to access external resources through https           |
+| global.noProxy                    | `""`                   | Defines list of external resources that should not use proxy settings |
+| global.initContainers             | `[]`                   | Global init containers                                                |
+| global.sidecarContainers          | `[]`                   | Global sidecar containers                                             |
+| global.additionalVolumes          | `[]`                   | Global additional volumes                                             |
+| global.additionalVolumeMounts     | `[]`                   | Global additional volume mounts                                       |
+| global.additionalPorts            | `[]`                   | Global additional ports                                               |
+| global.additionalEnv.variables    | `[]`                   | Global additional environment variables                               |
+| global.additionalEnv.secrets      | `[]`                   | Global additional environment secrets                                 |
+| global.additionalEnv.configMaps   | `[]`                   | Global additional environment config maps                             |
 
 ### Local parameters
 
@@ -113,7 +116,7 @@ The following values may be configured:
 | image.registry                               | `docker.io`                            | Docker registry name for the image                                    |
 | image.repository                             | `czertainly`                           | Docker image repository name                                          |
 | image.name                                   | `czertainly-hashicorp-vault-connector` | Docker image name                                                     |
-| image.tag                                    | `1.1.1`                                | Docker image tag                                                      |
+| image.tag                                    | `1.1.2`                                | Docker image tag                                                      |
 | image.digest                                 | `""`                                   | Docker image digest, will override tag if specified                   |
 | image.pullPolicy                             | `IfNotPresent`                         | Image pull policy                                                     |
 | image.pullSecrets                            | `[]`                                   | Array of secret names for image pull                                  |

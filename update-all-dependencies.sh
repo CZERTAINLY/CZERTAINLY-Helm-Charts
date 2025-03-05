@@ -51,6 +51,9 @@ helm dependency update charts/network-discovery-provider --skip-refresh
 echo "Updating dependencies for pyadcs-connector..."
 helm dependency update charts/pyadcs-connector --skip-refresh
 
+echo "Updating dependencies for pg-bouncer..."
+helm dependency update charts/pg-bouncer --skip-refresh
+
 echo "Updating dependencies for scheduler-service..."
 helm dependency update charts/scheduler-service --skip-refresh
 

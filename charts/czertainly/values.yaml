@@ -25,6 +25,10 @@ global:
     name: ""
     username: ""
     password: ""
+    pgBouncer:
+      enabled: true
+      host: "pg-bouncer-service"
+      port: 5432
   trusted:
     certificates: ""
   httpProxy: ""
@@ -36,7 +40,14 @@ global:
     # client secret must be set if keycloak is enabled
     clientSecret: ""
   messaging:
+    external:
+      enabled: false
+      host: ""
+      amqp:
+        port: ""
     remoteAccess: false
+    username: ""
+    password: ""
   utils:
     enabled: false
   admin:
@@ -192,7 +203,7 @@ image:
   registry: docker.io
   repository: czertainly
   name: czertainly-core
-  tag: 2.14.0
+  tag: 2.14.1
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -278,6 +289,16 @@ curl:
       runAsUser: 100
       readOnlyRootFilesystem: true
     # it does not make sense to have probes for curl
+  resources: {}
+      # We follow recommendations and general guidelines to manage resources from:
+      # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
+      # We recommend default requests for CPU and Memory, leaving the limits as a conscious
+      # choice for the user. If you do want to specify your own resources, uncomment the following
+      # lines, adjust them as necessary, and remove the curly braces after 'resources'.
+      # requests:
+      #   cpu: 50m
+      #   memory: 150M
+      # limits: {}
 
 kubectl:
   image:
@@ -380,6 +401,19 @@ javaOpts: ""
 auth:
   header:
     certificate: "ssl-client-cert"
+
+messaging:
+  external:
+    enabled: false
+    host: ""
+    amqp:
+      port: ""
+  remoteAccess: false
+  username: "admin"
+  password: "admin"
+  host: "messaging-service"
+  amqp:
+    port: 5672
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -485,6 +519,7 @@ authOpaPolicies:
 
 messagingService:
   nameOverride: messaging-service
+  enabled: true
 
 schedulerService:
   nameOverride: scheduler-service

@@ -1,3 +1,8 @@
+global:
+  database:
+    pgBouncer:
+      enabled: false
+
 database:
   host: "172.17.0.1"
   # host: "host.docker.internal"

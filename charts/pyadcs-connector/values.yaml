@@ -25,6 +25,10 @@ global:
     name: ""
     username: ""
     password: ""
+    pgBouncer:
+      enabled: true
+      host: "pg-bouncer-service"
+      port: 5432
   trusted:
     certificates: ""
   httpProxy: ""
@@ -102,7 +106,7 @@ image:
   registry: docker.io
   repository: czertainly
   name: czertainly-pyadcs-connector
-  tag: 1.1.2
+  tag: 1.1.3
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
