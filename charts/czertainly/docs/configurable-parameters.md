@@ -171,6 +171,7 @@ The following values may be configured for the CZERTAINLY core service:
 | curl.image.securityContext.runAsNonRoot           | `true`         | Run the container as non-root user                  |
 | curl.image.securityContext.runAsUser              | `100`          | User ID for the container                           |
 | curl.image.securityContext.readOnlyRootFilesystem | `true`         | Run the container with read-only root filesystem    |
+| curl.image.resources                              | `{}`           | The resources for the container                     |
 
 **kubectl**
 

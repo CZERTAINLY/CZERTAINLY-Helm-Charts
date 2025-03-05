@@ -52,6 +52,9 @@ spec:
         - name: wait-for-auth-service
           image: {{ include "czertainly.curl.image" . }}
           imagePullPolicy: {{ .Values.curl.image.pullPolicy }}
+          {{- if .Values.curl.image.resources }}
+          resources: {{- toYaml .Values.curl.image.resources | nindent 12 }}
+          {{- end }}
           {{- if .Values.curl.image.securityContext }}
           securityContext: {{- .Values.curl.image.securityContext | toYaml | nindent 12 }}
           {{- end }}
