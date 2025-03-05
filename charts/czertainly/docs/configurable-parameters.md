@@ -157,7 +157,7 @@ The following values may be configured for the CZERTAINLY core service:
 
 **cURL**
 
-| Parameter   ddd                                      | Default value  | Description                                         |
+| Parameter                                         | Default value  | Description                                         |
 |---------------------------------------------------|----------------|-----------------------------------------------------|
 | curl.image.registry                               | `docker.io`    | Docker registry name for the image                  |
 | curl.image.repository                             | `curlimages`   | Docker image repository name                        |
