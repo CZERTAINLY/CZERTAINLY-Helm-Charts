@@ -86,7 +86,7 @@ image:
   registry: docker.io
   repository: czertainly
   name: czertainly-hashicorp-vault-connector
-  tag: 1.1.1
+  tag: 1.1.2
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent

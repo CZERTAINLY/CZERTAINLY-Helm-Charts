@@ -72,7 +72,7 @@ image:
   registry: harbor.3key.company
   repository: czertainly
   name: czertainly-utils-service
-  tag: 1.0.0
+  tag: 1.0.1
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
