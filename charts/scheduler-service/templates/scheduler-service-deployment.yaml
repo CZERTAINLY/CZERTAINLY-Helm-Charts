@@ -29,6 +29,9 @@ spec:
     metadata:
       labels:
         {{- include "scheduler-service.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/scheduler-service-secret.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}

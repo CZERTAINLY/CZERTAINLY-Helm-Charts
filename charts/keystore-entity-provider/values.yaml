@@ -180,6 +180,8 @@ logging:
 
 javaOpts: ""
 
+podLabels: {}
+
 podAnnotations: {}
 
 podSecurityContext: {}

@@ -33,6 +33,9 @@ spec:
     metadata:
       labels:
         {{- include "czertainly.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       annotations:
         # annotation for vault-agent
         # when the list of the trusted certificates is changed, restart deployment

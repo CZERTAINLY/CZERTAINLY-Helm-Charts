@@ -123,6 +123,8 @@ The following values may be configured:
 | image.securityContext.runAsUser              | `1000`                                 | User ID for the container                                                              |
 | image.securityContext.readOnlyRootFilesystem | `true`                                 | Run the container with read-only root filesystem                                       |
 | image.resources                              | `{}`                                   | The resources for the container                                                        |
+| podLabels                                    | `{}`                                   | Labels to be added to the pod                                                          |
+| podAnnotations                               | `{}`                                   | Annotations to be added to the pod                                                     |
 | podSecurityContext                           | `{}`                                   | Pod security context                                                                   |
 | volumes.ephemeral.type                       | `memory`                               | Ephemeral volume type to be used                                                       |
 | volumes.ephemeral.sizeLimit                  | `"1Mi"`                                | Ephemeral volume size limit                                                            |

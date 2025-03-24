@@ -112,6 +112,8 @@ The following values may be configured:
 | image.securityContext.runAsUser              | `999`          | User ID for the container                                   |
 | image.securityContext.readOnlyRootFilesystem | `true`         | Run the container with read-only root filesystem            |
 | image.resources                              | `{}`           | The resources for the container                             |
+| podLabels                                    | `{}`           | Additional labels for the pod                               |
+| podAnnotations                               | `{}`           | Additional annotations for the pod                          |
 | podSecurityContext.fsGroup                   | `999`          | Pod security context `fsGroup`                              |
 | podSecurityContext.runAsUser                 | `999`          | User ID for running the pod                                 |
 | podSecurityContext.runAsGroup                | `999`          | Group ID for running the pod                                |

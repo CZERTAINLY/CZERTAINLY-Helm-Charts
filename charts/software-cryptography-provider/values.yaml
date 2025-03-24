@@ -181,6 +181,8 @@ logging:
 tokenDelete: "false"
 javaOpts: ""
 
+podLabels: {}
+
 podAnnotations: {}
 
 podSecurityContext: {}
