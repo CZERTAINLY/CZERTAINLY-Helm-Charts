@@ -185,6 +185,8 @@ volumes:
 logging:
   level: "INFO"
 
+podLabels: {}
+
 podAnnotations: {}
 
 podSecurityContext: {}

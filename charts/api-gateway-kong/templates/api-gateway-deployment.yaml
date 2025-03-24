@@ -21,6 +21,9 @@ spec:
     metadata:
       labels:
         {{- include "api-gateway-kong.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       annotations:
         # when the kong declarative config map is changed, restart deployment
         checksum/config: {{ include "api-gateway-kong.config.yml" (dict "global" .Values.global "apiGateway" .Values) | sha256sum }}

@@ -25,6 +25,9 @@ spec:
       {{- end }}
       labels:
         {{- include "auth-opa-policies.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       {{- include "auth-opa-policies.imagePullSecrets" . | indent 6 }}
       {{- if .Values.podSecurityContext }}

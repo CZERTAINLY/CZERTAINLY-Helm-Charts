@@ -114,6 +114,8 @@ The following values may be configured:
 | image.securityContext.runAsUser              | `10001`                  | User ID for the container                                             |
 | image.securityContext.readOnlyRootFilesystem | `true`                   | Run the container with read-only root filesystem                      |
 | image.resources                              | `{}`                     | The resources for the container                                       |
+| podLabels                                    | `{}`                     | Labels to be added to the pod                                         |
+| podAnnotations                               | `{}`                     | Annotations to be added to the pod                                    |
 | podSecurityContext                           | `{}`                     | Pod security context                                                  |
 | database.type                                | `"postgresql"`           | Type of the database, currently only `postgresql` is supported        |
 | database.host                                | `"host.docker.internal"` | Host where is the database located                                    |
