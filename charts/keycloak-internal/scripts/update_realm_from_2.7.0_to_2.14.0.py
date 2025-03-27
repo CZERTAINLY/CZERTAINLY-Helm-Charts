@@ -99,7 +99,7 @@ def update_client_config(access_token, keycloak_url):
 if __name__ == "__main__":
     # If used with --insecure switch script can ignore TLS certificates problems, use with caution
     parser = argparse.ArgumentParser(
-        description="upgrade_realm_from_2.7.0_to_2.14.0.py: script to upgrade realm CZERTAINLY in Keycloak for version 2.14.0")
+        description="update_realm_from_2.7.0_to_2.14.0.py: script to upgrade realm CZERTAINLY in Keycloak for version 2.14.0")
     parser.add_argument('--insecure', action='store_true', default=False,
                         help='disable certificate validation (default: %(default)s)')
     args = parser.parse_args()
