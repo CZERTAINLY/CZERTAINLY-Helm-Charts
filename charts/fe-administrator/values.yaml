@@ -72,7 +72,7 @@ image:
   registry: docker.io
   repository: czertainly
   name: czertainly-frontend-administrator
-  tag: 2.14.0
+  tag: 2.14.1
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -165,6 +165,8 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
+
+podLabels: {}
 
 podAnnotations: {}
 

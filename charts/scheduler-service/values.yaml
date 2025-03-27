@@ -27,6 +27,18 @@ global:
     name: ""
     username: ""
     password: ""
+    pgBouncer:
+      enabled: true
+      host: "pg-bouncer-service"
+      port: 5432
+  messaging:
+    external:
+      enabled: false
+      host: ""
+      amqp:
+        port: ""
+    username: ""
+    password: ""
   # additional init containers that will be added to each pod
   # - name: some-image
   #   image: some-image
@@ -205,6 +217,8 @@ logging:
 
 javaOpts: ""
 
+podLabels: {}
+
 podAnnotations: {}
 
 podSecurityContext: {}
@@ -212,7 +226,13 @@ podSecurityContext: {}
 
 messaging:
   local: false
+  external:
+    enabled: false
+    host: ""
+    amqp:
+      port: ""
+  username: "admin"
+  password: "admin"
   host: "messaging-service"
   amqp:
     port: 5672
-  username: "czertainly"

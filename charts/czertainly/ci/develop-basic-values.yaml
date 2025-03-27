@@ -3,6 +3,8 @@ global:
     pullSecrets:
       - czertainlycred
   database:
+    pgBouncer:
+      enabled: false
     host: "172.17.0.1"
     # host: "host.docker.internal"
   messaging:
