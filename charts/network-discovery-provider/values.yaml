@@ -25,6 +25,10 @@ global:
     name: ""
     username: ""
     password: ""
+    pgBouncer:
+      enabled: true
+      host: "pg-bouncer-service"
+      port: 5432
   httpProxy: ""
   httpsProxy: ""
   noProxy: ""
@@ -184,6 +188,8 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
+
+podLabels: {}
 
 podAnnotations: {}
 

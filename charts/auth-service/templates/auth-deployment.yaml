@@ -24,6 +24,9 @@ spec:
     metadata:
       labels:
         {{- include "auth-service.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       annotations:
         # when the list of the trusted certificates is changed, restart deployment
         checksum/config: {{ include (print $.Template.BasePath "/trusted-certificates-secret.yaml") . | sha256sum }}
@@ -59,6 +62,8 @@ spec:
               value: {{ .Values.createUnknownUsers | quote }}
             - name: AUTH_CREATE_UNKNOWN_ROLES
               value: {{ .Values.createUnknownRoles | quote }}
+            - name: SYNC_POLICY
+              value: {{ .Values.syncPolicy | quote }}
             - name: AUTH_DB_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:

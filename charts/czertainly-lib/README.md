@@ -38,13 +38,6 @@ The following templates are available:
 | `czertainly-lib.trusted.certificates.secret.local.tpl` | Template for the secret containing local additional trusted CA certificates applied for all sub-charts                                                    |
 | `czertainly-lib.trusted.certificates.secret.global`    | Static template for the secret containing trusted certificates                                                                                            |
 
-### Messaging Service
-
-| Identifier                           | Description                                        |
-|--------------------------------------|----------------------------------------------------|
-| `czertainly-lib.messaging.secrets`   | Return the secrets for the messaging service       |
-| `czertainly-lib.messaging.configmap` | Return the configuration for the messaging service |
-
 ## Functions
 
 The following functions are defined:

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pg-bouncer-configmap
+data:
+  pgbouncer.ini: |-
+    {{- include "pg-bouncer.pgbouncer.ini" . | indent 4 }}

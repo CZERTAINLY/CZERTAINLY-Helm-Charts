@@ -96,7 +96,7 @@ The following values may be configured:
 | image.registry                               | `harbor.3key.company`      | Docker registry name for the image                          |
 | image.repository                             | `czertainly`               | Docker image repository name                                |
 | image.name                                   | `czertainly-utils-service` | Docker image name                                           |
-| image.tag                                    | `1.0.0`                    | Docker image tag                                            |
+| image.tag                                    | `1.0.1`                    | Docker image tag                                            |
 | image.digest                                 | `""`                       | Docker image digest, will override tag if specified         |
 | image.pullPolicy                             | `IfNotPresent`             | Image pull policy                                           |
 | image.pullSecrets                            | `[]`                       | Array of secret names for image pull                        |
@@ -106,6 +106,8 @@ The following values may be configured:
 | image.securityContext.runAsUser              | `10001`                    | User ID for the container                                   |
 | image.securityContext.readOnlyRootFilesystem | `true`                     | Run the container with read-only root filesystem            |
 | image.resources                              | `{}`                       | The resources for the container                             |
+| podLabels                                    | `{}`                       | Additional labels for the pod                               |
+| podAnnotations                               | `{}`                       | Additional annotations for the pod                          |
 | podSecurityContext                           | `{}`                       | Pod security context                                        |
 | volumes.ephemeral.type                       | `memory`                   | Ephemeral volume type to be used                            |
 | volumes.ephemeral.sizeLimit                  | `"1Mi"`                    | Ephemeral volume size limit                                 |
