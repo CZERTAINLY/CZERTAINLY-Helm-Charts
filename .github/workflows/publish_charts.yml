@@ -1,25 +1,18 @@
-name: Release develop Charts
+name: Publish Charts
 on:
-  pull_request_target:
-    branches: [develop]
-    types: [closed]
-  workflow_dispatch:
+  push:
+    branches: [ main ]
+    tags:
+      - '*'
 
 jobs:
-  check:
-    # we want to trigger this workflow only if:
-    # - the PR is merged
-    # - it does not contain the skip-workflow label
-    # - the target branch is develop
-    if: >-
-      ${{
-        ( !contains(github.event.pull_request.labels.*.name, 'skip-workflow') ) &&
-        ( contains(github.event.pull_request.labels.*.name, 'workflow-approved') ) &&
-        ( github.event.pull_request.merged ) &&
-        ( github.event.pull_request.base.ref == 'develop' )
-      }}
-    name: Check
+  publish:
+    name: Publish
     runs-on: ubuntu-latest
+
+    env:
+      BRANCH: main
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,53 +32,93 @@ jobs:
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.6.1
 
-      - name: Run chart-testing (list-changed)
-        id: list-changed
+      - name: Detect Changed Charts
+        id: detect-changes
         run: |
-          changed=$(ct list-changed --target-branch develop --since HEAD^1)
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            echo "📦 Detected tag push: $GITHUB_REF"
+
+            # Get previous tag
+            last_tag=$(git for-each-ref --sort=-creatordate --count=2 --format="%(refname:short)" "refs/tags/*" | sed -n '2p')
+            echo "Last tag: $last_tag"
+            echo "last_tag=$last_tag" >> $GITHUB_ENV
+
+            changed=$(ct list-changed --target-branch "$BRANCH" --since "$last_tag")
+          else
+            echo "🔀 Detected branch push (likely a merge)"
+            changed=$(ct list-changed --target-branch "$BRANCH" --since HEAD^1)
+          fi
+          
           echo "${changed}"
+          
           if [[ -n "$changed" ]]; then
+            echo "✅ Charts changed"
             echo "changed=true" >> $GITHUB_ENV
 
-            # multiline string
             echo "changed_charts<<EOF" >> $GITHUB_ENV
             echo "$changed" >> $GITHUB_ENV
             echo "EOF" >> $GITHUB_ENV
+          else
+            echo "ℹ️ No chart changes detected"
+            echo "changed=false" >> $GITHUB_ENV
           fi
 
-      - name: Check if chart version is develop
-        if: env.changed == 'true'
+      - name: Skip checking when no charts changed
+        if: env.changed != 'true'
+        run: echo "No chart changes detected — skipping checks." && exit 0
+
+      - name: Check for Development Versions
+        if: env.changed == 'true' && github.ref_type == 'branch'
         env:
           changed_charts: ${{ env.changed_charts }}
         run: |
-          #echo "${changed}"
-          #echo "${changed_charts}"
-          for CHART in $changed_charts
-          do
-            echo "Checking chart $CHART for develop version"
-            version=$(yq ".version" < ${CHART}/Chart.yaml)
+          for CHART in $changed_charts; do
+            echo "🔍 Checking chart $CHART for development version"
+            version=$(yq ".version" < "${CHART}/Chart.yaml")
             if [[ $version != *-develop ]]; then
-              echo "Chart $CHART changed, but not intended for develop" 
+              echo "❌ Chart $CHART has version '$version' but should be a development version (*-develop)"
+              exit 1
+            fi
+          done
+
+      - name: Check for Release Versions
+        if: env.changed == 'true' && github.ref_type == 'tag'
+        env:
+          changed_charts: ${{ env.changed_charts }}
+        run: |
+          for CHART in $changed_charts; do
+            echo "🔍 Checking chart $CHART for release-ready version"
+            version=$(yq ".version" < "${CHART}/Chart.yaml")
+            if [[ $version == *-develop ]]; then
+              echo "❌ Chart $CHART has development version '$version' in a release branch"
               exit 1
             fi
           done
 
       - name: Run chart-testing (lint)
-        run: ct lint --target-branch develop --since HEAD^1 --check-version-increment=false
+        if: env.changed == 'true'
+        env:
+          last_tag: ${{ env.last_tag }}
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            ct lint --target-branch "$BRANCH" --since $last_tag --check-version-increment=false
+          else
+            ct lint --target-branch "$BRANCH" --since HEAD^1 --check-version-increment=false
+          fi
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@main
         with:
           cosign-release: 'v2.0.0'
 
-      - name: Push develop charts
+      - name: Publish charts
         if: env.changed == 'true'
         env:
           changed_charts: ${{ env.changed_charts }}
           HELM_OCI_REGISTRY: ${{ secrets.HELM_OCI_REGISTRY }}
           HELM_OCI_REPOSITORY: ${{ secrets.HELM_OCI_REPOSITORY }}
-          HELM_USERNAME: ${{ secrets.HELM_USERNAME }}
-          HELM_PASSWORD: ${{ secrets.HELM_PASSWORD }}
+          HELM_USERNAME: ${{ secrets.HARBOR_3KEY_USERNAME }}
+          HELM_PASSWORD: ${{ secrets.HARBOR_3KEY_PASSWORD }}
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
         run: |
@@ -112,20 +145,23 @@ jobs:
           
             echo "Chart $name-$version pushed"
             
-            # SPECIFIC TO HARBOR
-            echo "Check if develop tag 0.0.0 exists and remove it"
-            pulled=$(helm pull oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY/$name --version 0.0.0 2>&1)
-            if [[ $pulled == *"Digest:"* ]]; then
-              removeFrom=$(echo "$pulled" | awk 'FNR == 2 {print $2}')
-              echo "Tag 0.0.0 exists, remove it from $removeFrom"
-              curl --user $HELM_USERNAME:$HELM_PASSWORD --request DELETE --silent --show-error \
-                https://$HELM_OCI_REGISTRY/api/v2.0/projects/$HELM_OCI_REPOSITORY/repositories/$name/artifacts/$removeFrom/tags/0.0.0
+            # create develop tag 0.0.0 only in case of branch push
+            if [[ "${{ github.ref_type }}" == "branch" ]]; then
+              # SPECIFIC TO HARBOR
+              echo "Check if develop tag 0.0.0 exists and remove it"
+              pulled=$(helm pull oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY/$name --version 0.0.0 2>&1)
+              if [[ $pulled == *"Digest:"* ]]; then
+                removeFrom=$(echo "$pulled" | awk 'FNR == 2 {print $2}')
+                echo "Tag 0.0.0 exists, remove it from $removeFrom"
+                curl --user $HELM_USERNAME:$HELM_PASSWORD --request DELETE --silent --show-error \
+                  https://$HELM_OCI_REGISTRY/api/v2.0/projects/$HELM_OCI_REPOSITORY/repositories/$name/artifacts/$removeFrom/tags/0.0.0
+              fi
+            
+              echo "Create new develop tag 0.0.0"
+              curl --user $HELM_USERNAME:$HELM_PASSWORD --request POST --header "Content-Type: application/json" \
+                --silent --show-error --data '{"name":"0.0.0"}' \
+                https://$HELM_OCI_REGISTRY/api/v2.0/projects/$HELM_OCI_REPOSITORY/repositories/$name/artifacts/$digest/tags
             fi
-          
-            echo "Create new develop tag 0.0.0"
-            curl --user $HELM_USERNAME:$HELM_PASSWORD --request POST --header "Content-Type: application/json" \
-              --silent --show-error --data '{"name":"0.0.0"}' \
-              https://$HELM_OCI_REGISTRY/api/v2.0/projects/$HELM_OCI_REPOSITORY/repositories/$name/artifacts/$digest/tags
           }
           
           # we need to release the charts in the correct order because of dependencies
@@ -163,10 +199,3 @@ jobs:
           
           echo "Logging out from $HELM_OCI_REGISTRY"
           helm registry logout $HELM_OCI_REGISTRY
-
-      #- name: Create kind cluster
-      #  uses: helm/kind-action@v1.4.0
-      #  if: steps.list-changed.outputs.changed == 'true'
-
-      #- name: Run chart-testing (install)
-      #  run: ct install
