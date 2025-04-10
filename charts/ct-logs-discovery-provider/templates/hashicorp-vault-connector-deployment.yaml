@@ -68,6 +68,8 @@ spec:
                   key: database_name
             - name: DATABASE_SCHEMA
               value: {{ .Values.database.schema | quote }}
+            - name: DATABASE_SSL_MODE
+              value: {{ .Values.database.sslMode | quote }}
             - name: DATABASE_USER
               valueFrom:
                 secretKeyRef:

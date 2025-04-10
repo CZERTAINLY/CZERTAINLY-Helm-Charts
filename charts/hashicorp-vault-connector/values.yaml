@@ -69,6 +69,7 @@ database:
   port: 5432
   name: "czertainlydb"
   schema: "hvault"
+  sslMode: "disable"
   username: "czertainlyuser"
   password: "your-strong-password"
 

@@ -100,38 +100,39 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                    | Default value                          | Description                                                           |
-|----------------------------------------------|----------------------------------------|-----------------------------------------------------------------------|
-| database.type                                | `"postgresql"`                         | Type of the database, currently only `postgresql` is supported        |
-| database.host                                | `"host.docker.internal"`               | Host where is the database located                                    |
-| database.port                                | `5432`                                 | Port on which is the database listening                               |
-| database.name                                | `"czertainlydb"`                       | Database name                                                         |
-| database.schema                              | `"hvault"`                             | Database schema name                                                  |
-| database.username                            | `"czertainlyuser"`                     | Username to access the database                                       |
-| database.password                            | `"your-strong-password"`               | Password to access the database                                       |
-| trusted.certificates                         | `""`                                   | List of additional CA certificates that should be trusted             |
-| httpProxy                                    | `""`                                   | Proxy to be used to access external resources through http            |
-| httpsProxy                                   | `""`                                   | Proxy to be used to access external resources through https           |
-| httpProxy                                    | `""`                                   | Defines list of external resources that should not use proxy settings |
-| image.registry                               | `docker.io`                            | Docker registry name for the image                                    |
-| image.repository                             | `czertainly`                           | Docker image repository name                                          |
-| image.name                                   | `czertainly-hashicorp-vault-connector` | Docker image name                                                     |
-| image.tag                                    | `1.1.2`                                | Docker image tag                                                      |
-| image.digest                                 | `""`                                   | Docker image digest, will override tag if specified                   |
-| image.pullPolicy                             | `IfNotPresent`                         | Image pull policy                                                     |
-| image.pullSecrets                            | `[]`                                   | Array of secret names for image pull                                  |
-| image.command                                | `[]`                                   | Override the default command                                          |
-| image.args                                   | `[]`                                   | Override the default args                                             |
-| image.securityContext.runAsNonRoot           | `true`                                 | Run the container as non-root user                                    |
-| image.securityContext.runAsUser              | `10001`                                | User ID for the container                                             |
-| image.securityContext.readOnlyRootFilesystem | `true`                                 | Run the container with read-only root filesystem                      |
-| image.resources                              | `{}`                                   | The resources for the container                                       |
-| podLabels                                    | `{}`                                   | Additional labels for the pod                                         |
-| podAnnotations                               | `{}`                                   | Additional annotations for the pod                                    |
-| podSecurityContext                           | `{}`                                   | Pod security context                                                  |
-| logging.level                                | `"INFO"`                               | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
-| service.type                                 | `"ClusterIP"`                          | Type of the service that is exposed                                   |
-| service.port                                 | `8080`                                 | Port number of the exposed service                                    |
+| Parameter                                    | Default value                          | Description                                                                                                                                   |
+|----------------------------------------------|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| database.type                                | `"postgresql"`                         | Type of the database, currently only `postgresql` is supported                                                                                |
+| database.host                                | `"host.docker.internal"`               | Host where is the database located                                                                                                            |
+| database.port                                | `5432`                                 | Port on which is the database listening                                                                                                       |
+| database.name                                | `"czertainlydb"`                       | Database name                                                                                                                                 |
+| database.schema                              | `"hvault"`                             | Database schema name                                                                                                                          |
+| database.sslMode                             | `"disable"`                            | SSL mode for the database connection, see [possible values](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSLMODE) |
+| database.username                            | `"czertainlyuser"`                     | Username to access the database                                                                                                               |
+| database.password                            | `"your-strong-password"`               | Password to access the database                                                                                                               |
+| trusted.certificates                         | `""`                                   | List of additional CA certificates that should be trusted                                                                                     |
+| httpProxy                                    | `""`                                   | Proxy to be used to access external resources through http                                                                                    |
+| httpsProxy                                   | `""`                                   | Proxy to be used to access external resources through https                                                                                   |
+| httpProxy                                    | `""`                                   | Defines list of external resources that should not use proxy settings                                                                         |
+| image.registry                               | `docker.io`                            | Docker registry name for the image                                                                                                            |
+| image.repository                             | `czertainly`                           | Docker image repository name                                                                                                                  |
+| image.name                                   | `czertainly-hashicorp-vault-connector` | Docker image name                                                                                                                             |
+| image.tag                                    | `1.1.2`                                | Docker image tag                                                                                                                              |
+| image.digest                                 | `""`                                   | Docker image digest, will override tag if specified                                                                                           |
+| image.pullPolicy                             | `IfNotPresent`                         | Image pull policy                                                                                                                             |
+| image.pullSecrets                            | `[]`                                   | Array of secret names for image pull                                                                                                          |
+| image.command                                | `[]`                                   | Override the default command                                                                                                                  |
+| image.args                                   | `[]`                                   | Override the default args                                                                                                                     |
+| image.securityContext.runAsNonRoot           | `true`                                 | Run the container as non-root user                                                                                                            |
+| image.securityContext.runAsUser              | `10001`                                | User ID for the container                                                                                                                     |
+| image.securityContext.readOnlyRootFilesystem | `true`                                 | Run the container with read-only root filesystem                                                                                              |
+| image.resources                              | `{}`                                   | The resources for the container                                                                                                               |
+| podLabels                                    | `{}`                                   | Additional labels for the pod                                                                                                                 |
+| podAnnotations                               | `{}`                                   | Additional annotations for the pod                                                                                                            |
+| podSecurityContext                           | `{}`                                   | Pod security context                                                                                                                          |
+| logging.level                                | `"INFO"`                               | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`                                                                                   |
+| service.type                                 | `"ClusterIP"`                          | Type of the service that is exposed                                                                                                           |
+| service.port                                 | `8080`                                 | Port number of the exposed service                                                                                                            |
 
 #### Customization parameters
 
