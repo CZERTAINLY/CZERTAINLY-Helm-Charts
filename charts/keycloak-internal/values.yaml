@@ -258,7 +258,8 @@ keycloak:
   httpRelativePath: "/kc"
   httpEnabled: true
   # Use forwarded or xforwarded headers (more info: https://www.keycloak.org/server/all-config#category-proxy)
-  proxyHeaders: forwarded
+  # we use xforwarded headers in czertainly, therefore we set it as default
+  proxyHeaders: xforwarded
 
 # configuration of the CZERTAINLY realm
 czertainly:
