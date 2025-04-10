@@ -25,6 +25,9 @@ spec:
     metadata:
       labels:
         {{- include "messaging-rabbitmq.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       annotations:
         # when the messaging config map is changed, restart deployment
         checksum/config: {{ include "messaging-rabbitmq.rabbitmq.conf" (dict "global" .Values.global "messagingService" .Values) | sha256sum }}

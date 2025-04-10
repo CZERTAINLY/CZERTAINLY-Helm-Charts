@@ -181,6 +181,8 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: "api-gateway-sa"
 
+podLabels: {}
+
 podAnnotations: {}
 
 podSecurityContext: {}

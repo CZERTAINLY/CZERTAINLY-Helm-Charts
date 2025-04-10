@@ -111,6 +111,8 @@ The following values may be configured:
 | image.securityContext.allowPrivilegeEscalation | `false`                  | Allow privilege escalation for the container                          |
 | image.securityContext.capabilities.drop        | `['all']`                | Drop all capabilities for the container                               |
 | image.resources                                | `{}`                     | The resources for the container                                       |
+| podLabels                                      | `{}`                     | Labels to be added to the pod                                         |
+| podAnnotations                                 | `{}`                     | Annotations to be added to the pod                                    |
 | podSecurityContext                             | `{}`                     | Pod security context                                                  |
 | database.host                                  | `"host.docker.internal"` | Host where is the database located                                    |
 | database.port                                  | `5432`                   | Port on which is the database listening                               |

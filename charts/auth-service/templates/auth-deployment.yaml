@@ -24,6 +24,9 @@ spec:
     metadata:
       labels:
         {{- include "auth-service.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       annotations:
         # when the list of the trusted certificates is changed, restart deployment
         checksum/config: {{ include (print $.Template.BasePath "/trusted-certificates-secret.yaml") . | sha256sum }}
