@@ -31,7 +31,9 @@ metadata:
     {{- end }}
   {{- end }}
   {{- with .Values.ingress.annotations }}
-    {{- toYaml . | nindent 4 }}
+    {{- range $key, $val := . }}
+    {{ $key }}: {{ tpl $val $ | quote }}
+    {{- end }}
   {{- end }}
 spec:
   tls:
