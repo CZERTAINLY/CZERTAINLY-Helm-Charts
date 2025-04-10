@@ -177,8 +177,7 @@ The following values may be configured:
 | keycloak.admin.password         | `"admin"`     | Initial Keycloak master realm administrator password                                                                                              |
 | keycloak.httpRelativePath       | `/kc`         | Set the path relative to `/` for serving resources. **Hardcoded in keycloak-optimized image, change only if you know what you are doing!**        |
 | keycloak.httpEnabled            | `true`        | Enables the HTTP listener                                                                                                                         |
-| keycloak.proxyHeaders           | `xforwarded`  | Should server accept `forwarded` or `xforwarded` values? See [officical documentation](https://www.keycloak.org/server/all-config#category-proxy) |
-
+| keycloak.proxyHeaders           | `xforwarded`  | Should server accept `forwarded` or `xforwarded` values? See [official documentation](https://www.keycloak.org/server/all-config#category-proxy) |
 #### CZERTAINLY realm parameters
 
 | Parameter                         | Default value              | Description                                                                           |
