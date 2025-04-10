@@ -1,0 +1,231 @@
+name: Test Charts
+on:
+  workflow_run:
+    workflows: [ "Check PR" ]
+    types:
+      - completed
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres:15
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: czertainlyuser
+          POSTGRES_PASSWORD: your-strong-password
+          POSTGRES_DB: czertainlydb
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        volumes:
+          - ${{ github.workspace }}/initdb:/docker-entrypoint-initdb.d
+
+      mail:
+        image: mailserver/docker-mailserver:13.3.1
+        ports:
+          - 25:25
+        env:
+          SMTP_ONLY: 1
+          OVERRIDE_HOSTNAME: czertainly.helm
+
+    steps:
+      - name: Get PR context
+        id: pr
+        run: |
+          echo "PR_NUMBER=${{ github.event.workflow_run.pull_requests[0].number }}" >> $GITHUB_ENV
+          echo "HEAD_SHA=${{ github.event.workflow_run.pull_requests[0].head.sha }}" >> $GITHUB_ENV
+
+      - name: Generate token
+        id: app_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.GH_APP_ID }}
+          private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+
+      - name: Create GitHub Check (in_progress)
+        id: create_check
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app_token.outputs.token }}
+          script: |
+            const check = await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: "Test Charts",
+              head_sha: process.env.HEAD_SHA,
+              status: "in_progress"
+            });
+            core.setOutput("check_id", check.data.id);
+
+      # Request GitHub API for PR data
+      - name: Request GitHub API for PR data
+        if: github.event.workflow_run.event == 'pull_request'
+        uses: octokit/request-action@v2.x
+        id: get_pr_data
+        with:
+          route: GET /repos/${{ github.event.repository.full_name }}/pulls/${{ github.event.workflow_run.pull_requests[0].number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Set environment vars for base and head branches
+      - name: Set branch vars
+        id: set_branches
+        run: |
+          echo "BASE_BRANCH=$(echo '${{ fromJson(steps.get_pr_data.outputs.data).base.ref }}')" >> $GITHUB_ENV
+          echo "PR_BRANCH=$(echo '${{ fromJson(steps.get_pr_data.outputs.data).head.ref }}')" >> $GITHUB_ENV
+          echo "📌 BASE_BRANCH: ${{ fromJson(steps.get_pr_data.outputs.data).base.ref }}"
+          echo "📌 PR_BRANCH: ${{ fromJson(steps.get_pr_data.outputs.data).head.ref }}"
+
+      # Checkout the PR branch
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.workflow_run.head_repository.full_name }}
+          ref: ${{ github.event.workflow_run.head_branch }}
+          fetch-depth: 0
+
+      # Checkout the base branch to keep the information about the new lines of code
+      - name: Checkout base branch
+        if: github.event.workflow_run.event == 'pull_request'
+        run: |
+          git remote add upstream ${{ github.event.repository.clone_url }}
+          git fetch upstream
+          git checkout -B "$BASE_BRANCH" upstream/"$BASE_BRANCH"
+          git checkout "$PR_BRANCH"
+          git clean -ffdx && git reset --hard HEAD
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.10.0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          check-latest: true
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.6.1
+
+      - name: Detect Changed Charts
+        id: detect-changes
+        run: |
+          echo "Using base branch: $BASE_BRANCH"
+          echo "Using PR branch: $PR_BRANCH"
+
+          changed=$(ct list-changed --target-branch "$BASE_BRANCH")
+          echo "${changed}"
+
+          if [[ -n "$changed" ]]; then
+            echo "✅ Charts changed"
+            echo "changed=true" >> $GITHUB_ENV
+
+            echo "changed_charts<<EOF" >> $GITHUB_ENV
+            echo "$changed" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          else
+            echo "ℹ️ No chart changes detected"
+            echo "changed=false" >> $GITHUB_ENV
+          fi
+
+      - name: Skip testing when no charts changed
+        if: env.changed != 'true'
+        run: echo "No chart changes detected — skipping install tests." && exit 0
+
+      - name: Check for Development Versions (Non-release PRs)
+        if: env.changed == 'true' && !startsWith(env.PR_BRANCH, 'release')
+        env:
+          changed_charts: ${{ env.changed_charts }}
+        run: |
+          for CHART in $changed_charts; do
+            echo "🔍 Checking chart $CHART for development version"
+            version=$(yq ".version" < "${CHART}/Chart.yaml")
+            if [[ $version != *-develop ]]; then
+              echo "❌ Chart $CHART has version '$version' but should be a development version (*-develop)"
+              exit 1
+            fi
+          done
+
+      - name: Check for Non-Develop Versions (Release PRs)
+        if: env.changed == 'true' && startsWith(env.PR_BRANCH, 'release')
+        env:
+          changed_charts: ${{ env.changed_charts }}
+        run: |
+          for CHART in $changed_charts; do
+            echo "🔍 Checking chart $CHART for release-ready version"
+            version=$(yq ".version" < "${CHART}/Chart.yaml")
+            if [[ $version == *-develop ]]; then
+              echo "❌ Chart $CHART has development version '$version' in a release branch"
+              exit 1
+            fi
+          done
+
+      - name: Run chart-testing (lint)
+        if: env.changed == 'true'
+        run: ct lint --target-branch "$BASE_BRANCH" --check-version-increment=false
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.9.0
+        if: env.changed == 'true'
+
+      - name: Create testing namespace
+        if: env.changed == 'true'
+        run: kubectl create namespace chart-testing
+
+      - name: Create pull secret
+        if: env.changed == 'true'
+        env:
+          REGISTRY_SERVER: ${{ secrets.REGISTRY_SERVER }}
+          REGISTRY_USERNAME: ${{ secrets.HARBOR_3KEY_USERNAME }}
+          REGISTRY_PASSWORD: ${{ secrets.HARBOR_3KEY_PASSWORD }}
+          REGISTRY_EMAIL: ${{ secrets.REGISTRY_EMAIL }}
+        run: |
+          echo "Creating pull secret for private registry"
+          kubectl create secret -n chart-testing docker-registry czertainlycred \
+            --docker-server=$REGISTRY_SERVER \
+            --docker-username=$REGISTRY_USERNAME \
+            --docker-password=$REGISTRY_PASSWORD \
+            --docker-email=$REGISTRY_EMAIL
+
+      - name: Run chart-testing (install)
+        if: env.changed == 'true'
+        run: ct install --namespace chart-testing --target-branch "$BASE_BRANCH" --excluded-charts czertainly-lib
+
+      - name: Finalize GitHub Check
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app_token.outputs.token }}
+          script: |
+            const checkId = "${{ steps.create_check.outputs.check_id }}";
+            const status = "${{ job.status }}";
+            const conclusions = {
+              success: "success",
+              failure: "failure",
+              cancelled: "cancelled"
+            };
+            const conclusion = conclusions[status] || "failure";
+
+            await github.rest.checks.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              check_run_id: checkId,
+              completed_at: new Date().toISOString(),
+              status: "completed",
+              conclusion,
+              output: {
+                title: "Test Charts Result",
+                summary: `✅ Helm chart test concluded with status: **${conclusion}**`,
+              }
+            });

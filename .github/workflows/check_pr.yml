@@ -1,0 +1,90 @@
+name: Check PR
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+
+    env:
+      BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+      PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history is better for change detection
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.10.0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          check-latest: true
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.6.1
+
+      - name: Detect Changed Charts
+        id: detect-changes
+        run: |
+          echo "Using base branch: $BASE_BRANCH"
+          echo "Using PR branch: $PR_BRANCH"
+          
+          changed=$(ct list-changed --target-branch "$BASE_BRANCH")
+          echo "${changed}"
+          
+          if [[ -n "$changed" ]]; then
+            echo "✅ Charts changed"
+            echo "changed=true" >> $GITHUB_ENV
+
+            echo "changed_charts<<EOF" >> $GITHUB_ENV
+            echo "$changed" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          else
+            echo "ℹ️ No chart changes detected"
+            echo "changed=false" >> $GITHUB_ENV
+          fi
+
+      - name: Skip checking when no charts changed
+        if: env.changed != 'true'
+        run: echo "No chart changes detected — skipping checks." && exit 0
+
+      - name: Check for Development Versions (Non-release PRs)
+        if: env.changed == 'true' && !startsWith(env.PR_BRANCH, 'release')
+        env:
+          changed_charts: ${{ env.changed_charts }}
+        run: |
+          for CHART in $changed_charts; do
+            echo "🔍 Checking chart $CHART for development version"
+            version=$(yq ".version" < "${CHART}/Chart.yaml")
+            if [[ $version != *-develop ]]; then
+              echo "❌ Chart $CHART has version '$version' but should be a development version (*-develop)"
+              exit 1
+            fi
+          done
+
+      - name: Check for Non-Develop Versions (Release PRs)
+        if: env.changed == 'true' && startsWith(env.PR_BRANCH, 'release')
+        env:
+          changed_charts: ${{ env.changed_charts }}
+        run: |
+          for CHART in $changed_charts; do
+            echo "🔍 Checking chart $CHART for release-ready version"
+            version=$(yq ".version" < "${CHART}/Chart.yaml")
+            if [[ $version == *-develop ]]; then
+              echo "❌ Chart $CHART has development version '$version' in a release branch"
+              exit 1
+            fi
+          done
+
+      - name: Run chart-testing (lint)
+        if: env.changed == 'true'
+        run: ct lint --target-branch "$BASE_BRANCH" --check-version-increment=false
