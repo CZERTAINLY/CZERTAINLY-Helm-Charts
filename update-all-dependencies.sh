@@ -63,6 +63,9 @@ helm dependency update charts/software-cryptography-provider --skip-refresh
 echo "Updating dependencies for utils-service..."
 helm dependency update charts/utils-service --skip-refresh
 
+echo "Updating dependencies for webhook-notification-provider..."
+helm dependency update charts/webhook-notification-provider --skip-refresh
+
 echo "Updating dependencies for x509-compliance-provider..."
 helm dependency update charts/x509-compliance-provider --skip-refresh
 

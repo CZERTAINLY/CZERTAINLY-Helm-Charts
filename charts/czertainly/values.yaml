@@ -575,6 +575,10 @@ emailNotificationProvider:
   nameOverride: email-notification-provider
   enabled: false
 
+webhookNotificationProvider:
+  nameOverride: webhook-notification-provider
+  enabled: false
+
 #
 # supportive optional components
 #

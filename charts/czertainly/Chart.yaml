@@ -97,6 +97,14 @@ dependencies:
       - notification-provider
     version: 1.1.0-4
     alias: emailNotificationProvider
+  - condition: webhookNotificationProvider.enabled
+    name: webhook-notification-provider
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../webhook-notification-provider
+    tags:
+      - notification-provider
+    version: 1.0.0-develop
+    alias: webhookNotificationProvider
   - condition: hashicorpVaultConnector.enabled
     name: hashicorp-vault-connector
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -188,4 +196,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.14.2
+version: 2.14.2-1-develop

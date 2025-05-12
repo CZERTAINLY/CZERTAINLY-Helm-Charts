@@ -41,6 +41,8 @@ There is one global [CZERTAINLY Chart](charts/czertainly) that acts as umbrella 
 - [CT Logs Discovery Provider](charts/ct-logs-discovery-provider)
 - [Keystore Entity Provider](charts/keystore-entity-provider)
 - [Software Cryptography Provider](charts/software-cryptography-provider)
+- [Email Notification Provider](charts/email-notification-provider)
+- [Webhook Notification Provider](charts/webhook-notification-provider)
 
 **Optional components**
 

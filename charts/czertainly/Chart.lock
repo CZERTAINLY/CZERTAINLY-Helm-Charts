@@ -32,6 +32,9 @@ dependencies:
 - name: email-notification-provider
   repository: file://../email-notification-provider
   version: 1.1.0-4
+- name: webhook-notification-provider
+  repository: file://../webhook-notification-provider
+  version: 1.0.0-develop
 - name: hashicorp-vault-connector
   repository: file://../hashicorp-vault-connector
   version: 1.1.2-1
@@ -62,5 +65,5 @@ dependencies:
 - name: pg-bouncer
   repository: file://../pg-bouncer
   version: 1.24.0-p0-1
-digest: sha256:44c8b7ef66b6e4c03eea89730e1653ff2fd4e87e9f0811141d6d4ce3f3272df5
-generated: "2025-04-10T15:59:16.188631+02:00"
+digest: sha256:b3a76d57a04f6c7d70c27238db73ee973b54276e31971693a4cd1ecd7039c6bd
+generated: "2025-05-12T16:37:01.254643+02:00"

@@ -91,6 +91,11 @@ spec:
             -d '{"name": "CT-Logs-Discovery-Provider","url": "http://ct-logs-discovery-provider-service:{{ .Values.ctLogsDiscoveryProvider.service.port }}","authType": "none"}' \
             http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
             {{- end }}
+            {{- if .Values.webhookNotificationProvider.enabled }}
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "Webhook-Notification-Provider","url": "http://webhook-notification-provider-service:{{ .Values.webhookNotificationProvider.service.port }}","authType": "none"}' \
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            {{- end }}
             echo "all done"
           {{- end }}
           {{- if .Values.kubectl.image.args }}
