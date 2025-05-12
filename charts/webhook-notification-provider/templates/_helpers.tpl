@@ -65,7 +65,7 @@ Return the image pull secret names
 {{- end -}}
 
 {{/*
-Retun the ephemeral volume configuration
+Return the ephemeral volume configuration
 */}}
 {{- define "webhook-notification-provider.ephemeralVolume" -}}
 {{ include "czertainly-lib.volumes.ephemeral" (dict "volumes" .Values.volumes "global" .Values.global.volumes) }}
