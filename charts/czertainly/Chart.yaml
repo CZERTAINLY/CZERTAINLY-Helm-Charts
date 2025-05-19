@@ -178,7 +178,7 @@ dependencies:
     tags:
       - database
       - pgbouncer
-    version: 1.24.0-p0-1
+    version: 1.24.0-p0-2-develop
     alias: pgBouncer
 keywords:
   - czertainly
