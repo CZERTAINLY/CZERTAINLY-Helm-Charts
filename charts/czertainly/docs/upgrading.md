@@ -27,6 +27,16 @@ webhookNotificationProvider:
   enabled: false
 ```
 
+### User option removed from PgBouncer
+
+The `user` configuration option was removed from the `pg-bouncer` sub-chart to avoid conflicts with the running user in the container for different K8s distributions. If you need to set the user, you can do it by setting the following properties in the `pgBouncer` section of the `values.yaml` file:
+```yaml
+pgBouncer:
+  section:
+    pgbouncer:
+      user: "postgres"
+```
+
 ## To 2.14.1
 
 ### External messaging support
