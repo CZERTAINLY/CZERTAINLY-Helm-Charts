@@ -7,9 +7,7 @@
     {
       "matchHost": "harbor.3key.company",
       "username": "github-actions",
-      "encrypted": {
-        "password": "wcFMA/xDdHCJBTolAQ//WyRw1XfU++XiyGMoMcBbJI+o1aT56dh9SveuR4AI41zj86973kfiQ/OHXwQ3PSW5zRnKtJ2w7kbmF48crYDS2aNkMUK8YbYgk28JpHZN2l9LvGsXfvqVFQQtiJ0liV2obfAq2X9+DdkuogPpyjfmw5u+4vVQOAJimannSgs3tmD9lkl6KttiDyyQy9xQ3iTeQhl8x4/5afe1fq7APxjG95hs4Fg0n3VltPVtpuxESGEU37gQxw21t8jE5xiNjnw1u4n4TmYpYQ59pRQ1CWBuEGPKbfH90UI88AcYxb+KlVYkO6ahmTD9I9xHqC6Ty2lY9DdJ+XLYexDpBYIjyB87xfDsyeAdLptisZfdlVfUpCwtiLSPyeH6W2j4z7Pb7zzKCtft3mmDKzcxx4MTVq3e7Uzy+osaGNFrG6rbRs1vpiNbD/VRLx7TXWU1C+jz2UoZgPebDssARdTfo1/LC7+liOoigNKcODBiH2bF/m89RfiOHySiEWy3icb1l6FdLk1pSwxxo3iKMkQNa5QsoBQPnIurBBJBiZCXsfBTgmYqDH97xV2KxEWVXpU+aofEizCe9d35+1mb3i1hb8SdFBVkOzmYXvQvfK/x6NnWxpdS+x/6aKhsnMtU+Pz9fKPS/YoIO8LYfUVoW94/yf4Xa6kszwyXkGZKveDYUg+5Sun08gPSeQF4j242/1tk+tNR/B/4YmtN8WWHn5TrrKGvNpPw0d3RpyJOpxn8sxene2lMfZ6PFVuHVY0y2wabZ0r6ZITKt1K31TiM6a9V1eWXTld1ZeLIO6Ul4oeF8ko1m3jjYwh8ZQkNbczHHWql7SWQatWGOEdGOIWd1tXFcCs"
-      }
+      "password": "{{ secrets.HARBOR_GITHUB_ACTIONS_PASSWORD }}"
     }
   ]
 }
