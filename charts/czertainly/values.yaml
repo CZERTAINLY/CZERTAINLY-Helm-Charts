@@ -215,7 +215,7 @@ image:
   # default security context
   securityContext:
     runAsNonRoot: true
-    runAsUser: 10001
+    # runAsUser: 10001
     readOnlyRootFilesystem: true
   # probes configuration
   probes:
@@ -272,8 +272,8 @@ curl:
   image:
     # default registry name
     registry: docker.io
-    repository: curlimages
-    name: curl
+    repository: czertainly
+    name: czertainly-curl
     tag: 8.1.1
     # the digest to be used instead of the tag
     digest: ""
@@ -286,10 +286,10 @@ curl:
     # default security context
     securityContext:
       runAsNonRoot: true
-      runAsUser: 100
+      # runAsUser: 100
       readOnlyRootFilesystem: true
     # it does not make sense to have probes for curl
-  resources: {}
+    resources: {}
       # We follow recommendations and general guidelines to manage resources from:
       # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
       # We recommend default requests for CPU and Memory, leaving the limits as a conscious
@@ -304,8 +304,8 @@ kubectl:
   image:
     # default registry name
     registry: docker.io
-    repository: bitnami
-    name: kubectl
+    repository: czertainly
+    name: czertainly-kubectl
     tag: 1.27.3
     # the digest to be used instead of the tag
     digest: ""
@@ -318,7 +318,7 @@ kubectl:
     # default security context
     securityContext:
       runAsNonRoot: true
-      runAsUser: 1001
+      # runAsUser: 1001
       readOnlyRootFilesystem: true
     # it does not make sense to have probes for kubectl
 
@@ -326,8 +326,8 @@ opa:
   image:
     # default registry name
     registry: docker.io
-    repository: openpolicyagent
-    name: opa
+    repository: czertainly
+    name: czertainly-opa
     tag: 0.53.0-rootless
     # the digest to be used instead of the tag
     digest: ""
@@ -340,7 +340,7 @@ opa:
     # default security context
     securityContext:
       runAsNonRoot: true
-      runAsUser: 1000
+      # runAsUser: 1000
       readOnlyRootFilesystem: true
     # probes configuration
     probes:

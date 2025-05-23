@@ -75,21 +75,21 @@ Return the image name
 {{- end -}}
 
 {{/*
-Return the image name of the auth-service
+Return the image name of the OPA
 */}}
 {{- define "czertainly.opa.image" -}}
 {{ include "czertainly-lib.images.image" (dict "image" .Values.opa.image "global" .Values.global) }}
 {{- end -}}
 
 {{/*
-Return the image name of the auth-service
+Return the image name of the curl
 */}}
 {{- define "czertainly.curl.image" -}}
 {{ include "czertainly-lib.images.image" (dict "image" .Values.curl.image "global" .Values.global) }}
 {{- end -}}
 
 {{/*
-Return the image name of the auth-service
+Return the image name of the kubectl
 */}}
 {{- define "czertainly.kubectl.image" -}}
 {{ include "czertainly-lib.images.image" (dict "image" .Values.kubectl.image "global" .Values.global) }}

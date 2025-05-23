@@ -8,14 +8,14 @@ metadata:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: netcat
-      image: busybox:1.37.0
+    - name: curl
+      image: {{ include "pg-bouncer.curl.image" . }}
       command:
         - /bin/sh
         - -c
         - |
-          echo "Attempting to connect to pg-bouncer-service on port 5432..."
-          if nc -zvw5 pg-bouncer-service 5432; then
+          echo "Attempting to connect to pg-bouncer-service on port 5432 with curl..."
+          if curl --connect-timeout 5 --silent --output /dev/null telnet://pg-bouncer-service:5432; then
             echo "Connection succeeded!"
             exit 0
           else

@@ -93,7 +93,7 @@ The following values may be configured:
 
 | Parameter                                    | Default value              | Description                                                 |
 |----------------------------------------------|----------------------------|-------------------------------------------------------------|
-| image.registry                               | `harbor.3key.company`      | Docker registry name for the image                          |
+| image.registry                               | `docker.io`                | Docker registry name for the image                          |
 | image.repository                             | `czertainly`               | Docker image repository name                                |
 | image.name                                   | `czertainly-utils-service` | Docker image name                                           |
 | image.tag                                    | `1.0.1`                    | Docker image tag                                            |
@@ -103,7 +103,6 @@ The following values may be configured:
 | image.command                                | `[]`                       | Override the default command                                |
 | image.args                                   | `[]`                       | Override the default args                                   |
 | image.securityContext.runAsNonRoot           | `true`                     | Run the container as non-root user                          |
-| image.securityContext.runAsUser              | `10001`                    | User ID for the container                                   |
 | image.securityContext.readOnlyRootFilesystem | `true`                     | Run the container with read-only root filesystem            |
 | image.resources                              | `{}`                       | The resources for the container                             |
 | podLabels                                    | `{}`                       | Additional labels for the pod                               |

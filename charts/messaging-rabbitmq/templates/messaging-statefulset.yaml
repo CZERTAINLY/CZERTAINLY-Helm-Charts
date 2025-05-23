@@ -42,23 +42,6 @@ spec:
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ template "messaging-rabbitmq.serviceAccountName" . }}
-      #initContainers:
-        # Since k8s 1.9.4, config maps mount read-only volumes. Since the Docker image also writes to the config file,
-        # the file must be mounted as read-write. We use init containers to copy from the config map read-only
-        # path, to a read-write path
-      #  - name: rabbitmq-config
-      #    image: busybox:1.32.0
-      #    volumeMounts:
-      #      - name: configuration
-      #        mountPath: /tmp/rabbitmq
-      #      - name: rabbitmq-config-rw
-      #        mountPath: /etc/rabbitmq
-      #    command:
-      #      - sh
-      #      - -c
-            # the newline is needed since the Docker image entrypoint scripts appends to the config file
-      #      - cp /tmp/rabbitmq/rabbitmq.conf /etc/rabbitmq/rabbitmq.conf && echo '' >> /etc/rabbitmq/rabbitmq.conf;
-      #        cp /tmp/rabbitmq/enabled_plugins /etc/rabbitmq/enabled_plugins
       {{- if $additionalInitContainers }}
       initContainers:
         {{- $additionalInitContainers | nindent 8 }}

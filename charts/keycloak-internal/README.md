@@ -120,7 +120,6 @@ The following values may be configured:
 | image.command                                | `[]`                                   | Override the default command                                                           |
 | image.args                                   | `[start, --optimized, --import-realm]` | Override the default args                                                              |
 | image.securityContext.runAsNonRoot           | `true`                                 | Run the container as non-root user                                                     |
-| image.securityContext.runAsUser              | `1000`                                 | User ID for the container                                                              |
 | image.securityContext.readOnlyRootFilesystem | `true`                                 | Run the container with read-only root filesystem                                       |
 | image.resources                              | `{}`                                   | The resources for the container                                                        |
 | podLabels                                    | `{}`                                   | Labels to be added to the pod                                                          |
@@ -164,7 +163,6 @@ The following values may be configured:
 | theme.image.command                                | `[]`                        | Override the default command for the container      |
 | theme.image.args                                   | `[]`                        | Arguments passed to the entrypoint in the container |
 | theme.image.securityContext.runAsNonRoot           | `true`                      | Run the container as non-root user                  |
-| theme.image.securityContext.runAsUser              | `10001`                     | User ID for the container                           |
 | theme.image.securityContext.readOnlyRootFilesystem | `true`                      | Run the container with read-only root filesystem    |
 | theme.image.resources                              | {}                          | Specify requests and limits for the image if needed |
 

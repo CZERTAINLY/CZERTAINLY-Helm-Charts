@@ -37,6 +37,10 @@ pgBouncer:
       user: "postgres"
 ```
 
+### Removed default runAsUser option
+
+The default `runAsUser` was removed from the Helm chart for optimized deployment on different K8s distributions, including OpenShift. The `runAsUser` value can be set in the `securityContext` and `podSecurityContext` sections of the `values.yaml` file.
+
 ## To 2.14.1
 
 ### External messaging support

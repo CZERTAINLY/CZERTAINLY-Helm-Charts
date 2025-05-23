@@ -11,7 +11,7 @@ metadata:
 spec:
   containers:
     - name: curl
-      image: curlimages/curl:8.1.1
+      image: {{ include "messaging-rabbitmq.curl.image" . }}
       command:
         - /bin/sh
         - -c

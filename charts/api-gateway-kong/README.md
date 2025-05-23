@@ -97,16 +97,15 @@ The following values may be configured:
 | Parameter                                    | Default value                | Description                                                                                |
 |----------------------------------------------|------------------------------|--------------------------------------------------------------------------------------------|
 | image.registry                               | `docker.io`                  | Docker registry name for the image                                                         |
-| image.repository                             | `revomatico`                 | Docker image repository name                                                               |
-| image.name                                   | `docker-kong-oidc`           | Docker image name                                                                          |
-| image.tag                                    | `3.4.0-2`                    | Docker image tag                                                                           |
+| image.repository                             | `czertainly`                 | Docker image repository name                                                               |
+| image.name                                   | `czertainly-kong`            | Docker image name                                                                          |
+| image.tag                                    | `3.8.0`                      | Docker image tag                                                                           |
 | image.digest                                 | `""`                         | Docker image digest, will override tag if specified                                        |
 | image.pullPolicy                             | `IfNotPresent`               | Image pull policy                                                                          |
 | image.pullSecrets                            | `[]`                         | Array of secret names for image pull                                                       |
 | image.command                                | `[]`                         | Override the default command                                                               |
 | image.args                                   | `[]`                         | Override the default args                                                                  |
 | image.securityContext.runAsNonRoot           | `true`                       | Run the container as non-root user                                                         |
-| image.securityContext.runAsUser              | `100`                        | User ID for the container                                                                  |
 | image.securityContext.readOnlyRootFilesystem | `true`                       | Run the container with read-only root filesystem                                           |
 | image.resources                              | `{}`                         | The resources for the container                                                            |
 | podLabels                                    | `{}`                         | Additional labels for the pod                                                              |
@@ -155,20 +154,19 @@ The following values may be configured:
 
 **kubectl**
 
-| Parameter                                            | Default value     | Description                                         |
-|------------------------------------------------------|-------------------|-----------------------------------------------------|
-| kubectl.image.registry                               | `docker.io`       | Docker registry name for the image                  |
-| kubectl.image.repository                             | `bitnami`         | Docker image repository name                        |
-| kubectl.image.name                                   | `kubectl`         | Docker image name                                   |
-| kubectl.image.tag                                    | `1.27.3`          | Docker image tag                                    |
-| kubectl.image.digest                                 | `""`              | Docker image digest, will override tag if specified |
-| kubectl.image.pullPolicy                             | `IfNotPresent`    | Image pull policy                                   |
-| kubectl.image.pullSecrets                            | `[]`              | Array of secret names for image pull                |
-| kubectl.image.command                                | `[]`              | Override the default command                        |
-| kubectl.image.args                                   | `[]`              | Override the default args                           |
-| kubectl.image.securityContext.runAsNonRoot           | `true`            | Run the container as non-root user                  |
-| kubectl.image.securityContext.runAsUser              | `1001`            | User ID for the container                           |
-| kubectl.image.securityContext.readOnlyRootFilesystem | `true`            | Run the container with read-only root filesystem    |
+| Parameter                                            | Default value        | Description                                         |
+|------------------------------------------------------|----------------------|-----------------------------------------------------|
+| kubectl.image.registry                               | `docker.io`          | Docker registry name for the image                  |
+| kubectl.image.repository                             | `czertainly`         | Docker image repository name                        |
+| kubectl.image.name                                   | `czertainly-kubectl` | Docker image name                                   |
+| kubectl.image.tag                                    | `1.27.3`             | Docker image tag                                    |
+| kubectl.image.digest                                 | `""`                 | Docker image digest, will override tag if specified |
+| kubectl.image.pullPolicy                             | `IfNotPresent`       | Image pull policy                                   |
+| kubectl.image.pullSecrets                            | `[]`                 | Array of secret names for image pull                |
+| kubectl.image.command                                | `[]`                 | Override the default command                        |
+| kubectl.image.args                                   | `[]`                 | Override the default args                           |
+| kubectl.image.securityContext.runAsNonRoot           | `true`               | Run the container as non-root user                  |
+| kubectl.image.securityContext.readOnlyRootFilesystem | `true`               | Run the container with read-only root filesystem    |
 
 #### Probes parameters
 

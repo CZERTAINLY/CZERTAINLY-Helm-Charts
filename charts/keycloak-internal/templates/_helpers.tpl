@@ -65,6 +65,13 @@ Return the image name of the theme container
 {{- end -}}
 
 {{/*
+Return the image name of the curl
+*/}}
+{{- define "keycloak-internal.curl.image" -}}
+{{ include "czertainly-lib.images.image" (dict "image" .Values.curl.image "global" .Values.global) }}
+{{- end -}}
+
+{{/*
 Return the image pull secret names
 */}}
 {{- define "keycloak-internal.imagePullSecrets" -}}

@@ -106,7 +106,6 @@ The following values may be configured:
 | image.command                                  | `[]`                     | Override the default command                                          |
 | image.args                                     | `[]`                     | Override the default args                                             |
 | image.securityContext.runAsNonRoot             | `true`                   | Run the container as non-root user                                    |
-| image.securityContext.runAsUser                | `70`                     | User ID for the container                                             |
 | image.securityContext.readOnlyRootFilesystem   | `true`                   | Run the container with read-only root filesystem                      |
 | image.securityContext.allowPrivilegeEscalation | `false`                  | Allow privilege escalation for the container                          |
 | image.securityContext.capabilities.drop        | `['all']`                | Drop all capabilities for the container                               |

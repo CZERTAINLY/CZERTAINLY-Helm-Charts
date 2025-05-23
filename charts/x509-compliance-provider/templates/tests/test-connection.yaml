@@ -9,7 +9,7 @@ metadata:
 spec:
   containers:
     - name: curl
-      image: curlimages/curl:8.1.1
+      image: {{ include "x509-compliance-provider.curl.image" . }}
       command:
         - /bin/sh
         - -c

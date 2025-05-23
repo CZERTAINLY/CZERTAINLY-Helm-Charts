@@ -4,6 +4,6 @@ dependencies:
   version: 1.4.2
 - name: messaging-rabbitmq
   repository: file://../messaging-rabbitmq
-  version: 3.13.7-1
-digest: sha256:ed1b1b9a8eb1bc473597eeb751dc1f2abb0433a514f33a2a0b4582778b74170b
-generated: "2025-04-10T15:59:15.675651+02:00"
+  version: 3.13.7-2-develop
+digest: sha256:a05bc0865a12462a179459f3076130856d4a3ce167351b3731ed639ede09284a
+generated: "2025-05-23T13:30:08.475305+02:00"

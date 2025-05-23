@@ -69,6 +69,13 @@ Return the image name
 {{- end -}}
 
 {{/*
+Return the image name of the curl
+*/}}
+{{- define "network-discovery-provider.curl.image" -}}
+{{ include "czertainly-lib.images.image" (dict "image" .Values.curl.image "global" .Values.global) }}
+{{- end -}}
+
+{{/*
 Return the image pull secret names
 */}}
 {{- define "network-discovery-provider.imagePullSecrets" -}}

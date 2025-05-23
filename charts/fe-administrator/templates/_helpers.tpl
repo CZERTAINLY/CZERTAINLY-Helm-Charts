@@ -58,6 +58,13 @@ Return the image name
 {{- end -}}
 
 {{/*
+Return the image name of the curl
+*/}}
+{{- define "fe-administrator.curl.image" -}}
+{{ include "czertainly-lib.images.image" (dict "image" .Values.curl.image "global" .Values.global) }}
+{{- end -}}
+
+{{/*
 Return the image pull secret names
 */}}
 {{- define "fe-administrator.imagePullSecrets" -}}
