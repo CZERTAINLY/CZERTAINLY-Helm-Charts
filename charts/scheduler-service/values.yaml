@@ -115,7 +115,7 @@ image:
   # default security context
   securityContext:
     runAsNonRoot: true
-    runAsUser: 10001
+    # runAsUser: 10001
     readOnlyRootFilesystem: true
   # probes configuration
   probes:
@@ -161,8 +161,8 @@ curl:
   image:
     # default registry name
     registry: docker.io
-    repository: curlimages
-    name: curl
+    repository: czertainly
+    name: czertainly-curl
     tag: 8.1.1
     # the digest to be used instead of the tag
     digest: ""
@@ -175,7 +175,7 @@ curl:
     # default security context
     securityContext:
       runAsNonRoot: true
-      runAsUser: 100
+      # runAsUser: 100
       readOnlyRootFilesystem: true
     # it does not make sense to have probes for curl
     #

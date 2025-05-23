@@ -90,7 +90,7 @@ The following values may be configured:
 | Parameter                                    | Default value                         | Description                                                 |
 |----------------------------------------------|---------------------------------------|-------------------------------------------------------------|
 | image.registry                               | `docker.io`                           | Docker registry name for the image                          |
-| image.repository                             | `3keycompany`                         | Docker image repository name                                |
+| image.repository                             | `czertainly`                          | Docker image repository name                                |
 | image.name                                   | `czertainly-x509-compliance-provider` | Docker image name                                           |
 | image.tag                                    | `1.3.0`                               | Docker image tag                                            |
 | image.digest                                 | `""`                                  | Docker image digest, will override tag if specified         |
@@ -99,7 +99,6 @@ The following values may be configured:
 | image.command                                | `[]`                                  | Override the default command                                |
 | image.args                                   | `[]`                                  | Override the default args                                   |
 | image.securityContext.runAsNonRoot           | `true`                                | Run the container as non-root user                          |
-| image.securityContext.runAsUser              | `10001`                               | User ID for the container                                   |
 | image.securityContext.readOnlyRootFilesystem | `true`                                | Run the container with read-only root filesystem            |
 | image.resources                              | `{}`                                  | The resources for the container                             |
 | podLabels                                    | `{}`                                  | Labels to be added to the pod                               |

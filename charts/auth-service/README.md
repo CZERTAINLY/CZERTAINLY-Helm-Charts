@@ -111,7 +111,6 @@ The following values may be configured:
 | image.command                                | `[]`                     | Override the default command                                          |
 | image.args                                   | `[]`                     | Override the default args                                             |
 | image.securityContext.runAsNonRoot           | `true`                   | Run the container as non-root user                                    |
-| image.securityContext.runAsUser              | `10001`                  | User ID for the container                                             |
 | image.securityContext.readOnlyRootFilesystem | `true`                   | Run the container with read-only root filesystem                      |
 | image.resources                              | `{}`                     | The resources for the container                                       |
 | podLabels                                    | `{}`                     | Labels to be added to the pod                                         |

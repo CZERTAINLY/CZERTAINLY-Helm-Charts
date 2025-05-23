@@ -76,7 +76,6 @@ The following values may be configured for the CZERTAINLY core service:
 | image.command                                | `[]`                                                                                                                                                                                                                                                                                                                                                       | Override the default command                                                                                                                                                                                                             |
 | image.args                                   | `[]`                                                                                                                                                                                                                                                                                                                                                       | Override the default args                                                                                                                                                                                                                |
 | image.securityContext.runAsNonRoot           | `true`                                                                                                                                                                                                                                                                                                                                                     | Run the container as non-root user                                                                                                                                                                                                       |
-| image.securityContext.runAsUser              | `10001`                                                                                                                                                                                                                                                                                                                                                    | User ID for the container                                                                                                                                                                                                                |
 | image.securityContext.readOnlyRootFilesystem | `true`                                                                                                                                                                                                                                                                                                                                                     | Run the container with read-only root filesystem                                                                                                                                                                                         |
 | image.resources                              | `{}`                                                                                                                                                                                                                                                                                                                                                       | The resources for the container                                                                                                                                                                                                          |
 | podLabels                                    | `{}`                                                                                                                                                                                                                                                                                                                                                       | Additional labels for the pod                                                                                                                                                                                                            |
@@ -145,8 +144,8 @@ The following values may be configured for the CZERTAINLY core service:
 | Parameter                                        | Default value     | Description                                         |
 |--------------------------------------------------|-------------------|-----------------------------------------------------|
 | opa.image.registry                               | `docker.io`       | Docker registry name for the image                  |
-| opa.image.repository                             | `openpolicyagent` | Docker image repository name                        |
-| opa.image.name                                   | `opa`             | Docker image name                                   |
+| opa.image.repository                             | `czertainly`      | Docker image repository name                        |
+| opa.image.name                                   | `czertainly-opa`  | Docker image name                                   |
 | opa.image.tag                                    | `0.53.0-rootless` | Docker image tag                                    |
 | opa.image.digest                                 | `""`              | Docker image digest, will override tag if specified |
 | opa.image.pullPolicy                             | `IfNotPresent`    | Image pull policy                                   |
@@ -154,44 +153,41 @@ The following values may be configured for the CZERTAINLY core service:
 | opa.image.command                                | `[]`              | Override the default command                        |
 | opa.image.args                                   | `[]`              | Override the default args                           |
 | opa.image.securityContext.runAsNonRoot           | `true`            | Run the container as non-root user                  |
-| opa.image.securityContext.runAsUser              | `1000`            | User ID for the container                           |
 | opa.image.securityContext.readOnlyRootFilesystem | `true`            | Run the container with read-only root filesystem    |
 | opa.image.resources                              | `{}`              | The resources for the container                     |
 
 **cURL**
 
-| Parameter                                         | Default value  | Description                                         |
-|---------------------------------------------------|----------------|-----------------------------------------------------|
-| curl.image.registry                               | `docker.io`    | Docker registry name for the image                  |
-| curl.image.repository                             | `curlimages`   | Docker image repository name                        |
-| curl.image.name                                   | `curl`         | Docker image name                                   |
-| curl.image.tag                                    | `8.1.1`        | Docker image tag                                    |
-| curl.image.digest                                 | `""`           | Docker image digest, will override tag if specified |
-| curl.image.pullPolicy                             | `IfNotPresent` | Image pull policy                                   |
-| curl.image.pullSecrets                            | `[]`           | Array of secret names for image pull                |
-| curl.image.command                                | `[]`           | Override the default command                        |
-| curl.image.args                                   | `[]`           | Override the default args                           |
-| curl.image.securityContext.runAsNonRoot           | `true`         | Run the container as non-root user                  |
-| curl.image.securityContext.runAsUser              | `100`          | User ID for the container                           |
-| curl.image.securityContext.readOnlyRootFilesystem | `true`         | Run the container with read-only root filesystem    |
-| curl.image.resources                              | `{}`           | The resources for the container                     |
+| Parameter                                         | Default value     | Description                                         |
+|---------------------------------------------------|-------------------|-----------------------------------------------------|
+| curl.image.registry                               | `docker.io`       | Docker registry name for the image                  |
+| curl.image.repository                             | `czertainly`      | Docker image repository name                        |
+| curl.image.name                                   | `czertainly-curl` | Docker image name                                   |
+| curl.image.tag                                    | `8.1.1`           | Docker image tag                                    |
+| curl.image.digest                                 | `""`              | Docker image digest, will override tag if specified |
+| curl.image.pullPolicy                             | `IfNotPresent`    | Image pull policy                                   |
+| curl.image.pullSecrets                            | `[]`              | Array of secret names for image pull                |
+| curl.image.command                                | `[]`              | Override the default command                        |
+| curl.image.args                                   | `[]`              | Override the default args                           |
+| curl.image.securityContext.runAsNonRoot           | `true`            | Run the container as non-root user                  |
+| curl.image.securityContext.readOnlyRootFilesystem | `true`            | Run the container with read-only root filesystem    |
+| curl.image.resources                              | `{}`              | The resources for the container                     |
 
 **kubectl**
 
-| Parameter                                            | Default value  | Description                                         |
-|------------------------------------------------------|----------------|-----------------------------------------------------|
-| kubectl.image.registry                               | `docker.io`    | Docker registry name for the image                  |
-| kubectl.image.repository                             | `bitnami`      | Docker image repository name                        |
-| kubectl.image.name                                   | `kubectl`      | Docker image name                                   |
-| kubectl.image.tag                                    | `1.27.3`       | Docker image tag                                    |
-| kubectl.image.digest                                 | `""`           | Docker image digest, will override tag if specified |
-| kubectl.image.pullPolicy                             | `IfNotPresent` | Image pull policy                                   |
-| kubectl.image.pullSecrets                            | `[]`           | Array of secret names for image pull                |
-| kubectl.image.command                                | `[]`           | Override the default command                        |
-| kubectl.image.args                                   | `[]`           | Override the default args                           |
-| kubectl.image.securityContext.runAsNonRoot           | `true`         | Run the container as non-root user                  |
-| kubectl.image.securityContext.runAsUser              | `1001`         | User ID for the container                           |
-| kubectl.image.securityContext.readOnlyRootFilesystem | `true`         | Run the container with read-only root filesystem    |
+| Parameter                                            | Default value        | Description                                         |
+|------------------------------------------------------|----------------------|-----------------------------------------------------|
+| kubectl.image.registry                               | `docker.io`          | Docker registry name for the image                  |
+| kubectl.image.repository                             | `czertainly`         | Docker image repository name                        |
+| kubectl.image.name                                   | `czertainly-kubectl` | Docker image name                                   |
+| kubectl.image.tag                                    | `1.27.3`             | Docker image tag                                    |
+| kubectl.image.digest                                 | `""`                 | Docker image digest, will override tag if specified |
+| kubectl.image.pullPolicy                             | `IfNotPresent`       | Image pull policy                                   |
+| kubectl.image.pullSecrets                            | `[]`                 | Array of secret names for image pull                |
+| kubectl.image.command                                | `[]`                 | Override the default command                        |
+| kubectl.image.args                                   | `[]`                 | Override the default args                           |
+| kubectl.image.securityContext.runAsNonRoot           | `true`               | Run the container as non-root user                  |
+| kubectl.image.securityContext.readOnlyRootFilesystem | `true`               | Run the container with read-only root filesystem    |
 
 ### Probes parameters
 

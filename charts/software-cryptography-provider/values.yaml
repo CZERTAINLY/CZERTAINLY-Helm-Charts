@@ -97,7 +97,7 @@ service:
 image:
   # default registry name
   registry: docker.io
-  repository: 3keycompany
+  repository: czertainly
   name: czertainly-software-cryptography-provider
   tag: 1.2.2
   # the digest to be used instead of the tag
@@ -111,7 +111,7 @@ image:
   # default security context
   securityContext:
     runAsNonRoot: true
-    runAsUser: 10001
+    # runAsUser: 10001
     readOnlyRootFilesystem: true
   # probes configuration
   probes:
@@ -152,6 +152,38 @@ image:
     #   cpu: 100m
     #   memory: 450M
     # limits: {}
+
+curl:
+  image:
+    # default registry name
+    registry: docker.io
+    repository: czertainly
+    name: czertainly-curl
+    tag: 8.1.1
+    # the digest to be used instead of the tag
+    digest: ""
+    pullPolicy: IfNotPresent
+    # array of secret names
+    pullSecrets: []
+    # custom command and args
+    command: []
+    args: []
+    # default security context
+    securityContext:
+      runAsNonRoot: true
+      # runAsUser: 100
+      readOnlyRootFilesystem: true
+    # it does not make sense to have probes for curl
+    resources: {}
+      # We follow recommendations and general guidelines to manage resources from:
+      # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
+      # We recommend default requests for CPU and Memory, leaving the limits as a conscious
+      # choice for the user. If you do want to specify your own resources, uncomment the following
+      # lines, adjust them as necessary, and remove the curly braces after 'resources'.
+      # requests:
+      #   cpu: 50m
+      #   memory: 150M
+      # limits: {}
 
 # customization of the chart
 initContainers: []

@@ -76,6 +76,13 @@ Return the image name of the kubectl
 {{- end -}}
 
 {{/*
+Return the image name of the curl
+*/}}
+{{- define "api-gateway-kong.curl.image" -}}
+{{ include "czertainly-lib.images.image" (dict "image" .Values.curl.image "global" .Values.global) }}
+{{- end -}}
+
+{{/*
 Return the image pull secret names
 */}}
 {{- define "api-gateway-kong.imagePullSecrets" -}}
