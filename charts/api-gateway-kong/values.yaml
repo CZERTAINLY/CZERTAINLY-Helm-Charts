@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 global:
+  replicaCount: 1
   config:
     enabled: false
   image:

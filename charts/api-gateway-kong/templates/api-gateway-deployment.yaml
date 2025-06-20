@@ -1,3 +1,4 @@
+{{- $replicaCount := pluck "replicaCount" .Values.global .Values | compact | first }}
 {{- $additionalInitContainers := (include "api-gateway-kong.customization.initContainers" $) }}
 {{- $additionalSidecarContainers := (include "api-gateway-kong.customization.sidecarContainers" $) }}
 {{- $additionalVolumes := (include "api-gateway-kong.customization.volumes" $) }}
@@ -12,7 +13,7 @@ metadata:
     {{- include "api-gateway-kong.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ $replicaCount | default 1 }}
   {{- end }}
   selector:
     matchLabels:

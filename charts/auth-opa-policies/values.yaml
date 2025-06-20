@@ -4,6 +4,7 @@
 
 # Global parameters that will overwrite local parameters
 global:
+  replicaCount: 1
   image:
     registry: ""
     repository: ""
