@@ -1,3 +1,4 @@
+{{- $replicaCount := pluck "replicaCount" .Values.global .Values | compact | first }}
 {{- $additionalInitContainers := (include "utils-service.customization.initContainers" $) }}
 {{- $additionalSidecarContainers := (include "utils-service.customization.sidecarContainers" $) }}
 {{- $additionalVolumes := (include "utils-service.customization.volumes" $) }}
@@ -12,7 +13,7 @@ metadata:
     {{- include "utils-service.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ $replicaCount | default 1 }}
   {{- end }}
   selector:
     matchLabels:

@@ -1,3 +1,4 @@
+{{- $replicaCount := pluck "replicaCount" .Values.global .Values | compact | first }}
 {{- $additionalInitContainers := (include "x509-compliance-provider.customization.initContainers" $) }}
 {{- $additionalSidecarContainers := (include "x509-compliance-provider.customization.sidecarContainers" $) }}
 {{- $additionalVolumes := (include "x509-compliance-provider.customization.volumes" $) }}
@@ -12,7 +13,7 @@ metadata:
     {{- include "x509-compliance-provider.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ $replicaCount | default 1 }}
   {{- end }}
   selector:
     matchLabels:

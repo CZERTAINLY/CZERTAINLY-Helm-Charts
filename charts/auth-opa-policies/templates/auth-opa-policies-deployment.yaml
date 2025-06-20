@@ -1,3 +1,4 @@
+{{- $replicaCount := pluck "replicaCount" .Values.global .Values | compact | first }}
 {{- $additionalInitContainers := (include "auth-opa-policies.customization.initContainers" $) }}
 {{- $additionalSidecarContainers := (include "auth-opa-policies.customization.sidecarContainers" $) }}
 {{- $additionalVolumes := (include "auth-opa-policies.customization.volumes" $) }}
@@ -12,7 +13,7 @@ metadata:
     {{- include "auth-opa-policies.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ $replicaCount | default 1 }}
   {{- end }}
   selector:
     matchLabels:

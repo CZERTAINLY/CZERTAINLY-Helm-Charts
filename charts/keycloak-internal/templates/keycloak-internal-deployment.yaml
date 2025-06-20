@@ -1,3 +1,4 @@
+{{- $replicaCount := pluck "replicaCount" .Values.global .Values | compact | first }}
 {{- $additionalInitContainers := (include "keycloak-internal.customization.initContainers" $) }}
 {{- $additionalSidecarContainers := (include "keycloak-internal.customization.sidecarContainers" $) }}
 {{- $additionalVolumes := (include "keycloak-internal.customization.volumes" $) }}
@@ -12,7 +13,7 @@ metadata:
     {{- include "keycloak-internal.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ $replicaCount | default 1 }}
   {{- end }}
   selector:
     matchLabels:

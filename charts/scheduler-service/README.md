@@ -70,6 +70,7 @@ Global values are used to define common parameters for the chart and all its sub
 
 | Parameter                                 | Default value          | Description                                                        |
 |-------------------------------------------|------------------------|--------------------------------------------------------------------|
+| global.replicaCount                       | `1`                    | Number of replicas for the application                             |
 | global.config.enabled                     | `false`                | Enables global configuration                                       |
 | global.image.registry                     | `""`                   | Global docker registry name                                        |
 | global.image.repository                   | `""`                   | Global docker image repository name                                |

@@ -1,3 +1,4 @@
+{{- $replicaCount := pluck "replicaCount" .Values.global .Values | compact | first }}
 {{- $additionalInitContainers := (include "fe-administrator.customization.initContainers" $) }}
 {{- $additionalSidecarContainers := (include "fe-administrator.customization.sidecarContainers" $) }}
 {{- $additionalVolumes := (include "fe-administrator.customization.volumes" $) }}
@@ -12,7 +13,7 @@ metadata:
     {{- include "fe-administrator.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ $replicaCount | default 1 }}
   {{- end }}
   selector:
     matchLabels:

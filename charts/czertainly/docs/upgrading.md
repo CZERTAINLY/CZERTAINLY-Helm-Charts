@@ -41,6 +41,14 @@ pgBouncer:
 
 The default `runAsUser` was removed from the Helm chart for optimized deployment on different K8s distributions, including OpenShift. The `runAsUser` value can be set in the `securityContext` and `podSecurityContext` sections of the `values.yaml` file.
 
+### Global configuration of replica count
+
+The global `replicaCount` parameter was introduced to allow setting the number of replicas for all components in the platform. The parameter can be set in the `global` section of the `values.yaml` file:
+```yaml
+global:
+  replicaCount: 1
+```
+
 ## To 2.14.1
 
 ### External messaging support
