@@ -234,6 +234,11 @@ service:
     # Node port to be exposed for consumer service (only works with service.type: NodePort)
     # choose port between 30000-32767
     nodePort: ""
+  status:
+    port: 8100
+    # Node port to be exposed for status service (only works with service.type: NodePort)
+    # choose port between 30000-32767
+    nodePort: ""
 
 hostName: "czertainly.local"
 
