@@ -142,20 +142,20 @@ The following values may be configured for the CZERTAINLY core service:
 
 **Open Policy Agent**
 
-| Parameter                                        | Default value     | Description                                         |
-|--------------------------------------------------|-------------------|-----------------------------------------------------|
-| opa.image.registry                               | `docker.io`       | Docker registry name for the image                  |
-| opa.image.repository                             | `czertainly`      | Docker image repository name                        |
-| opa.image.name                                   | `czertainly-opa`  | Docker image name                                   |
-| opa.image.tag                                    | `0.53.0-rootless` | Docker image tag                                    |
-| opa.image.digest                                 | `""`              | Docker image digest, will override tag if specified |
-| opa.image.pullPolicy                             | `IfNotPresent`    | Image pull policy                                   |
-| opa.image.pullSecrets                            | `[]`              | Array of secret names for image pull                |
-| opa.image.command                                | `[]`              | Override the default command                        |
-| opa.image.args                                   | `[]`              | Override the default args                           |
-| opa.image.securityContext.runAsNonRoot           | `true`            | Run the container as non-root user                  |
-| opa.image.securityContext.readOnlyRootFilesystem | `true`            | Run the container with read-only root filesystem    |
-| opa.image.resources                              | `{}`              | The resources for the container                     |
+| Parameter                                        | Default value    | Description                                         |
+|--------------------------------------------------|------------------|-----------------------------------------------------|
+| opa.image.registry                               | `docker.io`      | Docker registry name for the image                  |
+| opa.image.repository                             | `czertainly`     | Docker image repository name                        |
+| opa.image.name                                   | `czertainly-opa` | Docker image name                                   |
+| opa.image.tag                                    | `1.5.1-static`   | Docker image tag                                    |
+| opa.image.digest                                 | `""`             | Docker image digest, will override tag if specified |
+| opa.image.pullPolicy                             | `IfNotPresent`   | Image pull policy                                   |
+| opa.image.pullSecrets                            | `[]`             | Array of secret names for image pull                |
+| opa.image.command                                | `[]`             | Override the default command                        |
+| opa.image.args                                   | `[]`             | Override the default args                           |
+| opa.image.securityContext.runAsNonRoot           | `true`           | Run the container as non-root user                  |
+| opa.image.securityContext.readOnlyRootFilesystem | `true`           | Run the container with read-only root filesystem    |
+| opa.image.resources                              | `{}`             | The resources for the container                     |
 
 **cURL**
 

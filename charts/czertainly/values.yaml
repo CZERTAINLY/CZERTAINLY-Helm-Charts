@@ -329,7 +329,7 @@ opa:
     registry: docker.io
     repository: czertainly
     name: czertainly-opa
-    tag: 0.53.0-rootless
+    tag: 1.5.1-static
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent
