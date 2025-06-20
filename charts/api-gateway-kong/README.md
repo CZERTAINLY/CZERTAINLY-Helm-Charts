@@ -122,6 +122,8 @@ The following values may be configured:
 | service.admin.nodePort                       | `""`                         | Node port to be exposed for admin service (only works with `service.type: NodePort`)       |
 | service.consumer.port                        | `8000`                       | Port number of the exposed consumer service                                                |
 | service.consumer.nodePort                    | `""`                         | Node port to be exposed for consumer service (only works with `service.type: NodePort`)    |
+| service.status.port                          | `8100`                       | Port number of the exposed status service                                                  |
+| service.status.nodePort                      | `""`                         | Node port to be exposed for status service (only works with `service.type: NodePort`)      |
 | backend.core.service.name                    | `"core-service"`             | Name of the Core service                                                                   |
 | backend.core.service.port                    | `8080`                       | Port number of the Core service                                                            |
 | backend.core.service.apiUrl                  | `"/api"`                     | Base URL of the API requests                                                               |

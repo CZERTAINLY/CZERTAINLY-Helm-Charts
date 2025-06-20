@@ -20,6 +20,12 @@ spec:
       {{- if (and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) (not (empty .Values.service.consumer.nodePort))) }}
       nodePort: {{ .Values.service.consumer.nodePort }}
       {{- end }}
+    - port: {{ .Values.service.status.port }}
+      protocol: "TCP"
+      name: status
+      {{- if (and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) (not (empty .Values.service.status.nodePort))) }}
+      nodePort: {{ .Values.service.status.nodePort }}
+      {{- end }}
     {{- if $additionalPorts }}
       {{- $additionalPorts | nindent 4 }}
     {{- end }}

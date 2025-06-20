@@ -64,6 +64,8 @@ spec:
               value: "/dev/stderr"
             - name: KONG_ADMIN_LISTEN
               value: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
+            - name: KONG_STATUS_LISTEN
+              value: "0.0.0.0:{{ .Values.service.status.port }}"
             - name: KONG_DECLARATIVE_CONFIG
               value: "/kong/declarative/kong.yml"
             - name: KONG_PLUGINS
