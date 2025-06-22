@@ -181,7 +181,7 @@ The following values may be configured for the CZERTAINLY core service:
 | kubectl.image.registry                               | `docker.io`          | Docker registry name for the image                  |
 | kubectl.image.repository                             | `czertainly`         | Docker image repository name                        |
 | kubectl.image.name                                   | `czertainly-kubectl` | Docker image name                                   |
-| kubectl.image.tag                                    | `1.27.3`             | Docker image tag                                    |
+| kubectl.image.tag                                    | `1.31.1`             | Docker image tag                                    |
 | kubectl.image.digest                                 | `""`                 | Docker image digest, will override tag if specified |
 | kubectl.image.pullPolicy                             | `IfNotPresent`       | Image pull policy                                   |
 | kubectl.image.pullSecrets                            | `[]`                 | Array of secret names for image pull                |
