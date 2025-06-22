@@ -204,7 +204,7 @@ image:
   registry: docker.io
   repository: czertainly
   name: czertainly-core
-  tag: 2.14.2
+  tag: 2.15.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent

@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 1.6.0
+appVersion: 1.6.1
 name: network-discovery-provider
 description: A Helm chart for Network Discovery Provider for CZERTAINLY platform.
 home: https://github.com/CZERTAINLY/CZERTAINLY-IP-Discovery-Provider
@@ -29,4 +29,4 @@ sources:
   - https://github.com/CZERTAINLY/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 1.6.0-3-develop
+version: 1.6.1
