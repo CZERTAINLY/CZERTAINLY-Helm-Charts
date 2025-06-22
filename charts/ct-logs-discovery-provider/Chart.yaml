@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 1.0.1
+appVersion: 1.0.2
 name: ct-logs-discovery-provider
 description: A Helm chart for CT Logs Discovery Provider for CZERTAINLY platform.
 home: https://github.com/CZERTAINLY/CZERTAINLY-CT-Logs-Discovery-Provider
@@ -29,4 +29,4 @@ sources:
   - https://github.com/CZERTAINLY/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 1.0.1-2-develop
+version: 1.0.2

@@ -94,7 +94,7 @@ image:
   registry: docker.io
   repository: czertainly
   name: czertainly-email-notification-provider
-  tag: 1.1.0
+  tag: 1.1.1
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent

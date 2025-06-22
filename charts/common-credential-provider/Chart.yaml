@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 1.3.3
+appVersion: 1.3.5
 name: common-credential-provider
 description: A Helm chart for Common Credential Provider for CZERTAINLY platform.
 home: https://github.com/CZERTAINLY/CZERTAINLY-Common-Credential-Provider
@@ -28,4 +28,4 @@ sources:
   - https://github.com/CZERTAINLY/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 1.3.3-5-develop
+version: 1.3.5

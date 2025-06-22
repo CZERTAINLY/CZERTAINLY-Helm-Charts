@@ -88,7 +88,7 @@ image:
   registry: docker.io
   repository: czertainly
   name: czertainly-ct-logs-discovery-provider
-  tag: 1.0.1
+  tag: 1.0.2
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
