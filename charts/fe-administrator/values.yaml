@@ -73,7 +73,7 @@ image:
   registry: docker.io
   repository: czertainly
   name: czertainly-frontend-administrator
-  tag: 2.15.1
+  tag: 2.16.0
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
