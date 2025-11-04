@@ -15,7 +15,7 @@ jobs:
       # Label used to access the service container
       postgres:
         # Docker Hub image
-        image: postgres:15
+        image: postgres:18
         # Provide the password for postgres
         env:
           POSTGRES_USER: czertainlyuser
@@ -33,7 +33,7 @@ jobs:
           - ${{ github.workspace }}/initdb:/docker-entrypoint-initdb.d
 
       mail:
-        image: mailserver/docker-mailserver:13.3.1
+        image: mailserver/docker-mailserver:15.1.0
         ports:
           - 25:25
         env:
@@ -49,14 +49,14 @@ jobs:
 
       - name: Generate token
         id: app_token
-        uses: tibdex/github-app-token@v1
+        uses: tibdex/github-app-token@v2
         with:
-          app_id: ${{ secrets.GH_APP_ID }}
-          private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          app-id: ${{ secrets.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
       - name: Create GitHub Check (in_progress)
         id: create_check
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ steps.app_token.outputs.token }}
           script: |
@@ -89,7 +89,7 @@ jobs:
           echo "📌 PR_BRANCH: ${{ fromJson(steps.get_pr_data.outputs.data).head.ref }}"
 
       # Checkout the PR branch
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: ${{ github.event.workflow_run.head_repository.full_name }}
           ref: ${{ github.event.workflow_run.head_branch }}
@@ -110,13 +110,13 @@ jobs:
         with:
           version: v3.10.0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
-          python-version: '3.9'
+          python-version: '3.14'
           check-latest: true
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.6.1
+        uses: helm/chart-testing-action@v2.7.0
 
       - name: Detect Changed Charts
         id: detect-changes
@@ -176,7 +176,7 @@ jobs:
         run: ct lint --target-branch "$BASE_BRANCH" --check-version-increment=false
 
       - name: Create kind cluster
-        uses: helm/kind-action@v1.9.0
+        uses: helm/kind-action@v1.13.0
         if: env.changed == 'true'
 
       - name: Create testing namespace
@@ -204,7 +204,7 @@ jobs:
 
       - name: Finalize GitHub Check
         if: always()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ steps.app_token.outputs.token }}
           script: |
