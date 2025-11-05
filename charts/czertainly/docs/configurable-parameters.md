@@ -147,7 +147,7 @@ The following values may be configured for the CZERTAINLY core service:
 | opa.image.registry                               | `docker.io`      | Docker registry name for the image                  |
 | opa.image.repository                             | `czertainly`     | Docker image repository name                        |
 | opa.image.name                                   | `czertainly-opa` | Docker image name                                   |
-| opa.image.tag                                    | `1.5.1-static`   | Docker image tag                                    |
+| opa.image.tag                                    | `1.10.0-static`  | Docker image tag                                    |
 | opa.image.digest                                 | `""`             | Docker image digest, will override tag if specified |
 | opa.image.pullPolicy                             | `IfNotPresent`   | Image pull policy                                   |
 | opa.image.pullSecrets                            | `[]`             | Array of secret names for image pull                |
@@ -164,7 +164,7 @@ The following values may be configured for the CZERTAINLY core service:
 | curl.image.registry                               | `docker.io`       | Docker registry name for the image                  |
 | curl.image.repository                             | `czertainly`      | Docker image repository name                        |
 | curl.image.name                                   | `czertainly-curl` | Docker image name                                   |
-| curl.image.tag                                    | `8.1.1`           | Docker image tag                                    |
+| curl.image.tag                                    | `8.16.0`          | Docker image tag                                    |
 | curl.image.digest                                 | `""`              | Docker image digest, will override tag if specified |
 | curl.image.pullPolicy                             | `IfNotPresent`    | Image pull policy                                   |
 | curl.image.pullSecrets                            | `[]`              | Array of secret names for image pull                |
@@ -181,7 +181,7 @@ The following values may be configured for the CZERTAINLY core service:
 | kubectl.image.registry                               | `docker.io`          | Docker registry name for the image                  |
 | kubectl.image.repository                             | `czertainly`         | Docker image repository name                        |
 | kubectl.image.name                                   | `czertainly-kubectl` | Docker image name                                   |
-| kubectl.image.tag                                    | `1.31.1`             | Docker image tag                                    |
+| kubectl.image.tag                                    | `2.16.1`             | Docker image tag                                    |
 | kubectl.image.digest                                 | `""`                 | Docker image digest, will override tag if specified |
 | kubectl.image.pullPolicy                             | `IfNotPresent`       | Image pull policy                                   |
 | kubectl.image.pullSecrets                            | `[]`                 | Array of secret names for image pull                |

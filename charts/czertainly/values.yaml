@@ -275,7 +275,7 @@ curl:
     registry: docker.io
     repository: czertainly
     name: czertainly-curl
-    tag: 8.1.1
+    tag: 8.16.0
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent
@@ -307,7 +307,7 @@ kubectl:
     registry: docker.io
     repository: czertainly
     name: czertainly-kubectl
-    tag: 1.31.1
+    tag: 2.16.1
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent
@@ -329,7 +329,7 @@ opa:
     registry: docker.io
     repository: czertainly
     name: czertainly-opa
-    tag: 1.5.1-static
+    tag: 1.10.0-static
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent
