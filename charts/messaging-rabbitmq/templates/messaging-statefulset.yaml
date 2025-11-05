@@ -203,6 +203,16 @@ spec:
             {{- if $additionalVolumeMounts }}
               {{- $additionalVolumeMounts | nindent 12 }}
             {{- end }}
+          {{- if .Values.messaging.enableFlags }}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "sh"
+                  - "-c"
+                  - |
+                    rabbitmqctl enable_feature_flag all
+          {{- end }}
         {{- if $additionalSidecarContainers }}
           {{- $additionalSidecarContainers | nindent 8 }}
         {{- end }}

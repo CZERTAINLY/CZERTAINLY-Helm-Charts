@@ -160,7 +160,7 @@ curl:
     registry: docker.io
     repository: czertainly
     name: czertainly-curl
-    tag: 8.1.1
+    tag: 8.16.0
     # the digest to be used instead of the tag
     digest: ""
     pullPolicy: IfNotPresent

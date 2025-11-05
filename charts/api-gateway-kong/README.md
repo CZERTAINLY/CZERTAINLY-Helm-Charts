@@ -100,7 +100,7 @@ The following values may be configured:
 | image.registry                               | `docker.io`                  | Docker registry name for the image                                                         |
 | image.repository                             | `czertainly`                 | Docker image repository name                                                               |
 | image.name                                   | `czertainly-kong`            | Docker image name                                                                          |
-| image.tag                                    | `3.8.0`                      | Docker image tag                                                                           |
+| image.tag                                    | `3.9.1`                      | Docker image tag                                                                           |
 | image.digest                                 | `""`                         | Docker image digest, will override tag if specified                                        |
 | image.pullPolicy                             | `IfNotPresent`               | Image pull policy                                                                          |
 | image.pullSecrets                            | `[]`                         | Array of secret names for image pull                                                       |
@@ -162,7 +162,7 @@ The following values may be configured:
 | kubectl.image.registry                               | `docker.io`          | Docker registry name for the image                  |
 | kubectl.image.repository                             | `czertainly`         | Docker image repository name                        |
 | kubectl.image.name                                   | `czertainly-kubectl` | Docker image name                                   |
-| kubectl.image.tag                                    | `1.31.1`             | Docker image tag                                    |
+| kubectl.image.tag                                    | `2.16.1`             | Docker image tag                                    |
 | kubectl.image.digest                                 | `""`                 | Docker image digest, will override tag if specified |
 | kubectl.image.pullPolicy                             | `IfNotPresent`       | Image pull policy                                   |
 | kubectl.image.pullSecrets                            | `[]`                 | Array of secret names for image pull                |

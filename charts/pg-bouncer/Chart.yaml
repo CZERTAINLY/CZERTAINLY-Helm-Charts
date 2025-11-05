@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 1.24.0-p0
+appVersion: 1.24.1-p1
 name: pg-bouncer
 description: A Helm chart for PgBouncer for CZERTAINLY platform.
 home: https://github.com/CZERTAINLY/CZERTAINLY
@@ -28,4 +28,4 @@ sources:
   - https://github.com/CZERTAINLY/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 1.24.0-p0-2
+version: 1.24.1-p1-develop

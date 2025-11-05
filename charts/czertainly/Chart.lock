@@ -1,69 +1,69 @@
 dependencies:
 - name: keycloak-internal
   repository: file://../keycloak-internal
-  version: 26.1.0-0-2
+  version: 26.4.2-0-develop
 - name: common-credential-provider
   repository: file://../common-credential-provider
-  version: 1.3.5
+  version: 1.3.5-1-develop
 - name: ejbca-ng-connector
   repository: file://../ejbca-ng-connector
-  version: 1.11.1
+  version: 1.11.1-1-develop
 - name: pyadcs-connector
   repository: file://../pyadcs-connector
-  version: 1.1.5
+  version: 1.1.5-1-develop
 - name: x509-compliance-provider
   repository: file://../x509-compliance-provider
-  version: 1.3.1
+  version: 1.3.1-1-develop
 - name: cryptosense-discovery-provider
   repository: file://../cryptosense-discovery-provider
-  version: 1.4.1
+  version: 1.4.1-1-develop
 - name: ct-logs-discovery-provider
   repository: file://../ct-logs-discovery-provider
-  version: 1.0.2
+  version: 1.0.2-1-develop
 - name: network-discovery-provider
   repository: file://../network-discovery-provider
-  version: 1.6.1
+  version: 1.6.1-1-develop
 - name: keystore-entity-provider
   repository: file://../keystore-entity-provider
-  version: 1.4.2
+  version: 1.4.2-1-develop
 - name: software-cryptography-provider
   repository: file://../software-cryptography-provider
-  version: 1.3.0
+  version: 1.3.0-1-develop
 - name: email-notification-provider
   repository: file://../email-notification-provider
-  version: 1.1.1
+  version: 1.1.1-1-develop
 - name: webhook-notification-provider
   repository: file://../webhook-notification-provider
-  version: 1.0.0
+  version: 1.0.0-1-develop
 - name: hashicorp-vault-connector
   repository: file://../hashicorp-vault-connector
-  version: 1.1.3
+  version: 1.1.3-1-develop
 - name: utils-service
   repository: file://../utils-service
-  version: 1.0.1-2
+  version: 1.0.1-3-develop
 - name: czertainly-lib
   repository: file://../czertainly-lib
   version: 1.4.2
 - name: api-gateway-kong
   repository: file://../api-gateway-kong
-  version: 3.8.0-3
+  version: 3.9.1-develop
 - name: fe-administrator
   repository: file://../fe-administrator
-  version: 2.16.0
+  version: 2.16.0-1-develop
 - name: auth-service
   repository: file://../auth-service
-  version: 1.6.2
+  version: 1.6.2-1-develop
 - name: auth-opa-policies
   repository: file://../auth-opa-policies
-  version: 1.4.0
+  version: 1.4.0-1-develop
 - name: messaging-rabbitmq
   repository: file://../messaging-rabbitmq
-  version: 3.13.7-2
+  version: 4.2.0-develop
 - name: scheduler-service
   repository: file://../scheduler-service
-  version: 1.0.3
+  version: 1.0.3-1-develop
 - name: pg-bouncer
   repository: file://../pg-bouncer
-  version: 1.24.0-p0-2
-digest: sha256:0450182bb54ce65e365e9d9a3a6ab7b5d92ef1306ee72a74b29abff969d223f7
-generated: "2025-10-16T11:06:02.447417+02:00"
+  version: 1.24.1-p1-develop
+digest: sha256:a403c1a21573f01dfd32399b261958035e25b34d8a46aabf4e7927fa70db1d14
+generated: "2025-11-05T10:48:06.616369+01:00"

@@ -100,7 +100,7 @@ The following values may be configured:
 | image.registry                                 | `docker.io`              | Docker registry name for the image                                    |
 | image.repository                               | `edoburu`                | Docker image repository name                                          |
 | image.name                                     | `pgbouncer`              | Docker image name                                                     |
-| image.tag                                      | `v1.24.0-p0`             | Docker image tag                                                      |
+| image.tag                                      | `v1.24.1-p1`             | Docker image tag                                                      |
 | image.digest                                   | `""`                     | Docker image digest, will override tag if specified                   |
 | image.pullPolicy                               | `IfNotPresent`           | Image pull policy                                                     |
 | image.pullSecrets                              | `[]`                     | Array of secret names for image pull                                  |
