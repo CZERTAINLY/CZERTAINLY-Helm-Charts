@@ -211,6 +211,7 @@ spec:
                   - "sh"
                   - "-c"
                   - |
+                    rabbitmqctl await_startup
                     rabbitmqctl enable_feature_flag all
           {{- end }}
         {{- if $additionalSidecarContainers }}
