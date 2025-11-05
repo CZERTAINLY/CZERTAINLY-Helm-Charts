@@ -209,10 +209,29 @@ spec:
               exec:
                 command:
                   - "sh"
-                  - "-c"
+                  - "-ec"
                   - |
-                    rabbitmqctl await_startup
-                    rabbitmqctl enable_feature_flag all
+                    # Run in the background so the hook doesn't block or fail the pod
+                    (
+                      echo "[postStart] Waiting for RabbitMQ to start..."
+                      # Retry await_startup until success or timeout (~8 minutes)
+                      timeout=480
+                      deadline=$((SECONDS + timeout))
+
+                      until rabbitmqctl await_startup >/dev/null 2>&1; do
+                        if [ "$SECONDS" -ge "$deadline" ]; then
+                          echo "[postStart] Timed out waiting for RabbitMQ after ${timeout}s"
+                          break
+                        fi
+                        sleep 3
+                      done
+
+                      echo "[postStart] Enabling all feature flags..."
+                      rabbitmqctl enable_feature_flag all || true
+
+                      echo "[postStart] Done enabling feature flags."
+                    ) &
+                    exit 0
           {{- end }}
         {{- if $additionalSidecarContainers }}
           {{- $additionalSidecarContainers | nindent 8 }}
