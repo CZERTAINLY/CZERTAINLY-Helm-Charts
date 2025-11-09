@@ -157,7 +157,7 @@ The following values may be configured:
 | theme.image.registry                               | `docker.io`                 | Docker registry name for the image                  |
 | theme.image.repository                             | `czertainly`                | Docker image repository name                        |
 | theme.image.name                                   | `czertainly-keycloak-theme` | Docker image name                                   |
-| theme.image.tag                                    | `0.1.2`                     | Docker image tag                                    |
+| theme.image.tag                                    | `0.1.3`                     | Docker image tag                                    |
 | theme.image.digest                                 | `""`                        | Docker image digest, will override tag if specified |
 | theme.image.pullPolicy                             | `IfNotPresent`              | Image pull policy                                   |
 | theme.image.pullSecrets                            | `[]`                        | Array of secret names for image pull                |
