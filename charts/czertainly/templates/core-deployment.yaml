@@ -52,6 +52,7 @@ spec:
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
+      serviceAccountName: {{ template "czertainly.serviceAccountName" . }}
       initContainers:
         - name: wait-for-auth-service
           image: {{ include "czertainly.curl.image" . }}

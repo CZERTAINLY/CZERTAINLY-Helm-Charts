@@ -51,6 +51,17 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Create the name of the service account to use
+*/}}
+{{- define "software-cryptography-provider.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "software-cryptography-provider.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
 Return the image name
 */}}
 {{- define "software-cryptography-provider.image" -}}

@@ -51,6 +51,17 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Create the name of the service account to use
+*/}}
+{{- define "utils-service.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "utils-service.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
 Return the image name
 */}}
 {{- define "utils-service.image" -}}

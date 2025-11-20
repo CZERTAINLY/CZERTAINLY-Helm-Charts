@@ -42,6 +42,7 @@ spec:
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
+      serviceAccountName: {{ template "pyadcs-connector.serviceAccountName" . }}
       {{- if $additionalInitContainers }}
       initContainers:
         {{- $additionalInitContainers | nindent 8 }}

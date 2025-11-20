@@ -16,7 +16,7 @@ dependencies:
     repository: file://../messaging-rabbitmq
     tags:
       - messaging
-    version: 4.2.0
+    version: 4.2.0-1-develop
     condition: messaging.local
 keywords:
   - czertainly
@@ -35,4 +35,4 @@ sources:
   - https://github.com/CZERTAINLY/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 1.0.4
+version: 1.0.4-1-develop

@@ -43,6 +43,7 @@ spec:
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
+      serviceAccountName: {{ template "scheduler-service.serviceAccountName" . }}
       initContainers:
         - name: wait-for-messaging-service
           image: {{ include "scheduler-service.curl.image" . }}

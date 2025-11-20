@@ -34,6 +34,7 @@ spec:
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
+      serviceAccountName: {{ template "keycloak-internal.serviceAccountName" . }}
       initContainers:
         - name: init-theme
           image: {{ include "keycloak-internal.theme.image" . }}

@@ -139,6 +139,9 @@ The following values may be configured:
 | cors.exposedHeaders                          | `[X-Auth-Token]`             | List of values for the Access-Control-Expose-Headers header                                |
 | trustedIps                                   | `""`                         | Defines trusted IP addresses blocks that are known to send correct `X-Forwarded-*` headers |
 | config.custom                                | `""`                         | Custom declarative configuration for the Kong                                              |
+| serviceAccount.create                        | `true`                       | Specifies whether a service account should be created                                      |
+| serviceAccount.annotations                   | `{}`                         | Annotations to add to the service account                                                  |
+| serviceAccount.name                          | `"api-gateway-sa"`           | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 
 #### Customization parameters
 

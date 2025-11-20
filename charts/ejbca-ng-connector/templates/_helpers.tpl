@@ -51,6 +51,17 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Create the name of the service account to use
+*/}}
+{{- define "ejbca-ng-connector.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "ejbca-ng-connector.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
 Return the image name
 */}}
 {{- define "ejbca-ng-connector.image" -}}
