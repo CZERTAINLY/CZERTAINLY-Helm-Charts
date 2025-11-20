@@ -146,7 +146,7 @@ dependencies:
     repository: file://../auth-service
     tags:
       - auth
-    version:  1.6.3-1-develop
+    version: 1.6.3-1-develop
     alias: authService
   - name: auth-opa-policies
     # repository: oci://harbor.3key.company/czertainly-helm
