@@ -120,7 +120,7 @@ dependencies:
     repository: file://../utils-service
     tags:
       - utils-service
-    version: 1.0.3-develop
+    version: 1.0.2-1-develop
     alias: utilsService
   # the following are mandatory dependencies
   - name: czertainly-lib
@@ -132,7 +132,7 @@ dependencies:
     repository: file://../api-gateway-kong
     tags:
       - api-gateway
-    version: 3.9.2-develop
+    version: 3.9.1-1-develop
     alias: apiGateway
   - name: fe-administrator
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -146,7 +146,7 @@ dependencies:
     repository: file://../auth-service
     tags:
       - auth
-    version: 1.6.4-develop
+    version:  1.6.3-1-develop
     alias: authService
   - name: auth-opa-policies
     # repository: oci://harbor.3key.company/czertainly-helm
@@ -154,7 +154,7 @@ dependencies:
     tags:
       - auth
       - opa
-    version: 1.4.2-develop
+    version: 1.4.1-1-develop
     alias: authOpaPolicies
   - condition: messagingService.enabled
     name: messaging-rabbitmq
@@ -162,14 +162,14 @@ dependencies:
     repository: file://../messaging-rabbitmq
     tags:
       - messaging
-    version: 4.2.1-develop
+    version: 4.2.0-1-develop
     alias: messagingService
   - name: scheduler-service
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../scheduler-service
     tags:
       - scheduler
-    version: 1.0.5-develop
+    version: 1.0.4-1-develop
     alias: schedulerService
   - condition: global.database.pgBouncer.enabled
     name: pg-bouncer
@@ -178,7 +178,7 @@ dependencies:
     tags:
       - database
       - pgbouncer
-    version: 1.24.1-p2-develop
+    version: 1.24.1-p1-1-develop
     alias: pgBouncer
 keywords:
   - czertainly

@@ -40,30 +40,30 @@ dependencies:
   version: 1.1.3-2-develop
 - name: utils-service
   repository: file://../utils-service
-  version: 1.0.3-develop
+  version: 1.0.2-1-develop
 - name: czertainly-lib
   repository: file://../czertainly-lib
   version: 1.4.2
 - name: api-gateway-kong
   repository: file://../api-gateway-kong
-  version: 3.9.2-develop
+  version: 3.9.1-1-develop
 - name: fe-administrator
   repository: file://../fe-administrator
   version: 2.16.1-1-develop
 - name: auth-service
   repository: file://../auth-service
-  version: 1.6.4-develop
+  version: 1.6.3-1-develop
 - name: auth-opa-policies
   repository: file://../auth-opa-policies
-  version: 1.4.2-develop
+  version: 1.4.1-1-develop
 - name: messaging-rabbitmq
   repository: file://../messaging-rabbitmq
-  version: 4.2.1-develop
+  version: 4.2.0-1-develop
 - name: scheduler-service
   repository: file://../scheduler-service
-  version: 1.0.5-develop
+  version: 1.0.4-1-develop
 - name: pg-bouncer
   repository: file://../pg-bouncer
-  version: 1.24.1-p2-develop
-digest: sha256:9ff0ca826f75a03e95bc1126fef47f63efc68b1bd33efdf5ef6c67a869395e60
-generated: "2025-11-20T10:49:27.442333728+01:00"
+  version: 1.24.1-p1-1-develop
+digest: sha256:2b39223ebb7c299693ee7272d3948c6ae44c607528b0f41f76da214c65bf6561
+generated: "2025-11-20T11:25:25.026944263+01:00"
