@@ -7,10 +7,10 @@ dependencies:
   version: 1.3.5-1
 - name: ejbca-ng-connector
   repository: file://../ejbca-ng-connector
-  version: 1.11.1-1
+  version: 1.11.1-3-develop
 - name: pyadcs-connector
   repository: file://../pyadcs-connector
-  version: 1.1.5-1
+  version: 1.1.5-3-develop
 - name: x509-compliance-provider
   repository: file://../x509-compliance-provider
   version: 1.3.1-1
@@ -52,7 +52,7 @@ dependencies:
   version: 2.16.1
 - name: auth-service
   repository: file://../auth-service
-  version: 1.6.3
+  version: 1.6.3-2-develop
 - name: auth-opa-policies
   repository: file://../auth-opa-policies
   version: 1.4.1
@@ -65,5 +65,5 @@ dependencies:
 - name: pg-bouncer
   repository: file://../pg-bouncer
   version: 1.24.1-p1
-digest: sha256:8a9339f156103e92e2153620216c6ca213a1a775cf560401673d5cc25e9885b6
-generated: "2025-11-09T10:57:17.860192+01:00"
+digest: sha256:c8d2faf69bde26afa19142fd76da66c83033825c83410d02cd32f29c041be945
+generated: "2025-11-25T14:55:29.902402231+01:00"

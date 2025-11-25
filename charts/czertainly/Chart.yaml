@@ -30,7 +30,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.11.1-1
+    version: 1.11.1-3-develop
     alias: ejbcaNgConnector
   - condition: pyAdcsConnector.enabled
     name: pyadcs-connector
@@ -39,7 +39,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.1.5-1
+    version: 1.1.5-3-develop
     alias: pyAdcsConnector
   - condition: x509ComplianceProvider.enabled
     name: x509-compliance-provider
@@ -146,7 +146,7 @@ dependencies:
     repository: file://../auth-service
     tags:
       - auth
-    version: 1.6.3
+    version: 1.6.3-2-develop
     alias: authService
   - name: auth-opa-policies
     # repository: oci://harbor.3key.company/czertainly-helm
