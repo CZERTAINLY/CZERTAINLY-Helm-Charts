@@ -145,6 +145,9 @@ The following values may be configured:
 | messaging.password                           | `"admin"`                | Password to access the messaging                                                                                        |
 | messaging.host                               | `"messaging-service"`    | Host where is the messaging located when using internal messaging. **Change only if you know what you are doing!**      |
 | messaging.amqp.port                          | `5672`                   | Port on which is the messaging listening when using internal messaging. **Change only if you know what you are doing!** |
+| serviceAccount.create                        | `true`                   | Specifies whether a service account should be created                                                                   |
+| serviceAccount.annotations                   | `{}`                     | Annotations to add to the service account                                                                               |
+| serviceAccount.name                          | `"scheduler-service-sa"` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template  |
 
 #### Customization parameters
 

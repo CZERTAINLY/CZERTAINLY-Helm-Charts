@@ -113,9 +113,9 @@ The following values may be configured:
 | volumes.ephemeral.custom                     | `{}`                           | Custom definition of the ephemeral volume for `custom` type |
 | service.type                                 | `"ClusterIP"`                  | Type of the service that is exposed                         |
 | service.port                                 | `8080`                         | Port number of the exposed service                          |
-| serviceAccount.create                        | `false`                        | Specifies whether a service account with specific name should be added to the deployment, account itself has to be created manualy |
-| serviceAccount.annotations                   | `{}`                           | Ignored as account has to be created manualy when needed    |
-| serviceAccount.name                          | `""`                           | If set to  "", then `default` value will be used            |
+| serviceAccount.create                        | `true`                       | Specifies whether a service account should be created                                      |
+| serviceAccount.annotations                   | `{}`                         | Annotations to add to the service account                                                  |
+| serviceAccount.name                          | `"api-gateway-sa"`           | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |               | `""`                           | If set to  "", then `default` value will be used            |
 
 #### Customization parameters
 

@@ -118,6 +118,9 @@ The following values may be configured:
 | url.api                                      | `"/api"`                            | URL for the api requests                                    |
 | url.login                                    | `"/login"`                          | Login URL for authentication of the user                    |
 | url.logout                                   | `"/logout"`                         | Logout URL for logout of the user                           |
+| serviceAccount.create                        | `true`                              | Specifies whether a service account should be created       |
+| serviceAccount.annotations                   | `{}`                                | Annotations to add to the service account                   |
+| serviceAccount.name                          | `"fe-administrator-sa"`             | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 
 #### Customization parameters
 

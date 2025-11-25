@@ -133,6 +133,9 @@ The following values may be configured:
 | logging.level                                | `"INFO"`                                | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`                                                                                   |
 | service.type                                 | `"ClusterIP"`                           | Type of the service that is exposed                                                                                                           |
 | service.port                                 | `8080`                                  | Port number of the exposed service                                                                                                            |
+| serviceAccount.create                        | `true`                                  | Specifies whether a service account should be created                                                                                         |
+| serviceAccount.annotations                   | `{}`                                    | Annotations to add to the service account                                                                                                     |
+| serviceAccount.name                          | `"ct-logs-discovery-provider-sa"`       | The name of the service account to use. If not set and create is true, a name is generated using the fullname template                        |
 
 #### Customization parameters
 

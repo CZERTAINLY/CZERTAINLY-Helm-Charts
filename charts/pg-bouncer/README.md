@@ -124,6 +124,9 @@ The following values may be configured:
 | httpProxy                                      | `""`                     | Defines list of external resources that should not use proxy settings |
 | service.type                                   | `"ClusterIP"`            | Type of the service that is exposed                                   |
 | service.port                                   | `8080`                   | Port number of the exposed service                                    |
+| serviceAccount.create                          | `true`                   | Specifies whether a service account should be created                 |
+| serviceAccount.annotations                     | `{}`                     | Annotations to add to the service account                             |
+| serviceAccount.name                            | `"pg-bouncer-sa"`        | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 
 #### Customization parameters
 

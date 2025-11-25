@@ -133,6 +133,9 @@ The following values may be configured:
 | createUnknownUsers                           | `false`                  | Whether user should be automatically created when not exists          |
 | createUnknownRoles                           | `false`                  | Whether roles should be automatically create when not exist           |
 | syncPolicy                                   | `"create-only"`          | Sync policy for the user and roles                                    |
+| serviceAccount.create                        | `true`                   | Specifies whether a service account should be created                 |
+| serviceAccount.annotations                   | `{}`                     | Annotations to add to the service account                             |
+| serviceAccount.name                          | `"auth-service-sa"`      | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 
 #### Customization parameters
 
