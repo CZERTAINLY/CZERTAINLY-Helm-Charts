@@ -64,6 +64,13 @@ jobs:
           echo "BASE_BRANCH=${{ inputs.base_ref }}"   >> $GITHUB_ENV
           echo "UPSTREAM_RUN_ID=${{ inputs.run_id }}" >> $GITHUB_ENV
 
+      - name: Normalize base branch
+        run: |
+          if [[ "${BASE_BRANCH}" == origin/* ]]; then
+            BASE_BRANCH="${BASE_BRANCH#origin/}"
+          fi
+          echo "BASE_BRANCH=${BASE_BRANCH}" >> $GITHUB_ENV
+
       - name: Generate token
         id: app_token
         uses: actions/create-github-app-token@v2
