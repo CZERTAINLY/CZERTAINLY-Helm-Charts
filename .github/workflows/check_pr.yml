@@ -88,3 +88,26 @@ jobs:
       - name: Run chart-testing (lint)
         if: env.changed == 'true'
         run: ct lint --target-branch "$BASE_BRANCH" --check-version-increment=false
+
+      # Package up PR context for downstream workflow_run
+      - name: Prepare PR context artifact
+        run: |
+          cat > pr-context.json <<'JSON'
+          {
+            "pr_number": "${{ github.event.pull_request.number }}",
+            "head_sha":  "${{ github.event.pull_request.head.sha }}",
+            "head_repo": "${{ github.event.pull_request.head.repo.full_name }}",
+            "head_branch": "${{ github.event.pull_request.head.ref }}",
+            "base_ref": "${{ github.event.pull_request.base.ref }}",
+            "run_id": "${{ github.run_id }}"
+          }
+          JSON
+          cat pr-context.json
+
+      - name: Upload PR context
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-context
+          path: pr-context.json
+          retention-days: 1
+          if-no-files-found: error

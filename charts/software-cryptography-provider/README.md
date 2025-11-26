@@ -138,6 +138,9 @@ The following values may be configured:
 | service.port                                 | `8080`                                      | Port number of the exposed service                                    |
 | javaOpts                                     | `""`                                        | Customize Java system properties                                      |
 | tokenDelete                                  | `"false"`                                   | If the token should be deleted or kept in the database when removed   |
+| serviceAccount.create                        | `true`                                      | Specifies whether a service account should be created                 |
+| serviceAccount.annotations                   | `{}`                                        | Annotations to add to the service account                             |
+| serviceAccount.name                          | `"software-cryptography-provider-sa"`       | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 
 #### Customization parameters
 

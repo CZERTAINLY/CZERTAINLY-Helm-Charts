@@ -123,6 +123,9 @@ The following values may be configured:
 | service.client.type                          | `"ClusterIP"`         | Type of the service that is exposed                         |
 | service.client.http.port                     | `15672`               | Http port number of the exposed service                     |
 | service.client.amqp.port                     | `5672`                | Amqp port number of the exposed service                     |
+| serviceAccount.create                        | `true`                | Specifies whether a service account should be created       |
+| serviceAccount.annotations                   | `{}`                  | Annotations to add to the service account                   |
+| serviceAccount.name                          | `"messaging-rabbitmq-sa"`| The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 
 #### Customization parameters
 
