@@ -64,13 +64,6 @@ jobs:
           echo "BASE_BRANCH=${{ inputs.base_ref }}"   >> $GITHUB_ENV
           echo "UPSTREAM_RUN_ID=${{ inputs.run_id }}" >> $GITHUB_ENV
 
-      - name: Normalize base branch
-        run: |
-          if [[ "${BASE_BRANCH}" == origin/* ]]; then
-            BASE_BRANCH="${BASE_BRANCH#origin/}"
-          fi
-          echo "BASE_BRANCH=${BASE_BRANCH}" >> $GITHUB_ENV
-
       - name: Generate token
         id: app_token
         uses: actions/create-github-app-token@v2
@@ -127,7 +120,7 @@ jobs:
           echo "Using base branch: $BASE_BRANCH"
           echo "Using PR branch: $PR_BRANCH"
 
-          changed=$(ct list-changed --target-branch "$BASE_BRANCH")
+          changed=$(ct list-changed --target-branch main)
           echo "${changed}"
 
           if [[ -n "$changed" ]]; then
@@ -176,7 +169,7 @@ jobs:
 
       - name: Run chart-testing (lint)
         if: env.changed == 'true'
-        run: ct lint --target-branch "$BASE_BRANCH" --check-version-increment=false
+        run: ct lint --target-branch main --check-version-increment=false
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.13.0
@@ -203,7 +196,7 @@ jobs:
 
       - name: Run chart-testing (install)
         if: env.changed == 'true'
-        run: ct install --namespace chart-testing --target-branch "$BASE_BRANCH" --excluded-charts czertainly-lib
+        run: ct install --namespace chart-testing --target-branch main --excluded-charts czertainly-lib
 
       - name: Finalize GitHub Check
         if: always()
