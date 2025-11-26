@@ -140,6 +140,9 @@ The following values may be configured:
 | service.port                                 | `8080`                          | Port number of the exposed service                                    |
 | ejbca.maxPayloadSize                         | `"2000000"`                     | Maximum payload size in bytes                                         |
 | ejbca.searchPageSize                         | `"100"`                         | Maximum number of certificates to fetch in one request                |
+| serviceAccount.create                        | `true`                          | Specifies whether a service account should be created                 |
+| serviceAccount.annotations                   | `{}`                            | Annotations to add to the service account                             |
+| serviceAccount.name                          | `"ejbca-ng-connector-sa"`       | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 
 #### Customization parameters
 

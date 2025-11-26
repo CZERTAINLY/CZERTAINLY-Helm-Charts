@@ -51,6 +51,17 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Create the name of the service account to use
+*/}}
+{{- define "keycloak-internal.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "keycloak-internal.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
 Return the image name
 */}}
 {{- define "keycloak-internal.image" -}}

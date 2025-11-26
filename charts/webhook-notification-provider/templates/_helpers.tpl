@@ -51,6 +51,17 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Create the name of the service account to use
+*/}}
+{{- define "webhook-notification-provider.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "webhook-notification-provider.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
 Return the image name
 */}}
 {{- define "webhook-notification-provider.image" -}}
