@@ -120,7 +120,7 @@ jobs:
           echo "Using base branch: $BASE_BRANCH"
           echo "Using PR branch: $PR_BRANCH"
 
-          changed=$(ct list-changed --target-branch main)
+          changed=$(ct list-changed --remote upstream --target-branch "$BASE_BRANCH")
           echo "${changed}"
 
           if [[ -n "$changed" ]]; then
@@ -169,7 +169,7 @@ jobs:
 
       - name: Run chart-testing (lint)
         if: env.changed == 'true'
-        run: ct lint --target-branch main --check-version-increment=false
+        run: ct lint --remote upstream --target-branch "$BASE_BRANCH" --check-version-increment=false
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.13.0
@@ -196,7 +196,7 @@ jobs:
 
       - name: Run chart-testing (install)
         if: env.changed == 'true'
-        run: ct install --namespace chart-testing --target-branch main --excluded-charts czertainly-lib
+        run: ct install --remote upstream --namespace chart-testing --target-branch "$BASE_BRANCH" --excluded-charts czertainly-lib
 
       - name: Finalize GitHub Check
         if: always()
