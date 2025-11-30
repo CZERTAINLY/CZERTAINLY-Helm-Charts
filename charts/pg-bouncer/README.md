@@ -95,37 +95,37 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                      | Default value            | Description                                                           |
-|------------------------------------------------|--------------------------|-----------------------------------------------------------------------|
-| image.registry                                 | `docker.io`              | Docker registry name for the image                                    |
-| image.repository                               | `edoburu`                | Docker image repository name                                          |
-| image.name                                     | `pgbouncer`              | Docker image name                                                     |
-| image.tag                                      | `v1.24.1-p1`             | Docker image tag                                                      |
-| image.digest                                   | `""`                     | Docker image digest, will override tag if specified                   |
-| image.pullPolicy                               | `IfNotPresent`           | Image pull policy                                                     |
-| image.pullSecrets                              | `[]`                     | Array of secret names for image pull                                  |
-| image.command                                  | `[]`                     | Override the default command                                          |
-| image.args                                     | `[]`                     | Override the default args                                             |
-| image.securityContext.runAsNonRoot             | `true`                   | Run the container as non-root user                                    |
-| image.securityContext.readOnlyRootFilesystem   | `true`                   | Run the container with read-only root filesystem                      |
-| image.securityContext.allowPrivilegeEscalation | `false`                  | Allow privilege escalation for the container                          |
-| image.securityContext.capabilities.drop        | `['all']`                | Drop all capabilities for the container                               |
-| image.resources                                | `{}`                     | The resources for the container                                       |
-| podLabels                                      | `{}`                     | Labels to be added to the pod                                         |
-| podAnnotations                                 | `{}`                     | Annotations to be added to the pod                                    |
-| podSecurityContext                             | `{}`                     | Pod security context                                                  |
-| database.host                                  | `"host.docker.internal"` | Host where is the database located                                    |
-| database.port                                  | `5432`                   | Port on which is the database listening                               |
-| database.name                                  | `"czertainlydb"`         | Database name                                                         |
-| database.username                              | `"czertainlyuser"`       | Username to access the database                                       |
-| database.password                              | `"your-strong-password"` | Password to access the database                                       |
-| httpProxy                                      | `""`                     | Proxy to be used to access external resources through http            |
-| httpsProxy                                     | `""`                     | Proxy to be used to access external resources through https           |
-| httpProxy                                      | `""`                     | Defines list of external resources that should not use proxy settings |
-| service.type                                   | `"ClusterIP"`            | Type of the service that is exposed                                   |
-| service.port                                   | `8080`                   | Port number of the exposed service                                    |
-| serviceAccount.create                          | `true`                   | Specifies whether a service account should be created                 |
-| serviceAccount.annotations                     | `{}`                     | Annotations to add to the service account                             |
+| Parameter                                      | Default value            | Description                                                                                                            |
+|------------------------------------------------|--------------------------|------------------------------------------------------------------------------------------------------------------------|
+| image.registry                                 | `docker.io`              | Docker registry name for the image                                                                                     |
+| image.repository                               | `edoburu`                | Docker image repository name                                                                                           |
+| image.name                                     | `pgbouncer`              | Docker image name                                                                                                      |
+| image.tag                                      | `v1.24.1-p1`             | Docker image tag                                                                                                       |
+| image.digest                                   | `""`                     | Docker image digest, will override tag if specified                                                                    |
+| image.pullPolicy                               | `IfNotPresent`           | Image pull policy                                                                                                      |
+| image.pullSecrets                              | `[]`                     | Array of secret names for image pull                                                                                   |
+| image.command                                  | `[]`                     | Override the default command                                                                                           |
+| image.args                                     | `[]`                     | Override the default args                                                                                              |
+| image.securityContext.runAsNonRoot             | `true`                   | Run the container as non-root user                                                                                     |
+| image.securityContext.readOnlyRootFilesystem   | `true`                   | Run the container with read-only root filesystem                                                                       |
+| image.securityContext.allowPrivilegeEscalation | `false`                  | Allow privilege escalation for the container                                                                           |
+| image.securityContext.capabilities.drop        | `['all']`                | Drop all capabilities for the container                                                                                |
+| image.resources                                | `{}`                     | The resources for the container                                                                                        |
+| podLabels                                      | `{}`                     | Labels to be added to the pod                                                                                          |
+| podAnnotations                                 | `{}`                     | Annotations to be added to the pod                                                                                     |
+| podSecurityContext                             | `{}`                     | Pod security context                                                                                                   |
+| database.host                                  | `"host.docker.internal"` | Host where is the database located                                                                                     |
+| database.port                                  | `5432`                   | Port on which is the database listening                                                                                |
+| database.name                                  | `"czertainlydb"`         | Database name                                                                                                          |
+| database.username                              | `"czertainlyuser"`       | Username to access the database                                                                                        |
+| database.password                              | `"your-strong-password"` | Password to access the database                                                                                        |
+| httpProxy                                      | `""`                     | Proxy to be used to access external resources through http                                                             |
+| httpsProxy                                     | `""`                     | Proxy to be used to access external resources through https                                                            |
+| httpProxy                                      | `""`                     | Defines list of external resources that should not use proxy settings                                                  |
+| service.type                                   | `"ClusterIP"`            | Type of the service that is exposed                                                                                    |
+| service.port                                   | `8080`                   | Port number of the exposed service                                                                                     |
+| serviceAccount.create                          | `true`                   | Specifies whether a service account should be created                                                                  |
+| serviceAccount.annotations                     | `{}`                     | Annotations to add to the service account                                                                              |
 | serviceAccount.name                            | `"pg-bouncer-sa"`        | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 
 #### Customization parameters

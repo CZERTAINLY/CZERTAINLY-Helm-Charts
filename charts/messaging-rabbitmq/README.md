@@ -98,34 +98,34 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                    | Default value         | Description                                                 |
-|----------------------------------------------|-----------------------|-------------------------------------------------------------|
-| image.registry                               | `docker.io`           | Docker registry name for the image                          |
-| image.repository                             | `czertainly`          | Docker image repository name                                |
-| image.name                                   | `czertainly-rabbitmq` | Docker image name                                           |
-| image.tag                                    | `4.2.0`               | Docker image tag                                            |
-| image.digest                                 | `""`                  | Docker image digest, will override tag if specified         |
-| image.pullPolicy                             | `IfNotPresent`        | Image pull policy                                           |
-| image.pullSecrets                            | `[]`                  | Array of secret names for image pull                        |
-| image.command                                | `[]`                  | Override the default command                                |
-| image.args                                   | `[]`                  | Override the default args                                   |
-| image.securityContext.runAsNonRoot           | `true`                | Run the container as non-root user                          |
-| image.securityContext.readOnlyRootFilesystem | `true`                | Run the container with read-only root filesystem            |
-| image.resources                              | `{}`                  | The resources for the container                             |
-| podLabels                                    | `{}`                  | Additional labels for the pod                               |
-| podAnnotations                               | `{}`                  | Additional annotations for the pod                          |
-| podSecurityContext.fsGroup                   | `999`                 | File system group for the pod                               |
-| volumes.ephemeral.type                       | `memory`              | Ephemeral volume type to be used                            |
-| volumes.ephemeral.sizeLimit                  | `"1Mi"`               | Ephemeral volume size limit                                 |
-| volumes.ephemeral.storageClassName           | `""`                  | Ephemeral volume storage class name for `storage` type      |
-| volumes.ephemeral.custom                     | `{}`                  | Custom definition of the ephemeral volume for `custom` type |
-| logging.level                                | `"info"`              | Allowed values are `info`, `error`, `warning`, `deubg`      |
-| service.client.type                          | `"ClusterIP"`         | Type of the service that is exposed                         |
-| service.client.http.port                     | `15672`               | Http port number of the exposed service                     |
-| service.client.amqp.port                     | `5672`                | Amqp port number of the exposed service                     |
-| serviceAccount.create                        | `true`                | Specifies whether a service account should be created       |
-| serviceAccount.annotations                   | `{}`                  | Annotations to add to the service account                   |
-| serviceAccount.name                          | `"messaging-rabbitmq-sa"`| The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| Parameter                                    | Default value             | Description                                                                                                            |
+|----------------------------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------|
+| image.registry                               | `docker.io`               | Docker registry name for the image                                                                                     |
+| image.repository                             | `czertainly`              | Docker image repository name                                                                                           |
+| image.name                                   | `czertainly-rabbitmq`     | Docker image name                                                                                                      |
+| image.tag                                    | `4.2.0`                   | Docker image tag                                                                                                       |
+| image.digest                                 | `""`                      | Docker image digest, will override tag if specified                                                                    |
+| image.pullPolicy                             | `IfNotPresent`            | Image pull policy                                                                                                      |
+| image.pullSecrets                            | `[]`                      | Array of secret names for image pull                                                                                   |
+| image.command                                | `[]`                      | Override the default command                                                                                           |
+| image.args                                   | `[]`                      | Override the default args                                                                                              |
+| image.securityContext.runAsNonRoot           | `true`                    | Run the container as non-root user                                                                                     |
+| image.securityContext.readOnlyRootFilesystem | `true`                    | Run the container with read-only root filesystem                                                                       |
+| image.resources                              | `{}`                      | The resources for the container                                                                                        |
+| podLabels                                    | `{}`                      | Additional labels for the pod                                                                                          |
+| podAnnotations                               | `{}`                      | Additional annotations for the pod                                                                                     |
+| podSecurityContext.fsGroup                   | `999`                     | File system group for the pod                                                                                          |
+| volumes.ephemeral.type                       | `memory`                  | Ephemeral volume type to be used                                                                                       |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`                   | Ephemeral volume size limit                                                                                            |
+| volumes.ephemeral.storageClassName           | `""`                      | Ephemeral volume storage class name for `storage` type                                                                 |
+| volumes.ephemeral.custom                     | `{}`                      | Custom definition of the ephemeral volume for `custom` type                                                            |
+| logging.level                                | `"info"`                  | Allowed values are `info`, `error`, `warning`, `deubg`                                                                 |
+| service.client.type                          | `"ClusterIP"`             | Type of the service that is exposed                                                                                    |
+| service.client.http.port                     | `15672`                   | Http port number of the exposed service                                                                                |
+| service.client.amqp.port                     | `5672`                    | Amqp port number of the exposed service                                                                                |
+| serviceAccount.create                        | `true`                    | Specifies whether a service account should be created                                                                  |
+| serviceAccount.annotations                   | `{}`                      | Annotations to add to the service account                                                                              |
+| serviceAccount.name                          | `"messaging-rabbitmq-sa"` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 
 #### Customization parameters
 

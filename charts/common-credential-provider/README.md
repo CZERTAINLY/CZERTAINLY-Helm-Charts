@@ -92,33 +92,33 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                    | Default value                           | Description                                                 |
-|----------------------------------------------|-----------------------------------------|-------------------------------------------------------------|
-| image.registry                               | `docker.io`                             | Docker registry name for the image                          |
-| image.repository                             | `czertainly`                            | Docker image repository name                                |
-| image.name                                   | `czertainly-common-credential-provider` | Docker image name                                           |
-| image.tag                                    | `1.3.5`                                 | Docker image tag                                            |
-| image.digest                                 | `""`                                    | Docker image digest, will override tag if specified         |
-| image.pullPolicy                             | `IfNotPresent`                          | Image pull policy                                           |
-| image.pullSecrets                            | `[]`                                    | Array of secret names for image pull                        |
-| image.command                                | `[]`                                    | Override the default command                                |
-| image.args                                   | `[]`                                    | Override the default args                                   |
-| image.securityContext.runAsNonRoot           | `true`                                  | Run the container as non-root user                          |
-| image.securityContext.readOnlyRootFilesystem | `true`                                  | Run the container with read-only root filesystem            |
-| image.resources                              | `{}`                                    | The resources for the container                             |
-| podLabels                                    | `{}`                                    | Labels to be added to the pod                               |
-| podAnnotations                               | `{}`                                    | Annotations to be added to the pod                          |
-| podSecurityContext                           | `{}`                                    | Pod security context                                        |
-| volumes.ephemeral.type                       | `memory`                                | Ephemeral volume type to be used                            |
-| volumes.ephemeral.sizeLimit                  | `"1Mi"`                                 | Ephemeral volume size limit                                 |
-| volumes.ephemeral.storageClassName           | `""`                                    | Ephemeral volume storage class name for `storage` type      |
-| volumes.ephemeral.custom                     | `{}`                                    | Custom definition of the ephemeral volume for `custom` type |
-| logging.level                                | `"INFO"`                                | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"` |
-| service.type                                 | `"ClusterIP"`                           | Type of the service that is exposed                         |
-| service.port                                 | `8080`                                  | Port number of the exposed service                          |
-| javaOpts                                     | `""`                                    | Customize Java system properties                            |
-| serviceAccount.create                        | `true`                                  | Specifies whether a service account should be created       |
-| serviceAccount.annotations                   | `{}`                                    | Annotations to add to the service account                   |
+| Parameter                                    | Default value                           | Description                                                                                                            |
+|----------------------------------------------|-----------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| image.registry                               | `docker.io`                             | Docker registry name for the image                                                                                     |
+| image.repository                             | `czertainly`                            | Docker image repository name                                                                                           |
+| image.name                                   | `czertainly-common-credential-provider` | Docker image name                                                                                                      |
+| image.tag                                    | `1.3.5`                                 | Docker image tag                                                                                                       |
+| image.digest                                 | `""`                                    | Docker image digest, will override tag if specified                                                                    |
+| image.pullPolicy                             | `IfNotPresent`                          | Image pull policy                                                                                                      |
+| image.pullSecrets                            | `[]`                                    | Array of secret names for image pull                                                                                   |
+| image.command                                | `[]`                                    | Override the default command                                                                                           |
+| image.args                                   | `[]`                                    | Override the default args                                                                                              |
+| image.securityContext.runAsNonRoot           | `true`                                  | Run the container as non-root user                                                                                     |
+| image.securityContext.readOnlyRootFilesystem | `true`                                  | Run the container with read-only root filesystem                                                                       |
+| image.resources                              | `{}`                                    | The resources for the container                                                                                        |
+| podLabels                                    | `{}`                                    | Labels to be added to the pod                                                                                          |
+| podAnnotations                               | `{}`                                    | Annotations to be added to the pod                                                                                     |
+| podSecurityContext                           | `{}`                                    | Pod security context                                                                                                   |
+| volumes.ephemeral.type                       | `memory`                                | Ephemeral volume type to be used                                                                                       |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`                                 | Ephemeral volume size limit                                                                                            |
+| volumes.ephemeral.storageClassName           | `""`                                    | Ephemeral volume storage class name for `storage` type                                                                 |
+| volumes.ephemeral.custom                     | `{}`                                    | Custom definition of the ephemeral volume for `custom` type                                                            |
+| logging.level                                | `"INFO"`                                | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`                                                            |
+| service.type                                 | `"ClusterIP"`                           | Type of the service that is exposed                                                                                    |
+| service.port                                 | `8080`                                  | Port number of the exposed service                                                                                     |
+| javaOpts                                     | `""`                                    | Customize Java system properties                                                                                       |
+| serviceAccount.create                        | `true`                                  | Specifies whether a service account should be created                                                                  |
+| serviceAccount.annotations                   | `{}`                                    | Annotations to add to the service account                                                                              |
 | serviceAccount.name                          | `"common-credential-provider-sa"`       | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 
 #### Customization parameters
