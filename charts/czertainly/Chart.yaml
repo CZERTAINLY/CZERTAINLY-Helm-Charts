@@ -13,7 +13,7 @@ dependencies:
     repository: file://../keycloak-internal
     tags:
       - keycloak-internal
-    version: 26.4.2-0-1-develop
+    version: 26.4.2-0-2-develop
     alias: keycloakInternal
   - condition: commonCredentialProvider.enabled
     name: common-credential-provider
@@ -63,7 +63,7 @@ dependencies:
     repository: file://../ct-logs-discovery-provider
     tags:
       - ct-logs-discovery-provider
-    version: 1.0.2-2-develop
+    version: 1.0.2-3-develop
     alias: ctLogsDiscoveryProvider
   - condition: networkDiscoveryProvider.enabled
     name: network-discovery-provider
@@ -112,7 +112,7 @@ dependencies:
     tags:
       - authority-provider
       - discovery-provider
-    version: 1.1.3-2-develop
+    version: 1.1.3-3-develop
     alias: hashicorpVaultConnector
   - condition: global.utils.enabled
     name: utils-service
