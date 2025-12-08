@@ -107,7 +107,7 @@ image:
   registry: docker.io
   repository: czertainly
   name: czertainly-pyadcs-connector
-  tag: 1.1.5
+  tag: 1.1.6
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent

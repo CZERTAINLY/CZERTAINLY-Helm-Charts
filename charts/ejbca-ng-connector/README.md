@@ -104,44 +104,44 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                    | Default value                   | Description                                                           |
-|----------------------------------------------|---------------------------------|-----------------------------------------------------------------------|
-| image.registry                               | `docker.io`                     | Docker registry name for the image                                    |
-| image.repository                             | `czertainly`                    | Docker image repository name                                          |
-| image.name                                   | `czertainly-ejbca-ng-connector` | Docker image name                                                     |
-| image.tag                                    | `1.11.1`                        | Docker image tag                                                      |
-| image.digest                                 | `""`                            | Docker image digest, will override tag if specified                   |
-| image.pullPolicy                             | `IfNotPresent`                  | Image pull policy                                                     |
-| image.pullSecrets                            | `[]`                            | Array of secret names for image pull                                  |
-| image.command                                | `[]`                            | Override the default command                                          |
-| image.args                                   | `[]`                            | Override the default args                                             |
-| image.securityContext.runAsNonRoot           | `true`                          | Run the container as non-root user                                    |
-| image.securityContext.readOnlyRootFilesystem | `true`                          | Run the container with read-only root filesystem                      |
-| image.resources                              | `{}`                            | The resources for the container                                       |
-| podLabels                                    | `{}`                            | Labels to be added to the pod                                         |
-| podAnnotations                               | `{}`                            | Annotations to be added to the pod                                    |
-| podSecurityContext                           | `{}`                            | Pod security context                                                  |
-| volumes.ephemeral.type                       | `memory`                        | Ephemeral volume type to be used                                      |
-| volumes.ephemeral.sizeLimit                  | `"1Mi"`                         | Ephemeral volume size limit                                           |
-| volumes.ephemeral.storageClassName           | `""`                            | Ephemeral volume storage class name for `storage` type                |
-| volumes.ephemeral.custom                     | `{}`                            | Custom definition of the ephemeral volume for `custom` type           |
-| database.type                                | `"postgresql"`                  | Type of the database, currently only `postgresql` is supported        |
-| database.host                                | `"host.docker.internal"`        | Host where is the database located                                    |
-| database.port                                | `5432`                          | Port on which is the database listening                               |
-| database.name                                | `"czertainlydb"`                | Database name                                                         |
-| database.username                            | `"czertainlyuser"`              | Username to access the database                                       |
-| database.password                            | `"your-strong-password"`        | Password to access the database                                       |
-| trusted.certificates                         | `""`                            | List of additional CA certificates that should be trusted             |
-| httpProxy                                    | `""`                            | Proxy to be used to access external resources through http            |
-| httpsProxy                                   | `""`                            | Proxy to be used to access external resources through https           |
-| httpProxy                                    | `""`                            | Defines list of external resources that should not use proxy settings |
-| logging.level                                | `"INFO"`                        | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`           |
-| service.type                                 | `"ClusterIP"`                   | Type of the service that is exposed                                   |
-| service.port                                 | `8080`                          | Port number of the exposed service                                    |
-| ejbca.maxPayloadSize                         | `"2000000"`                     | Maximum payload size in bytes                                         |
-| ejbca.searchPageSize                         | `"100"`                         | Maximum number of certificates to fetch in one request                |
-| serviceAccount.create                        | `true`                          | Specifies whether a service account should be created                 |
-| serviceAccount.annotations                   | `{}`                            | Annotations to add to the service account                             |
+| Parameter                                    | Default value                   | Description                                                                                                            |
+|----------------------------------------------|---------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| image.registry                               | `docker.io`                     | Docker registry name for the image                                                                                     |
+| image.repository                             | `czertainly`                    | Docker image repository name                                                                                           |
+| image.name                                   | `czertainly-ejbca-ng-connector` | Docker image name                                                                                                      |
+| image.tag                                    | `1.11.1`                        | Docker image tag                                                                                                       |
+| image.digest                                 | `""`                            | Docker image digest, will override tag if specified                                                                    |
+| image.pullPolicy                             | `IfNotPresent`                  | Image pull policy                                                                                                      |
+| image.pullSecrets                            | `[]`                            | Array of secret names for image pull                                                                                   |
+| image.command                                | `[]`                            | Override the default command                                                                                           |
+| image.args                                   | `[]`                            | Override the default args                                                                                              |
+| image.securityContext.runAsNonRoot           | `true`                          | Run the container as non-root user                                                                                     |
+| image.securityContext.readOnlyRootFilesystem | `true`                          | Run the container with read-only root filesystem                                                                       |
+| image.resources                              | `{}`                            | The resources for the container                                                                                        |
+| podLabels                                    | `{}`                            | Labels to be added to the pod                                                                                          |
+| podAnnotations                               | `{}`                            | Annotations to be added to the pod                                                                                     |
+| podSecurityContext                           | `{}`                            | Pod security context                                                                                                   |
+| volumes.ephemeral.type                       | `memory`                        | Ephemeral volume type to be used                                                                                       |
+| volumes.ephemeral.sizeLimit                  | `"1Mi"`                         | Ephemeral volume size limit                                                                                            |
+| volumes.ephemeral.storageClassName           | `""`                            | Ephemeral volume storage class name for `storage` type                                                                 |
+| volumes.ephemeral.custom                     | `{}`                            | Custom definition of the ephemeral volume for `custom` type                                                            |
+| database.type                                | `"postgresql"`                  | Type of the database, currently only `postgresql` is supported                                                         |
+| database.host                                | `"host.docker.internal"`        | Host where is the database located                                                                                     |
+| database.port                                | `5432`                          | Port on which is the database listening                                                                                |
+| database.name                                | `"czertainlydb"`                | Database name                                                                                                          |
+| database.username                            | `"czertainlyuser"`              | Username to access the database                                                                                        |
+| database.password                            | `"your-strong-password"`        | Password to access the database                                                                                        |
+| trusted.certificates                         | `""`                            | List of additional CA certificates that should be trusted                                                              |
+| httpProxy                                    | `""`                            | Proxy to be used to access external resources through http                                                             |
+| httpsProxy                                   | `""`                            | Proxy to be used to access external resources through https                                                            |
+| httpProxy                                    | `""`                            | Defines list of external resources that should not use proxy settings                                                  |
+| logging.level                                | `"INFO"`                        | Allowed values are `"INFO"`, `"DEBUG"`, `"WARN"`, `"TRACE"`                                                            |
+| service.type                                 | `"ClusterIP"`                   | Type of the service that is exposed                                                                                    |
+| service.port                                 | `8080`                          | Port number of the exposed service                                                                                     |
+| ejbca.maxPayloadSize                         | `"2000000"`                     | Maximum payload size in bytes                                                                                          |
+| ejbca.searchPageSize                         | `"100"`                         | Maximum number of certificates to fetch in one request                                                                 |
+| serviceAccount.create                        | `true`                          | Specifies whether a service account should be created                                                                  |
+| serviceAccount.annotations                   | `{}`                            | Annotations to add to the service account                                                                              |
 | serviceAccount.name                          | `"ejbca-ng-connector-sa"`       | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 
 #### Customization parameters
