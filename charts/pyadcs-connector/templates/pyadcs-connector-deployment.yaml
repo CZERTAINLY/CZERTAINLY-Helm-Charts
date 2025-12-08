@@ -30,9 +30,10 @@ spec:
       {{- end }}
       annotations:
         # when the list of the trusted certificates is changed, restart deployment
+        {{- if .Values.trusted.certificates }}
         checksum/config: {{ include (print $.Template.BasePath "/trusted-certificates-secret.yaml") . | sha256sum }}
-        {{- if .Values.global.trusted.certificates }}
-        checksum/config-global: {{ include ("czertainly-lib.trusted.certificates.secret.global") . | sha256sum }}
+        {{- else if .Values.global.trusted.certificates }}
+        checksum/config: {{ include ("czertainly-lib.trusted.certificates.secret.global") . | sha256sum }}
         {{- end }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
