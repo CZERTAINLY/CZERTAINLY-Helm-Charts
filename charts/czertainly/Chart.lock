@@ -4,7 +4,7 @@ dependencies:
   version: 26.4.2-0-1
 - name: common-credential-provider
   repository: file://../common-credential-provider
-  version: 1.3.5-2-develop
+  version: 1.3.5-3-develop
 - name: ejbca-ng-connector
   repository: file://../ejbca-ng-connector
   version: 1.11.1-2
@@ -65,5 +65,5 @@ dependencies:
 - name: pg-bouncer
   repository: file://../pg-bouncer
   version: 1.24.1-p1-1
-digest: sha256:f7b8c28cbc27b477690b1c786d0f48c3b2fa084b2b0d433df5601fc994d3fe18
-generated: "2025-11-30T14:51:49.16148+01:00"
+digest: sha256:2c46a97bc4e122c2bdcb5d02bfb720251e742634b7f629004fd974cb9915af86
+generated: "2026-02-26T08:21:26.257886+01:00"
