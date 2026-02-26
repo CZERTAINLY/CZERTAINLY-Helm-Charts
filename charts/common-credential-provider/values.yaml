@@ -18,6 +18,17 @@ global:
       sizeLimit: ""
       storageClassName: ""
       custom: {}
+  database:
+    type: ""
+    host: ""
+    port: ""
+    name: ""
+    username: ""
+    password: ""
+    pgBouncer:
+      enabled: true
+      host: "pg-bouncer-service"
+      port: 5432
   # additional init containers that will be added to each pod
   # - name: some-image
   #   image: some-image
@@ -63,6 +74,15 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 replicaCount: 1
+
+database:
+  # currently only postgresql is supported
+  type: "postgresql"
+  host: "host.docker.internal"
+  port: 5432
+  name: "czertainlydb"
+  username: "czertainlyuser"
+  password: "your-strong-password"
 
 service:
   type: "ClusterIP"
