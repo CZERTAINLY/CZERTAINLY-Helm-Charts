@@ -21,7 +21,7 @@ dependencies:
     repository: file://../common-credential-provider
     tags:
       - credential-provider
-    version: 1.3.5-2
+    version: 1.3.5-2-develop
     alias: commonCredentialProvider
   - condition: ejbcaNgConnector.enabled
     name: ejbca-ng-connector
