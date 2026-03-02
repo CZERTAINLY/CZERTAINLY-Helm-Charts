@@ -1,19 +1,19 @@
 apiVersion: v2
 type: application
-name: caching-redis
-version: 7.4.2-1-develop
-appVersion: 7.4.2
+name: caching-valkey
+version: 8.1.1-1-develop
+appVersion: 8.1.1
 
 annotations:
   category: trustLifecycleManagement
 
-description: A Helm chart for CZERTAINLY platform Redis caching service.
+description: A Helm chart for CZERTAINLY platform Valkey caching service.
 home: https://github.com/CZERTAINLY/CZERTAINLY-Helm-Charts
 icon: https://github.com/CZERTAINLY/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 
 keywords:
   - czertainly
-  - redis
+  - valkey
   - caching
   - session
 

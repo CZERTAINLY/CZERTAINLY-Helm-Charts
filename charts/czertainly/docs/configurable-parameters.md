@@ -39,10 +39,10 @@ Global values are used to define common parameters for the chart and all its sub
 | global.messaging.remoteAccess             | `false`                | Enable remote access to messaging service                             |
 | global.messaging.username                 | `""`                   | Username to access the messaging                                      |
 | global.messaging.password                 | `""`                   | Password to access the messaging                                      |
-| global.redis.external.enabled             | `false`                | Enable external Redis for caching/session sharing                     |
-| global.redis.external.host                | `""`                   | Host where is the external Redis located                              |
-| global.redis.external.port                | `""`                   | Port on which is the external Redis listening                         |
-| global.redis.password                     | `""`                   | Password to access the Redis (optional)                               |
+| global.valkey.external.enabled            | `false`                | Enable external Valkey for caching/session sharing                    |
+| global.valkey.external.host               | `""`                   | Host where is the external Valkey located                             |
+| global.valkey.external.port               | `""`                   | Port on which is the external Valkey listening                        |
+| global.valkey.password                    | `""`                   | Password to access the Valkey (optional)                              |
 | global.utils.enabled                      | `false`                | Enables external access to Utils Service                              |
 | global.admin.username                     | `""`                   | Initial administrator username                                        |
 | global.admin.password                     | `""`                   | Initial administrator password                                        |

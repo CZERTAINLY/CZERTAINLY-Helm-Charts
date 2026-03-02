@@ -65,7 +65,7 @@ global:
     coreUsername: ""
     corePassword: ""
     virtualHost: ""
-  redis:
+  valkey:
     external:
       enabled: false
       host: ""

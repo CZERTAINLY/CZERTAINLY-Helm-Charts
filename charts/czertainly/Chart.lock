@@ -59,14 +59,14 @@ dependencies:
 - name: messaging-rabbitmq
   repository: file://../messaging-rabbitmq
   version: 4.2.0-1
-- name: caching-redis
-  repository: file://../caching-redis
-  version: 7.4.2-1-develop
+- name: caching-valkey
+  repository: file://../caching-valkey
+  version: 8.1.1-1-develop
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.7-1
 - name: pg-bouncer
   repository: file://../pg-bouncer
   version: 1.24.1-p1-1
-digest: sha256:de2c2400cd50d3a8ab35e0cb33d6ef2ac8997dc7f5f4ecc28890bcf080a2f9f4
-generated: "2026-02-16T10:23:51.184685216Z"
+digest: sha256:19f5ecf4d1d270eeddf56681d902ff5df6fcff21c8a7eb7c8a47f75ab565ea9a
+generated: "2026-03-02T04:12:26.820014499+01:00"

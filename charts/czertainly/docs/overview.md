@@ -84,43 +84,43 @@ See [CZERTAINLY-Helm-Charts](https://github.com/CZERTAINLY/CZERTAINLY-Helm-Chart
 
 ## High Availability
 
-CZERTAINLY supports High Availability (HA) deployments by running multiple replicas of the Core service. When running in HA mode (`global.replicaCount >= 2`), Redis is **required** for session/state sharing between replicas.
+CZERTAINLY supports High Availability (HA) deployments by running multiple replicas of the Core service. When running in HA mode (`global.replicaCount >= 2`), Valkey is **required** for session/state sharing between replicas.
 
-### Redis Requirements
+### Valkey Requirements
 
-When deploying with `global.replicaCount >= 2`, you must enable Redis in one of two ways:
+When deploying with `global.replicaCount >= 2`, you must enable Valkey in one of two ways:
 
-**Option 1: Internal Redis (recommended for most deployments)**
+**Option 1: Internal Valkey (recommended for most deployments)**
 ```bash
 helm install czertainly oci://harbor.3key.company/czertainly-helm/czertainly \
   --set global.replicaCount=2 \
   --set cachingService.enabled=true
 ```
 
-**Option 2: External Redis (for production environments with existing Redis infrastructure)**
+**Option 2: External Valkey (for production environments with existing Valkey infrastructure)**
 ```bash
 helm install czertainly oci://harbor.3key.company/czertainly-helm/czertainly \
   --set global.replicaCount=2 \
-  --set global.redis.external.enabled=true \
-  --set global.redis.external.host=your-redis-host \
-  --set global.redis.external.port=6379 \
-  --set global.redis.password=your-redis-password
+  --set global.valkey.external.enabled=true \
+  --set global.valkey.external.host=your-valkey-host \
+  --set global.valkey.external.port=6379 \
+  --set global.valkey.password=your-valkey-password
 ```
 
 ### Validation
 
-The Helm chart includes validation that prevents deployment with `replicaCount >= 2` without Redis configured. If you attempt to deploy without Redis, you will see an error message:
+The Helm chart includes validation that prevents deployment with `replicaCount >= 2` without Valkey configured. If you attempt to deploy without Valkey, you will see an error message:
 
 ```
-ERROR: Redis is required for High Availability deployments.
+ERROR: Valkey is required for High Availability deployments.
    When replicaCount >= 2, you must enable either:
-   - cachingService.enabled=true (for internal Redis), or
-   - global.redis.external.enabled=true (for external Redis)
+   - cachingService.enabled=true (for internal Valkey), or
+   - global.valkey.external.enabled=true (for external Valkey)
 ```
 
 ### Single Instance Deployments
 
-For single instance deployments (`global.replicaCount=1`), Redis is optional and disabled by default. You can still enable Redis if needed for other purposes.
+For single instance deployments (`global.replicaCount=1`), Valkey is optional and disabled by default. You can still enable Valkey if needed for other purposes.
 
 ## Persistence
 

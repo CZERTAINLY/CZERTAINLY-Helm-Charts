@@ -1,4 +1,4 @@
-# Default values for caching-redis.
+# Default values for caching-valkey.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -18,7 +18,7 @@ global:
       sizeLimit: ""
       storageClassName: ""
       custom: {}
-  redis:
+  valkey:
     password: ""
   httpProxy: ""
   httpsProxy: ""
@@ -74,7 +74,7 @@ service:
   type: "ClusterIP"
   port: 6379
 
-redis:
+valkey:
   # Optional password, defaults to empty (no auth)
   password: ""
   maxmemory: "256mb"
@@ -83,9 +83,9 @@ redis:
 image:
   # default registry name
   registry: docker.io
-  repository: library
-  name: redis
-  tag: 7.4.2-alpine
+  repository: valkey
+  name: valkey
+  tag: 8.1.1-alpine
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
