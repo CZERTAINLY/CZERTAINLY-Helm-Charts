@@ -49,6 +49,19 @@ global:
     remoteAccess: false
     username: ""
     password: ""
+    provisionerUsername: ""
+    provisionerPassword: ""
+    proxyUsername: ""
+    proxyPassword: ""
+    coreUsername: ""
+    corePassword: ""
+    virtualHost: ""
+  valkey:
+    external:
+      enabled: false
+      host: ""
+      port: ""
+    password: ""
   utils:
     enabled: false
   admin:

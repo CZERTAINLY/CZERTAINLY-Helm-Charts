@@ -1,4 +1,8 @@
-{{- $replicaCount := pluck "replicaCount" .Values.global .Values | compact | first }}
+{{- $replicaCount := pluck "replicaCount" .Values .Values.global | compact | first }}
+{{- $valkeyEnabled := or .Values.cachingService.enabled .Values.global.valkey.external.enabled }}
+{{- if and (ge ($replicaCount | int) 2) (not $valkeyEnabled) }}
+  {{- fail "\n\nERROR: Valkey is required for High Availability deployments.\n   When replicaCount >= 2, you must enable either:\n   - cachingService.enabled=true (for internal Valkey), or\n   - global.valkey.external.enabled=true (for external Valkey)\n" }}
+{{- end }}
 {{- $username := pluck "username" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 {{- $name := pluck "name" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 {{- $surname := pluck "surname" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
@@ -44,6 +48,10 @@ spec:
         # when the messaging secrets are changed, restart deployment
         checksum/mq-secret: {{ include (print $.Template.BasePath "/messaging-secret.yaml") . | sha256sum }}
 {{/*        checksum/mq-secret: {{ include "messaging-rabbitmq.definitions.json" (dict "global" .Values.global "messagingService" .Values.messagingService) | sha256sum }}*/}}
+        {{- if $valkeyEnabled }}
+        # when the caching secrets are changed, restart deployment
+        checksum/caching-secret: {{ include (print $.Template.BasePath "/valkey-secret.yaml") . | sha256sum }}
+        {{- end }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -231,6 +239,25 @@ spec:
                   key: messaging.password
             - name: SCHEDULER_BASE_URL
               value: "http://scheduler-service-service:{{ .Values.schedulerService.service.port }}"
+            {{- if $valkeyEnabled }}
+            - name: VALKEY_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: caching-configmap
+                  key: valkey.host
+            - name: VALKEY_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: caching-configmap
+                  key: valkey.port
+            - name: VALKEY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: caching-secret
+                  key: valkey.password
+            - name: PROXY_VALKEY_ENABLED
+              value: "true"
+            {{- end }}
             {{- if .Values.global.keycloak.enabled }}
             - name: INTERNAL_OAUTH_SECRET
               value: {{ .Values.global.keycloak.clientSecret | quote }}
