@@ -242,22 +242,22 @@ spec:
             - name: SCHEDULER_BASE_URL
               value: "http://scheduler-service-service:{{ .Values.schedulerService.service.port }}"
             {{- if $valkeyEnabled }}
-            - name: VALKEY_HOST
+            - name: REDIS_HOST
               valueFrom:
                 configMapKeyRef:
                   name: caching-configmap
                   key: valkey.host
-            - name: VALKEY_PORT
+            - name: REDIS_PORT
               valueFrom:
                 configMapKeyRef:
                   name: caching-configmap
                   key: valkey.port
-            - name: VALKEY_PASSWORD
+            - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: caching-secret
                   key: valkey.password
-            - name: PROXY_VALKEY_ENABLED
+            - name: PROXY_REDIS_ENABLED
               value: "true"
             {{- end }}
             {{- if .Values.global.keycloak.enabled }}
