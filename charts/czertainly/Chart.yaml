@@ -180,6 +180,14 @@ dependencies:
       - scheduler
     version: 1.0.7-1
     alias: schedulerService
+  - condition: rabbitmqBootstrap.enabled
+    name: rabbitmq-bootstrap
+    # repository: oci://harbor.3key.company/czertainly-helm
+    repository: file://../rabbitmq-bootstrap
+    tags:
+      - rabbitmq-bootstrap
+    version: 1.0.0-1
+    alias: rabbitmqBootstrap
   - condition: global.database.pgBouncer.enabled
     name: pg-bouncer
     # repository: oci://harbor.3key.company/czertainly-helm

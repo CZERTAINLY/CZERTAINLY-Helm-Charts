@@ -78,8 +78,8 @@ Example:
       "user": "{{ $coreUsername }}",
       "vhost": "{{ $virtualHost }}",
       "configure": "",
-      "write": "^czertainly\\..*$",
-      "read": "^core\\..*$"
+      "write": "^czertainly(-proxy)?$",
+      "read": "^core(\\..*)?$"
     }
   ],
   "exchanges": [

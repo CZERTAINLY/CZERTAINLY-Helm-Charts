@@ -72,6 +72,9 @@ helm dependency update charts/webhook-notification-provider --skip-refresh
 echo "Updating dependencies for x509-compliance-provider..."
 helm dependency update charts/x509-compliance-provider --skip-refresh
 
+echo "Updating dependencies for rabbitmq-bootstrap..."
+helm dependency update charts/rabbitmq-bootstrap --skip-refresh
+
 # finally, update czertainly umbrella chart
 echo "Updating dependencies for czertainly..."
 helm dependency update charts/czertainly --skip-refresh

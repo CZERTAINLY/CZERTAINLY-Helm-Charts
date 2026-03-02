@@ -516,6 +516,9 @@ cachingService:
   enabled: false
 schedulerService:
   nameOverride: scheduler-service
+rabbitmqBootstrap:
+  nameOverride: rabbitmq-bootstrap
+  enabled: false
 #
 # connectors
 #

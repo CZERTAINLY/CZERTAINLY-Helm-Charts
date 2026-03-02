@@ -1,0 +1,31 @@
+annotations:
+  category: trustLifecycleManagement
+apiVersion: v2
+appVersion: 1.0-SNAPSHOT
+name: rabbitmq-bootstrap
+description: A Helm chart for CZERTAINLY platform RabbitMQ Bootstrap service (on-prem proxy provisioning).
+home: https://github.com/CZERTAINLY/CZERTAINLY-rabbitmq-bootstrap
+icon: https://github.com/CZERTAINLY/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
+dependencies:
+  - name: czertainly-lib
+    repository: file://../czertainly-lib
+    version: 1.4.2
+keywords:
+  - czertainly
+  - trust
+  - management
+  - lifecycle
+  - platform
+  - software
+  - rabbitmq
+  - bootstrap
+maintainers:
+  - name: CZERTAINLY
+    email: info@czertainly.com
+    url: https://github.com/CZERTAINLY/CZERTAINLY-Helm-Charts
+type: application
+sources:
+  - https://github.com/CZERTAINLY/CZERTAINLY
+  - https://www.czertainly.com
+  - https://docs.czertainly.com
+version: 1.0.0-1

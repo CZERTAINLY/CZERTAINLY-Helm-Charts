@@ -80,6 +80,9 @@ spec:
               echo "auth service seems to be started" &&
               while ! nc -z {{ $messagingHost }} {{ $messagingAmqpPort }}; do sleep 1; done &&
               while ! nc -z scheduler-service-service {{ .Values.schedulerService.service.port }}; do sleep 1; done &&
+              {{- if .Values.rabbitmqBootstrap.enabled }}
+              while ! nc -z rabbitmq-bootstrap-service {{ .Values.rabbitmqBootstrap.service.port }}; do sleep 1; done &&
+              {{- end }}
               echo "messaging and scheduler service seems to be started"
         {{- if $additionalInitContainers }}
           {{- $additionalInitContainers | nindent 8 }}
