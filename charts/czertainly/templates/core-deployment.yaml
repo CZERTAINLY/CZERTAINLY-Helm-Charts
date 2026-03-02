@@ -13,7 +13,7 @@
 {{- $additionalVolumeMounts := (include "czertainly.customization.volumeMounts" $) }}
 {{- $additionalEnv := (include "czertainly.customization.env" $) }}
 {{- $additionalEnvFrom := (include "czertainly.customization.envFrom" $) }}
-{{- $scripts := or .Values.global.keycloak.enabled .Values.registerAdmin.enabled .Values.global.entraId.enabled }}
+{{- $scripts := or .Values.global.keycloak.enabled .Values.registerAdmin.enabled }}
 {{- $messagingHost := .Values.messaging.host }}
 {{- $messagingAmqpPort := .Values.messaging.amqp.port }}
 {{- $externalMessaging := pluck "enabled" .Values.global.messaging.external .Values.messaging.external | compact | first }}
@@ -264,16 +264,6 @@ spec:
             - name: INTERNAL_OAUTH_SECRET
               value: {{ .Values.global.keycloak.clientSecret | quote }}
             {{- end }}
-            {{- if .Values.global.entraId.enabled }}
-            - name: ENTRAID_TENANT_ID
-              value: {{ .Values.global.entraId.tenantId | quote }}
-            - name: ENTRAID_CLIENT_ID
-              value: {{ .Values.global.entraId.clientId | quote }}
-            - name: ENTRAID_CLIENT_SECRET
-              value: {{ .Values.global.entraId.clientSecret | quote }}
-            - name: ENTRAID_API_SCOPE
-              value: {{ .Values.global.entraId.apiScope | quote }}
-            {{- end }}
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}
@@ -357,9 +347,6 @@ spec:
                     {{- end }}
                     {{- if .Values.global.keycloak.enabled }}
                     /opt/czertainly/scripts/register-internal-keycloak.sh $INTERNAL_OAUTH_SECRET;
-                    {{- end }}
-                    {{- if .Values.global.entraId.enabled }}
-                    /opt/czertainly/scripts/register-entraid-oidc.sh $ENTRAID_TENANT_ID $ENTRAID_CLIENT_ID $ENTRAID_CLIENT_SECRET $ENTRAID_API_SCOPE;
                     {{- end }}
           {{- end }}
         {{- if $additionalSidecarContainers }}

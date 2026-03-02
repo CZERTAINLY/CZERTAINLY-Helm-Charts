@@ -36,19 +36,10 @@ global:
   httpsProxy: ""
   noProxy: ""
   hostName: ""
-  kong:
-    enabled: true
   keycloak:
     enabled: false
     # client secret must be set if keycloak is enabled
     clientSecret: ""
-  entraId:
-    enabled: false
-    tenantId: ""
-    clientId: ""
-    clientSecret: ""
-    # API scope for custom claims (e.g., https://cloudfield.cz/customer-prod/access_as_user)
-    apiScope: ""
   messaging:
     external:
       enabled: false
