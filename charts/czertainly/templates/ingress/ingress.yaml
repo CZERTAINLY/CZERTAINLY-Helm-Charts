@@ -20,9 +20,7 @@ metadata:
   labels:
     {{- include "czertainly.labels" . | nindent 4 }}
   annotations:
-  {{- if not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
     kubernetes.io/ingress.class: {{ .Values.ingress.class }}
-  {{- end }}
   {{- if or (eq .Values.ingress.certificate.source "internal") (eq .Values.ingress.certificate.source "letsencrypt") }}
     {{- $certmanagerVer :=  split "." .Values.certManager.version -}}
     {{- if or (.Capabilities.APIVersions.Has "certmanager.k8s.io/v1alpha1") (and (gt (len $certmanagerVer._0) 0) (eq (int $certmanagerVer._0) 0) (lt (int $certmanagerVer._1) 11)) }}
@@ -32,30 +30,20 @@ metadata:
     cert-manager.io/issuer-kind: Issuer
     {{- end }}
   {{- end }}
-  {{- if and (eq .Values.ingress.class "traefik") (not .Values.global.kong.enabled) }}
-    traefik.ingress.kubernetes.io/router.middlewares: {{ .Release.Namespace }}-{{ $fullName }}-headers@kubernetescrd,{{ .Release.Namespace }}-{{ $fullName }}-strip-prefix@kubernetescrd,{{ .Release.Namespace }}-{{ $fullName }}-login-rewrite@kubernetescrd,{{ .Release.Namespace }}-{{ $fullName }}-pass-tls-client-cert@kubernetescrd,{{ .Release.Namespace }}-{{ $fullName }}-fix-cert-header@kubernetescrd
-    traefik.ingress.kubernetes.io/router.tls.options: {{ .Release.Namespace }}-{{ $fullName }}-mtls@kubernetescrd
-  {{- end }}
   {{- with .Values.ingress.annotations }}
     {{- range $key, $val := . }}
     {{ $key }}: {{ tpl $val $ | quote }}
     {{- end }}
   {{- end }}
 spec:
-  {{- if and .Values.ingress.class (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.ingress.class }}
-  {{- end }}
   tls:
     - hosts:
       - {{ $hostName }}
-      {{- if .Values.ingress.tls.secretName }}
       secretName: {{ .Values.ingress.tls.secretName }}
-      {{- end }}
   rules:
     - host: {{ $hostName }}
       http:
         paths:
-          {{- if .Values.global.kong.enabled }}
           - path: /
             pathType: Prefix
             backend:
@@ -68,96 +56,4 @@ spec:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
               {{- end }}
-          {{- else }}
-          {{- if .Values.global.keycloak.enabled }}
-          - path: /kc
-            pathType: Prefix
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: keycloak-internal-service
-                port:
-                  number: 8080
-              {{- else }}
-              serviceName: keycloak-internal-service
-              servicePort: 8080
-              {{- end }}
-          {{- end }}
-          {{- if .Values.global.messaging.remoteAccess }}
-          - path: /mq
-            pathType: Prefix
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: messaging-service
-                port:
-                  number: 15672
-              {{- else }}
-              serviceName: messaging-service
-              servicePort: 15672
-              {{- end }}
-          {{- end }}
-          {{- if .Values.global.utils.enabled }}
-          - path: /utils
-            pathType: Prefix
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: utils-service-service
-                port:
-                  number: 8080
-              {{- else }}
-              serviceName: utils-service-service
-              servicePort: 8080
-              {{- end }}
-          {{- end }}
-          - path: /api
-            pathType: Prefix
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: core-service
-                port:
-                  number: 8080
-              {{- else }}
-              serviceName: core-service
-              servicePort: 8080
-              {{- end }}
-          - path: /login
-            pathType: Prefix
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: core-service
-                port:
-                  number: 8080
-              {{- else }}
-              serviceName: core-service
-              servicePort: 8080
-              {{- end }}
-          - path: /logout
-            pathType: Prefix
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: core-service
-                port:
-                  number: 8080
-              {{- else }}
-              serviceName: core-service
-              servicePort: 8080
-              {{- end }}
-          - path: /administrator
-            pathType: Prefix
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: fe-administrator-service
-                port:
-                  number: 8080
-              {{- else }}
-              serviceName: fe-administrator-service
-              servicePort: 8080
-              {{- end }}
-          {{- end }}
 {{- end }}

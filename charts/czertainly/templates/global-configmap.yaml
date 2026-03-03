@@ -1,4 +1,3 @@
-{{- if .Values.global.kong.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,4 +5,3 @@ metadata:
 data:
   kong.yml: |-
     {{- include "api-gateway-kong.config.yml" (dict "global" .Values.global "apiGateway" .Values.apiGateway) | indent 4 }}
-{{- end }}
