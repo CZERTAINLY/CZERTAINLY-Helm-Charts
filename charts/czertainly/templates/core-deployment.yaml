@@ -1,7 +1,7 @@
 {{- $replicaCount := pluck "replicaCount" .Values .Values.global | compact | first }}
-{{- $redisEnabled := or .Values.cachingService.enabled .Values.global.redis.external.enabled }}
-{{- if and (ge ($replicaCount | int) 2) (not $redisEnabled) }}
-  {{- fail "\n\nERROR: Redis is required for High Availability deployments.\n   When replicaCount >= 2, you must enable either:\n   - cachingService.enabled=true (for internal Redis), or\n   - global.redis.external.enabled=true (for external Redis)\n" }}
+{{- $valkeyEnabled := or .Values.cachingService.enabled .Values.global.valkey.external.enabled }}
+{{- if and (ge ($replicaCount | int) 2) (not $valkeyEnabled) }}
+  {{- fail "\n\nERROR: Valkey is required for High Availability deployments.\n   When replicaCount >= 2, you must enable either:\n   - cachingService.enabled=true (for internal Valkey), or\n   - global.valkey.external.enabled=true (for external Valkey)\n" }}
 {{- end }}
 {{- $username := pluck "username" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 {{- $name := pluck "name" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
@@ -48,9 +48,9 @@ spec:
         # when the messaging secrets are changed, restart deployment
         checksum/mq-secret: {{ include (print $.Template.BasePath "/messaging-secret.yaml") . | sha256sum }}
 {{/*        checksum/mq-secret: {{ include "messaging-rabbitmq.definitions.json" (dict "global" .Values.global "messagingService" .Values.messagingService) | sha256sum }}*/}}
-        {{- if $redisEnabled }}
+        {{- if $valkeyEnabled }}
         # when the caching secrets are changed, restart deployment
-        checksum/caching-secret: {{ include (print $.Template.BasePath "/redis-secret.yaml") . | sha256sum }}
+        checksum/caching-secret: {{ include (print $.Template.BasePath "/valkey-secret.yaml") . | sha256sum }}
         {{- end }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
@@ -244,22 +244,22 @@ spec:
               value: {{ pluck "virtualHost" .Values.global.messaging .Values.messaging | compact | first | default "czertainly" | quote }}
             - name: SCHEDULER_BASE_URL
               value: "http://scheduler-service-service:{{ .Values.schedulerService.service.port }}"
-            {{- if $redisEnabled }}
+            {{- if $valkeyEnabled }}
             - name: REDIS_HOST
               valueFrom:
                 configMapKeyRef:
                   name: caching-configmap
-                  key: redis.host
+                  key: valkey.host
             - name: REDIS_PORT
               valueFrom:
                 configMapKeyRef:
                   name: caching-configmap
-                  key: redis.port
+                  key: valkey.port
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: caching-secret
-                  key: redis.password
+                  key: valkey.password
             - name: PROXY_REDIS_ENABLED
               value: "true"
             {{- end }}

@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "caching-redis.name" -}}
+{{- define "caching-valkey.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "caching-redis.fullname" -}}
+{{- define "caching-valkey.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "caching-redis.chart" -}}
+{{- define "caching-valkey.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "caching-redis.labels" -}}
-helm.sh/chart: {{ include "caching-redis.chart" . }}
-{{ include "caching-redis.selectorLabels" . }}
+{{- define "caching-valkey.labels" -}}
+helm.sh/chart: {{ include "caching-valkey.chart" . }}
+{{ include "caching-valkey.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "caching-redis.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "caching-redis.name" . }}
+{{- define "caching-valkey.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "caching-valkey.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "caching-redis.serviceAccountName" -}}
+{{- define "caching-valkey.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "caching-redis.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "caching-valkey.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
@@ -64,70 +64,70 @@ Create the name of the service account to use
 {{/*
 Return the image name
 */}}
-{{- define "caching-redis.image" -}}
+{{- define "caching-valkey.image" -}}
 {{ include "czertainly-lib.images.image" (dict "image" .Values.image "global" .Values.global) }}
 {{- end -}}
 
 {{/*
 Return the image pull secret names
 */}}
-{{- define "caching-redis.imagePullSecrets" -}}
+{{- define "caching-valkey.imagePullSecrets" -}}
 {{ include "czertainly-lib.images.pullSecrets" (dict "images" (list .Values.image) "global" .Values.global) }}
 {{- end -}}
 
 {{/*
 Return the ephemeral volume configuration
 */}}
-{{- define "caching-redis.ephemeralVolume" -}}
+{{- define "caching-valkey.ephemeralVolume" -}}
 {{ include "czertainly-lib.volumes.ephemeral" (dict "volumes" .Values.volumes "global" .Values.global.volumes) }}
 {{- end -}}
 
 {{/*
 Render init containers, if any
 */}}
-{{- define "caching-redis.customization.initContainers" -}}
+{{- define "caching-valkey.customization.initContainers" -}}
 {{- include "czertainly-lib.customizations.render.yaml" ( dict "parts" (list .Values.global.initContainers .Values.initContainers) "context" $ ) }}
 {{- end -}}
 
 {{/*
 Render sidecar containers, if any
 */}}
-{{- define "caching-redis.customization.sidecarContainers" -}}
+{{- define "caching-valkey.customization.sidecarContainers" -}}
 {{- include "czertainly-lib.customizations.render.yaml" ( dict "parts" (list .Values.global.sidecarContainers .Values.sidecarContainers) "context" $ ) }}
 {{- end -}}
 
 {{/*
 Render additional volumes, if any
 */}}
-{{- define "caching-redis.customization.volumes" -}}
+{{- define "caching-valkey.customization.volumes" -}}
 {{- include "czertainly-lib.customizations.render.yaml" ( dict "parts" (list .Values.global.additionalVolumes .Values.additionalVolumes) "context" $ ) }}
 {{- end -}}
 
 {{/*
 Render additional volume mounts, if any
 */}}
-{{- define "caching-redis.customization.volumeMounts" -}}
+{{- define "caching-valkey.customization.volumeMounts" -}}
 {{- include "czertainly-lib.customizations.render.yaml" ( dict "parts" (list .Values.global.additionalVolumeMounts .Values.additionalVolumeMounts) "context" $ ) }}
 {{- end -}}
 
 {{/*
 Render customized ports, if any
 */}}
-{{- define "caching-redis.customization.ports" -}}
+{{- define "caching-valkey.customization.ports" -}}
 {{- include "czertainly-lib.customizations.render.yaml" ( dict "parts" (list .Values.global.additionalPorts .Values.additionalPorts) "context" $ ) }}
 {{- end -}}
 
 {{/*
 Render customized environment variables, if any
 */}}
-{{- define "caching-redis.customization.env" -}}
+{{- define "caching-valkey.customization.env" -}}
 {{- include "czertainly-lib.customizations.render.yaml" ( dict "parts" (list .Values.global.additionalEnv.variables .Values.additionalEnv.variables) "context" $ ) }}
 {{- end -}}
 
 {{/*
 Render customized environment variables from configmaps and secrets, if any
 */}}
-{{- define "caching-redis.customization.envFrom" -}}
+{{- define "caching-valkey.customization.envFrom" -}}
 {{- include "czertainly-lib.customizations.render.configMapEnv" ( dict "parts" (list .Values.global.additionalEnv.configMaps .Values.additionalEnv.configMaps) "context" $ ) }}
 {{- include "czertainly-lib.customizations.render.secretEnv" ( dict "parts" (list .Values.global.additionalEnv.secrets .Values.additionalEnv.secrets) "context" $ ) }}
 {{- end -}}
@@ -135,10 +135,10 @@ Render customized environment variables from configmaps and secrets, if any
 {{/*
 Render customized command and arguments, if any
 */}}
-{{- define "caching-redis.image.command" -}}
+{{- define "caching-valkey.image.command" -}}
 {{- include "czertainly-lib.tplvalues.render" (dict "value" .Values.image.command "context" $) }}
 {{- end -}}
 
-{{- define "caching-redis.image.args" -}}
+{{- define "caching-valkey.image.args" -}}
 {{- include "czertainly-lib.tplvalues.render" (dict "value" .Values.image.args "context" $) }}
 {{- end -}}

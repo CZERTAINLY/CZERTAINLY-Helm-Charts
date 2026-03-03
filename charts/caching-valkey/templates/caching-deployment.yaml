@@ -1,27 +1,27 @@
 {{- $replicaCount := pluck "replicaCount" .Values.global .Values | compact | first }}
-{{- $redisPort := .Values.service.port }}
-{{- $redisPassword := pluck "password" .Values.global.redis .Values.redis | compact | first | default "" }}
-{{- $additionalInitContainers := (include "caching-redis.customization.initContainers" $) }}
-{{- $additionalSidecarContainers := (include "caching-redis.customization.sidecarContainers" $) }}
-{{- $additionalVolumes := (include "caching-redis.customization.volumes" $) }}
-{{- $additionalVolumeMounts := (include "caching-redis.customization.volumeMounts" $) }}
-{{- $additionalEnv := (include "caching-redis.customization.env" $) }}
-{{- $additionalEnvFrom := (include "caching-redis.customization.envFrom" $) }}
+{{- $valkeyPort := .Values.service.port }}
+{{- $valkeyPassword := pluck "password" .Values.global.valkey .Values.valkey | compact | first | default "" }}
+{{- $additionalInitContainers := (include "caching-valkey.customization.initContainers" $) }}
+{{- $additionalSidecarContainers := (include "caching-valkey.customization.sidecarContainers" $) }}
+{{- $additionalVolumes := (include "caching-valkey.customization.volumes" $) }}
+{{- $additionalVolumeMounts := (include "caching-valkey.customization.volumeMounts" $) }}
+{{- $additionalEnv := (include "caching-valkey.customization.env" $) }}
+{{- $additionalEnvFrom := (include "caching-valkey.customization.envFrom" $) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "caching-redis.fullname" . }}
+  name: {{ include "caching-valkey.fullname" . }}
   labels:
-    {{- include "caching-redis.labels" . | nindent 4 }}
+    {{- include "caching-valkey.labels" . | nindent 4 }}
 spec:
   replicas: {{ $replicaCount | default 1 }}
   selector:
     matchLabels:
-      {{- include "caching-redis.selectorLabels" . | nindent 6 }}
+      {{- include "caching-valkey.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "caching-redis.selectorLabels" . | nindent 8 }}
+        {{- include "caching-valkey.selectorLabels" . | nindent 8 }}
       {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -31,42 +31,42 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- include "caching-redis.imagePullSecrets" . | indent 6 }}
+      {{- include "caching-valkey.imagePullSecrets" . | indent 6 }}
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ template "caching-redis.serviceAccountName" . }}
+      serviceAccountName: {{ template "caching-valkey.serviceAccountName" . }}
       {{- if $additionalInitContainers }}
       initContainers:
         {{- $additionalInitContainers | nindent 8 }}
       {{- end }}
       containers:
-        - name: redis
-          image: {{ include "caching-redis.image" . }}
+        - name: valkey
+          image: {{ include "caching-valkey.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.image.command }}
-          command: {{- include "caching-redis.image.command" . | nindent 12 }}
+          command: {{- include "caching-valkey.image.command" . | nindent 12 }}
           {{- end }}
           {{- if .Values.image.args }}
-          args: {{- include "caching-redis.image.args" . | nindent 12 }}
+          args: {{- include "caching-valkey.image.args" . | nindent 12 }}
           {{- else }}
           args:
-            - "redis-server"
+            - "valkey-server"
             - "--maxmemory"
-            - {{ .Values.redis.maxmemory | quote }}
+            - {{ .Values.valkey.maxmemory | quote }}
             - "--maxmemory-policy"
-            - {{ .Values.redis.maxmemoryPolicy | quote }}
+            - {{ .Values.valkey.maxmemoryPolicy | quote }}
             - "--save"
             - ""
             - "--appendonly"
             - "no"
-            {{- if $redisPassword }}
+            {{- if $valkeyPassword }}
             - "--requirepass"
-            - "$(REDIS_PASSWORD)"
+            - "$(VALKEY_PASSWORD)"
             {{- end }}
           {{- end }}
           env:
-            - name: REDIS_PASSWORD
+            - name: VALKEY_PASSWORD
               valueFrom:
                 secretKeyRef:
                   {{- if .Values.global.config.enabled }}
@@ -74,7 +74,7 @@ spec:
                   {{- else }}
                   name: caching-secret-{{ .Chart.Name | lower }}
                   {{- end }}
-                  key: redis.password
+                  key: valkey.password
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}
@@ -83,8 +83,8 @@ spec:
             {{- $additionalEnvFrom | indent 12 }}
           {{- end }}
           ports:
-            - name: redis
-              containerPort: {{ $redisPort }}
+            - name: valkey
+              containerPort: {{ $valkeyPort }}
               protocol: "TCP"
           {{- if .Values.image.securityContext }}
           securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
@@ -99,10 +99,10 @@ spec:
                 - sh
                 - -c
                 - |
-                  if [ -z "$REDIS_PASSWORD" ]; then
-                    redis-cli ping | grep -q PONG
+                  if [ -z "$VALKEY_PASSWORD" ]; then
+                    valkey-cli ping | grep -q PONG
                   else
-                    redis-cli -a "$REDIS_PASSWORD" ping 2>/dev/null | grep -q PONG
+                    valkey-cli -a "$VALKEY_PASSWORD" ping 2>/dev/null | grep -q PONG
                   fi
             {{- end }}
             initialDelaySeconds: {{ .Values.image.probes.liveness.initialDelaySeconds }}
@@ -121,10 +121,10 @@ spec:
                 - sh
                 - -c
                 - |
-                  if [ -z "$REDIS_PASSWORD" ]; then
-                    redis-cli ping | grep -q PONG
+                  if [ -z "$VALKEY_PASSWORD" ]; then
+                    valkey-cli ping | grep -q PONG
                   else
-                    redis-cli -a "$REDIS_PASSWORD" ping 2>/dev/null | grep -q PONG
+                    valkey-cli -a "$VALKEY_PASSWORD" ping 2>/dev/null | grep -q PONG
                   fi
             {{- end }}
             initialDelaySeconds: {{ .Values.image.probes.readiness.initialDelaySeconds }}
@@ -143,10 +143,10 @@ spec:
                 - sh
                 - -c
                 - |
-                  if [ -z "$REDIS_PASSWORD" ]; then
-                    redis-cli ping | grep -q PONG
+                  if [ -z "$VALKEY_PASSWORD" ]; then
+                    valkey-cli ping | grep -q PONG
                   else
-                    redis-cli -a "$REDIS_PASSWORD" ping 2>/dev/null | grep -q PONG
+                    valkey-cli -a "$VALKEY_PASSWORD" ping 2>/dev/null | grep -q PONG
                   fi
             {{- end }}
             initialDelaySeconds: {{ .Values.image.probes.startup.initialDelaySeconds }}
