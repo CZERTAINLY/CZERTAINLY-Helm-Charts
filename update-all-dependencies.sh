@@ -45,6 +45,9 @@ helm dependency update charts/keystore-entity-provider --skip-refresh
 echo "Updating dependencies for messaging-rabbitmq..."
 helm dependency update charts/messaging-rabbitmq --skip-refresh
 
+echo "Updating dependencies for caching-valkey..."
+helm dependency update charts/caching-valkey --skip-refresh
+
 echo "Updating dependencies for network-discovery-provider..."
 helm dependency update charts/network-discovery-provider --skip-refresh
 
@@ -68,6 +71,9 @@ helm dependency update charts/webhook-notification-provider --skip-refresh
 
 echo "Updating dependencies for x509-compliance-provider..."
 helm dependency update charts/x509-compliance-provider --skip-refresh
+
+echo "Updating dependencies for rabbitmq-bootstrap..."
+helm dependency update charts/rabbitmq-bootstrap --skip-refresh
 
 # finally, update czertainly umbrella chart
 echo "Updating dependencies for czertainly..."

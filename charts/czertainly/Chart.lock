@@ -59,9 +59,15 @@ dependencies:
 - name: messaging-rabbitmq
   repository: file://../messaging-rabbitmq
   version: 4.2.0-1
+- name: caching-valkey
+  repository: file://../caching-valkey
+  version: 8.1.1-1-develop
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.4-1
+- name: rabbitmq-bootstrap
+  repository: file://../rabbitmq-bootstrap
+  version: 1.0.0-1
 - name: pg-bouncer
   repository: file://../pg-bouncer
   version: 1.24.1-p1-1
