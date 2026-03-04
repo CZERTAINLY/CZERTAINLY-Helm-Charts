@@ -177,7 +177,7 @@ dependencies:
     repository: file://../scheduler-service
     tags:
       - scheduler
-    version: 1.0.7-1
+    version: 1.0.8-1
     alias: schedulerService
   - condition: rabbitmqBootstrap.enabled
     name: rabbitmq-bootstrap
@@ -212,4 +212,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.17.25-SAAS
+version: 2.17.26-SAAS

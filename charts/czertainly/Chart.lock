@@ -64,12 +64,12 @@ dependencies:
   version: 8.1.1-1-develop
 - name: scheduler-service
   repository: file://../scheduler-service
-  version: 1.0.7-1
+  version: 1.0.8-1
 - name: rabbitmq-bootstrap
   repository: file://../rabbitmq-bootstrap
   version: 1.0.0-1
 - name: pg-bouncer
   repository: file://../pg-bouncer
   version: 1.24.1-p1-1
-digest: sha256:19f5ecf4d1d270eeddf56681d902ff5df6fcff21c8a7eb7c8a47f75ab565ea9a
-generated: "2026-03-02T04:12:26.820014499+01:00"
+digest: sha256:bc128f1a00af135dd636dcbfae6af35333ea32842d5308343bb278be074dec10
+generated: "2026-03-04T16:15:14.289914211Z"

@@ -1,7 +1,7 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 1.1.9-SAAS
+appVersion: 1.1.10-SAAS
 name: scheduler-service
 description: A Helm chart for CZERTAINLY platform Scheduler service.
 home: https://github.com/CZERTAINLY/CZERTAINLY-Scheduler
@@ -35,4 +35,4 @@ sources:
   - https://github.com/CZERTAINLY/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 1.0.7-1
+version: 1.0.8-1
