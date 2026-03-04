@@ -1,0 +1,162 @@
+name: Publish Charts to GHCR
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - '*'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [publish-charts]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+
+    env:
+      BRANCH: main
+      REGISTRY: ghcr.io
+      REPOSITORY: ${{ github.repository_owner }}/helm-charts
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.10.0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          check-latest: true
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.7.0
+
+      - name: Install oras
+        uses: oras-project/setup-oras@v1
+
+      - name: Detect Changed Charts
+        id: detect-changes
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            echo "📦 Detected tag push: $GITHUB_REF"
+
+            # Get previous tag
+            last_tag=$(git for-each-ref --sort=-creatordate --count=2 --format="%(refname:short)" "refs/tags/*" | sed -n '2p')
+            echo "Last tag: $last_tag"
+            echo "last_tag=$last_tag" >> $GITHUB_ENV
+
+            changed=$(ct list-changed --target-branch "$BRANCH" --since "$last_tag")
+          elif [[ -n "${{ github.event.before }}" && "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
+            echo "🔀 Detected branch push"
+            echo "Comparing against: ${{ github.event.before }}"
+            changed=$(ct list-changed --target-branch "$BRANCH" --since "${{ github.event.before }}")
+          else
+            echo "🔄 Detected dispatch trigger (repository_dispatch or workflow_dispatch)"
+            echo "Comparing against: HEAD^1"
+            changed=$(ct list-changed --target-branch "$BRANCH" --since "HEAD^1")
+          fi
+
+          echo "${changed}"
+
+          if [[ -n "$changed" ]]; then
+            echo "✅ Charts changed"
+            echo "changed=true" >> $GITHUB_ENV
+
+            echo "changed_charts<<EOF" >> $GITHUB_ENV
+            echo "$changed" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          else
+            echo "ℹ️ No chart changes detected"
+            echo "changed=false" >> $GITHUB_ENV
+          fi
+
+      - name: Skip checking when no charts changed
+        if: env.changed != 'true'
+        run: echo "No chart changes detected — skipping checks." && exit 0
+
+      - name: Run chart-testing (lint)
+        if: env.changed == 'true'
+        env:
+          last_tag: ${{ env.last_tag }}
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            ct lint --target-branch "$BRANCH" --since $last_tag --check-version-increment=false
+          elif [[ -n "${{ github.event.before }}" && "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
+            ct lint --target-branch "$BRANCH" --since "${{ github.event.before }}" --check-version-increment=false
+          else
+            ct lint --target-branch "$BRANCH" --since "HEAD^1" --check-version-increment=false
+          fi
+
+      - name: Publish charts
+        if: env.changed == 'true'
+        env:
+          changed_charts: ${{ env.changed_charts }}
+        run: |
+          echo "Logging in to $REGISTRY"
+          helm registry login $REGISTRY --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+          oras login $REGISTRY --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+
+          release_chart(){
+            CHART=$1
+
+            name=$(yq ".name" < ${CHART}/Chart.yaml)
+            version=$(yq ".version" < ${CHART}/Chart.yaml)
+
+            echo "Releasing chart $CHART with version $version"
+
+            helm dependency update $CHART
+            helm package $CHART
+            helm push $name-$version.tgz oci://$REGISTRY/$REPOSITORY
+
+            echo "Chart $name-$version pushed"
+
+            # Tag as 'latest' for easy access without specifying version
+            echo "Tagging $name:$version as latest"
+            oras tag $REGISTRY/$REPOSITORY/$name:$version latest
+          }
+
+          # we need to release the charts in the correct order because of dependencies
+          # first is the library chart
+
+          # check if the library chart has changed
+          if [[ $changed_charts == *"charts/czertainly-lib"* ]]; then
+            echo "charts/czertainly-lib has changed, releasing it first"
+            release_chart charts/czertainly-lib
+            # remove the library chart from the list of changed charts
+            changed_charts=$(echo $changed_charts | sed s:charts/czertainly-lib::)
+          fi
+
+          umbrella_changed=false
+          # czertainly umbrella chart must be released as last one
+          if [[ $changed_charts == *"charts/czertainly"* ]]; then
+            echo "charts/czertainly has changed, mark to released it as last"
+            umbrella_changed=true
+            # remove the umbrella chart from the list of changed charts
+            changed_charts=$(echo $changed_charts | sed s:charts/czertainly::)
+          fi
+
+          # release all other charts, there should not be any dependency conflict
+          for CHART in $changed_charts
+          do
+            echo "Releasing $CHART"
+            release_chart $CHART
+          done
+
+          # when the umbrella chart has changed, release it as last one
+          if [[ $umbrella_changed == "true" ]]; then
+            echo "Releasing charts/czertainly"
+            release_chart charts/czertainly
+          fi
+
+          echo "Logging out from $REGISTRY"
+          helm registry logout $REGISTRY

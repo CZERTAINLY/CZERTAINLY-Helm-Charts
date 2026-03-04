@@ -1,0 +1,198 @@
+name: Update Chart Version
+on:
+  workflow_dispatch:
+    inputs:
+      chart:
+        description: 'Chart folder name (e.g., scheduler-service, auth-service)'
+        required: true
+        type: string
+      version:
+        description: 'Target version for appVersion and image.tag'
+        required: true
+        type: string
+  repository_dispatch:
+    types: [update-chart-version]
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  update-version:
+    name: Update chart version
+    runs-on: ubuntu-latest
+
+    env:
+      CHART: ${{ github.event.inputs.chart || github.event.client_payload.chart }}
+      VERSION: ${{ github.event.inputs.version || github.event.client_payload.version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.10.0
+
+      - name: Validate inputs
+        run: |
+          echo "Chart: $CHART"
+          echo "Version: $VERSION"
+
+          if [[ -z "$CHART" || -z "$VERSION" ]]; then
+            echo "❌ Missing required inputs: chart='$CHART', version='$VERSION'"
+            exit 1
+          fi
+
+          CHART_DIR="charts/$CHART"
+
+          if [[ ! -d "$CHART_DIR" ]]; then
+            echo "❌ Chart '$CHART' not found in charts/"
+            echo "Available charts:"
+            ls charts/
+            exit 1
+          fi
+
+          if [[ ! -f "$CHART_DIR/Chart.yaml" ]]; then
+            echo "❌ Chart.yaml not found in $CHART_DIR"
+            exit 1
+          fi
+
+          echo "✅ Chart validated: $CHART_DIR"
+
+      - name: Update versions
+        run: |
+          CHART_DIR="charts/$CHART"
+
+          # Bump chart version (increment patch: 1.0.4-1 → 1.0.5-1)
+          current_version=$(yq ".version" "$CHART_DIR/Chart.yaml")
+          echo "📝 Current chart version: $current_version"
+
+          if [[ "$current_version" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)-(.+)$ ]]; then
+            major="${BASH_REMATCH[1]}"
+            minor="${BASH_REMATCH[2]}"
+            patch="${BASH_REMATCH[3]}"
+            suffix="${BASH_REMATCH[4]}"
+            new_patch=$((patch + 1))
+            new_version="${major}.${minor}.${new_patch}-${suffix}"
+            echo "📝 Bumping chart version to: $new_version"
+            yq -i ".version = \"$new_version\"" "$CHART_DIR/Chart.yaml"
+          else
+            echo "⚠️ Chart version '$current_version' doesn't match pattern X.Y.Z-suffix, skipping version bump"
+          fi
+
+          # Update appVersion in Chart.yaml
+          echo "📝 Updating appVersion in Chart.yaml"
+          yq -i ".appVersion = \"$VERSION\"" "$CHART_DIR/Chart.yaml"
+
+          # Update image.tag in values.yaml (if exists)
+          if [[ -f "$CHART_DIR/values.yaml" ]] && yq -e '.image.tag' "$CHART_DIR/values.yaml" > /dev/null 2>&1; then
+            echo "📝 Updating image.tag in values.yaml"
+            yq -i ".image.tag = \"$VERSION\"" "$CHART_DIR/values.yaml"
+          else
+            echo "⚠️ No image.tag found in values.yaml, skipping"
+          fi
+
+      - name: Update dependent charts
+        run: |
+          # Skip cascading for czertainly-lib (library chart)
+          if [[ "$CHART" == "czertainly-lib" ]]; then
+            echo "⚠️ Skipping dependency cascade for library chart"
+            exit 0
+          fi
+
+          CHART_DIR="charts/$CHART"
+          new_chart_version=$(yq ".version" "$CHART_DIR/Chart.yaml")
+          echo "📝 Updated $CHART to version: $new_chart_version"
+
+          # Find charts that depend on this chart
+          for chart_yaml in charts/*/Chart.yaml; do
+            chart_name=$(basename $(dirname "$chart_yaml"))
+
+            # Skip the chart we just updated
+            if [[ "$chart_name" == "$CHART" ]]; then
+              continue
+            fi
+
+            # Check if this chart has a dependency on the updated chart
+            dep_version=$(yq ".dependencies[] | select(.name == \"$CHART\") | .version" "$chart_yaml" 2>/dev/null || true)
+
+            if [[ -n "$dep_version" && "$dep_version" != "$new_chart_version" ]]; then
+              echo "📝 Updating $chart_name dependency on $CHART: $dep_version → $new_chart_version"
+
+              # Update the dependency version
+              yq -i "(.dependencies[] | select(.name == \"$CHART\")).version = \"$new_chart_version\"" "$chart_yaml"
+
+              # Bump the dependent chart's version
+              current_dep_chart_version=$(yq ".version" "$chart_yaml")
+              if [[ "$current_dep_chart_version" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)-(.+)$ ]]; then
+                major="${BASH_REMATCH[1]}"
+                minor="${BASH_REMATCH[2]}"
+                patch="${BASH_REMATCH[3]}"
+                suffix="${BASH_REMATCH[4]}"
+                new_patch=$((patch + 1))
+                new_dep_version="${major}.${minor}.${new_patch}-${suffix}"
+                echo "📝 Bumping $chart_name version: $current_dep_chart_version → $new_dep_version"
+                yq -i ".version = \"$new_dep_version\"" "$chart_yaml"
+              fi
+
+              # Update Chart.lock
+              dep_chart_dir="charts/$chart_name"
+              if [[ -f "$dep_chart_dir/Chart.lock" ]]; then
+                echo "📝 Updating $chart_name Chart.lock"
+                helm dependency update "$dep_chart_dir" --skip-refresh
+              fi
+            fi
+          done
+
+      - name: Update Chart.lock
+        run: |
+          CHART_DIR="charts/$CHART"
+          if [[ -f "$CHART_DIR/Chart.lock" ]]; then
+            echo "📝 Updating Chart.lock"
+            helm dependency update "$CHART_DIR" --skip-refresh
+          else
+            echo "⚠️ No Chart.lock found, skipping dependency update"
+          fi
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo "⚠️ No changes detected (version may already be set)"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Changes detected"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            git diff
+          fi
+
+      - name: Commit and push
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add charts/
+          git commit -m "Bump $CHART to $VERSION"
+          git push
+
+      - name: Create git tag for czertainly
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          # Check if czertainly chart was modified
+          if git diff HEAD~1 --name-only | grep -q "^charts/czertainly/"; then
+            czertainly_version=$(yq ".version" "charts/czertainly/Chart.yaml")
+            echo "📝 Creating git tag: $czertainly_version"
+            git tag "$czertainly_version"
+            git push origin "$czertainly_version"
+          else
+            echo "⚠️ czertainly chart not modified, skipping tag creation"
+          fi
+
+      - name: Trigger publish workflow
+        if: steps.changes.outputs.has_changes == 'true'
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: publish-charts

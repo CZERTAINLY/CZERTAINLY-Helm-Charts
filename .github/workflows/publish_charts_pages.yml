@@ -1,0 +1,158 @@
+name: Publish Charts to GitHub Pages
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - '*'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [publish-charts]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Publish to GitHub Pages
+    runs-on: ubuntu-latest
+
+    env:
+      BRANCH: main
+      PAGES_URL: https://cloudfieldcz.github.io/CZERTAINLY-Helm-Charts
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.10.0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          check-latest: true
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.7.0
+
+      - name: Detect Changed Charts
+        id: detect-changes
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            echo "📦 Detected tag push: $GITHUB_REF"
+
+            last_tag=$(git for-each-ref --sort=-creatordate --count=2 --format="%(refname:short)" "refs/tags/*" | sed -n '2p')
+            echo "Last tag: $last_tag"
+            echo "last_tag=$last_tag" >> $GITHUB_ENV
+
+            changed=$(ct list-changed --target-branch "$BRANCH" --since "$last_tag")
+          elif [[ -n "${{ github.event.before }}" && "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
+            echo "🔀 Detected branch push"
+            echo "Comparing against: ${{ github.event.before }}"
+            changed=$(ct list-changed --target-branch "$BRANCH" --since "${{ github.event.before }}")
+          else
+            echo "🔄 Detected dispatch trigger (repository_dispatch or workflow_dispatch)"
+            echo "Comparing against: HEAD^1"
+            changed=$(ct list-changed --target-branch "$BRANCH" --since "HEAD^1")
+          fi
+
+          echo "${changed}"
+
+          if [[ -n "$changed" ]]; then
+            echo "✅ Charts changed"
+            echo "changed=true" >> $GITHUB_ENV
+
+            echo "changed_charts<<EOF" >> $GITHUB_ENV
+            echo "$changed" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          else
+            echo "ℹ️ No chart changes detected"
+            echo "changed=false" >> $GITHUB_ENV
+          fi
+
+      - name: Skip when no charts changed
+        if: env.changed != 'true'
+        run: echo "No chart changes detected — skipping." && exit 0
+
+      - name: Checkout gh-pages branch
+        if: env.changed == 'true'
+        uses: actions/checkout@v5
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Package and publish charts
+        if: env.changed == 'true'
+        env:
+          changed_charts: ${{ env.changed_charts }}
+        run: |
+          mkdir -p packages
+
+          release_chart(){
+            CHART=$1
+            name=$(yq ".name" < ${CHART}/Chart.yaml)
+            version=$(yq ".version" < ${CHART}/Chart.yaml)
+
+            echo "📦 Packaging $name-$version"
+            helm dependency update $CHART
+            helm package $CHART -d packages/
+
+            # Copy to gh-pages directory
+            cp packages/$name-$version.tgz gh-pages/
+            echo "✅ $name-$version packaged"
+          }
+
+          # Same release order as OCI workflow: library → services → umbrella
+
+          # Library chart first
+          if [[ $changed_charts == *"charts/czertainly-lib"* ]]; then
+            echo "charts/czertainly-lib has changed, packaging it first"
+            release_chart charts/czertainly-lib
+            changed_charts=$(echo $changed_charts | sed s:charts/czertainly-lib::)
+          fi
+
+          # Umbrella chart last
+          umbrella_changed=false
+          if [[ $changed_charts == *"charts/czertainly"* ]]; then
+            echo "charts/czertainly has changed, will package it last"
+            umbrella_changed=true
+            changed_charts=$(echo $changed_charts | sed s:charts/czertainly::)
+          fi
+
+          # All other charts
+          for CHART in $changed_charts; do
+            echo "Packaging $CHART"
+            release_chart $CHART
+          done
+
+          # Umbrella chart last
+          if [[ $umbrella_changed == "true" ]]; then
+            echo "Packaging charts/czertainly"
+            release_chart charts/czertainly
+          fi
+
+      - name: Update index.yaml
+        if: env.changed == 'true'
+        run: |
+          cd gh-pages
+          if [[ -f index.yaml ]]; then
+            echo "📋 Merging with existing index.yaml"
+            helm repo index . --url $PAGES_URL --merge index.yaml
+          else
+            echo "📋 Creating new index.yaml"
+            helm repo index . --url $PAGES_URL
+          fi
+
+      - name: Push to gh-pages
+        if: env.changed == 'true'
+        run: |
+          cd gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Update Helm charts" || echo "No changes to commit"
+          git push
