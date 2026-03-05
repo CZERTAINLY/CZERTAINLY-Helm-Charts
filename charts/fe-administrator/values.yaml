@@ -66,8 +66,8 @@ service:
   port: 8080
 image:
   # default registry name
-  registry: docker.io
-  repository: czertainly
+  registry: ilmtestswcacr.azurecr.io
+  repository: ''
   name: czertainly-frontend-administrator
   tag: 2.16.7-SAAS
   # the digest to be used instead of the tag

@@ -101,8 +101,8 @@ service:
 
 image:
   # default registry name
-  registry: docker.io
-  repository: czertainly
+  registry: ilmtestswcacr.azurecr.io
+  repository: ''
   name: czertainly-scheduler
   tag: 1.1.10-SAAS
   # the digest to be used instead of the tag
