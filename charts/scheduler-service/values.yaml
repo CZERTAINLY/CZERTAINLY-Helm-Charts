@@ -4,6 +4,7 @@
 
 nameOverride: ""
 fullnameOverride: ""
+
 # Global parameters that will overwrite local parameters
 global:
   replicaCount: 1
@@ -76,6 +77,7 @@ global:
     configMaps: []
     # list of secrets to be added as environment variables
     secrets: []
+
 database:
   # currently only postgresql is supported
   type: "postgresql"
@@ -84,6 +86,7 @@ database:
   name: "czertainlydb"
   username: "czertainlyuser"
   password: "your-strong-password"
+
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -91,13 +94,15 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 replicaCount: 1
+
 service:
   type: "ClusterIP"
   port: 8080
+
 image:
   # default registry name
-  registry: ilmtestswcacr.azurecr.io
-  repository: ""
+  registry: docker.io
+  repository: czertainly
   name: czertainly-scheduler
   tag: 1.1.10-SAAS
   # the digest to be used instead of the tag
@@ -143,15 +148,16 @@ image:
       successThreshold: 1
       failureThreshold: 45
   resources: {}
-  # We follow recommendations and general guidelines to manage resources from:
-  # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
-  # We recommend default requests for CPU and Memory, leaving the limits as a conscious
-  # choice for the user. If you do want to specify your own resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources'.
-  # requests:
-  #   cpu: 100m
-  #   memory: 450M
-  # limits: {}
+    # We follow recommendations and general guidelines to manage resources from:
+    # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
+    # We recommend default requests for CPU and Memory, leaving the limits as a conscious
+    # choice for the user. If you do want to specify your own resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources'.
+    # requests:
+    #   cpu: 100m
+    #   memory: 450M
+    # limits: {}
+
 curl:
   image:
     # default registry name
@@ -184,6 +190,7 @@ curl:
     #   memory: 64Mi
     # limits: {}
     resources: {}
+
 # customization of the chart
 initContainers: []
 sidecarContainers: []
@@ -194,6 +201,7 @@ additionalEnv:
   variables: []
   configMaps: []
   secrets: []
+
 volumes:
   ephemeral:
     # available types are: memory, storage, custom
@@ -204,8 +212,10 @@ volumes:
     #  emptyDir:
     #    sizeLimit: "10Mi"
     #    medium: "Memory"
+
 logging:
   level: "INFO"
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -214,11 +224,15 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: "scheduler-service-sa"
+
 javaOpts: ""
+
 podLabels: {}
+
 podAnnotations: {}
+
 podSecurityContext: {}
-# fsGroup: 2000
+  # fsGroup: 2000
 
 messaging:
   local: false

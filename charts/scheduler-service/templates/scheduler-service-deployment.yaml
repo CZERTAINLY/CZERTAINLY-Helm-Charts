@@ -99,15 +99,15 @@ spec:
                   key: dbPassword
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
-            # - name: BROKER_HOST
-            #   valueFrom:
-            #     configMapKeyRef:
-            #       {{- if .Values.global.config.enabled }}
-            #       name: messaging-configmap
-            #       {{- else }}
-            #       name: messaging-configmap-{{ .Chart.Name | lower }}
-            #       {{- end }}
-            #       key: messaging.host
+            - name: BROKER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  {{- if .Values.global.config.enabled }}
+                  name: messaging-configmap
+                  {{- else }}
+                  name: messaging-configmap-{{ .Chart.Name | lower }}
+                  {{- end }}
+                  key: messaging.host
             - name: BROKER_PORT
               valueFrom:
                 configMapKeyRef:
@@ -117,26 +117,26 @@ spec:
                   name: messaging-configmap-{{ .Chart.Name | lower }}
                   {{- end }}
                   key: messaging.amqp.port
-            # - name: BROKER_USERNAME
-            #   valueFrom:
-            #     secretKeyRef:
-            #       {{- if .Values.global.config.enabled }}
-            #       name: messaging-secret
-            #       {{- else }}
-            #       name: messaging-secret-{{ .Chart.Name | lower }}
-            #       {{- end }}
-            #       key: messaging.username
-            # - name: BROKER_PASSWORD
-            #   valueFrom:
-            #     secretKeyRef:
-            #       {{- if .Values.global.config.enabled }}
-            #       name: messaging-secret
-            #       {{- else }}
-            #       name: messaging-secret-{{ .Chart.Name | lower }}
-            #       {{- end }}
-            #       key: messaging.password
-            # - name: BROKER_VIRTUAL_HOST
-            #   value: {{ pluck "virtualHost" .Values.global.messaging .Values.messaging | compact | first | default "czertainly" | quote }}
+            - name: BROKER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.global.config.enabled }}
+                  name: messaging-secret
+                  {{- else }}
+                  name: messaging-secret-{{ .Chart.Name | lower }}
+                  {{- end }}
+                  key: messaging.username
+            - name: BROKER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.global.config.enabled }}
+                  name: messaging-secret
+                  {{- else }}
+                  name: messaging-secret-{{ .Chart.Name | lower }}
+                  {{- end }}
+                  key: messaging.password
+            - name: BROKER_VIRTUAL_HOST
+              value: {{ pluck "virtualHost" .Values.global.messaging .Values.messaging | compact | first | default "czertainly" | quote }}
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}

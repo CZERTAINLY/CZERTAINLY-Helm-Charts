@@ -220,11 +220,11 @@ spec:
             {{- end }}
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
-            # - name: BROKER_HOST
-            #   valueFrom:
-            #     configMapKeyRef:
-            #       name: messaging-configmap
-            #       key: messaging.host
+            - name: BROKER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: messaging-configmap
+                  key: messaging.host
             - name: BROKER_PORT
               valueFrom:
                 configMapKeyRef:
