@@ -1,4 +1,4 @@
-{{- $replicaCount := pluck "replicaCount" .Values .Values.global | compact | first }}
+{{- $replicaCount := pluck "replicaCount" .Values.global .Values | compact | first }}
 {{- $valkeyEnabled := or .Values.cachingService.enabled .Values.global.valkey.external.enabled }}
 {{- if and (ge ($replicaCount | int) 2) (not $valkeyEnabled) }}
   {{- fail "\n\nERROR: Valkey is required for High Availability deployments.\n   When replicaCount >= 2, you must enable either:\n   - cachingService.enabled=true (for internal Valkey), or\n   - global.valkey.external.enabled=true (for external Valkey)\n" }}

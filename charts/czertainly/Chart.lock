@@ -71,5 +71,5 @@ dependencies:
 - name: pg-bouncer
   repository: file://../pg-bouncer
   version: 1.24.1-p1-1
-digest: sha256:2c46a97bc4e122c2bdcb5d02bfb720251e742634b7f629004fd974cb9915af86
-generated: "2026-02-26T08:21:26.257886+01:00"
+digest: sha256:bedae794487cf554e30f81cf6e185c04d1b9dbb9f5999aeaf3cdf8bac43144d6
+generated: "2026-03-06T10:09:30.468174811+01:00"

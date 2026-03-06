@@ -9,7 +9,7 @@ data:
   valkey.host: {{ .Values.global.valkey.external.host | quote }}
   valkey.port: {{ .Values.global.valkey.external.port | quote }}
   {{- else }}
-  valkey.host: {{ printf "%s-%s" .Release.Name (.Values.cachingService.nameOverride | default "caching-valkey") | quote }}
+  valkey.host: "caching-service"
   valkey.port: {{ .Values.cachingService.service.port | default 6379 | quote }}
   {{- end }}
 {{- end }}

@@ -1,4 +1,4 @@
-{{- $replicaCount := pluck "replicaCount" .Values.global .Values | compact | first }}
+{{- $replicaCount := .Values.replicaCount }}
 {{- $valkeyPort := .Values.service.port }}
 {{- $valkeyPassword := pluck "password" .Values.global.valkey .Values.valkey | compact | first | default "" }}
 {{- $additionalInitContainers := (include "caching-valkey.customization.initContainers" $) }}
@@ -10,7 +10,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "caching-valkey.fullname" . }}
+  name: caching-deployment
   labels:
     {{- include "caching-valkey.labels" . | nindent 4 }}
 spec:
@@ -26,7 +26,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       annotations:
-        checksum/secret: {{ include (print $.Template.BasePath "/caching-secret.yaml") . | sha256sum }}
+        checksum/secret: {{ $valkeyPassword | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -171,9 +171,9 @@ spec:
         {{- end }}
       volumes:
         - name: data
-          emptyDir: {}
+          {{- include "caching-valkey.ephemeralVolume" . | nindent 10 }}
         - name: tmp
-          emptyDir: {}
+          {{- include "caching-valkey.ephemeralVolume" . | nindent 10 }}
         {{- if $additionalVolumes }}
           {{- $additionalVolumes | nindent 8 }}
         {{- end }}

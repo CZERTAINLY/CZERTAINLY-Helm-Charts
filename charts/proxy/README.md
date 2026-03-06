@@ -98,7 +98,7 @@ The following values may be configured:
 | image.registry                               | `ilmtestswcacr.azurecr.io` | Docker registry name for the image                                                                                      |
 | image.repository                             | `""`                              | Docker image repository name                                                                                            |
 | image.name                                   | `czertainly-proxy`                | Docker image name                                                                                                       |
-| image.tag                                    | `v0.0.3`                          | Docker image tag                                                                                                        |
+| image.tag                                    | `0.0.6`                           | Docker image tag                                                                                                        |
 | image.digest                                 | `""`                              | Docker image digest, will override tag if specified                                                                     |
 | image.pullPolicy                             | `IfNotPresent`                    | Image pull policy                                                                                                       |
 | image.pullSecrets                            | `[]`                              | Array of secret names for image pull                                                                                    |

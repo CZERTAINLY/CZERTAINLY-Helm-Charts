@@ -97,8 +97,6 @@ image:
   # default security context
   securityContext:
     runAsNonRoot: true
-    runAsUser: 999
-    runAsGroup: 999
     readOnlyRootFilesystem: true
   # probes configuration
   probes:
@@ -129,12 +127,7 @@ image:
       periodSeconds: 10
       successThreshold: 1
       failureThreshold: 10
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      memory: 512Mi
+  resources: {}
 
 # customization of the chart
 initContainers: []
@@ -174,8 +167,7 @@ podLabels: {}
 
 podAnnotations: {}
 
-podSecurityContext:
-  fsGroup: 999
+podSecurityContext: {}
 
 nodeSelector: {}
 
