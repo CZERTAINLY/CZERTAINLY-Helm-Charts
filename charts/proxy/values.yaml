@@ -49,8 +49,6 @@ image:
   args: []
   securityContext:
     runAsNonRoot: true
-    runAsUser: 65534
-    runAsGroup: 65534
     readOnlyRootFilesystem: true
   probes:
     liveness:
@@ -92,7 +90,7 @@ application:
 # Token-based configuration (alternative to individual settings)
 # When set, the JWT token takes precedence over all other configuration
 # Generate tokens using: token generate --from-config config.yaml
-# See docs/TOKEN_CONFIG.md for format details
+# See https://github.com/CZERTAINLY/Proxy/blob/main/docs/TOKEN_CONFIG.md for format details
 token: ""
 # HMAC signing key for token signature verification (HS256/HS384/HS512)
 # Leave empty for unsigned tokens (alg: none)

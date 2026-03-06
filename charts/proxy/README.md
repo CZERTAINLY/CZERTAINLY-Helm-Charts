@@ -127,58 +127,67 @@ The following values may be configured:
 
 #### Application parameters
 
-| Parameter               | Default value    | Description                              |
-|-------------------------|------------------|------------------------------------------|
-| application.name        | `azure-sb-proxy` | Application name                         |
-| application.environment | `production`     | Application environment                  |
-| application.maxWorkers  | `10`             | Maximum number of concurrent workers     |
+| Parameter               | Default value    | Description                                                                                                         |
+|-------------------------|------------------|---------------------------------------------------------------------------------------------------------------------|
+| application.name        | `azure-sb-proxy` | Application name used for logging and identification                                                                |
+| application.environment | `production`     | Application environment (`production`, `development`)                                                               |
+| application.maxWorkers  | `10`             | Maximum number of concurrent message processing goroutines. Controls how many AMQP messages are processed in parallel |
 
 #### Token-based configuration
 
-Token-based configuration allows you to configure the proxy using a single JWT token instead of individual parameters. When `token` is set, it takes precedence over all other configuration values.
+Token-based configuration allows you to configure the proxy using a single JWT token instead of individual parameters. When `token` is set, it takes precedence over all individual AMQP and application parameters below. The token encodes broker connection details, topic names, and authentication settings into a single value, simplifying deployment in environments where configuration is managed centrally.
 
-| Parameter       | Default value | Description                                                        |
-|-----------------|---------------|--------------------------------------------------------------------|
-| token           | `""`          | JWT configuration token (takes precedence over all other config)   |
-| tokenSigningKey | `""`          | HMAC signing key for token verification (HS256/HS384/HS512)        |
+| Parameter       | Default value | Description                                                                                      |
+|-----------------|---------------|--------------------------------------------------------------------------------------------------|
+| token           | `""`          | JWT configuration token. When set, all AMQP and application parameters are read from the token   |
+| tokenSigningKey | `""`          | HMAC signing key for token signature verification (HS256/HS384/HS512). Leave empty for unsigned tokens |
 
 #### AMQP parameters
+
+Common parameters used by all broker types:
 
 | Parameter                  | Default value       | Description                                                      |
 |----------------------------|---------------------|------------------------------------------------------------------|
 | amqp.brokerType            | `azureservicebus`   | Broker type: `azureservicebus` or `rabbitmq`                     |
-| amqp.url                   | `""`                | Connection URL (wss://, amqps://, amqp://)                       |
-| amqp.host                  | `""`                | Legacy: Broker hostname (used if url is empty)                   |
-| amqp.port                  | `5671`              | Legacy: Broker port                                              |
-| amqp.useTls                | `true`              | Legacy: Enable TLS                                               |
+| amqp.url                   | `""`                | Connection URL (wss://, amqps://, amqp://). Preferred over host/port |
+| amqp.host                  | `""`                | Broker hostname (used if url is empty)                           |
+| amqp.port                  | `5671`              | Broker port (used if url is empty)                               |
+| amqp.useTls                | `true`              | Enable TLS (used if url is empty)                                |
 | amqp.authMethod            | `sasl-plain`        | Auth method: `sasl-plain` or `cbs`                               |
-| amqp.username              | `""`                | SAS key name or username                                         |
-| amqp.password              | `""`                | SAS key or password                                              |
-| amqp.tokenExpiry           | `1h`                | CBS token expiry duration (minimum: 2m)                          |
-| amqp.entraId.tenantId      | `""`                | Azure AD tenant ID for CBS authentication                        |
-| amqp.entraId.clientId      | `""`                | Azure AD client ID for CBS authentication                        |
-| amqp.entraId.clientSecret  | `""`                | Azure AD client secret for CBS authentication                    |
-| amqp.topicName             | `""`                | Request topic name                                               |
-| amqp.subscription          | `""`                | Subscription name                                                |
-| amqp.responseTopic         | `""`                | Response topic name                                              |
-| amqp.prefetchCount         | `10`                | AMQP prefetch count                                              |
-| amqp.messageLockTime       | `300s`              | Message lock duration                                            |
-| amqp.reconnect.initialDelay| `2s`                | Initial delay for reconnection                                   |
-| amqp.reconnect.maxDelay    | `1m`                | Maximum delay for reconnection                                   |
-| amqp.reconnect.factor      | `2.0`               | Backoff factor for reconnection                                  |
+| amqp.username              | `""`                | Username or SAS key name                                         |
+| amqp.password              | `""`                | Password or SAS key                                              |
+| amqp.topicName             | `""`                | Request topic/exchange name                                      |
+| amqp.subscription          | `""`                | Subscription/queue name                                          |
+| amqp.responseTopic         | `""`                | Response topic/exchange name                                     |
+| amqp.prefetchCount         | `10`                | Number of messages to prefetch from broker                       |
+| amqp.reconnect.initialDelay| `2s`                | Initial delay before reconnection attempt                        |
+| amqp.reconnect.maxDelay    | `1m`                | Maximum delay between reconnection attempts                      |
+| amqp.reconnect.factor      | `2.0`               | Exponential backoff factor for reconnection                      |
+
+Azure Service Bus specific parameters:
+
+| Parameter                  | Default value | Description                                                      |
+|----------------------------|---------------|------------------------------------------------------------------|
+| amqp.tokenExpiry           | `1h`          | CBS token expiry duration (minimum: 2m)                          |
+| amqp.messageLockTime       | `300s`        | Message lock duration for peek-lock mode                         |
+| amqp.entraId.tenantId      | `""`          | Azure Entra ID tenant ID for CBS authentication                  |
+| amqp.entraId.clientId      | `""`          | Azure Entra ID client ID for CBS authentication                  |
+| amqp.entraId.clientSecret  | `""`          | Azure Entra ID client secret for CBS authentication              |
 
 #### HTTP client parameters
 
-| Parameter                      | Default value | Description                          |
-|--------------------------------|---------------|--------------------------------------|
-| httpClient.maxIdleConns        | `100`         | Maximum idle connections             |
-| httpClient.maxIdleConnsPerHost | `10`          | Maximum idle connections per host    |
-| httpClient.maxConnsPerHost     | `50`          | Maximum connections per host         |
-| httpClient.idleConnTimeout     | `90s`         | Idle connection timeout              |
-| httpClient.dialTimeout         | `10s`         | Dial timeout                         |
-| httpClient.tlsHandshakeTimeout | `10s`         | TLS handshake timeout                |
-| httpClient.keepAlive           | `30s`         | Keep-alive duration                  |
-| httpClient.defaultTimeout      | `30s`         | Default request timeout              |
+Configuration for outgoing HTTP requests to the CZERTAINLY Core API. These settings control connection pooling and timeouts for all requests the proxy makes to backend services.
+
+| Parameter                      | Default value | Description                              |
+|--------------------------------|---------------|------------------------------------------|
+| httpClient.maxIdleConns        | `100`         | Maximum total idle connections in pool   |
+| httpClient.maxIdleConnsPerHost | `10`          | Maximum idle connections per target host |
+| httpClient.maxConnsPerHost     | `50`          | Maximum total connections per target host|
+| httpClient.idleConnTimeout     | `90s`         | Time before idle connections are closed  |
+| httpClient.dialTimeout         | `10s`         | Timeout for establishing new connections |
+| httpClient.tlsHandshakeTimeout | `10s`         | Timeout for TLS handshake                |
+| httpClient.keepAlive           | `30s`         | TCP keep-alive interval                  |
+| httpClient.defaultTimeout      | `30s`         | Default timeout for HTTP requests        |
 
 #### HTTP server parameters
 
