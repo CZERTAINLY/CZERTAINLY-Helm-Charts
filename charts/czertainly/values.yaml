@@ -211,7 +211,7 @@ image:
   registry: ilmtestswcacr.azurecr.io
   repository: ''
   name: czertainly-core
-  tag: 2.17.26-SAAS
+  tag: 2.17.27-SAAS
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
