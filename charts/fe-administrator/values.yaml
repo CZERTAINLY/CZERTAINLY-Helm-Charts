@@ -69,7 +69,7 @@ image:
   registry: ilmtestswcacr.azurecr.io
   repository: ''
   name: czertainly-frontend-administrator
-  tag: 2.16.8-SAAS
+  tag: 2.16.9-SAAS
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
