@@ -275,8 +275,13 @@ spec:
               {{- else }}
               value: ""
               {{- end }}
+            {{- if .Values.global.provisioning.apiKey }}
             - name: PROVISIONING_API_KEY
-              value: {{ .Values.global.provisioning.apiKey | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: provisioning-secret
+                  key: provisioningApiKey
+            {{- end }}
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}
