@@ -268,7 +268,13 @@ spec:
               value: {{ .Values.global.keycloak.clientSecret | quote }}
             {{- end }}
             - name: PROVISIONING_API_URL
-              value: {{ .Values.global.provisioning.apiUrl | default (printf "http://rabbitmq-bootstrap-service:%s" (toString .Values.rabbitmqBootstrap.service.port)) | quote }}
+              {{- if .Values.global.provisioning.apiUrl }}
+              value: {{ .Values.global.provisioning.apiUrl | quote }}
+              {{- else if .Values.rabbitmqBootstrap.enabled }}
+              value: {{ printf "http://rabbitmq-bootstrap-service:%s" (toString .Values.rabbitmqBootstrap.service.port) | quote }}
+              {{- else }}
+              value: ""
+              {{- end }}
             - name: PROVISIONING_API_KEY
               value: {{ .Values.global.provisioning.apiKey | quote }}
             {{- if $additionalEnv }}
