@@ -74,6 +74,10 @@ spec:
               value: "request-transformer,cors,file-log,response-transformer,post-function"
             - name: KONG_LOG_LEVEL
               value: {{ .Values.logging.level | quote }}
+            {{- if not .Values.global.messaging.external.enabled }}
+            - name: KONG_STREAM_LISTEN
+              value: "0.0.0.0:5672"
+            {{- end }}
             {{- if .Values.trustedIps }}
             - name: KONG_TRUSTED_IPS
               value: {{ .Values.trustedIps | quote }}
@@ -90,6 +94,10 @@ spec:
               name: consumer-http
             - containerPort: {{ .Values.service.admin.port }}
               name: admin-http
+            {{- if not .Values.global.messaging.external.enabled }}
+            - containerPort: 5672
+              name: amqp-tcp
+            {{- end }}
           {{- if .Values.image.securityContext }}
           securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
           {{- end }}

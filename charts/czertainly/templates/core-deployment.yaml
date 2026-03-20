@@ -267,6 +267,12 @@ spec:
             - name: INTERNAL_OAUTH_SECRET
               value: {{ .Values.global.keycloak.clientSecret | quote }}
             {{- end }}
+            {{- if .Values.rabbitmqBootstrap.enabled }}
+            - name: PROVISIONING_API_URL
+              value: {{ .Values.global.provisioning.apiUrl | default (printf "http://rabbitmq-bootstrap-service:%s" (toString .Values.rabbitmqBootstrap.service.port)) | quote }}
+            - name: PROVISIONING_API_KEY
+              value: {{ .Values.global.provisioning.apiKey | quote }}
+            {{- end }}
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}
