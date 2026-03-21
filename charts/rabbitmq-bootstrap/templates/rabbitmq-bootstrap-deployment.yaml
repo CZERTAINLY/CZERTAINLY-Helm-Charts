@@ -153,11 +153,13 @@ spec:
                 secretKeyRef:
                   name: rabbitmq-bootstrap-secret
                   key: securityApiKey
+            {{- if .Values.bootstrap.token.signingKey }}
             - name: TOKEN_SIGNING_KEY
               valueFrom:
                 secretKeyRef:
                   name: rabbitmq-bootstrap-secret
                   key: tokenSigningKey
+            {{- end }}
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}
