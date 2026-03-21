@@ -82,6 +82,18 @@ services:
         paths:
           - /utils
   {{- end }}
+{{- if not .global.messaging.external.enabled }}
+  - name: messaging-amqp
+    host: messaging-service
+    port: 5672
+    protocol: tcp
+    routes:
+      - name: amqp_route
+        protocols:
+          - tcp
+        destinations:
+          - port: 5672
+{{- end }}
 {{- if or .apiGateway.cors.enabled .apiGateway.logging.request}}
 plugins:
   {{- if .apiGateway.cors.enabled }}

@@ -1,4 +1,4 @@
-# Default values for messaging-rabbitmq.
+# Default values for caching-valkey.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -18,9 +18,7 @@ global:
       sizeLimit: ""
       storageClassName: ""
       custom: {}
-  messaging:
-    remoteAccess: false
-    username: ""
+  valkey:
     password: ""
   httpProxy: ""
   httpsProxy: ""
@@ -70,38 +68,24 @@ noProxy: ""
 nameOverride: ""
 fullnameOverride: ""
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 replicaCount: 1
 
 service:
-  client:
-    type: "ClusterIP"
-    http:
-      port: 15672
-    amqp:
-      port: 5672
-  headless:
-    epmd:
-      port: 4369
-    clusterRpc:
-      port: 25672
+  type: "ClusterIP"
+  port: 6379
 
-clustering:
-  # ip or hostname
-  addressType: hostname
-  domain: cluster.local
+valkey:
+  # Optional password, defaults to empty (no auth)
+  password: ""
+  maxmemory: "256mb"
+  maxmemoryPolicy: "allkeys-lru"
 
 image:
   # default registry name
   registry: docker.io
-  repository: czertainly
-  name: czertainly-rabbitmq
-  tag: 4.2.0
+  repository: valkey
+  name: valkey
+  tag: 8.1.1-alpine
   # the digest to be used instead of the tag
   digest: ""
   pullPolicy: IfNotPresent
@@ -113,79 +97,37 @@ image:
   # default security context
   securityContext:
     runAsNonRoot: true
-    # runAsUser: 999
     readOnlyRootFilesystem: true
   # probes configuration
   probes:
     liveness:
-      enabled: false
+      enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 120
-      timeoutSeconds: 20
-      periodSeconds: 30
+      initialDelaySeconds: 5
+      timeoutSeconds: 5
+      periodSeconds: 10
       successThreshold: 1
-      failureThreshold: 6
+      failureThreshold: 3
     readiness:
       enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 10
-      timeoutSeconds: 20
-      periodSeconds: 30
+      initialDelaySeconds: 5
+      timeoutSeconds: 5
+      periodSeconds: 10
       successThreshold: 1
       failureThreshold: 3
     startup:
       enabled: true
       # custom probe command, will override the default one
       custom: {}
-      initialDelaySeconds: 15
+      initialDelaySeconds: 5
       timeoutSeconds: 5
       periodSeconds: 10
       successThreshold: 1
-      failureThreshold: 45
+      failureThreshold: 10
   resources: {}
-    # We follow recommendations and general guidelines to manage resources from:
-    # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
-    # We recommend default requests for CPU and Memory, leaving the limits as a conscious
-    # choice for the user. If you do want to specify your own resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources'.
-    # requests:
-    #   cpu: 1000m
-    #   memory: 2Gi
-    # limits: {}
-
-curl:
-  image:
-    # default registry name
-    registry: docker.io
-    repository: czertainly
-    name: czertainly-curl
-    tag: 8.16.0
-    # the digest to be used instead of the tag
-    digest: ""
-    pullPolicy: IfNotPresent
-    # array of secret names
-    pullSecrets: []
-    # custom command and args
-    command: []
-    args: []
-    # default security context
-    securityContext:
-      runAsNonRoot: true
-      # runAsUser: 100
-      readOnlyRootFilesystem: true
-    # it does not make sense to have probes for curl
-    resources: {}
-      # We follow recommendations and general guidelines to manage resources from:
-      # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
-      # We recommend default requests for CPU and Memory, leaving the limits as a conscious
-      # choice for the user. If you do want to specify your own resources, uncomment the following
-      # lines, adjust them as necessary, and remove the curly braces after 'resources'.
-      # requests:
-      #   cpu: 50m
-      #   memory: 150M
-      # limits: {}
 
 # customization of the chart
 initContainers: []
@@ -219,47 +161,16 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "messaging-rabbitmq-sa"
+  name: ""
 
 podLabels: {}
 
 podAnnotations: {}
 
-podSecurityContext:
-  fsGroup: 999
-  # runAsUser: 999
-  # runAsGroup: 999
+podSecurityContext: {}
 
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
-
-# persistence parameters
-persistence:
-  enabled: true
-  storageClassName: ""
-  selector: {}
-  accessModes:
-    - ReadWriteOnce
-  existingClaim: ""
-  size: 100Mi
-  annotations: {}
-
-messaging:
-  remoteAccess: false
-  username: "admin"
-  password: "admin"
-  provisionerUsername: "provisioner"
-  provisionerPassword: "provisioner"
-  proxyUsername: "proxy"
-  proxyPassword: "proxy"
-  coreUsername: "core"
-  corePassword: "core"
-  virtualHost: "czertainly"
-  erlang:
-    cookie: "c4eGHK4gM3v+5BHTFkGaRzqNQu0JcokVJkFK7CmJ"
-  plugins:
-    enabled: "[rabbitmq_peer_discovery_k8s, rabbitmq_management]."
-  enableFlags: true

@@ -1,4 +1,8 @@
 {{- $replicaCount := pluck "replicaCount" .Values.global .Values | compact | first }}
+{{- $valkeyEnabled := or .Values.cachingService.enabled .Values.global.valkey.external.enabled }}
+{{- if and (ge ($replicaCount | int) 2) (not $valkeyEnabled) }}
+  {{- fail "\n\nERROR: Valkey is required for High Availability deployments.\n   When replicaCount >= 2, you must enable either:\n   - cachingService.enabled=true (for internal Valkey), or\n   - global.valkey.external.enabled=true (for external Valkey)\n" }}
+{{- end }}
 {{- $username := pluck "username" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 {{- $name := pluck "name" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
 {{- $surname := pluck "surname" .Values.global.admin .Values.registerAdmin.admin | compact | first | quote }}
@@ -44,6 +48,10 @@ spec:
         # when the messaging secrets are changed, restart deployment
         checksum/mq-secret: {{ include (print $.Template.BasePath "/messaging-secret.yaml") . | sha256sum }}
 {{/*        checksum/mq-secret: {{ include "messaging-rabbitmq.definitions.json" (dict "global" .Values.global "messagingService" .Values.messagingService) | sha256sum }}*/}}
+        {{- if $valkeyEnabled }}
+        # when the caching secrets are changed, restart deployment
+        checksum/caching-secret: {{ include (print $.Template.BasePath "/valkey-secret.yaml") . | sha256sum }}
+        {{- end }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -72,6 +80,9 @@ spec:
               echo "auth service seems to be started" &&
               while ! nc -z {{ $messagingHost }} {{ $messagingAmqpPort }}; do sleep 1; done &&
               while ! nc -z scheduler-service-service {{ .Values.schedulerService.service.port }}; do sleep 1; done &&
+              {{- if .Values.rabbitmqBootstrap.enabled }}
+              while ! nc -z rabbitmq-bootstrap-service {{ .Values.rabbitmqBootstrap.service.port }}; do sleep 1; done &&
+              {{- end }}
               echo "messaging and scheduler service seems to be started"
         {{- if $additionalInitContainers }}
           {{- $additionalInitContainers | nindent 8 }}
@@ -209,31 +220,67 @@ spec:
             {{- end }}
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
-            - name: RABBITMQ_HOST
+            - name: BROKER_HOST
               valueFrom:
                 configMapKeyRef:
                   name: messaging-configmap
                   key: messaging.host
-            - name: RABBITMQ_PORT
+            - name: BROKER_PORT
               valueFrom:
                 configMapKeyRef:
                   name: messaging-configmap
                   key: messaging.amqp.port
-            - name: RABBITMQ_USERNAME
+            - name: BROKER_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: messaging-secret
-                  key: messaging.username
-            - name: RABBITMQ_PASSWORD
+                  key: messaging.core.username
+            - name: BROKER_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: messaging-secret
-                  key: messaging.password
+                  key: messaging.core.password
+            - name: BROKER_VIRTUAL_HOST
+              value: {{ pluck "virtualHost" .Values.global.messaging .Values.messaging | compact | first | default "czertainly" | quote }}
             - name: SCHEDULER_BASE_URL
               value: "http://scheduler-service-service:{{ .Values.schedulerService.service.port }}"
+            {{- if $valkeyEnabled }}
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: caching-configmap
+                  key: valkey.host
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: caching-configmap
+                  key: valkey.port
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: caching-secret
+                  key: valkey.password
+            - name: PROXY_REDIS_ENABLED
+              value: "true"
+            {{- end }}
             {{- if .Values.global.keycloak.enabled }}
             - name: INTERNAL_OAUTH_SECRET
               value: {{ .Values.global.keycloak.clientSecret | quote }}
+            {{- end }}
+            - name: PROVISIONING_API_URL
+              {{- if .Values.global.provisioning.apiUrl }}
+              value: {{ .Values.global.provisioning.apiUrl | quote }}
+              {{- else if .Values.rabbitmqBootstrap.enabled }}
+              value: {{ printf "http://rabbitmq-bootstrap-service:%s" (toString .Values.rabbitmqBootstrap.service.port) | quote }}
+              {{- else }}
+              value: ""
+              {{- end }}
+            {{- if .Values.global.provisioning.apiKey }}
+            - name: PROVISIONING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: provisioning-secret
+                  key: provisioningApiKey
             {{- end }}
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}

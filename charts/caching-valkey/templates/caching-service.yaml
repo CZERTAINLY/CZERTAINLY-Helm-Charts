@@ -1,0 +1,20 @@
+{{- $valkeyPort := .Values.service.port }}
+{{- $additionalPorts := (include "caching-valkey.customization.ports" $) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: caching-service
+  labels:
+    {{- include "caching-valkey.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: valkey
+      port: {{ $valkeyPort }}
+      targetPort: valkey
+      protocol: "TCP"
+    {{- if $additionalPorts }}
+      {{- $additionalPorts | nindent 4 }}
+    {{- end }}
+  selector:
+    {{- include "caching-valkey.selectorLabels" . | nindent 4 }}

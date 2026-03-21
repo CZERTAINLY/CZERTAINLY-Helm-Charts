@@ -49,6 +49,22 @@ global:
     remoteAccess: false
     username: ""
     password: ""
+    provisionerUsername: ""
+    provisionerPassword: ""
+    proxyUsername: ""
+    proxyPassword: ""
+    coreUsername: ""
+    corePassword: ""
+    virtualHost: ""
+  provisioning:
+    apiUrl: ""
+    apiKey: ""
+  valkey:
+    external:
+      enabled: false
+      host: ""
+      port: ""
+    password: ""
   utils:
     enabled: false
   admin:
@@ -415,6 +431,7 @@ messaging:
   host: "messaging-service"
   amqp:
     port: 5672
+  virtualHost: "czertainly"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -527,8 +544,16 @@ messagingService:
   nameOverride: messaging-service
   enabled: true
 
+cachingService:
+  nameOverride: caching-service
+  enabled: false
+
 schedulerService:
   nameOverride: scheduler-service
+
+rabbitmqBootstrap:
+  nameOverride: rabbitmq-bootstrap
+  enabled: false
 
 #
 # connectors

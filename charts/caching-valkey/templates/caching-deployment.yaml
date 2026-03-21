@@ -1,87 +1,80 @@
-{{- $replicaCount := pluck "replicaCount" .Values.global .Values | compact | first }}
-{{- $additionalInitContainers := (include "api-gateway-kong.customization.initContainers" $) }}
-{{- $additionalSidecarContainers := (include "api-gateway-kong.customization.sidecarContainers" $) }}
-{{- $additionalVolumes := (include "api-gateway-kong.customization.volumes" $) }}
-{{- $additionalVolumeMounts := (include "api-gateway-kong.customization.volumeMounts" $) }}
-{{- $additionalEnv := (include "api-gateway-kong.customization.env" $) }}
-{{- $additionalEnvFrom := (include "api-gateway-kong.customization.envFrom" $) }}
+{{- $replicaCount := .Values.replicaCount }}
+{{- $valkeyPort := .Values.service.port }}
+{{- $valkeyPassword := pluck "password" .Values.global.valkey .Values.valkey | compact | first | default "" }}
+{{- $additionalInitContainers := (include "caching-valkey.customization.initContainers" $) }}
+{{- $additionalSidecarContainers := (include "caching-valkey.customization.sidecarContainers" $) }}
+{{- $additionalVolumes := (include "caching-valkey.customization.volumes" $) }}
+{{- $additionalVolumeMounts := (include "caching-valkey.customization.volumeMounts" $) }}
+{{- $additionalEnv := (include "caching-valkey.customization.env" $) }}
+{{- $additionalEnvFrom := (include "caching-valkey.customization.envFrom" $) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-gateway-deployment
+  name: caching-deployment
   labels:
-    {{- include "api-gateway-kong.labels" . | nindent 4 }}
+    {{- include "caching-valkey.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ $replicaCount | default 1 }}
-  {{- end }}
   selector:
     matchLabels:
-      {{- include "api-gateway-kong.selectorLabels" . | nindent 6 }}
+      {{- include "caching-valkey.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "api-gateway-kong.selectorLabels" . | nindent 8 }}
+        {{- include "caching-valkey.selectorLabels" . | nindent 8 }}
       {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       annotations:
-        # when the kong declarative config map is changed, restart deployment
-        checksum/config: {{ include "api-gateway-kong.config.yml" (dict "global" .Values.global "apiGateway" .Values) | sha256sum }}
+        checksum/secret: {{ $valkeyPassword | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- include "api-gateway-kong.imagePullSecrets" . | indent 6 }}
+      {{- include "caching-valkey.imagePullSecrets" . | indent 6 }}
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ template "api-gateway-kong.serviceAccountName" . }}
+      serviceAccountName: {{ template "caching-valkey.serviceAccountName" . }}
       {{- if $additionalInitContainers }}
       initContainers:
         {{- $additionalInitContainers | nindent 8 }}
       {{- end }}
       containers:
-        - name: api-gateway
-          image: {{ include "api-gateway-kong.image" . }}
+        - name: valkey
+          image: {{ include "caching-valkey.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.image.command }}
-          command: {{- include "api-gateway-kong.image.command" . | nindent 12 }}
+          command: {{- include "caching-valkey.image.command" . | nindent 12 }}
           {{- end }}
           {{- if .Values.image.args }}
-          args: {{- include "api-gateway-kong.image.args" . | nindent 12 }}
+          args: {{- include "caching-valkey.image.args" . | nindent 12 }}
+          {{- else }}
+          args:
+            - "valkey-server"
+            - "--maxmemory"
+            - {{ .Values.valkey.maxmemory | quote }}
+            - "--maxmemory-policy"
+            - {{ .Values.valkey.maxmemoryPolicy | quote }}
+            - "--save"
+            - ""
+            - "--appendonly"
+            - "no"
+            {{- if $valkeyPassword }}
+            - "--requirepass"
+            - "$(VALKEY_PASSWORD)"
+            {{- end }}
           {{- end }}
           env:
-            - name: KONG_DATABASE
-              value: "off"
-            - name: KONG_PREFIX
-              value: "/tmp/"
-            - name: KONG_PROXY_ACCESS_LOG
-              value: "/dev/stdout"
-            - name: KONG_ADMIN_ACCESS_LOG
-              value: "/dev/stdout"
-            - name: KONG_PROXY_ERROR_LOG
-              value: "/dev/stderr"
-            - name: KONG_ADMIN_ERROR_LOG
-              value: "/dev/stderr"
-            - name: KONG_ADMIN_LISTEN
-              value: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
-            - name: KONG_STATUS_LISTEN
-              value: "0.0.0.0:{{ .Values.service.status.port }}"
-            - name: KONG_DECLARATIVE_CONFIG
-              value: "/kong/declarative/kong.yml"
-            - name: KONG_PLUGINS
-              value: "request-transformer,cors,file-log,response-transformer,post-function"
-            - name: KONG_LOG_LEVEL
-              value: {{ .Values.logging.level | quote }}
-            {{- if not .Values.global.messaging.external.enabled }}
-            - name: KONG_STREAM_LISTEN
-              value: "0.0.0.0:5672"
-            {{- end }}
-            {{- if .Values.trustedIps }}
-            - name: KONG_TRUSTED_IPS
-              value: {{ .Values.trustedIps | quote }}
-            {{- end }}
+            - name: VALKEY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.global.config.enabled }}
+                  name: caching-secret
+                  {{- else }}
+                  name: caching-secret-{{ .Chart.Name | lower }}
+                  {{- end }}
+                  key: valkey.password
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
             {{- end }}
@@ -90,14 +83,9 @@ spec:
             {{- $additionalEnvFrom | indent 12 }}
           {{- end }}
           ports:
-            - containerPort: {{ .Values.service.consumer.port }}
-              name: consumer-http
-            - containerPort: {{ .Values.service.admin.port }}
-              name: admin-http
-            {{- if not .Values.global.messaging.external.enabled }}
-            - containerPort: 5672
-              name: amqp-tcp
-            {{- end }}
+            - name: valkey
+              containerPort: {{ $valkeyPort }}
+              protocol: "TCP"
           {{- if .Values.image.securityContext }}
           securityContext: {{- .Values.image.securityContext | toYaml | nindent 12 }}
           {{- end }}
@@ -108,8 +96,14 @@ spec:
             {{- else }}
             exec:
               command:
-                - kong
-                - health
+                - sh
+                - -c
+                - |
+                  if [ -z "$VALKEY_PASSWORD" ]; then
+                    valkey-cli ping | grep -q PONG
+                  else
+                    valkey-cli -a "$VALKEY_PASSWORD" ping 2>/dev/null | grep -q PONG
+                  fi
             {{- end }}
             initialDelaySeconds: {{ .Values.image.probes.liveness.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.image.probes.liveness.timeoutSeconds }}
@@ -124,8 +118,14 @@ spec:
             {{- else }}
             exec:
               command:
-                - kong
-                - health
+                - sh
+                - -c
+                - |
+                  if [ -z "$VALKEY_PASSWORD" ]; then
+                    valkey-cli ping | grep -q PONG
+                  else
+                    valkey-cli -a "$VALKEY_PASSWORD" ping 2>/dev/null | grep -q PONG
+                  fi
             {{- end }}
             initialDelaySeconds: {{ .Values.image.probes.readiness.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.image.probes.readiness.timeoutSeconds }}
@@ -140,8 +140,14 @@ spec:
             {{- else }}
             exec:
               command:
-                - kong
-                - health
+                - sh
+                - -c
+                - |
+                  if [ -z "$VALKEY_PASSWORD" ]; then
+                    valkey-cli ping | grep -q PONG
+                  else
+                    valkey-cli -a "$VALKEY_PASSWORD" ping 2>/dev/null | grep -q PONG
+                  fi
             {{- end }}
             initialDelaySeconds: {{ .Values.image.probes.startup.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.image.probes.startup.timeoutSeconds }}
@@ -153,10 +159,10 @@ spec:
           resources: {{- toYaml .Values.image.resources | nindent 12 }}
           {{- end }}
           volumeMounts:
-            - name: api-gateway-config-volume
-              mountPath: /kong/declarative
-            - mountPath: /tmp
-              name: ephemeral
+            - name: data
+              mountPath: /data
+            - name: tmp
+              mountPath: /tmp
             {{- if $additionalVolumeMounts }}
               {{- $additionalVolumeMounts | nindent 12 }}
             {{- end }}
@@ -164,18 +170,22 @@ spec:
           {{- $additionalSidecarContainers | nindent 8 }}
         {{- end }}
       volumes:
-        - name: api-gateway-config-volume
-          configMap:
-            {{- if .Values.global.config.enabled }}
-            name: global-configmap
-            {{- else }}
-            name: api-gateway-configmap
-            {{- end }}
-            items:
-              - key: kong.yml
-                path: kong.yml
-        - name: ephemeral
-          {{- include "api-gateway-kong.ephemeralVolume" . | indent 10 }}
+        - name: data
+          {{- include "caching-valkey.ephemeralVolume" . | nindent 10 }}
+        - name: tmp
+          {{- include "caching-valkey.ephemeralVolume" . | nindent 10 }}
         {{- if $additionalVolumes }}
           {{- $additionalVolumes | nindent 8 }}
         {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
