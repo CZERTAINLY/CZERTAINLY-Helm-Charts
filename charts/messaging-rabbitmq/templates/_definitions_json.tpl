@@ -79,7 +79,7 @@ Example:
       "vhost": "{{ $virtualHost }}",
       "configure": "",
       "write": "^czertainly(-proxy)?$",
-      "read": "^core(\\..*)?$"
+      "read": "^core(\\..+|-.+)?$"
     }
   ],
   "exchanges": [

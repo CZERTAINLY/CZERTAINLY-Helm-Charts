@@ -1,3 +1,0 @@
-# Test values for CI pipeline
-image:
-  pullPolicy: Always

@@ -164,14 +164,6 @@ dependencies:
       - messaging
     version: 4.2.0-1
     alias: messagingService
-  - condition: cachingService.enabled
-    name: caching-valkey
-    # repository: oci://harbor.3key.company/czertainly-helm
-    repository: file://../caching-valkey
-    tags:
-      - caching
-    version: 8.1.1-1-develop
-    alias: cachingService
   - name: scheduler-service
     # repository: oci://harbor.3key.company/czertainly-helm
     repository: file://../scheduler-service
