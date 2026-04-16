@@ -153,9 +153,12 @@ messaging:
 
 bootstrap:
   proxy:
-    # External AMQP URL that proxy services use to connect to RabbitMQ.
-    # May differ from the internal messaging.host (e.g. when using NodePort or LoadBalancer).
-    amqpUrl: "amqp://messaging-service:5672"
+    # AMQP URL that proxy services use to connect to RabbitMQ.
+    # When empty, auto-constructed as amqp://<messagingHost>:<messagingAmqpPort>
+    # using messaging.host/port (or messaging.external.* when external messaging is enabled).
+    # Set explicitly when proxies connect from outside the cluster via NodePort, LoadBalancer,
+    # or a dedicated TCP ingress that differs from the internal messaging address.
+    amqpUrl: ""
     exchange: "czertainly-proxy"
     responseQueue: "core"
   security:
