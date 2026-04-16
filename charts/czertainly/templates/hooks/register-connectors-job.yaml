@@ -39,7 +39,10 @@ spec:
             {{- if .Values.commonCredentialProvider.enabled }}
             curl -X POST -k -H 'content-type: application/json' \
             -d '{"name": "Common-Credential-Connector","url": "http://common-credential-provider-service:{{ .Values.commonCredentialProvider.service.port }}","authType": "none"}' \
-            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register && \
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "Common-Credential-Connector-v2", "version": "v2", "url": "http://common-credential-provider-service:{{ .Values.commonCredentialProvider.service.port }}","authType": "none", "customAttributes": []}' \
+            http://core-service:{{ .Values.service.port }}/api/v2/connector/register &&
             {{- end }}
             {{- if .Values.ejbcaNgConnector.enabled }}
             curl -X POST -k -H 'content-type: application/json' \
@@ -79,7 +82,10 @@ spec:
             {{- if .Values.hashicorpVaultConnector.enabled }}
             curl -X POST -k -H 'content-type: application/json' \
             -d '{"name": "HashiCorp-Vault-Connector","url": "http://hashicorp-vault-connector-service:{{ .Values.hashicorpVaultConnector.service.port }}","authType": "none"}' \
-            http://core-service:{{ .Values.service.port }}/api/v1/connector/register &&
+            http://core-service:{{ .Values.service.port }}/api/v1/connector/register && \
+            curl -X POST -k -H 'content-type: application/json' \
+            -d '{"name": "HashiCorp-Vault-Connector-v2", "version": "v2", "url": "http://hashicorp-vault-connector-service:{{ .Values.hashicorpVaultConnector.service.port }}","authType": "none", "customAttributes": []}' \
+            http://core-service:{{ .Values.service.port }}/api/v2/connector/register &&
             {{- end }}
             {{- if .Values.emailNotificationProvider.enabled }}
             curl -X POST -k -H 'content-type: application/json' \
