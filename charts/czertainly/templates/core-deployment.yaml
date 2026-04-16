@@ -18,12 +18,16 @@
 {{- $messagingAmqpPort = pluck "port" .Values.global.messaging.external.amqp .Values.messaging.external.amqp | compact | first }}
 {{- end }}
 apiVersion: apps/v1
-kind: Deployment
+kind: {{ .Values.workloadType | default "Deployment" }}
 metadata:
-  name: core-deployment
+  name: {{ ternary "core" "core-deployment" (eq (.Values.workloadType | default "Deployment") "StatefulSet") }}
   labels:
     {{- include "czertainly.labels" . | nindent 4 }}
 spec:
+  {{- if eq (.Values.workloadType | default "Deployment") "StatefulSet" }}
+  serviceName: core-service-headless
+  podManagementPolicy: Parallel
+  {{- end }}
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ $replicaCount | default 1 }}
   {{- end }}
@@ -72,7 +76,13 @@ spec:
               echo "auth service seems to be started" &&
               while ! nc -z {{ $messagingHost }} {{ $messagingAmqpPort }}; do sleep 1; done &&
               while ! nc -z scheduler-service-service {{ .Values.schedulerService.service.port }}; do sleep 1; done &&
+              {{- if .Values.rabbitmqBootstrap.enabled }}
+              while ! nc -z rabbitmq-bootstrap-service {{ .Values.rabbitmqBootstrap.service.port }}; do sleep 1; done &&
+              {{- end }}
               echo "messaging and scheduler service seems to be started"
+        {{- with (include "czertainly.initContainer.provisionQueue" .) }}
+          {{- . | nindent 8 }}
+        {{- end }}
         {{- if $additionalInitContainers }}
           {{- $additionalInitContainers | nindent 8 }}
         {{- end }}
@@ -209,31 +219,56 @@ spec:
             {{- end }}
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
-            - name: RABBITMQ_HOST
+            - name: BROKER_HOST
               valueFrom:
                 configMapKeyRef:
                   name: messaging-configmap
                   key: messaging.host
-            - name: RABBITMQ_PORT
+            - name: BROKER_PORT
               valueFrom:
                 configMapKeyRef:
                   name: messaging-configmap
                   key: messaging.amqp.port
-            - name: RABBITMQ_USERNAME
+            - name: BROKER_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: messaging-secret
-                  key: messaging.username
-            - name: RABBITMQ_PASSWORD
+                  key: messaging.core.username
+            - name: BROKER_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: messaging-secret
-                  key: messaging.password
+                  key: messaging.core.password
+            - name: BROKER_VIRTUAL_HOST
+              value: {{ pluck "virtualHost" .Values.global.messaging .Values.messaging | compact | first | default "czertainly" | quote }}
             - name: SCHEDULER_BASE_URL
               value: "http://scheduler-service-service:{{ .Values.schedulerService.service.port }}"
             {{- if .Values.global.keycloak.enabled }}
             - name: INTERNAL_OAUTH_SECRET
               value: {{ .Values.global.keycloak.clientSecret | quote }}
+            {{- end }}
+            - name: PROVISIONING_API_URL
+              {{- if .Values.global.provisioning.apiUrl }}
+              value: {{ .Values.global.provisioning.apiUrl | quote }}
+              {{- else if .Values.rabbitmqBootstrap.enabled }}
+              value: {{ printf "http://rabbitmq-bootstrap-service:%s" (toString .Values.rabbitmqBootstrap.service.port) | quote }}
+              {{- else }}
+              value: ""
+              {{- end }}
+            {{- if .Values.global.provisioning.apiKey }}
+            - name: PROVISIONING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: provisioning-secret
+                  key: provisioningApiKey
+            {{- end }}
+            - name: PROXY_ENABLED
+              value: {{ .Values.global.proxy.enabled | quote }}
+            {{- if .Values.global.proxy.enabled }}
+            - name: PROXY_INSTANCE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             {{- end }}
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}
