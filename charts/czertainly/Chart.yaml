@@ -13,7 +13,7 @@ dependencies:
     repository: file://../keycloak-internal
     tags:
       - keycloak-internal
-    version: 26.4.2-0-2
+    version: 26.4.2-0-3-develop
     alias: keycloakInternal
   - condition: commonCredentialProvider.enabled
     name: common-credential-provider
@@ -196,4 +196,4 @@ sources:
   - https://github.com/3KeyCompany/CZERTAINLY
   - https://www.czertainly.com
   - https://docs.czertainly.com
-version: 2.17.0
+version: 2.17.0-1-develop

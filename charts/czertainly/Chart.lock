@@ -1,7 +1,7 @@
 dependencies:
 - name: keycloak-internal
   repository: file://../keycloak-internal
-  version: 26.4.2-0-2
+  version: 26.4.2-0-3-develop
 - name: common-credential-provider
   repository: file://../common-credential-provider
   version: 1.4.0
@@ -65,5 +65,5 @@ dependencies:
 - name: pg-bouncer
   repository: file://../pg-bouncer
   version: 1.24.1-p1-1
-digest: sha256:115e047769c43f4f6502f429b342c33c0ef20d4ae36b96a15b352df8d03a817f
-generated: "2026-04-05T12:07:29.536386+02:00"
+digest: sha256:bef0d6a31cc62abdd1552bc6585d62d7565bd229c5c52a30111b35441b4489e5
+generated: "2026-04-17T17:53:41.216993+02:00"
