@@ -27,12 +27,12 @@ def update_client_config(access_token, keycloak_url):
     """Update the client configuration."""
     # Define the URL for the client
     client_id = "b7235af6-8c98-4d96-a1c3-94b94ed8d131"
-    url = f"{keycloak_url}/admin/realms/CZERTAINLY/clients/{client_id}"
+    url = f"{keycloak_url}/admin/realms/ILM/clients/{client_id}"
 
     # Define the payload for updating the client
     payload = {
-        "clientId": "czertainly",
-        "name": "czertainly",
+        "clientId": "ilm",
+        "name": "ilm",
         "redirectUris": ["/api/login/oauth2/code/internal"],
         "protocolMappers": [
             {
@@ -75,7 +75,7 @@ def update_client_config(access_token, keycloak_url):
                 "protocolMapper": "oidc-audience-mapper",
                 "consentRequired": False,
                 "config": {
-                    "included.client.audience": "czertainly",
+                    "included.client.audience": "ilm",
                     "introspection.token.claim": "true",
                     "userinfo.token.claim": "false",
                     "id.token.claim": "true",
@@ -99,7 +99,7 @@ def update_client_config(access_token, keycloak_url):
 if __name__ == "__main__":
     # If used with --insecure switch script can ignore TLS certificates problems, use with caution
     parser = argparse.ArgumentParser(
-        description="update_realm_from_2.7.0_to_2.14.0.py: script to upgrade realm CZERTAINLY in Keycloak for version 2.14.0")
+        description="update_realm_from_2.7.0_to_2.14.0.py: script to upgrade realm ILM in Keycloak for version 2.14.0")
     parser.add_argument('--insecure', action='store_true', default=False,
                         help='disable certificate validation (default: %(default)s)')
     args = parser.parse_args()
@@ -109,7 +109,7 @@ if __name__ == "__main__":
         verify_tls = False
 
     # Get the base URL of Keycloak
-    keycloak_url = input("Enter the URL of the Keycloak (e.g., https://my.czertainly.com/kc): ")
+    keycloak_url = input("Enter the URL of the Keycloak (e.g., https://my.ilm.local/kc): ")
 
     # Get the admin username and password securely
     username = input("Enter the admin username: ")

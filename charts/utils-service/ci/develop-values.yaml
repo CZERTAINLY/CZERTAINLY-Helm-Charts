@@ -1,4 +1,4 @@
 image:
   tag: develop-latest
   pullSecrets:
-    - czertainlycred
+    - ilmcred

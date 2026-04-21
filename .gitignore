@@ -44,3 +44,7 @@ build/
 
 # For local testing purposes
 /for-testing/
+
+# Claude Code
+.claude/
+docs/superpowers/

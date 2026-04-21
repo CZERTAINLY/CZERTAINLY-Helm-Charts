@@ -115,10 +115,10 @@ jobs:
         if: env.changed == 'true'
         env:
           changed_charts: ${{ env.changed_charts }}
-          HELM_OCI_REGISTRY: ${{ secrets.HELM_OCI_REGISTRY }}
-          HELM_OCI_REPOSITORY: ${{ secrets.HELM_OCI_REPOSITORY }}
-          HELM_USERNAME: ${{ secrets.HARBOR_3KEY_USERNAME }}
-          HELM_PASSWORD: ${{ secrets.HARBOR_3KEY_PASSWORD }}
+          HELM_OCI_REGISTRY: hub.omnitrustregistry.com
+          HELM_OCI_REPOSITORY: ilm-helm
+          HELM_USERNAME: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+          HELM_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
         run: |
@@ -149,7 +149,7 @@ jobs:
             if [[ "${{ github.ref_type }}" == "branch" ]]; then
               # SPECIFIC TO HARBOR
               echo "Check if develop tag 0.0.0 exists and remove it"
-              pulled=$(helm pull oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY/$name --version 0.0.0 2>&1)
+              pulled=$(helm pull oci://$HELM_OCI_REGISTRY/$HELM_OCI_REPOSITORY/$name --version 0.0.0 2>&1 || true)
               if [[ $pulled == *"Digest:"* ]]; then
                 removeFrom=$(echo "$pulled" | awk 'FNR == 2 {print $2}')
                 echo "Tag 0.0.0 exists, remove it from $removeFrom"
@@ -168,20 +168,20 @@ jobs:
           # first is the library chart
           
           # check if the library chart has changed
-          if [[ $changed_charts == *"charts/czertainly-lib"* ]]; then
-            echo "charts/czertainly-lib has changed, releasing it first"
-            release_chart charts/czertainly-lib
+          if [[ $changed_charts == *"charts/ilm-lib"* ]]; then
+            echo "charts/ilm-lib has changed, releasing it first"
+            release_chart charts/ilm-lib
             # remove the library chart from the list of changed charts
-            changed_charts=$(echo $changed_charts | sed s:charts/czertainly-lib::)
+            changed_charts=$(echo $changed_charts | sed s:charts/ilm-lib::)
           fi
           
           umbrella_changed=false
-          # czertainly umbrella chart must be released as last one
-          if [[ $changed_charts == *"charts/czertainly"* ]]; then
-            echo "charts/czertainly has changed, mark to released it as last"
+          # ilm umbrella chart must be released as last one
+          if [[ $changed_charts == *"charts/ilm"* ]]; then
+            echo "charts/ilm has changed, mark to released it as last"
             umbrella_changed=true
             # remove the umbrella chart from the list of changed charts
-            changed_charts=$(echo $changed_charts | sed s:charts/czertainly::)
+            changed_charts=$(echo $changed_charts | sed s:charts/ilm::)
           fi
           
           # release all other charts, there should not be any dependency conflict
@@ -193,8 +193,8 @@ jobs:
           
           # when the umbrella chart has changed, release it as last one
           if [[ $umbrella_changed == "true" ]]; then
-            echo "Releasing charts/czertainly"
-            release_chart charts/czertainly
+            echo "Releasing charts/ilm"
+            release_chart charts/ilm
           fi
           
           echo "Logging out from $HELM_OCI_REGISTRY"
