@@ -125,6 +125,12 @@ image:
     runAsNonRoot: true
     # runAsUser: 1000
     readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
   # probes configuration
   probes:
     liveness:
@@ -185,6 +191,12 @@ theme:
       runAsNonRoot: true
       # runAsUser: 10001
       readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      seccompProfile:
+        type: RuntimeDefault
     # We follow recommendations and general guidelines to manage resources from:
     # https://master.sdk.operatorframework.io/docs/best-practices/managing-resources/
     # We recommend default requests for CPU and Memory, leaving the limits as a conscious
@@ -267,7 +279,9 @@ podLabels: {}
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
   # fsGroup: 2000
 
 nodeSelector: {}

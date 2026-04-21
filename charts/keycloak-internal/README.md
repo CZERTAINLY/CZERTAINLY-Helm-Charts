@@ -108,35 +108,38 @@ Global values are used to define common parameters for the chart and all its sub
 
 The following values may be configured:
 
-| Parameter                                    | Default value                          | Description                                                                                                            |
-|----------------------------------------------|----------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| trusted.certificates                         | `""`                                   | List of additional CA certificates that should be trusted                                                              |
-| image.registry                               | `hub.omnitrustregistry.com`                            | Docker registry name for the image                                                                                     |
-| image.repository                             | `ilm`                           | Docker image repository name                                                                                           |
-| image.name                                   | `keycloak-optimized`        | Docker image name                                                                                                      |
-| image.tag                                    | `26.4.2-0`                             | Docker image tag                                                                                                       |
-| image.digest                                 | `""`                                   | Docker image digest, will override tag if specified                                                                    |
-| image.pullPolicy                             | `IfNotPresent`                         | Image pull policy                                                                                                      |
-| image.pullSecrets                            | `[]`                                   | Array of secret names for image pull                                                                                   |
-| image.command                                | `[]`                                   | Override the default command                                                                                           |
-| image.args                                   | `[start, --optimized, --import-realm]` | Override the default args                                                                                              |
-| image.securityContext.runAsNonRoot           | `true`                                 | Run the container as non-root user                                                                                     |
-| image.securityContext.readOnlyRootFilesystem | `true`                                 | Run the container with read-only root filesystem                                                                       |
-| image.resources                              | `{}`                                   | The resources for the container                                                                                        |
-| podLabels                                    | `{}`                                   | Labels to be added to the pod                                                                                          |
-| podAnnotations                               | `{}`                                   | Annotations to be added to the pod                                                                                     |
-| podSecurityContext                           | `{}`                                   | Pod security context                                                                                                   |
-| volumes.ephemeral.type                       | `memory`                               | Ephemeral volume type to be used                                                                                       |
-| volumes.ephemeral.sizeLimit                  | `"1Mi"`                                | Ephemeral volume size limit                                                                                            |
-| volumes.ephemeral.storageClassName           | `""`                                   | Ephemeral volume storage class name for `storage` type                                                                 |
-| volumes.ephemeral.custom                     | `{}`                                   | Custom definition of the ephemeral volume for `custom` type                                                            |
-| logging.level                                | `"info"`                               | Allowed values are `fatal`, `error`, `warn`, `info`, `debug`, `trace`, `all`, or `off`                                 |
-| service.type                                 | `"ClusterIP"`                          | Type of the service that is exposed                                                                                    |
-| service.port                                 | `8080`                                 | Port number of the exposed service                                                                                     |
-| createDbSchema                               | true                                   | Deploy simple startupHook to create schema for Keycloak in database                                                    |
-| serviceAccount.create                        | `true`                                 | Specifies whether a service account should be created                                                                  |
-| serviceAccount.annotations                   | `{}`                                   | Annotations to add to the service account                                                                              |
-| serviceAccount.name                          | `"keycloak-internal-sa"`               | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| Parameter                                      | Default value                          | Description                                                                                                            |
+|------------------------------------------------|----------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| trusted.certificates                           | `""`                                   | List of additional CA certificates that should be trusted                                                              |
+| image.registry                                 | `hub.omnitrustregistry.com`            | Docker registry name for the image                                                                                     |
+| image.repository                               | `ilm`                                  | Docker image repository name                                                                                           |
+| image.name                                     | `keycloak-optimized`                   | Docker image name                                                                                                      |
+| image.tag                                      | `26.4.2-0`                             | Docker image tag                                                                                                       |
+| image.digest                                   | `""`                                   | Docker image digest, will override tag if specified                                                                    |
+| image.pullPolicy                               | `IfNotPresent`                         | Image pull policy                                                                                                      |
+| image.pullSecrets                              | `[]`                                   | Array of secret names for image pull                                                                                   |
+| image.command                                  | `[]`                                   | Override the default command                                                                                           |
+| image.args                                     | `[start, --optimized, --import-realm]` | Override the default args                                                                                              |
+| image.securityContext.runAsNonRoot             | `true`                                 | Run the container as non-root user                                                                                     |
+| image.securityContext.readOnlyRootFilesystem   | `true`                                 | Run the container with read-only root filesystem                                                                       |
+| image.securityContext.allowPrivilegeEscalation | `false`                                | Do not allow privilege escalation for the container                                                                    |
+| image.securityContext.capabilities.drop        | `["ALL"]`                              | Drop all Linux capabilities                                                                                            |
+| image.securityContext.seccompProfile.type      | `RuntimeDefault`                       | Seccomp profile type for the container                                                                                 |
+| image.resources                                | `{}`                                   | The resources for the container                                                                                        |
+| podLabels                                      | `{}`                                   | Labels to be added to the pod                                                                                          |
+| podAnnotations                                 | `{}`                                   | Annotations to be added to the pod                                                                                     |
+| podSecurityContext.seccompProfile.type         | `RuntimeDefault`                       | Seccomp profile type for the pod                                                                                       |
+| volumes.ephemeral.type                         | `memory`                               | Ephemeral volume type to be used                                                                                       |
+| volumes.ephemeral.sizeLimit                    | `"1Mi"`                                | Ephemeral volume size limit                                                                                            |
+| volumes.ephemeral.storageClassName             | `""`                                   | Ephemeral volume storage class name for `storage` type                                                                 |
+| volumes.ephemeral.custom                       | `{}`                                   | Custom definition of the ephemeral volume for `custom` type                                                            |
+| logging.level                                  | `"info"`                               | Allowed values are `fatal`, `error`, `warn`, `info`, `debug`, `trace`, `all`, or `off`                                 |
+| service.type                                   | `"ClusterIP"`                          | Type of the service that is exposed                                                                                    |
+| service.port                                   | `8080`                                 | Port number of the exposed service                                                                                     |
+| createDbSchema                                 | true                                   | Deploy simple startupHook to create schema for Keycloak in database                                                    |
+| serviceAccount.create                          | `true`                                 | Specifies whether a service account should be created                                                                  |
+| serviceAccount.annotations                     | `{}`                                   | Annotations to add to the service account                                                                              |
+| serviceAccount.name                            | `"keycloak-internal-sa"`               | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 
 #### Customization parameters
 
@@ -155,20 +158,23 @@ The following values may be configured:
 
 **ILM Keycloak theme**
 
-| Parameter                                          | Default value               | Description                                         |
-|----------------------------------------------------|-----------------------------|-----------------------------------------------------|
-| theme.image.registry                               | `hub.omnitrustregistry.com`                 | Docker registry name for the image                  |
-| theme.image.repository                             | `ilm`                | Docker image repository name                        |
-| theme.image.name                                   | `keycloak-theme` | Docker image name                                   |
-| theme.image.tag                                    | `0.1.4`                     | Docker image tag                                    |
-| theme.image.digest                                 | `""`                        | Docker image digest, will override tag if specified |
-| theme.image.pullPolicy                             | `IfNotPresent`              | Image pull policy                                   |
-| theme.image.pullSecrets                            | `[]`                        | Array of secret names for image pull                |
-| theme.image.command                                | `[]`                        | Override the default command for the container      |
-| theme.image.args                                   | `[]`                        | Arguments passed to the entrypoint in the container |
-| theme.image.securityContext.runAsNonRoot           | `true`                      | Run the container as non-root user                  |
-| theme.image.securityContext.readOnlyRootFilesystem | `true`                      | Run the container with read-only root filesystem    |
-| theme.image.resources                              | {}                          | Specify requests and limits for the image if needed |
+| Parameter                                            | Default value               | Description                                         |
+|------------------------------------------------------|-----------------------------|-----------------------------------------------------|
+| theme.image.registry                                 | `hub.omnitrustregistry.com` | Docker registry name for the image                  |
+| theme.image.repository                               | `ilm`                       | Docker image repository name                        |
+| theme.image.name                                     | `keycloak-theme`            | Docker image name                                   |
+| theme.image.tag                                      | `0.1.4`                     | Docker image tag                                    |
+| theme.image.digest                                   | `""`                        | Docker image digest, will override tag if specified |
+| theme.image.pullPolicy                               | `IfNotPresent`              | Image pull policy                                   |
+| theme.image.pullSecrets                              | `[]`                        | Array of secret names for image pull                |
+| theme.image.command                                  | `[]`                        | Override the default command for the container      |
+| theme.image.args                                     | `[]`                        | Arguments passed to the entrypoint in the container |
+| theme.image.securityContext.runAsNonRoot             | `true`                      | Run the container as non-root user                  |
+| theme.image.securityContext.readOnlyRootFilesystem   | `true`                      | Run the container with read-only root filesystem    |
+| theme.image.securityContext.allowPrivilegeEscalation | `false`                     | Do not allow privilege escalation for the container |
+| theme.image.securityContext.capabilities.drop        | `["ALL"]`                   | Drop all Linux capabilities                         |
+| theme.image.securityContext.seccompProfile.type      | `RuntimeDefault`            | Seccomp profile type for the container              |
+| theme.image.resources                                | {}                          | Specify requests and limits for the image if needed |
 
 #### Keycloak associated parameters
 
@@ -182,17 +188,17 @@ The following values may be configured:
 | keycloak.proxyHeaders     | `xforwarded`  | Should server accept `forwarded` or `xforwarded` values? See [official documentation](https://www.keycloak.org/server/all-config#category-proxy) |
 #### ILM realm parameters
 
-| Parameter                         | Default value              | Description                                                                           |
-|-----------------------------------|----------------------------|---------------------------------------------------------------------------------------|
-| ilm.admin.username         | `"ilm-admin"`         | Initial `superadmin` username                                                         |
-| ilm.admin.password         | `"your-strong-password"`   | Initial `superadmin` password                                                         |
-| ilm.admin.name             | `"admin"`                  | Initial `superadmin` first name                                                       |
-| ilm.admin.surname          | `"ilm"`                    | Initial `superadmin` last name                                                        |
-| ilm.admin.email            | `"admin@ilm.local"`        | Initial `superadmin` email                                                            |
-| ilm.hostName               | `"ilm.local"`              | Hostname to be used as the Root URL for the OIDC configuration                        |
-| ilm.clientSecret           | `""`                       | Keycloak OIDC client secret to be used for ILM                                        |
-| ilm.redirectUri.login      | `"/login/"`                | Allowed redirect URI for login. **Change only if you know what you are doing!**       |
-| ilm.redirectUri.postLogout | `"/administrator/"`        | Allowed redirect URI for post logout. **Change only if you know what you are doing!** |
+| Parameter                  | Default value            | Description                                                                           |
+|----------------------------|--------------------------|---------------------------------------------------------------------------------------|
+| ilm.admin.username         | `"ilm-admin"`            | Initial `superadmin` username                                                         |
+| ilm.admin.password         | `"your-strong-password"` | Initial `superadmin` password                                                         |
+| ilm.admin.name             | `"admin"`                | Initial `superadmin` first name                                                       |
+| ilm.admin.surname          | `"ilm"`                  | Initial `superadmin` last name                                                        |
+| ilm.admin.email            | `"admin@ilm.local"`      | Initial `superadmin` email                                                            |
+| ilm.hostName               | `"ilm.local"`            | Hostname to be used as the Root URL for the OIDC configuration                        |
+| ilm.clientSecret           | `""`                     | Keycloak OIDC client secret to be used for ILM                                        |
+| ilm.redirectUri.login      | `"/login/"`              | Allowed redirect URI for login. **Change only if you know what you are doing!**       |
+| ilm.redirectUri.postLogout | `"/administrator/"`      | Allowed redirect URI for post logout. **Change only if you know what you are doing!** |
 
 #### Probes parameters
 

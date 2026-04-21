@@ -54,6 +54,9 @@ spec:
           {{- if .Values.theme.image.args }}
           args: {{- include "keycloak-internal.theme.image.args" . | nindent 12 }}
           {{- end }}
+          {{- if .Values.theme.image.securityContext }}
+          securityContext: {{- .Values.theme.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - mountPath: /data
               name: ephemeral
