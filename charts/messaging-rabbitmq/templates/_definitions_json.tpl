@@ -24,13 +24,13 @@ Example:
   ],
   "vhosts": [
     {
-      "name": "czertainly"
+      "name": "ilm"
     }
   ],
   "permissions": [
     {
       "user": "{{ $username }}",
-      "vhost": "czertainly",
+      "vhost": "ilm",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
