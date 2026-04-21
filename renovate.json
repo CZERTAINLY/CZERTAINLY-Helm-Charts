@@ -7,7 +7,7 @@
     {
       "matchHost": "hub.omnitrustregistry.com",
       "username": "github-actions",
-      "password": "{{ secrets.HARBOR_GITHUB_ACTIONS_PASSWORD }}"
+      "password": "{{ secrets.CONTAINER_REGISTRY_PASSWORD }}"
     }
   ]
 }
