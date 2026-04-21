@@ -15,7 +15,7 @@ helm install --namespace ilm -f ilm-values.yaml --set-file trusted.certificates=
 
 ## It seems that I cannot log in with my generated administrator certificate
 
-When you have installed the ILM usign the auto-generated internal admin CA and issued administrator certificate for your registered administrator, it may happen that you overrride the list of trusted certificates and miss the create internal admin CA certificate. In this case, read the admin CA certificate, include it in the list of trusted certificates, and upgrade the configuration of the ILM. You can use the following command to get the admin CA certificate in PEM format in file `admin-ca-certificate.pem`:
+When you have installed the ILM using the auto-generated internal admin CA and issued administrator certificate for your registered administrator, it may happen that you override the list of trusted certificates and miss the create internal admin CA certificate. In this case, read the admin CA certificate, include it in the list of trusted certificates, and upgrade the configuration of the ILM. You can use the following command to get the admin CA certificate in PEM format in file `admin-ca-certificate.pem`:
 
 ```bash
 kubectl get secrets --namespace ilm admin-ca-keypair -o jsonpath='{.data.tls\.crt}' | base64 --decode > admin-ca-certificate.pem

@@ -5,7 +5,7 @@ appVersion: 1.4.1
 name: cryptosense-discovery-provider
 description: A Helm chart for Cryptosense Discovery Provider for ILM platform.
 home: https://github.com/OmniTrustILM/ilm
-icon: https://github.com/OmniTrustILM/ilm/icon/ot-icon-color.svg
+icon: https://raw.githubusercontent.com/OmniTrustILM/ilm/main/icon/ot-icon-color.svg
 dependencies:
   - name: ilm-lib
     # repository: oci://hub.omnitrustregistry.com/ilm-helm

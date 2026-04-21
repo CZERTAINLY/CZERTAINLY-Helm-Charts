@@ -5,7 +5,7 @@ appVersion: 1.1.1
 name: email-notification-provider
 description: A Helm chart for Email Notification Provider for ILM platform.
 home: https://github.com/OmniTrustILM/ilm
-icon: https://github.com/OmniTrustILM/ilm/icon/ot-icon-color.svg
+icon: https://raw.githubusercontent.com/OmniTrustILM/ilm/main/icon/ot-icon-color.svg
 dependencies:
   - name: ilm-lib
     # repository: oci://hub.omnitrustregistry.com/ilm-helm

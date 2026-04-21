@@ -1,6 +1,6 @@
 # Network Discovery Provider - ILM
 
-> This repository is part of the commercial open-source project ILM. You can find more information about the project at [ILM](https://github.com/ILM/ILM) repository, including the contribution guide.
+> This repository is part of the commercial open-source project ILM. You can find more information about the project at [ILM](https://github.com/OmniTrustILM/ilm) repository, including the contribution guide.
 
 This repository contains [Helm](https://helm.sh/) charts as part of the ILM platform.
 
