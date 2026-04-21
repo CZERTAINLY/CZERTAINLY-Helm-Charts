@@ -6,7 +6,7 @@
   "hostRules": [
     {
       "matchHost": "hub.omnitrustregistry.com",
-      "username": "github-actions",
+      "username": "ilm-github-actions",
       "password": "{{ secrets.CONTAINER_REGISTRY_PASSWORD }}"
     }
   ]
