@@ -193,3 +193,74 @@ Render customized command and arguments, if any
 {{- define "czertainly.opa.image.args" -}}
 {{- include "czertainly-lib.tplvalues.render" (dict "value" .Values.opa.image.args "context" $) }}
 {{- end -}}
+
+{{/*
+Init container for provisioning per-instance AMQP queue.
+Rendered when proxy support is enabled and either the in-cluster bootstrap
+service or an external provisioning API is configured.
+Calls POST /api/v1/queues on the provisioning API with retry loop.
+*/}}
+{{- define "czertainly.initContainer.provisionQueue" -}}
+{{- if and .Values.global.proxy.enabled (or .Values.rabbitmqBootstrap.enabled .Values.global.provisioning.apiUrl) }}
+- name: provision-instance-queue
+  image: {{ include "czertainly.curl.image" . }}
+  imagePullPolicy: {{ .Values.curl.image.pullPolicy }}
+  {{- if .Values.curl.image.securityContext }}
+  securityContext: {{- .Values.curl.image.securityContext | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if .Values.curl.image.resources }}
+  resources: {{- toYaml .Values.curl.image.resources | nindent 4 }}
+  {{- end }}
+  env:
+    - name: PROVISIONING_API_URL
+      {{- if .Values.global.provisioning.apiUrl }}
+      value: {{ .Values.global.provisioning.apiUrl | quote }}
+      {{- else }}
+      value: {{ printf "http://rabbitmq-bootstrap-service:%s" (toString .Values.rabbitmqBootstrap.service.port) | quote }}
+      {{- end }}
+    {{- if .Values.global.provisioning.apiKey }}
+    - name: PROVISIONING_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: provisioning-secret
+          key: provisioningApiKey
+    {{- else if .Values.rabbitmqBootstrap.enabled }}
+    - name: PROVISIONING_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: rabbitmq-bootstrap-secret
+          key: securityApiKey
+    {{- end }}
+  command:
+    - /bin/sh
+    - -c
+    - |
+      HOSTNAME=$(hostname)
+      until
+        if [ -n "${PROVISIONING_API_KEY:-}" ]; then
+          curl -sf -X POST "${PROVISIONING_API_URL}/api/v1/queues" \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: ${PROVISIONING_API_KEY}" \
+            -d "{
+              \"name\": \"${HOSTNAME}\",
+              \"exchange\": \"czertainly-proxy\",
+              \"routingKey\": \"proxymessage.*.${HOSTNAME}\",
+              \"properties\": { \"x-expires\": 1800000 }
+            }"
+        else
+          curl -sf -X POST "${PROVISIONING_API_URL}/api/v1/queues" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"name\": \"${HOSTNAME}\",
+              \"exchange\": \"czertainly-proxy\",
+              \"routingKey\": \"proxymessage.*.${HOSTNAME}\",
+              \"properties\": { \"x-expires\": 1800000 }
+            }"
+        fi
+      do
+        echo "Waiting for provisioning API at ${PROVISIONING_API_URL}..."
+        sleep 5
+      done
+      echo "Instance queue provisioned for ${HOSTNAME}"
+{{- end }}
+{{- end -}}

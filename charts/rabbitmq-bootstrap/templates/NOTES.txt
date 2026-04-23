@@ -1,0 +1,15 @@
+CZERTAINLY RabbitMQ Bootstrap service has been deployed.
+
+The service is available at:
+  http://rabbitmq-bootstrap-service:{{ .Values.service.port }}
+
+API documentation:
+  POST   /api/v1/proxies                          - Provision a new proxy
+  DELETE /api/v1/proxies/{proxyCode}              - Decommission a proxy
+  GET    /api/v1/proxies/{proxyCode}/installation - Get proxy installation instructions
+
+Authentication:
+  All API calls require the X-API-Key header with the configured security API key.
+
+Health check:
+  http://rabbitmq-bootstrap-service:{{ .Values.service.port }}/actuator/health

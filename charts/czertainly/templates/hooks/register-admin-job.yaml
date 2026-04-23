@@ -42,7 +42,7 @@ spec:
               cat /opt/trusted-certs/cert-admin-ca.pem >> /tmp/new-trust.pem &&
               cat /opt/czertainly/trusted-certificates.pem >> /tmp/new-trust.pem &&
               kubectl patch secret trusted-certificates -p='{"data":{"ca.crt": "'$( cat /tmp/new-trust.pem | base64 -w 0 )'"}}' &&
-              kubectl rollout restart deployment core-deployment &&
+              kubectl rollout restart {{ ternary "statefulset/core" "deployment/core-deployment" (eq (.Values.workloadType | default "Deployment") "StatefulSet") }} &&
             {{- if not (lookup "v1" "Secret" .Release.Namespace "admin-secret") }}
               PASS={{ randAlphaNum 20 }} &&
               openssl pkcs12 -export -out /tmp/admin.p12 -in /opt/admin-certificate/tls.crt -inkey /opt/admin-certificate/tls.key -passout pass:$PASS &&

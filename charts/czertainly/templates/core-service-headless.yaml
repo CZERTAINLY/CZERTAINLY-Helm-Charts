@@ -1,0 +1,15 @@
+{{- if eq (.Values.workloadType | default "Deployment") "StatefulSet" }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: core-service-headless
+  labels:
+    {{- include "czertainly.labels" . | nindent 4 }}
+spec:
+  clusterIP: None
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: "TCP"
+  selector:
+    {{- include "czertainly.selectorLabels" . | nindent 4 }}
+{{- end }}

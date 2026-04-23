@@ -251,6 +251,13 @@ messaging:
   remoteAccess: false
   username: "admin"
   password: "admin"
+  provisionerUsername: "provisioner"
+  provisionerPassword: "provisioner"
+  proxyUsername: "proxy"
+  proxyPassword: "proxy"
+  coreUsername: "core"
+  corePassword: "core"
+  virtualHost: "czertainly"
   erlang:
     cookie: "c4eGHK4gM3v+5BHTFkGaRzqNQu0JcokVJkFK7CmJ"
   plugins:

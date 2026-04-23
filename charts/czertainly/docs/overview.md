@@ -82,6 +82,14 @@ helm uninstall --namespace czertainly czertainly-tlm
 See [CZERTAINLY-Helm-Charts](https://github.com/CZERTAINLY/CZERTAINLY-Helm-Charts) for description of all charts and sub-charts that are available for the platform.
 :::
 
+## High Availability
+
+CZERTAINLY supports High Availability (HA) deployments by running multiple replicas of the Core service. Set `global.replicaCount` to the desired number of replicas.
+
+Per-instance AMQP queues handle response distribution across replicas — no additional caching infrastructure is required.
+
+If you need stable per-pod identities for proxy queue provisioning, set `workloadType=StatefulSet`. The default `Deployment` mode remains suitable for the existing single-workload behavior.
+
 ## Persistence
 
 Internal services can use Persistence Volume Claims to store the data. The PVC is created dynamically by default, but different behaviour can be configured.
