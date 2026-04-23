@@ -54,6 +54,9 @@ spec:
           {{- if .Values.theme.image.args }}
           args: {{- include "keycloak-internal.theme.image.args" . | nindent 12 }}
           {{- end }}
+          {{- if .Values.theme.image.securityContext }}
+          securityContext: {{- .Values.theme.image.securityContext | toYaml | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - mountPath: /data
               name: ephemeral
@@ -92,7 +95,7 @@ spec:
             # Following three variables KC_DB, KC_HTTP_RELATIVE_PATH and
             # KC_HEALTH_ENABLED are needed when you need to run kc.sh in the
             # image. They needs to be inline with valuses used to buld our
-            # optimized image: https://github.com/CZERTAINLY/CZERTAINLY-Keycloak-Optimized/
+            # optimized image: https://github.com/OmniTrustILM/keycloak-optimized/
             - name: KC_DB
               value: postgres
             - name: KC_HTTP_RELATIVE_PATH
@@ -103,7 +106,7 @@ spec:
               value: {{ .Values.keycloak.dbSchema | quote }}
             # KC_DB_* env variables are needed for Keycloak
             - name: KC_DB_URL
-              value: {{ include "czertainly-lib.util.format.jdbcUrl" (list . "?characterEncoding=UTF-8") | quote }}
+              value: {{ include "ilm-lib.util.format.jdbcUrl" (list . "?characterEncoding=UTF-8") | quote }}
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -216,8 +219,8 @@ spec:
             - mountPath: /opt/keycloak/data
               name: ephemeral
             - name: keycloak-internal-configmap-volume
-              mountPath: /opt/keycloak/data/import/czertainly_realm.json
-              subPath: czertainly_realm.json
+              mountPath: /opt/keycloak/data/import/ilm_realm.json
+              subPath: ilm_realm.json
             - name: keycloak-internal-configmap-volume
               mountPath: /opt/keycloak/create_schema.sh
               subPath: create_schema.sh
@@ -246,8 +249,8 @@ spec:
           configMap:
             name: keycloak-internal-configmap
             items:
-              - key: czertainly_realm.json
-                path: czertainly_realm.json
+              - key: ilm_realm.json
+                path: ilm_realm.json
               - key: create_schema.sh
                 path: create_schema.sh
         - name: ephemeral

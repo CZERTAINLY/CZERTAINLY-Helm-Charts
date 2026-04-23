@@ -32,9 +32,9 @@ jobs:
         image: postgres:18
         # Provide the password for postgres
         env:
-          POSTGRES_USER: czertainlyuser
+          POSTGRES_USER: ilmuser
           POSTGRES_PASSWORD: your-strong-password
-          POSTGRES_DB: czertainlydb
+          POSTGRES_DB: ilmdb
         ports:
           - 5432:5432
         # Set health checks to wait until postgres has started
@@ -52,7 +52,7 @@ jobs:
           - 25:25
         env:
           SMTP_ONLY: 1
-          OVERRIDE_HOSTNAME: czertainly.helm
+          OVERRIDE_HOSTNAME: ilm.helm
 
     steps:
       - name: Export context
@@ -182,21 +182,19 @@ jobs:
       - name: Create pull secret
         if: env.changed == 'true'
         env:
-          REGISTRY_SERVER: ${{ secrets.REGISTRY_SERVER }}
-          REGISTRY_USERNAME: ${{ secrets.HARBOR_3KEY_USERNAME }}
-          REGISTRY_PASSWORD: ${{ secrets.HARBOR_3KEY_PASSWORD }}
-          REGISTRY_EMAIL: ${{ secrets.REGISTRY_EMAIL }}
+          REGISTRY_SERVER: hub.omnitrustregistry.com
+          REGISTRY_USERNAME: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+          REGISTRY_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
         run: |
           echo "Creating pull secret for private registry"
-          kubectl create secret -n chart-testing docker-registry czertainlycred \
+          kubectl create secret -n chart-testing docker-registry ilmcred \
             --docker-server=$REGISTRY_SERVER \
             --docker-username=$REGISTRY_USERNAME \
-            --docker-password=$REGISTRY_PASSWORD \
-            --docker-email=$REGISTRY_EMAIL
+            --docker-password=$REGISTRY_PASSWORD
 
       - name: Run chart-testing (install)
         if: env.changed == 'true'
-        run: ct install --remote upstream --namespace chart-testing --target-branch "$BASE_BRANCH" --excluded-charts czertainly-lib
+        run: ct install --remote upstream --namespace chart-testing --target-branch "$BASE_BRANCH" --excluded-charts ilm-lib
 
       - name: Finalize GitHub Check
         if: always()

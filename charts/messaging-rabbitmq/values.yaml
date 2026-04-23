@@ -98,9 +98,9 @@ clustering:
 
 image:
   # default registry name
-  registry: docker.io
-  repository: czertainly
-  name: czertainly-rabbitmq
+  registry: hub.omnitrustregistry.com
+  repository: ilm
+  name: rabbitmq
   tag: 4.2.0
   # the digest to be used instead of the tag
   digest: ""
@@ -158,9 +158,9 @@ image:
 curl:
   image:
     # default registry name
-    registry: docker.io
-    repository: czertainly
-    name: czertainly-curl
+    registry: hub.omnitrustregistry.com
+    repository: ilm
+    name: curl
     tag: 8.16.0
     # the digest to be used instead of the tag
     digest: ""

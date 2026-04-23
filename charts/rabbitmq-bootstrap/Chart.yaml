@@ -7,9 +7,9 @@ description: A Helm chart for CZERTAINLY platform RabbitMQ Bootstrap service (on
 home: https://github.com/CZERTAINLY/CZERTAINLY-rabbitmq-bootstrap
 icon: https://github.com/CZERTAINLY/CZERTAINLY/blob/master/czertainly-logo/czertainly_sign_color.svg
 dependencies:
-  - name: czertainly-lib
-    repository: file://../czertainly-lib
-    version: 1.4.2
+  - name: ilm-lib
+    repository: file://../ilm-lib
+    version: 1.4.2-1-develop
 keywords:
   - czertainly
   - trust
