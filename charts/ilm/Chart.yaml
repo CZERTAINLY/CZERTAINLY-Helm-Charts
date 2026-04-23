@@ -173,11 +173,11 @@ dependencies:
     alias: schedulerService
   - condition: rabbitmqBootstrap.enabled
     name: rabbitmq-bootstrap
-    # repository: oci://harbor.3key.company/czertainly-helm
+    # repository: oci://hub.omnitrustregistry.com/ilm-helm
     repository: file://../rabbitmq-bootstrap
     tags:
       - rabbitmq-bootstrap
-    version: 1.0.0-1
+    version: 1.0.0-1-develop
     alias: rabbitmqBootstrap
   - condition: global.database.pgBouncer.enabled
     name: pg-bouncer

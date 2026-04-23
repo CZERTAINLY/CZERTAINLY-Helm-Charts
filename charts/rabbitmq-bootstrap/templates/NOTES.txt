@@ -1,4 +1,4 @@
-CZERTAINLY RabbitMQ Bootstrap service has been deployed.
+ILM RabbitMQ Bootstrap service has been deployed.
 
 The service is available at:
   http://rabbitmq-bootstrap-service:{{ .Values.service.port }}

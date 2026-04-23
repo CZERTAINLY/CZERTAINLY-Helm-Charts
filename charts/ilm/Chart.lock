@@ -64,9 +64,9 @@ dependencies:
   version: 1.0.5-1-develop
 - name: rabbitmq-bootstrap
   repository: file://../rabbitmq-bootstrap
-  version: 1.0.0-1
+  version: 1.0.0-1-develop
 - name: pg-bouncer
   repository: file://../pg-bouncer
   version: 1.24.1-p1-2-develop
-digest: sha256:64a2f3b6684987f026415e5409742e0dc232a6fb523809d34a20ea284854c055
-generated: "2026-04-24T00:41:16.4187276+02:00"
+digest: sha256:7e10f44d1dc98cc54ae83a97b1c45a99a9f83aa808e1c8616f69f7828fb85c6c
+generated: "2026-04-24T01:05:58.5922068+02:00"
