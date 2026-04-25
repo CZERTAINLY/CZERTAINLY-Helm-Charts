@@ -2,5 +2,8 @@ dependencies:
 - name: ilm-lib
   repository: file://../ilm-lib
   version: 1.4.2-1-develop
-digest: sha256:c36d87665a6deea9e4a51739e14e7a3ad2e968d4a40f0851be4a8a574018aebc
-generated: "2026-04-24T00:42:40.4041057+02:00"
+- name: messaging-rabbitmq
+  repository: file://../messaging-rabbitmq
+  version: 4.2.0-2-develop
+digest: sha256:34323d10775621b21c98ed64e5bdbdf36606f0b5c4d26f31d5b797564bbbc4b6
+generated: "2026-04-25T11:25:11.665184+02:00"

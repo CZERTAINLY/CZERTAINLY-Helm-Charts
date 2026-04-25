@@ -135,6 +135,7 @@ podAnnotations: {}
 podSecurityContext: {}
 
 messaging:
+  local: false
   external:
     enabled: false
     host: ""

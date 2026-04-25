@@ -1,6 +1,9 @@
 image:
   tag: develop-latest
 
+messaging:
+  local: true
+
 bootstrap:
   security:
     apiKey: "ci-test-key-placeholder-override"
