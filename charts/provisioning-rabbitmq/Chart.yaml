@@ -1,9 +1,9 @@
 annotations:
   category: trustLifecycleManagement
 apiVersion: v2
-appVersion: 1.0-SNAPSHOT
-name: rabbitmq-bootstrap
-description: A Helm chart for RabbitMQ Bootstrap service (on-prem proxy provisioning) for ILM platform.
+appVersion: 1.0.0
+name: provisioning-rabbitmq
+description: A Helm chart for RabbitMQ provisioning service for ILM platform.
 home: https://github.com/OmniTrustILM/ilm
 icon: https://raw.githubusercontent.com/OmniTrustILM/ilm/main/icon/ot-icon-color.svg
 dependencies:
@@ -18,7 +18,7 @@ keywords:
   - lifecycle
   - platform
   - rabbitmq
-  - bootstrap
+  - provisioning
 maintainers:
   - name: OmniTrustILM
     email: ilm@omnitrust.com
@@ -28,4 +28,4 @@ sources:
   - https://github.com/OmniTrustILM/ilm
   - https://omnitrust.com
   - https://docs.otilm.com
-version: 1.0.0-1-develop
+version: 1.0.0-develop

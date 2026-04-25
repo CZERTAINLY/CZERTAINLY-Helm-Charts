@@ -17,14 +17,18 @@
 {{- $messagingHost = pluck "host" .Values.global.messaging.external .Values.messaging.external | compact | first }}
 {{- $messagingAmqpPort = pluck "port" .Values.global.messaging.external.amqp .Values.messaging.external.amqp | compact | first }}
 {{- end }}
+{{- $workloadType := .Values.workloadType | default "Deployment" }}
+{{- if not (or (eq $workloadType "Deployment") (eq $workloadType "StatefulSet")) }}
+{{- fail (printf "workloadType must be either \"Deployment\" or \"StatefulSet\", got: %s" $workloadType) }}
+{{- end }}
 apiVersion: apps/v1
-kind: {{ .Values.workloadType | default "Deployment" }}
+kind: {{ $workloadType }}
 metadata:
-  name: {{ ternary "core" "core-deployment" (eq (.Values.workloadType | default "Deployment") "StatefulSet") }}
+  name: {{ ternary "core" "core-deployment" (eq $workloadType "StatefulSet") }}
   labels:
     {{- include "ilm.labels" . | nindent 4 }}
 spec:
-  {{- if eq (.Values.workloadType | default "Deployment") "StatefulSet" }}
+  {{- if eq $workloadType "StatefulSet" }}
   serviceName: core-service-headless
   podManagementPolicy: Parallel
   {{- end }}
@@ -76,8 +80,8 @@ spec:
               echo "auth service seems to be started" &&
               while ! nc -z {{ $messagingHost }} {{ $messagingAmqpPort }}; do sleep 1; done &&
               while ! nc -z scheduler-service-service {{ .Values.schedulerService.service.port }}; do sleep 1; done &&
-              {{- if .Values.rabbitmqBootstrap.enabled }}
-              while ! nc -z rabbitmq-bootstrap-service {{ .Values.rabbitmqBootstrap.service.port }}; do sleep 1; done &&
+              {{- if .Values.provisioningRabbitMq.enabled }}
+              while ! nc -z provisioning-rabbitmq-service {{ .Values.provisioningRabbitMq.service.port }}; do sleep 1; done &&
               {{- end }}
               echo "messaging and scheduler service seems to be started"
         {{- with (include "ilm.initContainer.provisionQueue" .) }}
@@ -250,8 +254,8 @@ spec:
             - name: PROVISIONING_API_URL
               {{- if .Values.global.provisioning.apiUrl }}
               value: {{ .Values.global.provisioning.apiUrl | quote }}
-              {{- else if .Values.rabbitmqBootstrap.enabled }}
-              value: {{ printf "http://rabbitmq-bootstrap-service:%s" (toString .Values.rabbitmqBootstrap.service.port) | quote }}
+              {{- else if .Values.provisioningRabbitMq.enabled }}
+              value: {{ printf "http://provisioning-rabbitmq-service:%s" (toString .Values.provisioningRabbitMq.service.port) | quote }}
               {{- else }}
               value: ""
               {{- end }}

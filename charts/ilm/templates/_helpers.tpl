@@ -201,7 +201,7 @@ service or an external provisioning API is configured.
 Calls POST /api/v1/queues on the provisioning API with retry loop.
 */}}
 {{- define "ilm.initContainer.provisionQueue" -}}
-{{- if and .Values.global.proxy.enabled (or .Values.rabbitmqBootstrap.enabled .Values.global.provisioning.apiUrl) }}
+{{- if and .Values.global.proxy.enabled (or .Values.provisioningRabbitMq.enabled .Values.global.provisioning.apiUrl) }}
 - name: provision-instance-queue
   image: {{ include "ilm.curl.image" . }}
   imagePullPolicy: {{ .Values.curl.image.pullPolicy }}
@@ -216,7 +216,7 @@ Calls POST /api/v1/queues on the provisioning API with retry loop.
       {{- if .Values.global.provisioning.apiUrl }}
       value: {{ .Values.global.provisioning.apiUrl | quote }}
       {{- else }}
-      value: {{ printf "http://rabbitmq-bootstrap-service:%s" (toString .Values.rabbitmqBootstrap.service.port) | quote }}
+      value: {{ printf "http://provisioning-rabbitmq-service:%s" (toString .Values.provisioningRabbitMq.service.port) | quote }}
       {{- end }}
     {{- if .Values.global.provisioning.apiKey }}
     - name: PROVISIONING_API_KEY
@@ -224,11 +224,11 @@ Calls POST /api/v1/queues on the provisioning API with retry loop.
         secretKeyRef:
           name: provisioning-secret
           key: provisioningApiKey
-    {{- else if .Values.rabbitmqBootstrap.enabled }}
+    {{- else if .Values.provisioningRabbitMq.enabled }}
     - name: PROVISIONING_API_KEY
       valueFrom:
         secretKeyRef:
-          name: rabbitmq-bootstrap-secret
+          name: provisioning-rabbitmq-secret
           key: securityApiKey
     {{- end }}
   command:

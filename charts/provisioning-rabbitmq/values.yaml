@@ -51,8 +51,8 @@ service:
 image:
   registry: hub.omnitrustregistry.com
   repository: ilm
-  name: rabbitmq-bootstrap
-  tag: 1.0-SNAPSHOT
+  name: provisioning-rabbitmq
+  tag: 1.0.0
   digest: ""
   pullPolicy: IfNotPresent
   pullSecrets: []
@@ -127,7 +127,7 @@ logging:
 serviceAccount:
   create: true
   annotations: {}
-  name: "rabbitmq-bootstrap-sa"
+  name: "provisioning-rabbitmq-sa"
 
 javaOpts: ""
 podLabels: {}

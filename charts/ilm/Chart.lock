@@ -62,11 +62,11 @@ dependencies:
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.5-1-develop
-- name: rabbitmq-bootstrap
-  repository: file://../rabbitmq-bootstrap
-  version: 1.0.0-1-develop
+- name: provisioning-rabbitmq
+  repository: file://../provisioning-rabbitmq
+  version: 1.0.0-develop
 - name: pg-bouncer
   repository: file://../pg-bouncer
   version: 1.24.1-p1-2-develop
-digest: sha256:7e10f44d1dc98cc54ae83a97b1c45a99a9f83aa808e1c8616f69f7828fb85c6c
-generated: "2026-04-24T01:05:58.5922068+02:00"
+digest: sha256:413f4d0a9a19c3d44d9c439dabd592c2ff88c112cae2bfbae909e121276dabbe
+generated: "2026-04-25T10:39:25.145926+02:00"

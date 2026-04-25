@@ -6,46 +6,46 @@
 {{- $messagingHost = pluck "host" .Values.global.messaging.external .Values.messaging.external | compact | first }}
 {{- $messagingAmqpPort = pluck "port" .Values.global.messaging.external.amqp .Values.messaging.external.amqp | compact | first }}
 {{- end }}
-{{- $additionalInitContainers := (include "rabbitmq-bootstrap.customization.initContainers" $) }}
-{{- $additionalSidecarContainers := (include "rabbitmq-bootstrap.customization.sidecarContainers" $) }}
-{{- $additionalVolumes := (include "rabbitmq-bootstrap.customization.volumes" $) }}
-{{- $additionalVolumeMounts := (include "rabbitmq-bootstrap.customization.volumeMounts" $) }}
-{{- $additionalEnv := (include "rabbitmq-bootstrap.customization.env" $) }}
-{{- $additionalEnvFrom := (include "rabbitmq-bootstrap.customization.envFrom" $) }}
+{{- $additionalInitContainers := (include "provisioning-rabbitmq.customization.initContainers" $) }}
+{{- $additionalSidecarContainers := (include "provisioning-rabbitmq.customization.sidecarContainers" $) }}
+{{- $additionalVolumes := (include "provisioning-rabbitmq.customization.volumes" $) }}
+{{- $additionalVolumeMounts := (include "provisioning-rabbitmq.customization.volumeMounts" $) }}
+{{- $additionalEnv := (include "provisioning-rabbitmq.customization.env" $) }}
+{{- $additionalEnvFrom := (include "provisioning-rabbitmq.customization.envFrom" $) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbitmq-bootstrap-deployment
+  name: provisioning-rabbitmq-deployment
   labels:
-    {{- include "rabbitmq-bootstrap.labels" . | nindent 4 }}
+    {{- include "provisioning-rabbitmq.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ $replicaCount | default 1 }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "rabbitmq-bootstrap.selectorLabels" . | nindent 6 }}
+      {{- include "provisioning-rabbitmq.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "rabbitmq-bootstrap.selectorLabels" . | nindent 8 }}
+        {{- include "provisioning-rabbitmq.selectorLabels" . | nindent 8 }}
       {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/rabbitmq-bootstrap-secret.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/provisioning-rabbitmq-secret.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- include "rabbitmq-bootstrap.imagePullSecrets" . | indent 6 }}
+      {{- include "provisioning-rabbitmq.imagePullSecrets" . | indent 6 }}
       {{- if .Values.podSecurityContext }}
       securityContext: {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ template "rabbitmq-bootstrap.serviceAccountName" . }}
+      serviceAccountName: {{ template "provisioning-rabbitmq.serviceAccountName" . }}
       initContainers:
         - name: wait-for-messaging-service
-          image: {{ include "rabbitmq-bootstrap.curl.image" . }}
+          image: {{ include "provisioning-rabbitmq.curl.image" . }}
           imagePullPolicy: {{ .Values.curl.image.pullPolicy }}
           {{- if .Values.curl.image.securityContext }}
           securityContext: {{- .Values.curl.image.securityContext | toYaml | nindent 12 }}
@@ -54,7 +54,7 @@ spec:
           resources: {{- toYaml .Values.curl.image.resources | nindent 12 }}
           {{- end }}
           {{- if .Values.curl.image.command }}
-          command: {{- include "rabbitmq-bootstrap.curl.image.command" . | nindent 12 }}
+          command: {{- include "provisioning-rabbitmq.curl.image.command" . | nindent 12 }}
           {{- else }}
           command:
             - /bin/sh
@@ -64,20 +64,20 @@ spec:
               echo "messaging service seems to be started"
           {{- end }}
           {{- if .Values.curl.image.args }}
-          args: {{- include "rabbitmq-bootstrap.curl.image.args" . | nindent 12 }}
+          args: {{- include "provisioning-rabbitmq.curl.image.args" . | nindent 12 }}
           {{- end }}
         {{- if $additionalInitContainers }}
           {{- $additionalInitContainers | nindent 8 }}
         {{- end }}
       containers:
-        - name: rabbitmq-bootstrap
-          image: {{ include "rabbitmq-bootstrap.image" . }}
+        - name: provisioning-rabbitmq
+          image: {{ include "provisioning-rabbitmq.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.image.command }}
-          command: {{- include "rabbitmq-bootstrap.image.command" . | nindent 12 }}
+          command: {{- include "provisioning-rabbitmq.image.command" . | nindent 12 }}
           {{- end }}
           {{- if .Values.image.args }}
-          args: {{- include "rabbitmq-bootstrap.image.args" . | nindent 12 }}
+          args: {{- include "provisioning-rabbitmq.image.args" . | nindent 12 }}
           {{- end }}
           env:
             - name: PORT
@@ -151,13 +151,13 @@ spec:
             - name: SECURITY_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: rabbitmq-bootstrap-secret
+                  name: provisioning-rabbitmq-secret
                   key: securityApiKey
             {{- if .Values.bootstrap.token.signingKey }}
             - name: TOKEN_SIGNING_KEY
               valueFrom:
                 secretKeyRef:
-                  name: rabbitmq-bootstrap-secret
+                  name: provisioning-rabbitmq-secret
                   key: tokenSigningKey
             {{- end }}
             {{- if $additionalEnv }}
@@ -231,7 +231,7 @@ spec:
         {{- end }}
       volumes:
         - name: ephemeral
-          {{- include "rabbitmq-bootstrap.ephemeralVolume" . | indent 10 }}
+          {{- include "provisioning-rabbitmq.ephemeralVolume" . | indent 10 }}
         {{- if $additionalVolumes }}
           {{- $additionalVolumes | nindent 8 }}
         {{- end }}

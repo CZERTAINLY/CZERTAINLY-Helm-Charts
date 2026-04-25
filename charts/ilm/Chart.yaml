@@ -171,14 +171,14 @@ dependencies:
       - scheduler
     version: 1.0.5-1-develop
     alias: schedulerService
-  - condition: rabbitmqBootstrap.enabled
-    name: rabbitmq-bootstrap
+  - condition: provisioningRabbitMq.enabled
+    name: provisioning-rabbitmq
     # repository: oci://hub.omnitrustregistry.com/ilm-helm
-    repository: file://../rabbitmq-bootstrap
+    repository: file://../provisioning-rabbitmq
     tags:
-      - rabbitmq-bootstrap
-    version: 1.0.0-1-develop
-    alias: rabbitmqBootstrap
+      - provisioning-rabbitmq
+    version: 1.0.0-develop
+    alias: provisioningRabbitMq
   - condition: global.database.pgBouncer.enabled
     name: pg-bouncer
     # repository: oci://hub.omnitrustregistry.com/ilm-helm

@@ -84,7 +84,7 @@ See [ILM-Helm-Charts](https://github.com/OmniTrustILM/helm-charts) for descripti
 
 ## High Availability
 
-CZERTAINLY supports High Availability (HA) deployments by running multiple replicas of the Core service. Set `global.replicaCount` to the desired number of replicas.
+ILM supports High Availability (HA) deployments by running multiple replicas of the Core service. Set `global.replicaCount` to the desired number of replicas.
 
 Per-instance AMQP queues handle response distribution across replicas — no additional caching infrastructure is required.
 

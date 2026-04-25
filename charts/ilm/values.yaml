@@ -546,8 +546,8 @@ messagingService:
 schedulerService:
   nameOverride: scheduler-service
 
-rabbitmqBootstrap:
-  nameOverride: rabbitmq-bootstrap
+provisioningRabbitMq:
+  nameOverride: provisioning-rabbitmq
   enabled: false
 
 #

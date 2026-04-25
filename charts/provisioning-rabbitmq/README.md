@@ -1,4 +1,4 @@
-# RabbitMQ Bootstrap - ILM
+# Provisioning RabbitMQ - ILM
 
 > This repository is part of the commercial open-source project ILM. You can find more information about the project at [ILM](https://github.com/OmniTrustILM/ilm) repository, including the contribution guide.
 
@@ -27,7 +27,7 @@ kubectl create namespace ilm
 
 Copy the default `values.yaml` from the Helm chart and modify the values accordingly:
 ```bash
-helm show values oci://hub.omnitrustregistry.com/ilm-helm/rabbitmq-bootstrap > values.yaml
+helm show values oci://hub.omnitrustregistry.com/ilm-helm/provisioning-rabbitmq > values.yaml
 ```
 Now edit the `values.yaml` according to your desired state, see [Configurable parameters](#configurable-parameters) for more information.
 
@@ -35,7 +35,7 @@ Now edit the `values.yaml` according to your desired state, see [Configurable pa
 
 For the basic installation, run:
 ```bash
-helm install --namespace ilm -f values.yaml ilm-rabbitmq-bootstrap oci://hub.omnitrustregistry.com/ilm-helm/rabbitmq-bootstrap
+helm install --namespace ilm -f values.yaml ilm-provisioning-rabbitmq oci://hub.omnitrustregistry.com/ilm-helm/provisioning-rabbitmq
 ```
 
 **Save your configuration**
@@ -49,14 +49,14 @@ Always make sure you save the `values.yaml` and all `--set` and `--set-file` opt
 
 For upgrading the installation, update your configuration and run:
 ```bash
-helm upgrade --namespace ilm -f values.yaml ilm-rabbitmq-bootstrap oci://hub.omnitrustregistry.com/ilm-helm/rabbitmq-bootstrap
+helm upgrade --namespace ilm -f values.yaml ilm-provisioning-rabbitmq oci://hub.omnitrustregistry.com/ilm-helm/provisioning-rabbitmq
 ```
 
 ### Uninstall
 
 You can use the `helm uninstall` command to uninstall the application:
 ```bash
-helm uninstall --namespace ilm ilm-rabbitmq-bootstrap
+helm uninstall --namespace ilm ilm-provisioning-rabbitmq
 ```
 
 ## Configurable parameters
@@ -105,8 +105,8 @@ The following values may be configured:
 |----------------------------------------------|--------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
 | image.registry                               | `hub.omnitrustregistry.com`          | Docker registry name for the image                                                                                       |
 | image.repository                             | `ilm`                                | Docker image repository name                                                                                             |
-| image.name                                   | `rabbitmq-bootstrap`                 | Docker image name                                                                                                        |
-| image.tag                                    | `1.0-SNAPSHOT`                       | Docker image tag                                                                                                         |
+| image.name                                   | `provisioning-rabbitmq`              | Docker image name                                                                                                        |
+| image.tag                                    | `1.0.0`                              | Docker image tag                                                                                                         |
 | image.digest                                 | `""`                                 | Docker image digest, will override tag if specified                                                                      |
 | image.pullPolicy                             | `IfNotPresent`                       | Image pull policy                                                                                                        |
 | image.pullSecrets                            | `[]`                                 | Array of secret names for image pull                                                                                     |
@@ -143,7 +143,7 @@ The following values may be configured:
 | bootstrap.token.signingKey                   | `""`                                 | JWT signing key used to sign tokens for proxy services. Optional; must be at least 32 characters if set.                |
 | serviceAccount.create                        | `true`                               | Specifies whether a service account should be created                                                                    |
 | serviceAccount.annotations                   | `{}`                                 | Annotations to add to the service account                                                                                |
-| serviceAccount.name                          | `"rabbitmq-bootstrap-sa"`            | The name of the service account to use                                                                                   |
+| serviceAccount.name                          | `"provisioning-rabbitmq-sa"`         | The name of the service account to use                                                                                   |
 
 #### Customization parameters
 
