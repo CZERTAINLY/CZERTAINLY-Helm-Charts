@@ -1,15 +1,2 @@
 image:
-  pullSecrets:
-    - ilmcred
-  probes:
-    readiness:
-      enabled: false
-    startup:
-      enabled: false
-messaging:
-  host: kubernetes.default.svc
-  amqp:
-    port: 443
-bootstrap:
-  security:
-    apiKey: "ci-test-key-placeholder-override"
+  tag: develop-latest
