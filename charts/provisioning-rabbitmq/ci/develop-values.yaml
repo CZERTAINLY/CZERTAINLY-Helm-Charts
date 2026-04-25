@@ -1,2 +1,6 @@
 image:
   tag: develop-latest
+
+bootstrap:
+  security:
+    apiKey: "ci-test-key-placeholder-override"
