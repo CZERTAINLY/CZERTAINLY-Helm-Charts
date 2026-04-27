@@ -163,7 +163,9 @@ bootstrap:
     exchange: "czertainly-proxy"
     responseQueue: "core"
   security:
-    apiKey: "your-secret-api-key"
+    # When true, the X-API-Key filter is enabled and apiKey must be set.
+    enabled: false
+    apiKey: ""
   token:
     # JWT signing key – must be at least 32 characters.
     signingKey: ""

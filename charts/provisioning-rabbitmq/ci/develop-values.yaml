@@ -6,4 +6,5 @@ messaging:
 
 bootstrap:
   security:
+    enabled: true
     apiKey: "ci-test-key-placeholder-override"

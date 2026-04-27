@@ -148,11 +148,15 @@ spec:
               value: {{ .Values.bootstrap.proxy.exchange | quote }}
             - name: PROXY_RESPONSE_QUEUE
               value: {{ .Values.bootstrap.proxy.responseQueue | quote }}
+            - name: SECURITY_API_KEY_ENABLED
+              value: {{ .Values.bootstrap.security.enabled | quote }}
+            {{- if .Values.bootstrap.security.enabled }}
             - name: SECURITY_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: provisioning-rabbitmq-secret
                   key: securityApiKey
+            {{- end }}
             {{- if .Values.bootstrap.token.signingKey }}
             - name: TOKEN_SIGNING_KEY
               valueFrom:

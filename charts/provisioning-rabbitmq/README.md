@@ -139,7 +139,8 @@ The following values may be configured:
 | bootstrap.proxy.amqpUrl                      | `"amqp://messaging-service:5672"`    | External AMQP URL that proxy services use to connect to RabbitMQ (may differ from internal host when using NodePort/LB) |
 | bootstrap.proxy.exchange                     | `"czertainly-proxy"`                 | RabbitMQ exchange name for proxy communication                                                                           |
 | bootstrap.proxy.responseQueue                | `"core"`                             | RabbitMQ queue name for proxy responses                                                                                  |
-| bootstrap.security.apiKey                    | `"your-secret-api-key"`              | API key used to secure the bootstrap service endpoints. **Must be changed to a secure value.**                           |
+| bootstrap.security.enabled                   | `false`                              | Enable the X-API-Key filter on bootstrap endpoints. When `false`, endpoints are unauthenticated.                         |
+| bootstrap.security.apiKey                    | `""`                                 | API key used to secure the bootstrap service endpoints. Required when `bootstrap.security.enabled` is `true`.            |
 | bootstrap.token.signingKey                   | `""`                                 | JWT signing key used to sign tokens for proxy services. Optional; must be at least 32 characters if set.                |
 | serviceAccount.create                        | `true`                               | Specifies whether a service account should be created                                                                    |
 | serviceAccount.annotations                   | `{}`                                 | Annotations to add to the service account                                                                                |
