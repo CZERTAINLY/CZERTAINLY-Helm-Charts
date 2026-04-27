@@ -195,12 +195,21 @@ Render customized command and arguments, if any
 {{- end -}}
 
 {{/*
+Return true when the umbrella chart should use the in-cluster provisioning
+RabbitMQ subchart instead of an externally configured provisioning API.
+*/}}
+{{- define "ilm.provisioning.useLocalSubchart" -}}
+{{- if and (not .Values.global.provisioning.apiUrl) .Values.provisioningRabbitMq.enabled -}}true{{- end -}}
+{{- end -}}
+
+{{/*
 Init container for provisioning per-instance AMQP queue.
 Rendered when proxy support is enabled and either the in-cluster bootstrap
 service or an external provisioning API is configured.
 Calls POST /api/v1/queues on the provisioning API with retry loop.
 */}}
 {{- define "ilm.initContainer.provisionQueue" -}}
+{{- $localProvisioningApi := eq (include "ilm.provisioning.useLocalSubchart" .) "true" }}
 {{- if and .Values.global.proxy.enabled (or .Values.provisioningRabbitMq.enabled .Values.global.provisioning.apiUrl) }}
 - name: provision-instance-queue
   image: {{ include "ilm.curl.image" . }}
@@ -218,18 +227,18 @@ Calls POST /api/v1/queues on the provisioning API with retry loop.
       {{- else }}
       value: {{ printf "http://provisioning-rabbitmq-service:%s" (toString .Values.provisioningRabbitMq.service.port) | quote }}
       {{- end }}
-    {{- if .Values.global.provisioning.apiKey }}
-    - name: PROVISIONING_API_KEY
-      valueFrom:
-        secretKeyRef:
-          name: provisioning-secret
-          key: provisioningApiKey
-    {{- else if .Values.provisioningRabbitMq.enabled }}
+    {{- if and $localProvisioningApi .Values.provisioningRabbitMq.bootstrap.security.enabled }}
     - name: PROVISIONING_API_KEY
       valueFrom:
         secretKeyRef:
           name: provisioning-rabbitmq-secret
           key: securityApiKey
+    {{- else if and (not $localProvisioningApi) .Values.global.provisioning.apiKey }}
+    - name: PROVISIONING_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: provisioning-secret
+          key: provisioningApiKey
     {{- end }}
   command:
     - /bin/sh
