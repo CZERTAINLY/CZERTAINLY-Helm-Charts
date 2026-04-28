@@ -77,3 +77,13 @@ commonCredentialProvider:
   image:
     tag: develop-latest
     pullPolicy: Always
+
+provisioningRabbitMq:
+  enabled: true
+  image:
+    tag: develop-latest
+    pullPolicy: Always
+  bootstrap:
+    security:
+      enabled: true
+      apiKey: "ci-test-key-placeholder-override"

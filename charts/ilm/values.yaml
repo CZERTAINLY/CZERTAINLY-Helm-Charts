@@ -49,6 +49,18 @@ global:
     remoteAccess: false
     username: ""
     password: ""
+    provisionerUsername: ""
+    provisionerPassword: ""
+    proxyUsername: ""
+    proxyPassword: ""
+    coreUsername: ""
+    corePassword: ""
+    virtualHost: ""
+  provisioning:
+    apiUrl: ""
+    apiKey: ""
+  proxy:
+    enabled: false
   utils:
     enabled: false
   admin:
@@ -185,6 +197,10 @@ registerAdmin:
     description: "ILM Admin"
   # options: generated, external
   source: external
+
+# workload type for the core deployment
+# Options: "Deployment", "StatefulSet"
+workloadType: "Deployment"
 
 autoscaling:
   enabled: false
@@ -414,6 +430,7 @@ messaging:
   host: "messaging-service"
   amqp:
     port: 5672
+  virtualHost: "czertainly"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -528,6 +545,10 @@ messagingService:
 
 schedulerService:
   nameOverride: scheduler-service
+
+provisioningRabbitMq:
+  nameOverride: provisioning-rabbitmq
+  enabled: false
 
 #
 # connectors

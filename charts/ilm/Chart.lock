@@ -62,8 +62,11 @@ dependencies:
 - name: scheduler-service
   repository: file://../scheduler-service
   version: 1.0.5-1-develop
+- name: provisioning-rabbitmq
+  repository: file://../provisioning-rabbitmq
+  version: 1.0.0-develop
 - name: pg-bouncer
   repository: file://../pg-bouncer
   version: 1.24.1-p1-2-develop
-digest: sha256:903f4c959470d7789fada450f87ca9ef3ade4e0addc911e47c09ea1983c7f42a
-generated: "2026-04-20T15:31:32.671816+02:00"
+digest: sha256:413f4d0a9a19c3d44d9c439dabd592c2ff88c112cae2bfbae909e121276dabbe
+generated: "2026-04-25T10:39:25.145926+02:00"

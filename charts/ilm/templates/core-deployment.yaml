@@ -13,17 +13,26 @@
 {{- $messagingHost := .Values.messaging.host }}
 {{- $messagingAmqpPort := .Values.messaging.amqp.port }}
 {{- $externalMessaging := pluck "enabled" .Values.global.messaging.external .Values.messaging.external | compact | first }}
+{{- $localProvisioningApi := eq (include "ilm.provisioning.useLocalSubchart" .) "true" }}
 {{- if $externalMessaging }}
 {{- $messagingHost = pluck "host" .Values.global.messaging.external .Values.messaging.external | compact | first }}
 {{- $messagingAmqpPort = pluck "port" .Values.global.messaging.external.amqp .Values.messaging.external.amqp | compact | first }}
 {{- end }}
+{{- $workloadType := .Values.workloadType | default "Deployment" }}
+{{- if not (or (eq $workloadType "Deployment") (eq $workloadType "StatefulSet")) }}
+{{- fail (printf "workloadType must be either \"Deployment\" or \"StatefulSet\", got: %s" $workloadType) }}
+{{- end }}
 apiVersion: apps/v1
-kind: Deployment
+kind: {{ $workloadType }}
 metadata:
-  name: core-deployment
+  name: {{ ternary "core" "core-deployment" (eq $workloadType "StatefulSet") }}
   labels:
     {{- include "ilm.labels" . | nindent 4 }}
 spec:
+  {{- if eq $workloadType "StatefulSet" }}
+  serviceName: core-service-headless
+  podManagementPolicy: Parallel
+  {{- end }}
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ $replicaCount | default 1 }}
   {{- end }}
@@ -72,7 +81,13 @@ spec:
               echo "auth service seems to be started" &&
               while ! nc -z {{ $messagingHost }} {{ $messagingAmqpPort }}; do sleep 1; done &&
               while ! nc -z scheduler-service-service {{ .Values.schedulerService.service.port }}; do sleep 1; done &&
+              {{- if .Values.provisioningRabbitMq.enabled }}
+              while ! nc -z provisioning-rabbitmq-service {{ .Values.provisioningRabbitMq.service.port }}; do sleep 1; done &&
+              {{- end }}
               echo "messaging and scheduler service seems to be started"
+        {{- with (include "ilm.initContainer.provisionQueue" .) }}
+          {{- . | nindent 8 }}
+        {{- end }}
         {{- if $additionalInitContainers }}
           {{- $additionalInitContainers | nindent 8 }}
         {{- end }}
@@ -209,31 +224,65 @@ spec:
             {{- end }}
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
-            - name: RABBITMQ_HOST
+            - name: BROKER_HOST
               valueFrom:
                 configMapKeyRef:
                   name: messaging-configmap
                   key: messaging.host
-            - name: RABBITMQ_PORT
+            - name: BROKER_PORT
               valueFrom:
                 configMapKeyRef:
                   name: messaging-configmap
                   key: messaging.amqp.port
-            - name: RABBITMQ_USERNAME
+            - name: BROKER_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: messaging-secret
-                  key: messaging.username
-            - name: RABBITMQ_PASSWORD
+                  key: messaging.core.username
+            - name: BROKER_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: messaging-secret
-                  key: messaging.password
+                  key: messaging.core.password
+            - name: BROKER_VIRTUAL_HOST
+              value: {{ pluck "virtualHost" .Values.global.messaging .Values.messaging | compact | first | default "czertainly" | quote }}
             - name: SCHEDULER_BASE_URL
               value: "http://scheduler-service-service:{{ .Values.schedulerService.service.port }}"
             {{- if .Values.global.keycloak.enabled }}
             - name: INTERNAL_OAUTH_SECRET
               value: {{ .Values.global.keycloak.clientSecret | quote }}
+            {{- end }}
+            - name: PROVISIONING_API_URL
+              {{- if .Values.global.provisioning.apiUrl }}
+              value: {{ .Values.global.provisioning.apiUrl | quote }}
+              {{- else if .Values.provisioningRabbitMq.enabled }}
+              value: {{ printf "http://provisioning-rabbitmq-service:%s" (toString .Values.provisioningRabbitMq.service.port) | quote }}
+              {{- else }}
+              value: ""
+              {{- end }}
+            {{- if and $localProvisioningApi .Values.provisioningRabbitMq.bootstrap.security.enabled }}
+            - name: PROVISIONING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: provisioning-rabbitmq-secret
+                  key: securityApiKey
+            {{- else if and (not $localProvisioningApi) .Values.global.provisioning.apiKey }}
+            - name: PROVISIONING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: provisioning-secret
+                  key: provisioningApiKey
+            {{- else }}
+            - name: PROVISIONING_API_KEY
+              value: ""
+            {{- end }}
+            - name: PROXY_ENABLED
+              value: {{ .Values.global.proxy.enabled | quote }}
+            {{- if .Values.global.proxy.enabled }}
+            - name: PROXY_INSTANCE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             {{- end }}
             {{- if $additionalEnv }}
               {{- $additionalEnv | nindent 12 }}

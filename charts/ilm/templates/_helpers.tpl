@@ -193,3 +193,83 @@ Render customized command and arguments, if any
 {{- define "ilm.opa.image.args" -}}
 {{- include "ilm-lib.tplvalues.render" (dict "value" .Values.opa.image.args "context" $) }}
 {{- end -}}
+
+{{/*
+Return true when the umbrella chart should use the in-cluster provisioning
+RabbitMQ subchart instead of an externally configured provisioning API.
+*/}}
+{{- define "ilm.provisioning.useLocalSubchart" -}}
+{{- if and (not .Values.global.provisioning.apiUrl) .Values.provisioningRabbitMq.enabled -}}true{{- end -}}
+{{- end -}}
+
+{{/*
+Init container for provisioning per-instance AMQP queue.
+Rendered when proxy support is enabled and either the in-cluster bootstrap
+service or an external provisioning API is configured.
+Calls POST /api/v1/queues on the provisioning API with retry loop.
+*/}}
+{{- define "ilm.initContainer.provisionQueue" -}}
+{{- $localProvisioningApi := eq (include "ilm.provisioning.useLocalSubchart" .) "true" }}
+{{- if and .Values.global.proxy.enabled (or .Values.provisioningRabbitMq.enabled .Values.global.provisioning.apiUrl) }}
+- name: provision-instance-queue
+  image: {{ include "ilm.curl.image" . }}
+  imagePullPolicy: {{ .Values.curl.image.pullPolicy }}
+  {{- if .Values.curl.image.securityContext }}
+  securityContext: {{- .Values.curl.image.securityContext | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if .Values.curl.image.resources }}
+  resources: {{- toYaml .Values.curl.image.resources | nindent 4 }}
+  {{- end }}
+  env:
+    - name: PROVISIONING_API_URL
+      {{- if .Values.global.provisioning.apiUrl }}
+      value: {{ .Values.global.provisioning.apiUrl | quote }}
+      {{- else }}
+      value: {{ printf "http://provisioning-rabbitmq-service:%s" (toString .Values.provisioningRabbitMq.service.port) | quote }}
+      {{- end }}
+    {{- if and $localProvisioningApi .Values.provisioningRabbitMq.bootstrap.security.enabled }}
+    - name: PROVISIONING_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: provisioning-rabbitmq-secret
+          key: securityApiKey
+    {{- else if and (not $localProvisioningApi) .Values.global.provisioning.apiKey }}
+    - name: PROVISIONING_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: provisioning-secret
+          key: provisioningApiKey
+    {{- end }}
+  command:
+    - /bin/sh
+    - -c
+    - |
+      HOSTNAME=$(hostname)
+      until
+        if [ -n "${PROVISIONING_API_KEY:-}" ]; then
+          curl -sf -X POST "${PROVISIONING_API_URL}/api/v1/queues" \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: ${PROVISIONING_API_KEY}" \
+            -d "{
+              \"name\": \"${HOSTNAME}\",
+              \"exchange\": \"czertainly-proxy\",
+              \"routingKey\": \"proxymessage.*.${HOSTNAME}\",
+              \"properties\": { \"x-expires\": 1800000 }
+            }"
+        else
+          curl -sf -X POST "${PROVISIONING_API_URL}/api/v1/queues" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"name\": \"${HOSTNAME}\",
+              \"exchange\": \"czertainly-proxy\",
+              \"routingKey\": \"proxymessage.*.${HOSTNAME}\",
+              \"properties\": { \"x-expires\": 1800000 }
+            }"
+        fi
+      do
+        echo "Waiting for provisioning API at ${PROVISIONING_API_URL}..."
+        sleep 5
+      done
+      echo "Instance queue provisioned for ${HOSTNAME}"
+{{- end }}
+{{- end -}}
