@@ -16,7 +16,7 @@ Upgrading Helm chart is done by running the `helm upgrade` command. The command 
 
 ## To 2.18.0
 
-This release rebrands the Helm charts from CZERTAINLY to ILM (OmniTrust ILM). The umbrella chart was renamed from `czertainly` to `ilm`, and the library chart from `czertainly-lib` to `ilm-lib`. Container images, registry, database defaults, RabbitMQ vhost, Keycloak realm, and URLs were all updated.
+This release rebrands the Helm charts from CZERTAINLY to ILM (OmniTrust ILM). The umbrella chart was renamed from `czertainly` to `ilm`, and the library chart from `czertainly-lib` to `ilm-lib`. Container images, registry, database defaults, Keycloak realm, and project URLs were all updated.
 
 ### Manual cleanup before upgrading from any earlier version
 
@@ -28,11 +28,15 @@ The chart rename changes the rendered values of `app.kubernetes.io/name` (the De
 Before running `helm upgrade`, perform these cleanups:
 
 ```bash
-# Always:
+# Always — delete the old core deployment (selector is immutable):
 kubectl delete deployment core-deployment --namespace <your-ilm-namespace>
 
-# Only if ingress.enabled: true (replace <release-name> with your Helm release):
-kubectl delete ingress <release-name>-czertainly --namespace <your-ilm-namespace>
+# Only if ingress.enabled: true — list existing Ingresses and delete the one
+# bound to your ILM hostname. The exact name depends on your release name (the
+# fullname helper drops the chart-name suffix when the release name already
+# contains the chart name), so do not assume a fixed pattern:
+kubectl get ingress --namespace <your-ilm-namespace>
+kubectl delete ingress <existing-ingress-name> --namespace <your-ilm-namespace>
 ```
 
 This removes only the listed Deployment and Ingress objects; data is unaffected (ILM is stateless at this layer). There will be brief downtime while the new core pods become ready after the upgrade.
