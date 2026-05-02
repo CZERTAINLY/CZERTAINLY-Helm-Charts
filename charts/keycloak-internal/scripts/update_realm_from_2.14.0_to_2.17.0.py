@@ -24,8 +24,8 @@ def authenticate(username, password, keycloak_url):
 
 
 def update_realm_login_theme(access_token, keycloak_url):
-    """Update the login theme of the ILM realm to 'ilm'."""
-    url = f"{keycloak_url}/admin/realms/ILM"
+    """Update the login theme of the CZERTAINLY realm from 'czertainly' to 'ilm'."""
+    url = f"{keycloak_url}/admin/realms/CZERTAINLY"
 
     payload = {
         "loginTheme": "ilm",
@@ -43,7 +43,7 @@ def update_realm_login_theme(access_token, keycloak_url):
 if __name__ == "__main__":
     # If used with --insecure switch script can ignore TLS certificates problems, use with caution
     parser = argparse.ArgumentParser(
-        description="update_realm_from_2.14.0_to_2.17.0.py: script to upgrade realm ILM in Keycloak for version 2.17.0")
+        description="update_realm_from_2.14.0_to_2.17.0.py: script to upgrade realm CZERTAINLY in Keycloak for version 2.17.0")
     parser.add_argument('--insecure', action='store_true', default=False,
                         help='disable certificate validation (default: %(default)s)')
     args = parser.parse_args()
@@ -53,7 +53,7 @@ if __name__ == "__main__":
         verify_tls = False
 
     # Get the base URL of Keycloak
-    keycloak_url = input("Enter the URL of the Keycloak (e.g., https://my.ilm.local/kc): ")
+    keycloak_url = input("Enter the URL of the Keycloak (e.g., https://my.czertainly.com/kc): ").rstrip("/")
 
     # Get the admin username and password securely
     username = input("Enter the admin username: ")

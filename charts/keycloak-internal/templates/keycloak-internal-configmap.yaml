@@ -4,6 +4,6 @@ metadata:
   name: keycloak-internal-configmap
 data:
   ilm_realm.json: |-
-    {{- tpl (.Files.Get "realms/ilm-2.17.0_realm.json") . | indent 4 }}
+    {{- tpl (.Files.Get "realms/ilm-2.18.0_realm.json") . | indent 4 }}
   create_schema.sh: |-
     {{- tpl (.Files.Get "create_schema.sh") . | indent 4 }}
