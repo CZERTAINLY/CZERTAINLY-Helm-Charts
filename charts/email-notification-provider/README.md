@@ -102,6 +102,8 @@ The following values may be configured:
 
 | Parameter                                    | Default value                            | Description                                                                                                            |
 |----------------------------------------------|------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| nameOverride                                 | `email-notification-provider`                            | Override for the chart name. Used as the `app.kubernetes.io/name` selector label value and as input to the fullname helper. Pinned to keep selectors stable across chart renames; changing this requires manual cleanup of existing Deployments. |
+| fullnameOverride                             | `""`                                                     | Override for the fully qualified app name.                                                                             |
 | image.registry                               | `hub.omnitrustregistry.com`                              | Docker registry name for the image                                                                                     |
 | image.repository                             | `ilm`                             | Docker image repository name                                                                                           |
 | image.name                                   | `email-notification-provider` | Docker image name                                                                                                      |

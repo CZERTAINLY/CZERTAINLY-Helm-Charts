@@ -154,7 +154,7 @@ httpProxy: ""
 httpsProxy: ""
 noProxy: ""
 
-nameOverride: ""
+nameOverride: platform-core
 fullnameOverride: ""
 
 registerAdmin:

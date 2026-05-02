@@ -1,4 +1,4 @@
-nameOverride: ""
+nameOverride: provisioning-rabbitmq
 fullnameOverride: ""
 global:
   replicaCount: 1

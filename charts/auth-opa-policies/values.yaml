@@ -169,7 +169,7 @@ volumes:
     #    sizeLimit: "10Mi"
     #    medium: "Memory"
 
-nameOverride: ""
+nameOverride: auth-opa-policies
 fullnameOverride: ""
 
 serviceAccount:

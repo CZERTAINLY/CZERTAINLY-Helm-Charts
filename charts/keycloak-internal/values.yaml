@@ -91,7 +91,7 @@ noProxy: ""
 trusted:
   certificates: ""
 
-nameOverride: ""
+nameOverride: keycloak-internal
 fullnameOverride: ""
 
 autoscaling:

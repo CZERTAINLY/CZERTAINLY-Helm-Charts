@@ -14,6 +14,39 @@ The following contains important information and instructions about upgrading He
 
 Upgrading Helm chart is done by running the `helm upgrade` command. The command upgrades the platform to the specified version. The command can be used to upgrade the platform to the same version with changed parameters.
 
+## To 2.18.0
+
+This release rebrands the Helm charts from CZERTAINLY to ILM (OmniTrust ILM). The umbrella chart was renamed from `czertainly` to `ilm`, and the library chart from `czertainly-lib` to `ilm-lib`. Container images, registry, database defaults, RabbitMQ vhost, Keycloak realm, and URLs were all updated.
+
+### Manual cleanup before upgrading from any earlier version
+
+The chart rename changes the rendered values of `app.kubernetes.io/name` (the Deployment selector) and `ilm.fullname` (the optional Ingress resource name). Two Kubernetes constraints make `helm upgrade` fail without manual cleanup:
+
+1. **`Deployment.spec.selector` is immutable** — the existing `core-deployment` selector cannot be patched in place.
+2. **The nginx Ingress admission webhook rejects duplicate host/path** — the new Ingress would briefly coexist with the old (renamed) one, both claiming the same host and path.
+
+Before running `helm upgrade`, perform these cleanups:
+
+```bash
+# Always:
+kubectl delete deployment core-deployment --namespace <your-ilm-namespace>
+
+# Only if ingress.enabled: true (replace <release-name> with your Helm release):
+kubectl delete ingress <release-name>-czertainly --namespace <your-ilm-namespace>
+```
+
+This removes only the listed Deployment and Ingress objects; data is unaffected (ILM is stateless at this layer). There will be brief downtime while the new core pods become ready after the upgrade.
+
+If you apply the rendered manifest out of band (`helm template ... | kubectl apply -f -`, or a GitOps tool such as Argo CD or Flux) instead of running `helm upgrade`, the same cleanups are required before re-applying — the constraints are at the Kubernetes API server / Ingress controller layer, not in Helm.
+
+### Stable identifier going forward
+
+The umbrella chart now ships with `nameOverride: platform-core` in its default values, decoupling selectors and fullname-based resources from the chart name. Sub-charts have analogous `nameOverride` defaults set to their respective chart names. Future chart renames will not require similar manual cleanup.
+
+:::warning[Do not override nameOverride]
+Passing `--set nameOverride=...` (or setting `nameOverride` in your custom values) at install or upgrade time will reintroduce the same risk on subsequent upgrades. Leave the default values intact.
+:::
+
 ## To 2.15.0
 
 ### New connector sub-charts

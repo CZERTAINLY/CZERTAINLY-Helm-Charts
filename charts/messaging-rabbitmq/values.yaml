@@ -67,7 +67,7 @@ httpProxy: ""
 httpsProxy: ""
 noProxy: ""
 
-nameOverride: ""
+nameOverride: messaging-rabbitmq
 fullnameOverride: ""
 
 autoscaling:
