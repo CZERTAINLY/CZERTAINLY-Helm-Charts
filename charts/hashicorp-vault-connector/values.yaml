@@ -189,7 +189,7 @@ logging:
   # possible values are: INFO, DEBUG, WARN, ERROR, PANIC, FATAL
   level: "INFO"
 
-nameOverride: ""
+nameOverride: hashicorp-vault-connector
 fullnameOverride: ""
 
 serviceAccount:

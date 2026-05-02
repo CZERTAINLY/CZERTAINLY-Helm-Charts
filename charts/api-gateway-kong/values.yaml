@@ -202,7 +202,7 @@ volumes:
     #    sizeLimit: "10Mi"
     #    medium: "Memory"
 
-nameOverride: ""
+nameOverride: api-gateway-kong
 fullnameOverride: ""
 
 serviceAccount:

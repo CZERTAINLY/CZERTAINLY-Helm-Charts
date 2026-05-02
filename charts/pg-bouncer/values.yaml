@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-nameOverride: ""
+nameOverride: pg-bouncer
 fullnameOverride: ""
 
 # Global parameters that will overwrite local parameters

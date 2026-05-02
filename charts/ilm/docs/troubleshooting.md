@@ -23,11 +23,42 @@ kubectl get secrets --namespace ilm admin-ca-keypair -o jsonpath='{.data.tls\.cr
 
 ## Upgrade failed - invalid: spec.selector
 
-When you are upgrading ILM platform and you get similar error like this:
+When you are upgrading the ILM platform and get an error like:
 ```bash
-UPGRADE FAILED: cannot patch \"api-gateway-deployment\" with kind Deployment: Deployment.apps \"api-gateway-deployment\" is invalid: spec.selector: Invalid value: v1.LabelSelector{MatchLabels:map[string]string{\"app.kubernetes.io/instance\":\"ilm-tlm\", \"app.kubernetes.io/name\":\"api-gateway\"}, MatchExpressions:[]v1.LabelSelectorRequirement(nil)}: field is immutable && cannot patch \"auth-opa-policies-deployment\" with kind Deployment: Deployment.apps \"auth-opa-policies-deployment\" is invalid: spec.selector: Invalid value: v1.LabelSelector{MatchLabels:map[string]string{\"app.kubernetes.io/instance\":\"ilm-tlm\", \"app.kubernetes.io/name\":\"auth-opa-policies\"}, MatchExpressions:[]v1.LabelSelectorRequirement(nil)}: field is immutable && ...
+UPGRADE FAILED: cannot patch "<deployment-name>" with kind Deployment: Deployment.apps "<deployment-name>" is invalid: spec.selector: Invalid value: {"matchLabels":{"app.kubernetes.io/instance":"<release-name>","app.kubernetes.io/name":"<new-value>"}}: field is immutable
 ```
 
-it means that we have updated selectors for the deployment which is an immutable field (see [Kubernetes Deployment - Selectors](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#selector) for more details).
+The rendered selector value (`app.kubernetes.io/name`) has changed compared to the live Deployment. `spec.selector` is immutable in Kubernetes (see [Kubernetes Deployment - Selectors](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#selector)), so Helm cannot patch it in place.
 
-In this case, it is recommended to uninstall the ILM and install it again. ILM is designed to be stateless, so you should not lose any data.
+The most common triggers are a chart rename, or a change to the chart's `nameOverride` default. The umbrella chart pins `nameOverride` to a stable identifier in its default values, and each sub-chart pins its own — so this error is not expected as long as those defaults are not modified or overridden at install time (for example via `--set nameOverride=...`).
+
+Resolution is to delete the affected Deployment and re-run the upgrade — Helm will recreate it:
+
+```bash
+kubectl delete deployment <deployment-name> --namespace <your-ilm-namespace>
+helm upgrade ...
+```
+
+There will be brief downtime while the new pods become ready. ILM is stateless at this layer, so no data is lost.
+
+If you applied the rendered manifest out of band (e.g., `helm template ... | kubectl apply -f -`) instead of running `helm upgrade`, the same applies: delete the affected Deployment with `kubectl delete deployment <deployment-name>` before re-applying the manifest.
+
+## Upgrade failed - ingress host/path conflict
+
+When upgrading with `ingress.enabled: true`, you may get an error like:
+```bash
+UPGRADE FAILED: failed to create resource: admission webhook "validate.nginx.ingress.kubernetes.io" denied the request: host "<host>" and path "/" is already defined in ingress <namespace>/<old-ingress-name>
+```
+
+This happens when the rendered Ingress resource name has changed (so the new and old Ingress would briefly coexist), and the nginx Ingress admission webhook refuses to create the new one because it would duplicate the host and path of the still-existing old one.
+
+Resolution is to delete the old Ingress before re-running the upgrade:
+
+```bash
+kubectl delete ingress <old-ingress-name> --namespace <your-ilm-namespace>
+helm upgrade ...
+```
+
+The umbrella chart pins `nameOverride` to a stable identifier in its default values, which keeps the Ingress resource name stable across chart renames — so this error is not expected as long as `nameOverride` is not modified or overridden at install time.
+
+If you applied the rendered manifest out of band (e.g., `helm template ... | kubectl apply -f -`) instead of running `helm upgrade`, the same applies: delete the old Ingress with `kubectl delete ingress <old-ingress-name>` before re-applying the manifest.

@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-nameOverride: ""
+nameOverride: ejbca-ng-connector
 fullnameOverride: ""
 
 # Global parameters that will overwrite local parameters

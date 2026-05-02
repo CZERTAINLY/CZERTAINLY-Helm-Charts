@@ -189,7 +189,7 @@ logging:
   # possible values are: INFO, DEBUG, WARN, ERROR, PANIC, FATAL
   level: "INFO"
 
-nameOverride: ""
+nameOverride: ct-logs-discovery-provider
 fullnameOverride: ""
 
 serviceAccount:
