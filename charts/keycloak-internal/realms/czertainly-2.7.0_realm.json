@@ -1,13 +1,13 @@
-{{- $clientSecret := pluck "clientSecret" .Values.global.keycloak .Values.ilm | compact | first | quote }}
-{{- $hostName := pluck "hostName" .Values.global .Values.ilm | compact | first }}
-{{- $username := pluck "username" .Values.global.admin .Values.ilm.admin | compact | first | quote }}
-{{- $password := pluck "password" .Values.global.admin .Values.ilm.admin | compact | first | quote }}
-{{- $name := pluck "name" .Values.global.admin .Values.ilm.admin | compact | first | quote }}
-{{- $surname := pluck "surname" .Values.global.admin .Values.ilm.admin | compact | first | quote }}
-{{- $email := pluck "email" .Values.global.admin .Values.ilm.admin | compact | first | quote }}
+{{- $clientSecret := pluck "clientSecret" .Values.global.keycloak .Values.czertainly | compact | first | quote }}
+{{- $hostName := pluck "hostName" .Values.global .Values.czertainly | compact | first }}
+{{- $username := pluck "username" .Values.global.admin .Values.czertainly.admin | compact | first | quote }}
+{{- $password := pluck "password" .Values.global.admin .Values.czertainly.admin | compact | first | quote }}
+{{- $name := pluck "name" .Values.global.admin .Values.czertainly.admin | compact | first | quote }}
+{{- $surname := pluck "surname" .Values.global.admin .Values.czertainly.admin | compact | first | quote }}
+{{- $email := pluck "email" .Values.global.admin .Values.czertainly.admin | compact | first | quote }}
 {
   "id" : "1595e715-e7d0-417a-8df5-77bbdde4e8d8",
-  "realm" : "ILM",
+  "realm" : "CZERTAINLY",
   "notBefore" : 0,
   "defaultSignatureAlgorithm" : "RS256",
   "revokeRefreshToken" : false,
@@ -53,7 +53,7 @@
   "roles" : {
     "realm" : [ {
       "id" : "b348ab9b-35f7-414c-970b-f1787d51df5f",
-      "name" : "default-roles-ilm",
+      "name" : "default-roles-czertainly",
       "description" : "${role_default-roles}",
       "composite" : true,
       "composites" : {
@@ -330,13 +330,13 @@
         "containerId" : "5de42a1c-165c-421a-ada3-91023884af74",
         "attributes" : { }
       } ],
-      "ilm" : [ ]
+      "czertainly" : [ ]
     }
   },
   "groups" : [ ],
   "defaultRole" : {
     "id" : "b348ab9b-35f7-414c-970b-f1787d51df5f",
-    "name" : "default-roles-ilm",
+    "name" : "default-roles-czertainly",
     "description" : "${role_default-roles}",
     "composite" : true,
     "clientRole" : false,
@@ -373,25 +373,25 @@
   "users" : [ {
     "id" : "1d14cb34-10b3-4d68-9272-0fbf04ce72c9",
     "createdTimestamp" : 1678523686477,
-    "username" : {{ required "Username must be provided: .Values.ilm.admin.username" $username }},
+    "username" : {{ required "Username must be provided: .Values.czertainly.admin.username" $username }},
     "enabled" : true,
     "totp" : false,
     "emailVerified" : true,
-    "firstName" : {{ required "First name must be provided: .Values.ilm.admin.name" $name }},
-    "lastName" : {{ required "Surname must be provided: .Values.ilm.admin.surname" $surname }},
-    "email" : {{ required "Email must be provided: .Values.ilm.admin.email" $email }},
+    "firstName" : {{ required "First name must be provided: .Values.czertainly.admin.name" $name }},
+    "lastName" : {{ required "Surname must be provided: .Values.czertainly.admin.surname" $surname }},
+    "email" : {{ required "Email must be provided: .Values.czertainly.admin.email" $email }},
     "attributes" : {
       "groups" : [ "superadmin" ]
     },
     "credentials" : [
       {
         "type": "password",
-        "value": {{ required "Password must be provided: .Values.ilm.admin.password" $password }}
+        "value": {{ required "Password must be provided: .Values.czertainly.admin.password" $password }}
       }
     ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-ilm" ],
+    "realmRoles" : [ "default-roles-czertainly" ],
     "notBefore" : 0,
     "groups" : [ ]
   } ],
@@ -410,12 +410,12 @@
     "clientId" : "account",
     "name" : "${client_account}",
     "rootUrl" : "${authBaseUrl}",
-    "baseUrl" : "/realms/ILM/account/",
+    "baseUrl" : "/realms/CZERTAINLY/account/",
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
-    "redirectUris" : [ "/realms/ILM/account/*" ],
+    "redirectUris" : [ "/realms/CZERTAINLY/account/*" ],
     "webOrigins" : [ ],
     "notBefore" : 0,
     "bearerOnly" : false,
@@ -440,12 +440,12 @@
     "clientId" : "account-console",
     "name" : "${client_account-console}",
     "rootUrl" : "${authBaseUrl}",
-    "baseUrl" : "/realms/ILM/account/",
+    "baseUrl" : "/realms/CZERTAINLY/account/",
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
-    "redirectUris" : [ "/realms/ILM/account/*" ],
+    "redirectUris" : [ "/realms/CZERTAINLY/account/*" ],
     "webOrigins" : [ ],
     "notBefore" : 0,
     "bearerOnly" : false,
@@ -528,18 +528,18 @@
     "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
   }, {
     "id" : "b7235af6-8c98-4d96-a1c3-94b94ed8d131",
-    "clientId" : "ilm",
-    "name" : "ilm",
+    "clientId" : "czertainly",
+    "name" : "czertainly",
     "description" : "",
-    "rootUrl" : "https://{{ required "Hostname must be provided: .Values.ilm.hostName" $hostName }}",
+    "rootUrl" : "https://{{ required "Hostname must be provided: .Values.czertainly.hostName" $hostName }}",
     "adminUrl" : "",
     "baseUrl" : "",
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
-    "secret" : {{ required "Client secret must be provided: .Values.ilm.clientSecret!" $clientSecret }},
-    "redirectUris" : [ {{ .Values.ilm.redirectUri.login | quote }} ],
+    "secret" : {{ required "Client secret must be provided: .Values.czertainly.clientSecret!" $clientSecret }},
+    "redirectUris" : [ {{ .Values.czertainly.redirectUri.login | quote }} ],
     "notBefore" : 0,
     "bearerOnly" : false,
     "consentRequired" : false,
@@ -554,7 +554,7 @@
       "oidc.ciba.grant.enabled" : "false",
       "client.secret.creation.time" : "1678523342",
       "backchannel.logout.session.required" : "true",
-      "post.logout.redirect.uris" : {{ .Values.ilm.redirectUri.postLogout | quote }},
+      "post.logout.redirect.uris" : {{ .Values.czertainly.redirectUri.postLogout | quote }},
       "oauth2.device.authorization.grant.enabled" : "false",
       "display.on.consent.screen" : "false",
       "use.jwks.url" : "false",
@@ -629,12 +629,12 @@
     "clientId" : "security-admin-console",
     "name" : "${client_security-admin-console}",
     "rootUrl" : "${authAdminUrl}",
-    "baseUrl" : "/admin/ILM/console/",
+    "baseUrl" : "/admin/CZERTAINLY/console/",
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
-    "redirectUris" : [ "/admin/ILM/console/*" ],
+    "redirectUris" : [ "/admin/CZERTAINLY/console/*" ],
     "webOrigins" : [ "+" ],
     "notBefore" : 0,
     "bearerOnly" : false,
@@ -1144,7 +1144,7 @@
     "strictTransportSecurity" : "max-age=31536000; includeSubDomains"
   },
   "smtpServer" : { },
-  "loginTheme" : "ilm",
+  "loginTheme" : "czertainly",
   "eventsEnabled" : false,
   "eventsListeners" : [ "jboss-logging" ],
   "enabledEventTypes" : [ ],

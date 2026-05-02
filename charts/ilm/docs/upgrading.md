@@ -18,30 +18,57 @@ Upgrading Helm chart is done by running the `helm upgrade` command. The command 
 
 This release rebrands the Helm charts from CZERTAINLY to ILM (OmniTrust ILM). The umbrella chart was renamed from `czertainly` to `ilm`, and the library chart from `czertainly-lib` to `ilm-lib`. Container images, registry, database defaults, Keycloak realm, and project URLs were all updated.
 
-### Manual cleanup before upgrading from any earlier version
+### Manual steps required when upgrading from any earlier version
 
-The chart rename changes the rendered values of `app.kubernetes.io/name` (the Deployment selector) and `ilm.fullname` (the optional Ingress resource name). Two Kubernetes constraints make `helm upgrade` fail without manual cleanup:
+The rebrand changes the rendered values of `app.kubernetes.io/name` (the Deployment selector), `ilm.fullname` (the optional Ingress resource name), and the Keycloak realm/client identifiers. Three constraints make `helm upgrade` fail without manual intervention:
 
 1. **`Deployment.spec.selector` is immutable** — the existing `core-deployment` selector cannot be patched in place.
 2. **The nginx Ingress admission webhook rejects duplicate host/path** — the new Ingress would briefly coexist with the old (renamed) one, both claiming the same host and path.
+3. **Keycloak `--import-realm` fails with a duplicate primary-key error** — the realm in the database has the same UUID as in the new realm JSON but a different name (`CZERTAINLY` vs `ILM`).
 
-Before running `helm upgrade`, perform these cleanups:
+:::warning[Order matters]
+Perform the steps below in the order shown. In particular, run the Keycloak migration script BEFORE running `helm upgrade` — the script needs the still-running pre-upgrade Keycloak to be reachable. If you run `helm upgrade` first, the new Keycloak pod will crash on startup and the script will be unable to connect.
+:::
+
+#### 1. Migrate the Keycloak realm
+
+| Deployment                    | Configuration                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Fresh installation            | The new ILM realm is automatically created. No manual changes are required.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Upgrade from previous version | The existing CZERTAINLY realm must be renamed and its clients, default role, audience mapper, and built-in client URLs updated to match the new ILM identifiers in the realm JSON shipped with this release. Use the provided Python script [update_realm_from_2.17.0_to_2.18.0.py](https://github.com/OmniTrustILM/helm-charts/tree/main/charts/keycloak-internal/scripts/update_realm_from_2.17.0_to_2.18.0.py). The script will prompt you for the Keycloak URL, admin username, and password. It is idempotent (safe to run multiple times) and serves as documentation for the necessary changes — every UUID is preserved, only human-readable identifiers and URLs are updated, so existing users, sessions, group memberships, and client secrets are not affected. |
+
+The script connects via the Keycloak Admin REST API, so it works against any Keycloak (chart-managed or external) and does not depend on any specific database access.
+
+:::info[Upgrading from a chart version older than 2.17.0]
+If you are upgrading from a chart version older than 2.17.0, also run the realm-update scripts for each version transition you are crossing, in version order, BEFORE running the rebrand script. Those older scripts target the `CZERTAINLY` realm by name, which only exists until the rebrand-rename completes. The natural order is:
+
+1. [`update_realm_from_2.7.0_to_2.14.0.py`](https://github.com/OmniTrustILM/helm-charts/tree/main/charts/keycloak-internal/scripts/update_realm_from_2.7.0_to_2.14.0.py) — only if upgrading from a chart version earlier than 2.14.0
+2. [`update_realm_from_2.14.0_to_2.17.0.py`](https://github.com/OmniTrustILM/helm-charts/tree/main/charts/keycloak-internal/scripts/update_realm_from_2.14.0_to_2.17.0.py) — only if upgrading from a chart version earlier than 2.17.0
+3. [`update_realm_from_2.17.0_to_2.18.0.py`](https://github.com/OmniTrustILM/helm-charts/tree/main/charts/keycloak-internal/scripts/update_realm_from_2.17.0_to_2.18.0.py) — always, this is the rebrand-rename script
+:::
+
+#### 2. Delete the old core deployment
 
 ```bash
-# Always — delete the old core deployment (selector is immutable):
 kubectl delete deployment core-deployment --namespace <your-ilm-namespace>
+```
 
-# Only if ingress.enabled: true — list existing Ingresses and delete the one
-# bound to your ILM hostname. The exact name depends on your release name (the
-# fullname helper drops the chart-name suffix when the release name already
-# contains the chart name), so do not assume a fixed pattern:
+This removes only the Deployment object; existing data is unaffected (ILM is stateless at this layer). There will be brief downtime while the new core pods become ready after the upgrade.
+
+#### 3. Delete the old ingress (only if `ingress.enabled: true`)
+
+List the existing Ingresses to find the one bound to your ILM hostname (the exact name depends on your release name, because the fullname helper drops the chart-name suffix when the release name already contains the chart name):
+
+```bash
 kubectl get ingress --namespace <your-ilm-namespace>
 kubectl delete ingress <existing-ingress-name> --namespace <your-ilm-namespace>
 ```
 
-This removes only the listed Deployment and Ingress objects; data is unaffected (ILM is stateless at this layer). There will be brief downtime while the new core pods become ready after the upgrade.
+#### 4. Run helm upgrade
 
-If you apply the rendered manifest out of band (`helm template ... | kubectl apply -f -`, or a GitOps tool such as Argo CD or Flux) instead of running `helm upgrade`, the same cleanups are required before re-applying — the constraints are at the Kubernetes API server / Ingress controller layer, not in Helm.
+After the three cleanups above, run `helm upgrade` as usual. Helm will create the new resources, and the new Keycloak pod will boot cleanly because the realm in the database now matches the new identifiers.
+
+If you apply the rendered manifest out of band (e.g., `helm template ... | kubectl apply -f -`, or via a GitOps tool such as Argo CD or Flux) instead of running `helm upgrade`, the same three cleanups (steps 1–3) are required before re-applying — the constraints are at the Kubernetes API server / Ingress controller / Keycloak layer, not in Helm.
 
 ### Stable identifier going forward
 
@@ -137,10 +164,10 @@ This version introduced breaking changes in the configuration of OAuth2 provider
 
 The platform now supports multiple configurations of OAuth2 providers. If you are using the internal Keycloak for authentication (`global.keycloak.enabled=true`), a different approach must be applied depending on whether you are deploying the platform for the first time or upgrading from a previous version:
 
-| Deployment                    | Configuration                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Fresh installation            | The OAuth2 `internal` provider is automatically configured. No manual changes are required.                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| Upgrade from previous version | The OAuth2 `internal` provider is automatically configured. However, changes to the OAuth2 Keycloak client configuration must be applied manually. For a convenient upgrade, use the provided Python script [update_realm_from_2.7.0_to_2.14.0.py](https://github.com/ILM/ILM-Helm-Charts/tree/master/charts/keycloak-internal/scripts/update_realm_from_2.7.0_to_2.14.0.py). The script will prompt you for the required parameters and update the Keycloak client configuration. It also serves as a guide and documentation for the necessary changes. |
+| Deployment                    | Configuration                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Fresh installation            | The OAuth2 `internal` provider is automatically configured. No manual changes are required.                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Upgrade from previous version | The OAuth2 `internal` provider is automatically configured. However, changes to the OAuth2 Keycloak client configuration must be applied manually. For a convenient upgrade, use the provided Python script [update_realm_from_2.7.0_to_2.14.0.py](https://github.com/OmniTrustILM/helm-charts/tree/main/charts/keycloak-internal/scripts/update_realm_from_2.7.0_to_2.14.0.py). The script will prompt you for the required parameters and update the Keycloak client configuration. It also serves as a guide and documentation for the necessary changes. |
 
 ### Logging configuration
 
