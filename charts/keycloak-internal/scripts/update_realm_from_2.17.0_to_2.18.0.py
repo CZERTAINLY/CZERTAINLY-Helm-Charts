@@ -99,6 +99,8 @@ def rename_default_role(access_token, keycloak_url):
         "Content-Type": "application/json",
     }
     # Probe old role first; if absent and new exists, treat as already done.
+    # If neither exists (e.g., customized realm with the default role removed),
+    # warn and continue rather than aborting the whole migration.
     old_url = f"{keycloak_url}/admin/realms/{NEW_REALM}/roles/{OLD_DEFAULT_ROLE}"
     response = requests.get(old_url, headers=headers, verify=verify_tls)
     if response.status_code == 404:
@@ -106,6 +108,13 @@ def rename_default_role(access_token, keycloak_url):
         check = requests.get(new_url, headers=headers, verify=verify_tls)
         if check.status_code == 200:
             print(f"Default role already named '{NEW_DEFAULT_ROLE}', skipping.")
+            return
+        if check.status_code == 404:
+            print(
+                f"WARNING: Neither '{OLD_DEFAULT_ROLE}' nor '{NEW_DEFAULT_ROLE}' role found. "
+                "The realm appears to be customized; skipping default-role rename. "
+                "If you have a custom default role, rename it manually after the migration completes."
+            )
             return
         check.raise_for_status()
     response.raise_for_status()
